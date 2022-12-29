@@ -6,8 +6,8 @@ import 'package:jitd_client/src/constant.dart';
 import '../blocs/counter/counter_bloc.dart';
 import '../blocs/counter/counter_event.dart';
 
-class Home_page extends StatelessWidget {
-  const Home_page({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,7 @@ class Home_page extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FloatingActionButton(
+                            heroTag: "button2",
                             onPressed: () => {
                                   context
                                       .read<CounterBloc2>()
@@ -44,6 +45,7 @@ class Home_page extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FloatingActionButton(
+                            heroTag: "btn3",
                             onPressed: () {
                               context
                                   .read<CounterBloc2>()
@@ -55,6 +57,7 @@ class Home_page extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FloatingActionButton(
+                            heroTag: "btn4",
                             onPressed: () {
                               context
                                   .read<CounterBloc2>()

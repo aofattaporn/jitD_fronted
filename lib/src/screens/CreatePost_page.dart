@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CreatePost_page extends StatelessWidget {
-  const CreatePost_page({Key? key}) : super(key: key);
+class CreatePostPage extends StatelessWidget {
+  const CreatePostPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           leading: MaterialButton(onPressed: () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) => const CreatePost_page()));
+            Navigator.pop(context, MaterialPageRoute(builder: (context) => const CreatePostPage()));
           }, child: Icon(Icons.arrow_back),),
         ),
         body: Center(
