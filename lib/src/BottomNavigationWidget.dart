@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/CreatePost_page.dart';
 import 'package:jitd_client/src/screens/Home_page.dart';
 import 'package:jitd_client/src/screens/Notification_page.dart';
@@ -8,9 +9,7 @@ import 'package:jitd_client/src/screens/Profile_page.dart';
 import 'package:jitd_client/src/screens/Search_page.dart';
 import 'package:jitd_client/src/screens/TestApi_page.dart';
 
-
 import 'blocs/counter/counter_event.dart';
-import 'constant/Constant_Color.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   const BottomNavigationWidget({Key? key}) : super(key: key);
@@ -52,8 +51,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       /// FAB
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add, size: 40),
-        backgroundColor: kThirtery,
-        onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const CreatePost_page())),
+        backgroundColor: thirterydColor,
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CreatePost_page())),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
@@ -92,7 +92,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           });
         },
         child: Icon(xicon,
-            color: currentTab == indexSceeen ? kPrimaryColor : kTextColor,
+            color: currentTab == indexSceeen ? primaryColor : textColor2,
             size: 24));
   }
 
@@ -100,13 +100,15 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     print("on click");
 
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const TestApi_page(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const TestApi_page(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
         const curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -115,5 +117,4 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       },
     );
   }
-
 }
