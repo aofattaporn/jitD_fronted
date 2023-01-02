@@ -7,7 +7,8 @@ import 'package:jitd_client/src/screens/Notification_page.dart';
 import 'package:jitd_client/src/screens/Profile_page.dart';
 import 'package:jitd_client/src/screens/Search_page.dart';
 import 'package:jitd_client/src/screens/TestApi_page.dart';
-
+import 'package:jitd_client/src/screens/SignIn.dart';
+import 'package:jitd_client/src/screens/SignUp.dart';
 
 import 'blocs/counter/counter_event.dart';
 import 'constant/Constant_Color.dart';
@@ -27,7 +28,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     TestApi_page(),
     Notification_page(),
     Profile_page(),
-    Search_page(),
+    Search_page()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -51,9 +52,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
       /// FAB
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add, size: 40),
         backgroundColor: kThirtery,
         onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const CreatePost_page())),
+        child: const Icon(Icons.add, size: 40),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
