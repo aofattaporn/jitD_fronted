@@ -7,14 +7,14 @@ import '../blocs/tester/tester_event.dart';
 import '../blocs/tester/tester_state.dart';
 import '../data/models/test_model.dart';
 
-class TestApi_page extends StatefulWidget {
-  const TestApi_page({Key? key}) : super(key: key);
+class TestApiPage extends StatefulWidget {
+  const TestApiPage({Key? key}) : super(key: key);
 
   @override
-  State<TestApi_page> createState() => _TestApi_pageState();
+  State<TestApiPage> createState() => _TestApiPageState();
 }
 
-class _TestApi_pageState extends State<TestApi_page> {
+class _TestApiPageState extends State<TestApiPage> {
   final TesterBloc _newsBloc = TesterBloc();
 
   @override

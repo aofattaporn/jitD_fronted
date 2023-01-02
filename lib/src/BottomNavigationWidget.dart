@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/CreatePost_page.dart';
-import 'package:jitd_client/src/screens/Home_page.dart';
-import 'package:jitd_client/src/screens/Notification_page.dart';
-import 'package:jitd_client/src/screens/Profile_page.dart';
-import 'package:jitd_client/src/screens/Search_page.dart';
-import 'package:jitd_client/src/screens/TestApi_page.dart';
-import 'package:jitd_client/src/screens/SignIn.dart';
-import 'package:jitd_client/src/screens/SignUp.dart';
+
+import 'package:jitd_client/src/screens/HomePage.dart';
+import 'package:jitd_client/src/screens/NotificationPage.dart';
+import 'package:jitd_client/src/screens/ProfilePage.dart';
+import 'package:jitd_client/src/screens/SearchPage.dart';
+import 'package:jitd_client/src/screens/TestApiPage.dart';
 
 import 'blocs/counter/counter_event.dart';
-import 'constant/Constant_Color.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   const BottomNavigationWidget({Key? key}) : super(key: key);
@@ -24,15 +23,16 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   // late final TestRepository _testerRepository;
   int currentTab = 0;
   final List<Widget> screens = const [
-    Home_page(),
-    TestApi_page(),
-    Notification_page(),
-    Profile_page(),
-    Search_page()
+    HomePage(),
+    TestApiPage(),
+    NotificationPage(),
+    ProfilePage(),
+    SearchPage(),
+
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Home_page();
+  Widget currentScreen = HomePage();
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +52,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
       /// FAB
       floatingActionButton: FloatingActionButton(
-        backgroundColor: kThirtery,
-        onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const CreatePost_page())),
+        heroTag: "button1",
         child: const Icon(Icons.add, size: 40),
+        backgroundColor: thirterydColor,
+        onPressed: () => Navigator.of(context).push(_createRoute())
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
@@ -93,15 +94,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           });
         },
         child: Icon(xicon,
-            color: currentTab == indexSceeen ? kPrimaryColor : kTextColor,
+            color: currentTab == indexSceeen ? primaryColor : textColor2,
             size: 24));
   }
 
   Route _createRoute() {
-    print("on click");
-
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const TestApi_page(),
+      pageBuilder: (context, animation, secondaryAnimation) => const CreatePostPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
@@ -116,5 +115,4 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       },
     );
   }
-
 }
