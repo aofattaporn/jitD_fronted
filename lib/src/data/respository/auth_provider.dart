@@ -10,6 +10,16 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       print(e);
     }
+    checkCredentail();
     return "create success";
+  }
+  Future<void> checkCredentail() async {
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        print(FirebaseAuth.instance.currentUser?.uid.toString());
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 }

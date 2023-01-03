@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class SignUpState extends State<SignUp> {
   TextEditingController? phoneController;
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _fromKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -108,34 +111,39 @@ class SignUpState extends State<SignUp> {
                             ),
                           ),
                         ),
+                        Form(
+                            key: _fromKey,
+                            child: Column(
+                              children: [
+                                /// InputField 1  (Email)
+                                InputField_custom(0, emailController!, false,
+                                    'Email', Icons.email, null),
 
-                        /// InputField 1  (Email)
-                        InputField_custom(0, emailController!, false, 'Email',
-                            Icons.email, null),
+                                /// InputField 1  (Email)
+                                InputField_custom(
+                                    -0.4,
+                                    passwordController!,
+                                    !passwordVisibility1,
+                                    'Password',
+                                    Icons.lock,
+                                    SuffixIcon("passwordVisibility1",
+                                        passwordVisibility1)),
 
-                        /// InputField 1  (Email)
-                        InputField_custom(
-                            -0.4,
-                            passwordController!,
-                            !passwordVisibility1,
-                            'Password',
-                            Icons.lock,
-                            SuffixIcon(
-                                "passwordVisibility1", passwordVisibility1)),
+                                /// InputField 3  (Password Confirm)
+                                InputField_custom(
+                                    -0.25,
+                                    passwordConfirmController!,
+                                    !passwordVisibility2,
+                                    'Confirm Password',
+                                    Icons.lock,
+                                    SuffixIcon("passwordVisibility2",
+                                        passwordVisibility2)),
 
-                        /// InputField 3  (Password Confirm)
-                        InputField_custom(
-                            -0.25,
-                            passwordConfirmController!,
-                            !passwordVisibility2,
-                            'Confirm Password',
-                            Icons.lock,
-                            SuffixIcon(
-                                "passwordVisibility2", passwordVisibility2)),
-
-                        /// InputField 4  (Phone)
-                        InputField_custom(-0.1, phoneController!, false,
-                            'Phone Number', Icons.phone, null),
+                                /// InputField 4  (Phone)
+                                InputField_custom(-0.1, phoneController!, false,
+                                    'Phone Number', Icons.phone, null),
+                              ],
+                            )),
 
                         /// Button
                         Padding(
@@ -144,6 +152,11 @@ class SignUpState extends State<SignUp> {
                             alignment: AlignmentDirectional(0, 0.23),
                             child: TextButton(
                               onPressed: () {
+                                if (_fromKey.currentState?.validate() ==
+                                    false) {
+                                  return;
+                                }
+
                                 // Some Event here
                                 Map<String, dynamic> dataSignIn = {
                                   "Email": emailController?.text,
@@ -249,45 +262,59 @@ class SignUpState extends State<SignUp> {
                         ),
 
                         /// Footer
-                        Align(
-                          alignment: const AlignmentDirectional(0, 0),
-                          child: Image.asset(
-                            'assets/images/signup_image.png',
-                            width: 220,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        // Expanded(
+                        //   child: Align(
+                        //     alignment: const AlignmentDirectional(0, 0),
+                        //     child: Image.asset(
+                        //       'assets/images/signup_image.png',
+                        //       // width: 220,
+                        //       // height: 100,
+                        //       fit: BoxFit.cover,
+                        //     ),
+                        //   ),
+                        // ),
 
-                        Align(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'Already have an account ?',
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    color: Color(0xFF818181),
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      5, 0, 0, 0),
-                                  child: Text(
-                                    'Sign in here',
+                        Expanded(
+                          child: Align(
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Already have an account ?',
+                                    textAlign: TextAlign.end,
                                     style: TextStyle(
                                       fontFamily: 'Lato',
-                                      color: Color(0xFFFFAD65),
-                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF818181),
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        5, 0, 0, 0),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) => const SignIn()
+                                          ),
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Sign in here',
+                                        style: TextStyle(
+                                          fontFamily: 'Lato',
+                                          color: Color(0xFFFFAD65),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -322,6 +349,13 @@ class SignUpState extends State<SignUp> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
         child: TextFormField(
+          validator: (value) {
+            if (value?.isEmpty != true) {
+              return null;
+            } else {
+              return 'Please add text';
+            }
+          },
           controller: controller,
           obscureText: obcuretxt,
           decoration: InputDecoration(
