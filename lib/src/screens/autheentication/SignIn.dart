@@ -119,8 +119,8 @@ class SignUpState extends State<SignUp_CT> {
                       SuffixIcon("passwordVisibility2", passwordVisibility2)),
 
                   /// InputField 4  (Phone)
-                  InputField_custom(-0.1, phoneController!, false, 'Phone Number',
-                      Icons.phone, null),
+                  InputField_custom(-0.1, phoneController!, false,
+                      'Phone Number', Icons.phone, null),
 
                   /// Button
                   Padding(

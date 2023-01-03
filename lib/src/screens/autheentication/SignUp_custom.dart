@@ -50,17 +50,15 @@ class SignInState extends State<SignIn_CT> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Column(
-                    children: [
-                      const SizedBox(height: 80),
-                      DefaultTextStyle(
-                          style: GoogleFonts.getFont(
-                            'Lato',
-                            color: const Color(0xFFAAD4CC),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 50,
-                          ),
-                          child: Text("Sign Up")),
-                      const TextField()
+                    children: const  <Widget> [
+                      SizedBox(height: 80),
+                      Text("Sign Up", style: TextStyle(
+                        fontFamily: 'Lato',
+                        color: Color(0xFFAAD4CC),
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                      )),
+                      TextField()
                     ],
                   ),
                 ),
