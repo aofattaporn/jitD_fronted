@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../constant.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -33,11 +35,12 @@ class SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        key: scaffoldKey,
-        body: SafeArea(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: primaryColor,
+      key: scaffoldKey,
+      body: SafeArea(
+        child: SafeArea(
           child: GestureDetector(
             onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
             child: Stack(

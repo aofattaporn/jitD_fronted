@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
+
+import 'SignUp_custom.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -48,268 +51,62 @@ class SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         key: scaffoldKey,
         resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xFFAAD4CC),
-        body: BlocProvider(
-          create: (_) => AuthenticationBloc(),
-          child: SafeArea(
-            child: GestureDetector(
-              onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
-              child: Stack(
-                children: [
-                  /// Background
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Image.asset(
-                      'assets/images/background.png',
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 1,
-                      fit: BoxFit.cover,
+        backgroundColor: primaryColor,
+        body: SafeArea(
+          child: BlocProvider(
+            create: (_) => AuthenticationBloc(),
+            child: SafeArea(
+              child: GestureDetector(
+                onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
+                child: Stack(
+                  children: [
+                    /// Background
+                    Align(
+                      alignment: const AlignmentDirectional(0, 0),
+                      child: Image.asset(
+                        'assets/images/background.png',
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 1,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
 
-                  /// Header
-                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                      builder: (context, state) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
-                          child: Container(
-                            // color: Colors.lightBlue,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: const [
-                                Expanded(
-                                  child: Text(
-                                    'Sign',
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      color: Color(0xFFAAD4CC),
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '  Up',
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      color: Color(0xFF7AAAAF),
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Form(
-                            key: _fromKey,
-                            child: Column(
-                              children: [
-                                /// InputField 1  (Email)
-                                InputField_custom(0, emailController!, false,
-                                    'Email', Icons.email, null),
-
-                                /// InputField 1  (Email)
-                                InputField_custom(
-                                    -0.4,
-                                    passwordController!,
-                                    !passwordVisibility1,
-                                    'Password',
-                                    Icons.lock,
-                                    SuffixIcon("passwordVisibility1",
-                                        passwordVisibility1)),
-
-                                /// InputField 3  (Password Confirm)
-                                InputField_custom(
-                                    -0.25,
-                                    passwordConfirmController!,
-                                    !passwordVisibility2,
-                                    'Confirm Password',
-                                    Icons.lock,
-                                    SuffixIcon("passwordVisibility2",
-                                        passwordVisibility2)),
-
-                                /// InputField 4  (Phone)
-                                InputField_custom(-0.1, phoneController!, false,
-                                    'Phone Number', Icons.phone, null),
-                              ],
-                            )),
-
-                        /// Button
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Align(
-                            alignment: AlignmentDirectional(0, 0.23),
-                            child: TextButton(
-                              onPressed: () {
-                                if (_fromKey.currentState?.validate() ==
-                                    false) {
-                                  return;
-                                }
-
-                                // Some Event here
-                                Map<String, dynamic> dataSignIn = {
-                                  "Email": emailController?.text,
-                                  "Password": passwordController?.text,
-                                  "PasswordCF": passwordConfirmController?.text,
-                                  "Phone": phoneController?.text
-                                };
-
-                                context
-                                    .read<AuthenticationBloc>()
-                                    .add(SignUpEvent(dataSignIn));
-                              },
-                              style: TextButton.styleFrom(
-                                  backgroundColor: const Color(0xFFFFAD65),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 36, vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        /// or string
-                        Column(
-                          children: [
-                            Align(
-                              alignment: const AlignmentDirectional(0, 0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: Container(
-                                  // color: Colors.greenAccent,
-                                  child: Align(
-                                      alignment: AlignmentDirectional(0, 0),
-                                      child: Stack(
-                                        children: const [
-                                          Text(
-                                            'or',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFF818181),
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              ),
-                            ),
-
-                            /// Show Sign up using
-                            const Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 15.0),
-                                child: Text(
-                                  'Sign up using social networks',
-                                  style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    color: Color(0xFF818181),
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            /// 3 party
-                            Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Button_3Party(
-                                        'assets/images/facebook_icon.png'),
-                                    Button_3Party(
-                                        'assets/images/twitter_icon.png'),
-                                    Button_3Party(
-                                        'assets/images/google_icon.png'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        /// Footer
-                        // Expanded(
-                        //   child: Align(
-                        //     alignment: const AlignmentDirectional(0, 0),
-                        //     child: Image.asset(
-                        //       'assets/images/signup_image.png',
-                        //       // width: 220,
-                        //       // height: 100,
-                        //       fit: BoxFit.cover,
-                        //     ),
-                        //   ),
-                        // ),
-
-                        Expanded(
-                          child: Align(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
+                    /// Header
+                    BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                        builder: (context, state) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
+                            child: Container(
+                              // color: Colors.lightBlue,
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    'Already have an account ?',
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      color: Color(0xFF818181),
-                                      fontWeight: FontWeight.normal,
+                                children: const [
+                                  Expanded(
+                                    child: Text(
+                                      'Sign',
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                        fontFamily: 'Lato',
+                                        color: Color(0xFFAAD4CC),
+                                        fontSize: 50,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        5, 0, 0, 0),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                              builder: (context) => const SignIn()
-                                          ),
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Sign in here',
-                                        style: TextStyle(
-                                          fontFamily: 'Lato',
-                                          color: Color(0xFFFFAD65),
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  Expanded(
+                                    child: Text(
+                                      '  Up',
+                                      style: TextStyle(
+                                        fontFamily: 'Lato',
+                                        color: Color(0xFF7AAAAF),
+                                        fontSize: 50,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -317,17 +114,226 @@ class SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-                ],
+
+                          /// FORM
+                          Form(
+                              key: _fromKey,
+                              child: Column(
+                                children: [
+                                  /// InputField 1  (Email)
+                                  InputField_custom(0, emailController!, false,
+                                      'Email', Icons.email, null),
+
+                                  /// InputField 1  (Email)
+                                  InputField_custom(
+                                      -0.4,
+                                      passwordController!,
+                                      !passwordVisibility1,
+                                      'Password',
+                                      Icons.lock,
+                                      SuffixIcon("passwordVisibility1",
+                                          passwordVisibility1)),
+
+                                  /// InputField 3  (Password Confirm)
+                                  InputField_custom(
+                                      -0.25,
+                                      passwordConfirmController!,
+                                      !passwordVisibility2,
+                                      'Confirm Password',
+                                      Icons.lock,
+                                      SuffixIcon("passwordVisibility2",
+                                          passwordVisibility2)),
+
+                                  /// InputField 4  (Phone)
+                                  InputField_custom(-0.1, phoneController!, false,
+                                      'Phone Number', Icons.phone, null),
+                                ],
+                              )),
+
+                          /// Button
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Align(
+                              alignment: AlignmentDirectional(0, 0.23),
+                              child: TextButton(
+                                onPressed: () {
+                                  if (_fromKey.currentState?.validate() ==
+                                      false) {
+                                    return;
+                                  }
+
+                                  // Some Event here
+                                  Map<String, dynamic> dataSignIn = {
+                                    "Email": emailController?.text,
+                                    "Password": passwordController?.text,
+                                    "PasswordCF": passwordConfirmController?.text,
+                                    "Phone": phoneController?.text
+                                  };
+
+                                  context
+                                      .read<AuthenticationBloc>()
+                                      .add(SignUpEvent(dataSignIn));
+                                },
+                                style: TextButton.styleFrom(
+                                    backgroundColor: const Color(0xFFFFAD65),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 36, vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                    fontFamily: 'Lato',
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          /// or string
+                          Column(
+                            children: [
+                              Align(
+                                alignment: const AlignmentDirectional(0, 0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: Container(
+                                    // color: Colors.greenAccent,
+                                    child: Align(
+                                        alignment: AlignmentDirectional(0, 0),
+                                        child: Stack(
+                                          children: const [
+                                            Text(
+                                              'or',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                color: Color(0xFF818181),
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                              ),
+
+                              /// Show Sign up using
+                              const Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 15.0),
+                                  child: Text(
+                                    'Sign up using social networks',
+                                    style: TextStyle(
+                                      fontFamily: 'Lato',
+                                      color: Color(0xFF818181),
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              /// 3 party
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Button_3Party(
+                                          'assets/images/facebook_icon.png'),
+                                      Button_3Party(
+                                          'assets/images/twitter_icon.png'),
+                                      Button_3Party(
+                                          'assets/images/google_icon.png'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          /// Footer
+                          // Expanded(
+                          //   child: Align(
+                          //     alignment: const AlignmentDirectional(0, 0),
+                          //     child: Image.asset(
+                          //       'assets/images/signup_image.png',
+                          //       // width: 220,
+                          //       // height: 100,
+                          //       fit: BoxFit.cover,
+                          //     ),
+                          //   ),
+                          // ),
+
+                          Expanded(
+                            child: Align(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Already have an account ?',
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                        fontFamily: 'Lato',
+                                        color: Color(0xFF818181),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              5, 0, 0, 0),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                                builder: (context) =>
+                                                    const SignIn()),
+                                          );
+                                        },
+                                        child: const Text(
+                                          'Sign in here',
+                                          style: TextStyle(
+                                            fontFamily: 'Lato',
+                                            color: Color(0xFFFFAD65),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Padding Button_3Party(String imgURL) {
