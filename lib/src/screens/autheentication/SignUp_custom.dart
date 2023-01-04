@@ -38,9 +38,7 @@ class SignInState extends State<SignIn_CT> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
       child: SafeArea(
-        child: Scaffold(
-          // resizeToAvoidBottomInset: false,
-          body: Stack(
+        child: Stack(
             children: [
               // Image.asset(
               //   'assets/images/background.png',
@@ -49,10 +47,12 @@ class SignInState extends State<SignIn_CT> {
               //   fit: BoxFit.cover,
               // ),
               Container(
-                // color: Colors.black38,
+                color: Colors.white,
                 child: Align(
+
                   alignment: Alignment.center,
                   child: Column(
+
                     children: <Widget>[
                       SizedBox(height: 80),
                       TextButton(
@@ -68,11 +68,11 @@ class SignInState extends State<SignIn_CT> {
                             )),
                       ),
                       Container(
-                        // color: Colors.black54,
+                        color: Colors.amber,
                         child: Column(
                           children: [
-                            InputField_custom(0, emailController!, false,
-                                'Email', Icons.email, null),
+                            // InputField_custom(0, emailController!, false,
+                            //     'Email', Icons.email, null),
                             // InputField_custom(
                             //     -0.4,
                             //     passwordController!,
@@ -106,8 +106,7 @@ class SignInState extends State<SignIn_CT> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   Padding Button_3Party(String imgURL) {
