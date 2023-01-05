@@ -7,14 +7,7 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class SignUpEvent extends AuthenticationEvent {
-  // String? email;
-  // String? passworld;
-  // String? passworldConfirm;
-  // String? phone;
-
   Map<String, dynamic> _dataSignUp;
-
-  // SignUpEvent(this._dataSignUp);
 
   SignUpEvent(this._dataSignUp);
 

@@ -23,7 +23,7 @@ class AuthModel {
   AuthModel.fromJson(Map<String, dynamic> json) {
     email = json['Email'];
     passworld = json['Password'];
-    passworldConfirm = json['PasswordConfirm'];
+    passworldConfirm = json['PasswordCF'];
     phone = json['Phone'];
   }
 

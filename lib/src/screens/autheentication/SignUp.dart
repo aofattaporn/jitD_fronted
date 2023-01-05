@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
-import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 
@@ -25,7 +24,6 @@ class SignUpState extends State<SignUp> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _fromKey = GlobalKey<FormState>();
-  bool _btnEnabled = false;
 
   @override
   void initState() {
@@ -80,174 +78,164 @@ class SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsetsDirectional.only(top: 160),
                       // const EdgeInsetsDirectional.fromSTEB(0, 120, 0, 0),
-                      child: Container(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: const [
-                            Expanded(
-                              child: Text(
-                                'Sign',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  // color: Color(0xFFAAD4CC),
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: const [
+                          Expanded(
+                            child: Text(
+                              'Sign',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                // color: Color(0xFFAAD4CC),
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Expanded(
-                              child: Text(
-                                '  Up',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  color: Color(0xFF7AAAAF),
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '  Up',
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                color: Color(0xFF7AAAAF),
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        // color: Colors.amber,
-                        child: Column(
-                          children: [
-                            /// FORM
-                            Form(
-                                key: _fromKey,
+                      child: Column(
+                        children: [
+                          /// FORM
+                          Form(
+                              key: _fromKey,
+                              child: Column(
+                                children: [
+                                  /// InputField 1  (Email)
+                                  InputField_custom(0, emailController!, false,
+                                      'Email', Icons.email, null),
 
-                                child: Column(
-                                  children: [
-                                    /// InputField 1  (Email)
-                                    InputField_custom(0, emailController!,
-                                        false, 'Email', Icons.email, null),
+                                  /// InputField 1  (Email)
+                                  InputField_custom(
+                                      -0.4,
+                                      passwordController!,
+                                      !passwordVisibility1,
+                                      'Password',
+                                      Icons.lock,
+                                      _suffixIcon("passwordVisibility1",
+                                          passwordVisibility1)),
 
-                                    /// InputField 1  (Email)
-                                    InputField_custom(
-                                        -0.4,
-                                        passwordController!,
-                                        !passwordVisibility1,
-                                        'Password',
-                                        Icons.lock,
-                                        _suffixIcon("passwordVisibility1",
-                                            passwordVisibility1)),
+                                  /// InputField 3  (Password Confirm)
+                                  InputField_custom(
+                                      -0.25,
+                                      passwordConfirmController!,
+                                      !passwordVisibility2,
+                                      'Confirm Password',
+                                      Icons.lock,
+                                      _suffixIcon("passwordVisibility2",
+                                          passwordVisibility2)),
 
-                                    /// InputField 3  (Password Confirm)
-                                    InputField_custom(
-                                        -0.25,
-                                        passwordConfirmController!,
-                                        !passwordVisibility2,
-                                        'Confirm Password',
-                                        Icons.lock,
-                                        _suffixIcon("passwordVisibility2",
-                                            passwordVisibility2)),
+                                  /// InputField 4  (Phone)
+                                  InputField_custom(-0.1, phoneController!,
+                                      false, 'Phone Number', Icons.phone, null),
+                                ],
+                              )),
 
-                                    /// InputField 4  (Phone)
-                                    InputField_custom(
-                                        -0.1,
-                                        phoneController!,
-                                        false,
-                                        'Phone Number',
-                                        Icons.phone,
-                                        null),
-                                  ],
-                                )),
+                          /// Button
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Align(
+                              alignment: const AlignmentDirectional(0, 0.23),
+                              child: TextButton(
+                                onPressed: () {
+                                  if (_fromKey.currentState?.validate() ==
+                                          true &&
+                                      _checkFormFill() == true) {
+                                    print("_checkFormFill() == true");
+                                    // Some Event here
+                                    // Map<String, dynamic> dataSignIn = {
+                                    //   "Email": emailController?.text,
+                                    //   "Password": passwordController?.text,
+                                    //   "PasswordCF":
+                                    //       passwordConfirmController?.text,
+                                    //   "Phone": phoneController?.text
+                                    // };
+                                    //
+                                    // context
+                                    //     .read<AuthenticationBloc>()
+                                    //     .add(SignUpEvent(dataSignIn));
+                                  } else {
+                                    print("_checkFormFill() == false");
 
-                            /// Button
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Align(
-                                alignment: const AlignmentDirectional(0, 0.23),
-                                child: TextButton(
-                                  onPressed: () {
-                                    if (_fromKey.currentState?.validate() == true &&_checkFormFill() == true) {
-                                      // Some Event here
-                                      Map<String, dynamic> dataSignIn = {
-                                        "Email": emailController?.text,
-                                        "Password": passwordController?.text,
-                                        "PasswordCF":
-                                            passwordConfirmController?.text,
-                                        "Phone": phoneController?.text
-                                      };
-
-                                      context
-                                          .read<AuthenticationBloc>()
-                                          .add(SignUpEvent(dataSignIn));
-                                    } else {
-                                      () {
-                                        print("Empty");
-                                      };
-                                    }
-                                  },
-                                  style: TextButton.styleFrom(
-                                      backgroundColor:
-                                          (_checkFormFill() == true)
-                                              ? thirterydColor
-                                              : thirteryColorSubtle,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 36, vertical: 16),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
-                                  child: const Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            const Center(
-                              child: Text("or"),
-                            ),
-
-                            /// Show Sign up using
-                            const Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 15.0),
-                                child: Text(
-                                  'Sign up using social networks',
+                                    print("Empty");
+                                  }
+                                },
+                                style: TextButton.styleFrom(
+                                    backgroundColor: (_checkFormFill() != true)
+                                        ? thirterydColor
+                                        : thirteryColorSubtle,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 36, vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                                child: const Text(
+                                  'Sign Up',
                                   style: TextStyle(
                                     fontFamily: 'Lato',
-                                    color: Color(0xFF818181),
-                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
+                          ),
 
-                            /// 3 party
-                            Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Button_3Party(
-                                        'assets/images/facebook_icon.png'),
-                                    Button_3Party(
-                                        'assets/images/twitter_icon.png'),
-                                    Button_3Party(
-                                        'assets/images/google_icon.png'),
-                                  ],
+                          const Center(
+                            child: Text("or"),
+                          ),
+
+                          /// Show Sign up using
+                          const Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 15.0),
+                              child: Text(
+                                'Sign up using social networks',
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  color: Color(0xFF818181),
+                                  fontWeight: FontWeight.normal,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+
+                          /// 3 party
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Button_3Party(
+                                      'assets/images/facebook_icon.png'),
+                                  Button_3Party(
+                                      'assets/images/twitter_icon.png'),
+                                  Button_3Party(
+                                      'assets/images/google_icon.png'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Column(
@@ -278,7 +266,7 @@ class SignUpState extends State<SignUp> {
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                const SignUp_custom()),
+                                                const SignUpCustom()),
                                       );
                                     },
                                     child: const Text(
@@ -329,15 +317,15 @@ class SignUpState extends State<SignUp> {
           validator: (value) {
             if (value?.isEmpty != true) {
               print("sssssssssssssss");
-              if (passwordController?.text.toString().trim() != passwordController?.text.toString().trim()) {
+              if (passwordController?.text.toString().trim() !=
+                  passwordController?.text.toString().trim()) {
                 return "Please type password again";
-              }else{
+              } else {
                 return "eqiula";
               }
             } else {
               return 'Please add text';
             }
-            return null;
           },
           controller: controller,
           obscureText: obcuretxt,
@@ -412,10 +400,11 @@ class SignUpState extends State<SignUp> {
   bool? _checkFormFill() {
     if (emailController?.text.toString().trim().isEmpty == true ||
         passwordController?.text.toString().trim().isEmpty == true ||
-        passwordConfirmController?.text.toString().trim().isEmpty == true ||
-        phoneController?.text.toString().trim().isEmpty == true) {
+        passwordConfirmController?.text.toString().trim().isEmpty == true) {
       return false;
-    } else
+    } else {
+      print("case1 ");
       return true;
+    }
   }
 }

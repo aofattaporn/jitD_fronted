@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
-abstract class AuthenticationState extends Equatable {}
+abstract class AuthenticationState {}
 
 /// initial state
 class InitialState extends AuthenticationState {
@@ -11,12 +11,27 @@ class InitialState extends AuthenticationState {
 }
 
 /// state for signIn
-class SignInLoadingState extends AuthenticationState {
+class SignUpCheckingState extends AuthenticationState {
   @override
   List<Object?> get props => [];
 }
 
-class SignInLoadedState extends AuthenticationState {
+
+class SignUpError extends AuthenticationState {
+  late final String _err_msg;
+  late final String _err_desc;
+
+  SignUpError(this._err_msg, this._err_desc);
+
+  String get err_msg => _err_msg;
+
+  @override
+  List<Object?> get props => [_err_msg, _err_desc];
+
+
+}
+
+class SignUpLoadedState extends AuthenticationState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();

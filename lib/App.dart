@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/TestWidget.dart';
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 
 class App extends StatelessWidget {
@@ -9,7 +10,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SignUp(),
+      home: TestWidget(),
+      // home:
     );
   }
 }

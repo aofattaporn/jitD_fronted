@@ -13,18 +13,31 @@ class AuthenticationBloc
 
     /// SignIn event
     on<SignUpEvent>((event, emit) async {
+      // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
 
-      // change to model
+      emit(SignUpCheckingState());
 
-      // case empty
+      // Password confirm incorrect
+      if (authModel.passworld.toString().trim() !=
+          authModel.passworldConfirm.toString().trim()) {
+        String err = "Password confirm incorrect";
+        String desc = "กดเพื่อลองใหม่อีกครั้ง";
+        emit(SignUpError(err, desc));
+      } else {
+        String? temp;
 
-      // case password incorrect
+        temp = await authRepository.signIn(authModel.email.toString().trim(),
+            authModel.passworld.toString().trim());
 
-      // case already data to signIn
-      authRepository.signIn(authModel.email.toString().trim(),
-          authModel.passworld.toString().trim());
-      emit(SignInLoadingState());
+        if (temp == "The email address is already in use by another account.") {
+          String err = "Email already existing";
+          String desc = "กดเพื่อลองใหม่อีกครั้ง";
+          emit(SignUpError(err, desc));
+        } else {
+          emit(SignUpLoadedState());
+        }
+      }
     });
   }
 }

@@ -1,18 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../models/auth_model.dart';
-
 class AuthRepository {
   Future<String> signIn(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
     } on FirebaseAuthException catch (e) {
-      print(e);
+      print(e.message);
+      return e.message.toString();
     }
-    checkCredentail();
-    return "create success";
+
+    return "creating data success";
   }
+
   Future<void> checkCredentail() async {
     try {
       if (FirebaseAuth.instance.currentUser != null) {
@@ -21,5 +22,6 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       print(e);
     }
+
   }
 }
