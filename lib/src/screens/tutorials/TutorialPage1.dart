@@ -25,7 +25,7 @@ class _TutorialPage1State extends State<TutorialPage1> {
           // stack 1
           Container(
             color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.54,
             child: Center(
               child: Container(
                 // color: Colors.amber,

@@ -204,17 +204,27 @@ class SignUpCustomState extends State<SignUpCustom> {
                             alignment: Alignment.center,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  _button_3Party(
-                                      'assets/images/facebook_icon.png'),
-                                  _button_3Party(
-                                      'assets/images/twitter_icon.png'),
-                                  _button_3Party(
-                                      'assets/images/google_icon.png'),
-                                ],
+                              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                                builder: (context, state) {
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        
+                                        onPressed: () {    context
+                                            .read<AuthenticationBloc>()
+                                            .add(SignIngoogle());},
+                                        child: _button_3Party(
+                                            'assets/images/facebook_icon.png', context),
+                                      ),
+                                      _button_3Party(
+                                          'assets/images/twitter_icon.png', context),
+                                      _button_3Party(
+                                          'assets/images/google_icon.png', context),
+                                    ],
+                                  );
+                                }
                               ),
                             ),
                           ),
@@ -371,7 +381,7 @@ class SignUpCustomState extends State<SignUpCustom> {
         ));
   }
 
-  Padding _button_3Party(String imgURL) {
+  Padding _button_3Party(String imgURL, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
       child: Image.asset(

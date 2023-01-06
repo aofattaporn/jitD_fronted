@@ -11,7 +11,7 @@ class AuthenticationBloc
     /// inject Repository
     AuthRepository authRepository = new AuthRepository();
 
-    /// SignIn event
+    /// SignUP event
     on<SignUpEvent>((event, emit) async {
       // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
@@ -38,6 +38,15 @@ class AuthenticationBloc
           emit(SignUpLoadedState());
         }
       }
+    });
+
+    /// onn google
+    on<SignIngoogle>((event, emit) async {
+      String? temp;
+
+      await authRepository.signInWithGoogle();
+
+      // emit(SignUpLoadedState());
     });
   }
 }
