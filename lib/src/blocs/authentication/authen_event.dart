@@ -24,6 +24,13 @@ class SignIngoogle extends AuthenticationEvent {
   List<Object> get props => [];
 }
 
+class SignInFacebook extends AuthenticationEvent {
+  SignInFacebook();
+
+  @override
+  List<Object> get props => [];
+}
+
 class SignOut extends AuthenticationEvent {
   SignOut();
 

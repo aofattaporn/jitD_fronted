@@ -213,6 +213,8 @@ class SignUpCustomState extends State<SignUpCustom> {
                                   children: [
                                     _button3Party(context, SignIngoogle(),
                                         "assets/images/google_icon.png"),
+                                    _button3Party(context, SignInFacebook(),
+                                        "assets/images/facebook_icon.png"),
                                   ],
                                 );
                               }),

@@ -45,9 +45,14 @@ class AuthenticationBloc
 
     /// SignIn by google
     on<SignIngoogle>((event, emit) async {
-      String? temp;
-
       await authRepository.signInWithGoogle();
+      String result = await authRepository.checkCredentail();
+
+      emit(CheckStatusAuthrn(result));
+    });
+    /// SignIn by FaceBook
+    on<SignInFacebook>((event, emit) async {
+      await authRepository.signInWithFacebook();
       String result = await authRepository.checkCredentail();
 
       emit(CheckStatusAuthrn(result));
