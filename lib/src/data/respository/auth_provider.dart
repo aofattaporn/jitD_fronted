@@ -14,14 +14,16 @@ class AuthRepository {
     return "creating data success";
   }
 
-  Future<void> checkCredentail() async {
-    try {
-      if (FirebaseAuth.instance.currentUser != null) {
-        print(FirebaseAuth.instance.currentUser?.uid.toString());
+  Future<String> checkCredentail() async {
+    String result = "";
+    await FirebaseAuth.instance.userChanges().listen((User? user) {
+      if (user == null) {
+        result = 'User is currently signed out!';
+      } else {
+        result = 'User is signed in!';
       }
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
+    });
+    return result;
   }
 
   Future<UserCredential> signInWithGoogle() async {
@@ -38,7 +40,16 @@ class AuthRepository {
       idToken: googleAuth?.idToken,
     );
 
+    await checkCredentail();
+
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<void> signOut() async {
+    // Once signed in, return the UserCredential
+    await checkCredentail();
+
+    await FirebaseAuth.instance.signOut();
   }
 }

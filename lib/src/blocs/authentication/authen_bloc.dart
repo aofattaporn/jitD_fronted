@@ -37,16 +37,28 @@ class AuthenticationBloc
         } else {
           emit(SignUpLoadedState());
         }
+
+        String result = await authRepository.checkCredentail();
+        emit(CheckStatusAuthrn(result));
       }
     });
 
-    /// onn google
+    /// SignIn by google
     on<SignIngoogle>((event, emit) async {
       String? temp;
 
       await authRepository.signInWithGoogle();
+      String result = await authRepository.checkCredentail();
 
-      // emit(SignUpLoadedState());
+      emit(CheckStatusAuthrn(result));
+    });
+
+    /// SignOut
+    on<SignOut>((event, emit) async {
+      await authRepository.signOut();
+      String result = await authRepository.checkCredentail();
+
+      emit(CheckStatusAuthrn(result));
     });
   }
 }

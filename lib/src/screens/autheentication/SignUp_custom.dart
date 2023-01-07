@@ -204,30 +204,44 @@ class SignUpCustomState extends State<SignUpCustom> {
                             alignment: Alignment.center,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                builder: (context, state) {
-                                  return Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        
-                                        onPressed: () {    context
-                                            .read<AuthenticationBloc>()
-                                            .add(SignIngoogle());},
-                                        child: _button_3Party(
-                                            'assets/images/facebook_icon.png', context),
-                                      ),
-                                      _button_3Party(
-                                          'assets/images/twitter_icon.png', context),
-                                      _button_3Party(
-                                          'assets/images/google_icon.png', context),
-                                    ],
-                                  );
-                                }
-                              ),
+                              child: BlocBuilder<AuthenticationBloc,
+                                      AuthenticationState>(
+                                  builder: (context, state) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _button3Party(context, SignIngoogle(),
+                                        "assets/images/google_icon.png"),
+                                  ],
+                                );
+                              }),
                             ),
                           ),
+
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      context
+                                          .read<AuthenticationBloc>()
+                                          .add(SignOut());
+                                    },
+                                    child: Text("SignOut")),
+                                BlocBuilder<AuthenticationBloc,
+                                        AuthenticationState>(
+                                    builder: (BuildContext context, state) {
+                                  if (state is CheckStatusAuthrn) {
+                                    return (Text(state.statueAuth.toString()));
+                                  } else {
+                                    return (Text("no state"));
+                                  }
+                                }),
+                              ],
+                            ),
+                          )
                         ],
                       ))
                     ]),
@@ -278,6 +292,26 @@ class SignUpCustomState extends State<SignUpCustom> {
               ))
           // ),
           ),
+    );
+  }
+
+  ElevatedButton _button3Party(
+      BuildContext context, AuthenticationEvent authState, String urlLogo) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<AuthenticationBloc>().add(authState);
+      },
+      style: ElevatedButton.styleFrom(
+          primary: Colors.white,
+          minimumSize: const Size(40, 40),
+          shape: const CircleBorder()),
+      child: Image.asset(
+        urlLogo,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+      ),
+      // fixedSize: Size.fromHeight(30)
     );
   }
 

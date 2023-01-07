@@ -18,11 +18,14 @@ class SignUpEvent extends AuthenticationEvent {
 }
 
 class SignIngoogle extends AuthenticationEvent {
-  // Map<String, dynamic> _dataSignUp;
-
   SignIngoogle();
 
-  // Map<String, dynamic> get dataSignUp => _dataSignUp;
+  @override
+  List<Object> get props => [];
+}
+
+class SignOut extends AuthenticationEvent {
+  SignOut();
 
   @override
   List<Object> get props => [];
