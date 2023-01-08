@@ -31,5 +31,5 @@ Future<void> main() async {
 
   /// custom observer for check log on state
   Bloc.observer = AppBlocObserver();
-  runApp(const HomePage());
+  runApp(const App());
 }
