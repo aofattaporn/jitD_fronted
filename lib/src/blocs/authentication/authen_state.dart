@@ -45,6 +45,12 @@ class CheckStatusAuthrn extends AuthenticationState {
   List<Object?> get props => throw UnimplementedError();
 }
 
+class SignOutSuccess extends AuthenticationState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
 class TesterErrorState extends AuthenticationState {
   @override
   // TODO: implement props

@@ -6,10 +6,12 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 class AuthRepository {
   Future<String> signIn(String email, String password) async {
     try {
+      print(email + password);
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       print(e.message);
+      print("object");
       return e.message.toString();
     }
 

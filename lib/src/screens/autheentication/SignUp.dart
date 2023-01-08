@@ -1,20 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 
-import 'SignUp_custom.dart';
+import '../../blocs/authentication/authen_event.dart';
+import '../../ui/DialogMessage.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+class SignUpCustom extends StatefulWidget {
+  const SignUpCustom({Key? key}) : super(key: key);
 
   @override
-  SignUpState createState() => SignUpState();
+  SignUp createState() => SignUp();
 }
 
-class SignUpState extends State<SignUp> {
+class SignUp extends State<SignUpCustom> {
   TextEditingController? emailController;
   TextEditingController? passwordController;
   late bool passwordVisibility1;
@@ -23,17 +26,29 @@ class SignUpState extends State<SignUp> {
   TextEditingController? phoneController;
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _fromKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    emailController = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
+    passwordController = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
     passwordVisibility1 = false;
-    passwordConfirmController = TextEditingController();
+    passwordConfirmController = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
     passwordVisibility2 = false;
-    phoneController = TextEditingController();
+    phoneController = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -49,158 +64,120 @@ class SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
       key: scaffoldKey,
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
-        create: (_) => AuthenticationBloc(),
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
-          child: Stack(
-            children: [
-              /// Background
-              Align(
-                alignment: const AlignmentDirectional(0, 0),
-                child: Image.asset(
-                  'assets/images/background.png',
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 1,
-                  fit: BoxFit.cover,
-                ),
-              ),
-
-              /// Header
-              BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                  builder: (context, state) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 160),
-                      // const EdgeInsetsDirectional.fromSTEB(0, 120, 0, 0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: const [
-                          Expanded(
-                            child: Text(
-                              'Sign',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                // color: Color(0xFFAAD4CC),
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '  Up',
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                color: Color(0xFF7AAAAF),
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+          create: (_) => AuthenticationBloc(),
+          child: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
+              child: Stack(
+                children: [
+                  /// Background
+                  Center(
+                    child: Image.asset(
+                      'assets/images/background.png',
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 1,
+                      fit: BoxFit.cover,
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          /// FORM
-                          Form(
-                              key: _fromKey,
-                              child: Column(
-                                children: [
-                                  /// InputField 1  (Email)
-                                  InputField_custom(0, emailController!, false,
-                                      'Email', Icons.email, null),
+                  ),
 
-                                  /// InputField 1  (Email)
-                                  InputField_custom(
-                                      -0.4,
-                                      passwordController!,
-                                      !passwordVisibility1,
-                                      'Password',
-                                      Icons.lock,
-                                      _suffixIcon("passwordVisibility1",
-                                          passwordVisibility1)),
-
-                                  /// InputField 3  (Password Confirm)
-                                  InputField_custom(
-                                      -0.25,
-                                      passwordConfirmController!,
-                                      !passwordVisibility2,
-                                      'Confirm Password',
-                                      Icons.lock,
-                                      _suffixIcon("passwordVisibility2",
-                                          passwordVisibility2)),
-
-                                  /// InputField 4  (Phone)
-                                  InputField_custom(-0.1, phoneController!,
-                                      false, 'Phone Number', Icons.phone, null),
-                                ],
-                              )),
-
-                          /// Button
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Align(
-                              alignment: const AlignmentDirectional(0, 0.23),
-                              child: TextButton(
-                                onPressed: () {
-                                  if (_fromKey.currentState?.validate() ==
-                                          true &&
-                                      _checkFormFill() == true) {
-                                    print("_checkFormFill() == true");
-                                    // Some Event here
-                                    // Map<String, dynamic> dataSignIn = {
-                                    //   "Email": emailController?.text,
-                                    //   "Password": passwordController?.text,
-                                    //   "PasswordCF":
-                                    //       passwordConfirmController?.text,
-                                    //   "Phone": phoneController?.text
-                                    // };
-                                    //
-                                    // context
-                                    //     .read<AuthenticationBloc>()
-                                    //     .add(SignUpEvent(dataSignIn));
-                                  } else {
-                                    print("_checkFormFill() == false");
-
-                                    print("Empty");
-                                  }
-                                },
-                                style: TextButton.styleFrom(
-                                    backgroundColor: (_checkFormFill() != true)
-                                        ? thirterydColor
-                                        : thirteryColorSubtle,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 36, vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                                child: const Text(
-                                  'Sign Up',
-                                  style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                  /// Checking BlocListener + Sign Up content
+                  BlocListener<AuthenticationBloc, AuthenticationState>(
+                    listener: (BuildContext context, state) {
+                      // Case SignUp Loaded
+                      if (state is SignUpLoadedState) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BottomNavigationWidget()),
+                        );
+                      } else if (state is SignUpError) {
+                        var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (context) {
+                              return DialogMessage(
+                                  title: state.err_msg, desc: desc);
+                              // return DialogMessage(message: message);
+                            });
+                      } else {}
+                    },
+                    child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(top: 160),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                'Sign',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  // color: Color(0xFFAAD4CC),
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
+                            Expanded(
+                              child: Text(
+                                '  Up',
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  color: Color(0xFF7AAAAF),
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Form(
+                          child: Expanded(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              //   // FORM
+                              _formAuth(
+                                  emailController, "Email", Icons.email, null),
+                              _formAuth(
+                                  passwordController,
+                                  "Password",
+                                  Icons.lock,
+                                  _suffixIcon("passwordVisibility1",
+                                      passwordVisibility1)),
+                              _formAuth(
+                                  passwordConfirmController,
+                                  "Password Confirm",
+                                  Icons.lock,
+                                  _suffixIcon("passwordVisibility2",
+                                      passwordVisibility2)),
 
+                              ///  Button
+                              _buttonSubmit(context),
+                            ],
+                          ),
+                        ),
+                      )),
+                      Expanded(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
                           const Center(
                             child: Text("or"),
                           ),
 
-                          /// Show Sign up using
+                          // Show Sign up using
                           const Align(
                             alignment: Alignment.center,
                             child: Padding(
@@ -216,86 +193,229 @@ class SignUpState extends State<SignUp> {
                             ),
                           ),
 
-                          /// 3 party
+                          // 3 party
                           Align(
                             alignment: Alignment.center,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Button_3Party(
-                                      'assets/images/facebook_icon.png'),
-                                  Button_3Party(
-                                      'assets/images/twitter_icon.png'),
-                                  Button_3Party(
-                                      'assets/images/google_icon.png'),
-                                ],
-                              ),
+                              child: BlocBuilder<AuthenticationBloc,
+                                      AuthenticationState>(
+                                  builder: (context, state) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _button3Party(context, SignIngoogle(),
+                                        "assets/images/google_icon.png"),
+                                    _button3Party(context, SignInFacebook(),
+                                        "assets/images/facebook_icon.png"),
+                                  ],
+                                );
+                              }),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Align(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
+
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
                               children: [
-                                const Text(
-                                  'Already have an account ?',
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    color: Color(0xFF818181),
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      5, 0, 0, 0),
-                                  child: TextButton(
+                                ElevatedButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                const SignUpCustom()),
-                                      );
+                                      context
+                                          .read<AuthenticationBloc>()
+                                          .add(SignOut());
                                     },
-                                    child: const Text(
-                                      'Sign in here',
-                                      style: TextStyle(
-                                        fontFamily: 'Lato',
-                                        color: thirterydColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                    child: Text("SignOut")),
+                                BlocBuilder<AuthenticationBloc,
+                                        AuthenticationState>(
+                                    builder: (BuildContext context, state) {
+                                  if (state is CheckStatusAuthrn) {
+                                    return (Text(state.statueAuth.toString()));
+                                  } else {
+                                    return (Text("no state"));
+                                  }
+                                }),
                               ],
                             ),
-                          ),
+                          )
+                        ],
+                      ))
+                    ]),
+                  ),
+
+                  /// Button navigate to Sign In
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Already have an account ?',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                color: Color(0xFF818181),
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  5, 0, 0, 0),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => const SignIn()),
+                                  );
+                                },
+                                child: const Text(
+                                  'Sign in here',
+                                  style: TextStyle(
+                                    fontFamily: 'Lato',
+                                    color: thirterydColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                );
-              }),
-            ],
+                      ),
+                    ],
+                  ),
+                ],
+              ))
+          // ),
           ),
-        ),
-      ),
     );
   }
 
-  Padding Button_3Party(String imgURL) {
+  ElevatedButton _button3Party(
+      BuildContext context, AuthenticationEvent authState, String urlLogo) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<AuthenticationBloc>().add(authState);
+      },
+      style: ElevatedButton.styleFrom(
+          primary: Colors.white,
+          minimumSize: const Size(40, 40),
+          shape: const CircleBorder()),
+      child: Image.asset(
+        urlLogo,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+      ),
+      // fixedSize: Size.fromHeight(30)
+    );
+  }
+
+  Padding _buttonSubmit(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+          if (state is SignUpCheckingState) {
+            return ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 24),
+                    minimumSize: const Size.fromHeight(52),
+                    primary: thirterydColor,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )),
+                child: const CircularProgressIndicator(color: Colors.white70));
+          } else {
+            return ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate() &&
+                      _checkFormFill() == true) {
+                    Map<String, dynamic> dataSignIn = {
+                      "Email": emailController?.text,
+                      "Password": passwordController?.text,
+                      "PasswordCF": passwordConfirmController?.text,
+                      "Phone": phoneController?.text
+                    };
+
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(SignUpEvent(dataSignIn));
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                    minimumSize: const Size.fromHeight(52),
+                    elevation: (_checkFormFill() == true) ? 5 : 0,
+                    primary: (_checkFormFill() == true)
+                        ? thirterydColor
+                        : thirteryColorSubtle,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )),
+                child: const Text("Sign In"));
+          }
+        }));
+  }
+
+  Padding _formAuth(TextEditingController? controller, String hint,
+      IconData iconData, InkWell? inkwell) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
+        child: TextFormField(
+          validator: (value) {
+            if (value!.isEmpty == false && hint == "Email") {
+              final emailPattern = RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+              if (emailPattern.hasMatch(value)) {
+                return null;
+              } else {
+                return "Email not format";
+              }
+            } else if (value.isEmpty == false && hint == "Password") {
+              if (value.length >= 6) {
+                return null;
+              } else {
+                return "Password must more 6";
+              }
+            } else if (value.isEmpty == false && hint == "Password Confirm") {
+              if (value.length >= 6) {
+                return null;
+              } else {
+                return "Password must more 6";
+              }
+            }
+            return null;
+          },
+          controller: controller,
+          obscureText: false,
+          decoration: InputDecoration(
+              isDense: true,
+              label: Text(hint, style: const TextStyle(color: textColor3)),
+              hintText: hint,
+              enabledBorder: statusBorder(primaryColor),
+              focusedBorder: statusBorder(primaryColorDark),
+              errorBorder: statusBorder(statusColorError),
+              focusedErrorBorder: statusBorder(primaryColorDark),
+              prefixIcon: Icon(
+                iconData,
+                color: const Color(0xFF3F4247),
+              ),
+              suffixIcon: inkwell),
+          style: const TextStyle(
+            fontFamily: 'Lato',
+            fontSize: 16,
+          ),
+        ));
+  }
+
+  Padding _button_3Party(String imgURL, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
       child: Image.asset(
@@ -307,71 +427,26 @@ class SignUpState extends State<SignUp> {
     );
   }
 
-  Align InputField_custom(double align, TextEditingController controller,
-      bool obcuretxt, String hitntxt, IconData icons, InkWell? inkWell) {
-    return Align(
-      alignment: AlignmentDirectional(0, align),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 35),
-        child: TextFormField(
-          validator: (value) {
-            if (value?.isEmpty != true) {
-              print("sssssssssssssss");
-              if (passwordController?.text.toString().trim() !=
-                  passwordController?.text.toString().trim()) {
-                return "Please type password again";
-              } else {
-                return "eqiula";
-              }
-            } else {
-              return 'Please add text';
-            }
-          },
-          controller: controller,
-          obscureText: obcuretxt,
-          decoration: InputDecoration(
-              isDense: true,
-              hintText: hitntxt,
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0xFF7FD4C5),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: primaryColorDark,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: statusColorError,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              prefixIcon: Icon(
-                icons,
-                color: Color(0xFF3F4247),
-              ),
-              suffixIcon: inkWell),
-          style: const TextStyle(
-            fontFamily: 'Lato',
-            fontSize: 16,
-          ),
-        ),
+  OutlineInputBorder statusBorder(Color color) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        color: color,
+        width: 1,
       ),
+      borderRadius: BorderRadius.circular(10),
     );
+  }
+
+  bool? _checkFormFill() {
+    if (emailController?.text.toString().trim().isEmpty == true ||
+            passwordController?.text.toString().trim().isEmpty == true ||
+            passwordConfirmController?.text.toString().trim().isEmpty == true
+        // phoneController?.text.toString().trim().isEmpty == false
+        ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   InkWell _suffixIcon(String fag, bool passwordVisibility) {
@@ -395,16 +470,5 @@ class SignUpState extends State<SignUp> {
         size: 22,
       ),
     );
-  }
-
-  bool? _checkFormFill() {
-    if (emailController?.text.toString().trim().isEmpty == true ||
-        passwordController?.text.toString().trim().isEmpty == true ||
-        passwordConfirmController?.text.toString().trim().isEmpty == true) {
-      return false;
-    } else {
-      print("case1 ");
-      return true;
-    }
   }
 }
