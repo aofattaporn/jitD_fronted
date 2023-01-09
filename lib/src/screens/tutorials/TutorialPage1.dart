@@ -24,8 +24,11 @@ class _TutorialPage1State extends State<TutorialPage1> {
         children: [
           // stack 1
           Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.54,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                color: Colors.white
+            ),
             child: Center(
               child: Container(
                 // color: Colors.amber,
@@ -100,7 +103,7 @@ class _TutorialPage1State extends State<TutorialPage1> {
           Center(
             child: Container(
                 // color: Colors.amber,
-                margin: EdgeInsets.only(top: 120),
+                margin: EdgeInsets.only(top: 190),
                 child: Image.asset(
                   'assets/images/tutorial_bg1.png',
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -142,7 +145,7 @@ class _TutorialPage1State extends State<TutorialPage1> {
                         MaterialPageRoute(builder: (context) => const TutorialPage2()),
                       );
                     },
-                    child: Text("ถัดไป"),
+                    child: Text("ถัดไป", style: TextStyle(fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                       primary: thirterydColor,
                       minimumSize: const Size(100, 40),
