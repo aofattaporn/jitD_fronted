@@ -49,7 +49,7 @@ class AuthenticationBloc
       // signIn with firebase authentication.
       String? temp = await authRepository.signIn(authModel.email.toString().trim(),
           authModel.passworld.toString().trim());
-      // check case signIn 
+      // check case signIn  
       emit(SignUpLoadedState());
     });
 
