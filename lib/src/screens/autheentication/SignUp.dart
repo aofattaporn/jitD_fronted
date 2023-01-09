@@ -107,6 +107,8 @@ class SignUp extends State<SignUpCustom> {
                             });
                       } else {}
                     },
+
+
                     child: Column(children: [
                       Padding(
                         padding: const EdgeInsetsDirectional.only(top: 160),

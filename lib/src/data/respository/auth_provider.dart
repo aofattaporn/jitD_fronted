@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-
 class AuthRepository {
-  Future<String> signIn(String email, String password) async {
+  /// signUp
+  Future<String> signUp(String email, String password) async {
     try {
       print(email + password);
       await FirebaseAuth.instance
@@ -14,10 +14,25 @@ class AuthRepository {
       print("object");
       return e.message.toString();
     }
-
     return "creating data success";
   }
 
+  /// signIn
+  Future<String> signIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+    return "creating data success";
+  }
+
+  /// check credentail function
   Future<String> checkCredentail() async {
     String result = "";
     await FirebaseAuth.instance.userChanges().listen((User? user) {
@@ -55,7 +70,8 @@ class AuthRepository {
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);

@@ -15,9 +15,6 @@ class AuthenticationBloc
     on<SignUpEvent>((event, emit) async {
       // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
-      print(authModel.email);
-      print(authModel.passworld);
-      print(authModel.passworldConfirm);
 
       emit(SignUpCheckingState());
 
@@ -27,15 +24,11 @@ class AuthenticationBloc
         String err = "Password confirm incorrect";
         String desc = "กดเพื่อลองใหม่อีกครั้ง";
         emit(SignUpError(err, desc));
-      }
-
-      else {
+      } else {
         // signIn with firebase authentication.
         String? temp;
-        temp = await authRepository.signIn(authModel.email.toString().trim(),
+        temp = await authRepository.signUp(authModel.email.toString().trim(),
             authModel.passworld.toString().trim());
-        print(temp);
-
 
         // checking data
         if (temp == "The email address is already in use by another account.") {
@@ -46,11 +39,18 @@ class AuthenticationBloc
           // ยิงข้อมูลไปที่ backend
           emit(SignUpLoadedState());
         }
-
-        // sace data
-        String result = await authRepository.checkCredentail();
-        emit(CheckStatusAuthrn(result));
       }
+    });
+
+    /// SignIn event
+    on<SignInEvent>((event, emit) async {
+      // convert data to model
+      var authModel = AuthModel.fromJson(event.dataSignUp);
+      // signIn with firebase authentication.
+      String? temp = await authRepository.signIn(authModel.email.toString().trim(),
+          authModel.passworld.toString().trim());
+      // check case signIn 
+      emit(SignUpLoadedState());
     });
 
     /// SignIn by google
