@@ -29,111 +29,112 @@ class _TutorialPage4State extends State<TutorialPage4> {
                     borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
                     color: primaryColorSubtle
                 ),
-          clipBehavior: Clip.none,
-          child: Center(
-            child: Container(
-              // color: Colors.amber,
-              child: Container(
-                color: Colors.transparent,
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("JIT :D",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 64,
-                              fontWeight: FontWeight.bold)),
-                    ),
-
-                    Container(
-                      child: Image.asset(
-                        'assets/images/bgInStackPic2.png',
-                        width: MediaQuery.of(context).size.width * 1.2,
-                        height: MediaQuery.of(context).size.width * 0.4
+                // clipBehavior: Clip.none,
+                child: Center(
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text("JIT :D",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 64,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ],
                       ),
                     ),
+                ),
 
-                    Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: Container(
-                        // color: Colors.amber,
-                        //   margin: EdgeInsets.only(top: 158), //Container ห่างจากวัตถุด้านบนตามที่กำหนด
-                          child: Image.asset(
-                            'assets/images/bear.png',
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.width * 0.48,
-                            fit: BoxFit.contain,
-                          )),
+              ),
+              Align(
+                alignment: const AlignmentDirectional(1, -0.7),//ค่า x ยิ่งมากจะยิ่งไปซ้าย, ค่า y ยิ่งมากจะยิ่งลงมาข้างล่าง
+                child: Image.asset(
+                    'assets/images/bgInStackPic2.png',
+                    width: MediaQuery.of(context).size.width * 1.2,
+                    height: MediaQuery.of(context).size.height * 0.3
+                ),
+              ),
+
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Align(
+                  alignment: AlignmentDirectional(0, -0.07),
+                  // color: Colors.amber,
+                  //   margin: EdgeInsets.only(top: 158), //Container ห่างจากวัตถุด้านบนตามที่กำหนด
+                  child: Image.asset(
+                    'assets/images/bear.png',
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.width * 0.48,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 80),
+              child: Align(
+                alignment: AlignmentDirectional(-0.65, 0.2),
+                child: Container(
+                  margin: EdgeInsets.only(top: 220),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: const TextSpan(
+                        text: "หลังจากหายเครียดแล้วเรามาเป็นผู้ให้กันเถอะ ให้รอยยิ้ม วิธีการแก้จากตัวเราคอมเม้นท์ช่วยคนอื่นกันเป็นผู้ให้ ก็สุขใจและยิ่งใหญ่นะ",
+                        style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500)
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 80),
-        child: Align(
-          alignment: AlignmentDirectional(-0.65, 0.2),
-          child: Container(
-            margin: EdgeInsets.only(top: 220),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: const TextSpan(
-                  text: "หลังจากหายเครียดแล้วเรามาเป็นผู้ให้กันเถอะ ให้รอยยิ้ม วิธีการแก้จากตัวเราคอมเม้นท์ช่วยคนอื่นกันเป็นผู้ให้ ก็สุขใจและยิ่งใหญ่นะ",
-                  style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500)
-              ),
+
+            // stack 3 on bottom
+            Center(
+              child: Align(
+                  alignment: AlignmentDirectional(0.5, 0.6),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // cucle 1
+                      _curcle_page(thirterydColor),
+                      SizedBox(width: 10),
+                      // cucle 1
+                      _curcle_page(thirterydColor),
+                      SizedBox(width: 10),
+                      // cucle 1
+                      _curcle_page(thirterydColor),
+                      SizedBox(width: 10),
+                      // cucle 1
+                      _curcle_page(thirterydColor),
+                    ],
+                  )),
             ),
-          ),
-        ),
-      ),
 
-      // stack 3 on bottom
-      Center(
-        child: Align(
-            alignment: AlignmentDirectional(0.5, 0.6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // cucle 1
-                _curcle_page(thirterydColor),
-                SizedBox(width: 10),
-                // cucle 1
-                _curcle_page(thirterydColor),
-                SizedBox(width: 10),
-                // cucle 1
-                _curcle_page(thirterydColor),
-                SizedBox(width: 10),
-                // cucle 1
-                _curcle_page(thirterydColor),
-              ],
-            )),
-      ),
+            // stack 4 on bottom
+            Center(
+              child: Align(
+                  alignment: AlignmentDirectional(0, 0.8),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const TutorialPage5()),
+                        );
+                      },
+                      child: Text("ถัดไป", style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                          primary: thirterydColor,
+                          minimumSize: const Size(100, 40),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
+                        // fixedSize: Size.fromHeight(30)
+                      ))),
+            ),
 
-      // stack 4 on bottom
-      Center(
-        child: Align(
-            alignment: AlignmentDirectional(0, 0.8),
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TutorialPage5()),
-                  );
-                },
-                child: Text("ถัดไป", style: TextStyle(fontWeight: FontWeight.bold)),
-                style: ElevatedButton.styleFrom(
-                    primary: thirterydColor,
-                    minimumSize: const Size(100, 40),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
-                  // fixedSize: Size.fromHeight(30)
-                ))),
-      ),
-
-            ],
+                  ],
           ),
         ),
     );
