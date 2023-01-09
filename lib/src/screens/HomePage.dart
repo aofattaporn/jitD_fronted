@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,70 +13,145 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-          child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: primaryColorSubtle,
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: Stack(
           children: [
-            const Text("Counter",
-                style: TextStyle(
-                    color: primaryColor,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold)),
-            BlocBuilder<CounterBloc2, int>(
-              builder: (context, count) => Column(
+            Container(
+              color: primaryColorSubtle,
+              height: MediaQuery.of(context).size.height * 0.2,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  color: primaryColor,
+                ),
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.7,
+                padding: EdgeInsets.symmetric(vertical: 19, horizontal: 30),
+                child: const Text(
+                  "JIT :D",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Container(
+            //       child: Image.asset(
+            //         "assets/images/messenger.png",
+            //         height: 40,
+            //       ),
+            //     )
+            //   ],
+            // ),
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Center(child: Text('$count')),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FloatingActionButton(
-                            heroTag: "button2",
-                            onPressed: () => {
-                                  context
-                                      .read<CounterBloc2>()
-                                      .add(CounterIncrementPressed())
-                                },
-                            backgroundColor: primaryColor,
-                            child: const Icon(Icons.add)),
+                  Container(
+                    padding: EdgeInsets.only(top: 110, left: 20),
+                    margin: EdgeInsets.all(2),
+                    child: ElevatedButton(
+                      child: Text('การงาน'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: primaryColor,
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FloatingActionButton(
-                            heroTag: "btn3",
-                            onPressed: () {
-                              context
-                                  .read<CounterBloc2>()
-                                  .add(CounterDecrementPressed());
-                            },
-                            backgroundColor: primaryColor,
-                            child: const Icon(Icons.delete)),
+                      onPressed: () {},
+                    ),
+                    ),
+                  Container(
+                    padding: EdgeInsets.only(top: 110, left: 10),
+                    margin: EdgeInsets.all(2),
+                    child: ElevatedButton(
+                      child: Text('การงาน'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: primaryColor,
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FloatingActionButton(
-                            heroTag: "btn4",
-                            onPressed: () {
-                              context
-                                  .read<CounterBloc2>()
-                                  .add(CounterResetPressed());
-                            },
-                            backgroundColor: primaryColor,
-                            child: const Icon(Icons.reset_tv_rounded)),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 110, left: 10),
+                    margin: EdgeInsets.all(2),
+                    child: ElevatedButton(
+                      child: Text('การงาน'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: primaryColor,
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                    ],
-                  )
+                      onPressed: () {},
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 110, left: 10),
+                    margin: EdgeInsets.all(2),
+                    child: ElevatedButton(
+                      child: Text('การงาน'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: primaryColor,
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
                 ],
               ),
             ),
-            // Text( count.toString() , style: TextStyle(color: kPrimaryColor, fontSize: 40, fontWeight: FontWeight.bold)),
           ],
         ),
-      )),
+      ),
     );
   }
 }
