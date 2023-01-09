@@ -204,28 +204,32 @@ class SignUpCustomState extends State<SignUpCustom> {
                             alignment: Alignment.center,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                builder: (context, state) {
-                                  return Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        
-                                        onPressed: () {    context
+                              child: BlocBuilder<AuthenticationBloc,
+                                      AuthenticationState>(
+                                  builder: (context, state) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context
                                             .read<AuthenticationBloc>()
-                                            .add(SignIngoogle());},
-                                        child: _button_3Party(
-                                            'assets/images/facebook_icon.png', context),
-                                      ),
-                                      _button_3Party(
-                                          'assets/images/twitter_icon.png', context),
-                                      _button_3Party(
-                                          'assets/images/google_icon.png', context),
-                                    ],
-                                  );
-                                }
-                              ),
+                                            .add(SignIngoogle());
+                                      },
+                                      child: _button_3Party(
+                                          'assets/images/facebook_icon.png',
+                                          context),
+                                    ),
+                                    _button_3Party(
+                                        'assets/images/twitter_icon.png',
+                                        context),
+                                    _button_3Party(
+                                        'assets/images/google_icon.png',
+                                        context),
+                                  ],
+                                );
+                              }),
                             ),
                           ),
                         ],
