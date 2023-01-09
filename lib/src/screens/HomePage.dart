@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                         textStyle: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          ),
+                        ),
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -85,7 +85,7 @@ class HomePage extends StatelessWidget {
                       ),
                       onPressed: () {},
                     ),
-                    ),
+                  ),
                   Container(
                     padding: EdgeInsets.only(top: 110, left: 10),
                     margin: EdgeInsets.all(2),

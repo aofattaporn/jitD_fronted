@@ -266,7 +266,7 @@ class SignUpTempState extends State<SignUpTemp> {
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                const SignUpCustom()),
+                                                const SignUp()),
                                       );
                                     },
                                     child: const Text(

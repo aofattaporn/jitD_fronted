@@ -10,14 +10,14 @@ import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
 
-class SignUpCustom extends StatefulWidget {
-  const SignUpCustom({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  SignUp createState() => SignUp();
+  SignUpState createState() => SignUpState();
 }
 
-class SignUp extends State<SignUpCustom> {
+class SignUpState extends State<SignUp> {
   TextEditingController? emailController;
   TextEditingController? passwordController;
   late bool passwordVisibility1;
