@@ -62,17 +62,15 @@ class SignInState extends State<SignIn> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                    const BottomNavigationWidget()),
+                    builder: (context) => const BottomNavigationWidget()),
               );
             } else if (state is SignUpError) {
-              var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
               showDialog(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (context) {
                     return DialogMessage(
-                        title: state.err_msg, desc: desc);
+                        title: state.err_desc, desc: state.err_msg);
                     // return DialogMessage(message: message);
                   });
             } else {}
@@ -132,18 +130,18 @@ class SignInState extends State<SignIn> {
                         //   // FORM
                         Align(
                           alignment: const AlignmentDirectional(0, -0.36),
-                          child: _formAuth(
-                              emailController, "Email", Icons.email, null),
+                          child: _formAuth(emailController, false, "Email",
+                              Icons.email, null),
                         ),
 
                         Align(
                             alignment: const AlignmentDirectional(0, -0.20),
                             child: _formAuth(
                                 passwordController,
+                                !passwordVisibility,
                                 "Password",
                                 Icons.lock,
-                                _suffixIcon(
-                                    "passwordVisibility1", passwordVisibility))),
+                                _suffixIcon())),
                         Align(
                           alignment: const AlignmentDirectional(0, 0.05),
                           child: _buttonSubmit(context),
@@ -333,8 +331,8 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Padding _formAuth(TextEditingController? controller, String hint,
-      IconData iconData, InkWell? inkwell) {
+  Padding _formAuth(TextEditingController? controller, bool obsText,
+      String hint, IconData iconData, InkWell? inkwell) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
         child: TextFormField(
@@ -363,7 +361,7 @@ class SignInState extends State<SignIn> {
             return null;
           },
           controller: controller,
-          obscureText: false,
+          obscureText: obsText,
           decoration: InputDecoration(
               isDense: true,
               label: Text(hint, style: const TextStyle(color: textColor3)),
@@ -396,20 +394,22 @@ class SignInState extends State<SignIn> {
 
   bool? _checkFormFill() {
     if (emailController?.text.toString().trim().isEmpty == true ||
-            passwordController?.text.toString().trim().isEmpty == true
-        ) {
+        passwordController?.text.toString().trim().isEmpty == true) {
       return false;
     } else {
       return true;
     }
   }
 
-  InkWell _suffixIcon(String fag, bool passwordVisibility) {
+  InkWell _suffixIcon() {
     return InkWell(
-      onTap: () => setState(() => {passwordVisibility = !passwordVisibility}),
+      onTap: () => setState(() => {
+            print(passwordVisibility),
+            this.passwordVisibility = !this.passwordVisibility
+          }),
       focusNode: FocusNode(skipTraversal: true),
       child: Icon(
-        passwordVisibility == !passwordVisibility
+        this.passwordVisibility
             ? Icons.visibility_outlined
             : Icons.visibility_off_outlined,
         color: const Color(0xFF757575),
