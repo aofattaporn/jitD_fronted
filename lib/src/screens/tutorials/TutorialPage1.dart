@@ -160,7 +160,7 @@ class _TutorialPage1State extends State<TutorialPage1> {
       height: 15,
       width: 15,
       decoration:
-          BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: [
+          BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: const [
         BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
       ]),
       // decoration:
