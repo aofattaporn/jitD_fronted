@@ -26,9 +26,10 @@ class _TutorialPage1State extends State<TutorialPage1> {
           Container(
             height: MediaQuery.of(context).size.height * 0.54,
             decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                color: Colors.white
-            ),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20)),
+                color: Colors.white),
             child: Center(
               child: Container(
                 // color: Colors.amber,
@@ -142,16 +143,19 @@ class _TutorialPage1State extends State<TutorialPage1> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const TutorialPage2()),
+                        MaterialPageRoute(
+                            builder: (context) => const TutorialPage2()),
                       );
                     },
-                    child: Text("ถัดไป", style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text("ถัดไป",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
-                      primary: thirterydColor,
-                      minimumSize: const Size(100, 40),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
-                      // fixedSize: Size.fromHeight(30)
-                    ))),
+                        primary: thirterydColor,
+                        minimumSize: const Size(100, 40),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5))
+                        // fixedSize: Size.fromHeight(30)
+                        ))),
           ),
         ],
       )),
@@ -162,10 +166,13 @@ class _TutorialPage1State extends State<TutorialPage1> {
     return Container(
       height: 15,
       width: 15,
-      decoration:
-          BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: [
-        BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
-      ]),
+      decoration: BoxDecoration(
+          color: colorData,
+          shape: BoxShape.circle,
+          boxShadow: const [
+            BoxShadow(
+                color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
+          ]),
       // decoration:
     );
   }

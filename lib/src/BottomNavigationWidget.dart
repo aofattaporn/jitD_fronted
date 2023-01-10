@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/CreatePost_page.dart';
 
@@ -10,6 +12,7 @@ import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
 import 'package:jitd_client/src/screens/TestApiPage.dart';
 
+import 'blocs/authentication/authen_state.dart';
 import 'blocs/counter/counter_event.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
@@ -28,7 +31,6 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     NotificationPage(),
     ProfilePage(),
     SearchPage(),
-
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -42,21 +44,29 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       /// body
       body: Center(
         child: MultiBlocProvider(
-          providers: [BlocProvider(create: (_) => CounterBloc2())],
-          child: PageStorage(
-            bucket: bucket,
-            child: currentScreen,
-          ),
-        ),
+            providers: [
+              BlocProvider<CounterBloc2>(create: (_) => CounterBloc2()),
+              BlocProvider<AuthenticationBloc>(
+                  create: (_) => AuthenticationBloc())
+            ],
+            child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (BuildContext context, state) {
+                  if (state is SignOutSuccess) {
+                    Navigator.pop(context);
+                  }
+                },
+                child: PageStorage(
+                  bucket: bucket,
+                  child: currentScreen,
+                ))),
       ),
 
       /// FAB
       floatingActionButton: FloatingActionButton(
-        heroTag: "button1",
-        child: const Icon(Icons.add, size: 40),
-        backgroundColor: thirterydColor,
-        onPressed: () => Navigator.of(context).push(_createRoute())
-      ),
+          heroTag: "button1",
+          backgroundColor: thirterydColor,
+          onPressed: () => Navigator.of(context).push(_createRoute()),
+          child: const Icon(Icons.add, size: 40)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       /// Bottom navigation Bar
@@ -100,13 +110,15 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const CreatePostPage(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const CreatePostPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
         const curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),

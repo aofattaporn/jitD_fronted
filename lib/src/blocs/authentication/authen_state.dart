@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
@@ -16,7 +15,6 @@ class SignUpCheckingState extends AuthenticationState {
   List<Object?> get props => [];
 }
 
-
 class SignUpError extends AuthenticationState {
   late final String _err_msg;
   late final String _err_desc;
@@ -27,11 +25,27 @@ class SignUpError extends AuthenticationState {
 
   @override
   List<Object?> get props => [_err_msg, _err_desc];
-
-
 }
 
 class SignUpLoadedState extends AuthenticationState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class CheckStatusAuthrn extends AuthenticationState {
+  late String _statueAuth;
+
+  CheckStatusAuthrn(this._statueAuth);
+
+  String get statueAuth => _statueAuth;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class SignOutSuccess extends AuthenticationState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
