@@ -84,7 +84,7 @@ class ViewPostState extends State<ViewPost> {
                               10, 0, 10, 0),
                           child: Text(
                             "โพสหมายเลข 124343232",
-                            style: GoogleFonts.getFont("Bai Jamjuree",
+                            style: GoogleFonts.getFont("Sarabun",
                                 fontSize: 12,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500),
@@ -132,7 +132,7 @@ class ViewPostState extends State<ViewPost> {
                             children: [
                               Text(
                                 "ผู้ใช้ STOXX",
-                                style: GoogleFonts.getFont("Bai Jamjuree",
+                                style: GoogleFonts.getFont("Sarabun",
                                     color: textColor3, fontSize: 12),
                               )
                             ],
@@ -147,7 +147,7 @@ class ViewPostState extends State<ViewPost> {
                               Expanded(
                                 child: Text(
                                   widget.content,
-                                  style: GoogleFonts.getFont("Bai Jamjuree",
+                                  style: GoogleFonts.getFont("Sarabun",
                                       fontSize: 16, color: textColor2),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1000,
@@ -184,7 +184,7 @@ class ViewPostState extends State<ViewPost> {
                                       child: Text(
                                         widget.tag[index],
                                         style: GoogleFonts.getFont(
-                                            "Bai Jamjuree",
+                                            "Sarabun",
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
