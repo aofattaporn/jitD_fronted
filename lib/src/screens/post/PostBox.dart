@@ -23,7 +23,7 @@ class PostBox extends StatelessWidget {
           top: MediaQuery.of(context).size.height * 0.03),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.31,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Colors.white,
@@ -67,6 +67,8 @@ class PostBox extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.01,
               ),
+
+              // Section-Content
               Row(
                 children: [
                   Expanded(
@@ -82,21 +84,90 @@ class PostBox extends StatelessWidget {
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+              // Section-Tag ---------------------------------------------------
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.035,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: tag.length,
+                  separatorBuilder: (context, index) {
+                    return SizedBox(width: MediaQuery.of(context).size.width * 0.02);
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: secondaryColor),
+                      child: Padding(
+                          padding:
+                          const EdgeInsetsDirectional.fromSTEB(10, 5, 10, 5),
+                          child: Text(
+                            tag[index],
+                            style: GoogleFonts.getFont("Bai Jamjuree",
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )),
+                    );
+                  },
+
+
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+              // Section-Comments ----------------------------------------------
               Row(
                 children: [
                   Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.03,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: secondaryColor
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        color: primaryColor),
+                    child: Center(
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: comment?.length.toString(),
+                              style: GoogleFonts.getFont('Lato',
+                                  fontSize: 16, color: Colors.white)),
+                          const TextSpan(text: '  '),
+                          const WidgetSpan(
+                              child: Icon(
+                            Icons.chat,
+                            size: 16,
+                            color: Colors.white,
+                          ))
+                        ]),
+                      ),
                     ),
-                    child: Padding(padding: const EdgeInsetsDirectional.fromSTEB(10, 5, 10, 5),
-                    child: Text("ปัญหาชีวิต", style: GoogleFonts.getFont("Bai Jamjuree", fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),)),
+                  ),
+
+                  // Section-Like
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.175,
+                    child: Center(
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: like,
+                              style: GoogleFonts.getFont('Lato',
+                                  fontSize: 18, color: textColor2)),
+                          const TextSpan(text: ' '),
+                          const WidgetSpan(
+                              child: Icon(
+                            Icons.favorite,
+                            color: Colors.black12,
+                            size: 22,
+                          ))
+                        ]),
+                      ),
+                    ),
                   )
                 ],
-
-              ),
-              Row(
-
               )
             ],
           ),

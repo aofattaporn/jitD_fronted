@@ -1,17 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import '../../constant.dart';
 import '../../data/models/post_model.dart';
 import 'PostBox.dart';
 
-class ViewPost extends StatefulWidget {
-  const ViewPost({Key? key}) : super(key: key);
+class ViewAllPost extends StatefulWidget {
+  const ViewAllPost({Key? key}) : super(key: key);
 
   @override
-  ViewPostState createState() => ViewPostState();
+  ViewAllPostState createState() => ViewAllPostState();
 }
 
-class ViewPostState extends State<ViewPost> {
+class ViewAllPostState extends State<ViewAllPost> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List<PostData> _postData = [
@@ -24,7 +26,9 @@ class ViewPostState extends State<ViewPost> {
         "ที่บ้านผมมีป้าข้างบ้านคนหนึ่งที่เขามักจะสนใจเรื่องของผมเป็นพิเศษครับ โดยเขาชอบมาถามแม่ผมถึงเรื่องต่างๆนาๆในชีวิตผมละชอบเอาไปใส่ไข่ แต่เขาไม่เคยที่จะสนใจลูกของเขาเลยครับ ส่วนแม่ของผมก็มีบ้างที่สนใจเขา ผมควรทำยังไงกับป้าคนนี้ครับ ยิ่งปล่อยยิ่งแย่",
         '1223',
         ['comment3', 'comment4'],
-        ['การเรียน'])
+        ['การเรียน']),
+    PostData('สวัสดีครับ ผมเรียนอยู่ม.4 ครับ การเรียนของผม ก็ค่อนข้างที่จะดีครับแต่มีวิชาคณิตที่ฉุดคะแนนของผมตลอดเลยครับ ผมเครียดมากเลย ได้เกรด 1 เองครับ',
+        '2', ['test', 'test2', 'test3', 'test4'], ['การเรียน', 'การงาน', 'การเรียน','การเรียน','การเรียน','การเรียน',])
   ];
 
   @override
@@ -180,11 +184,21 @@ class ViewPostState extends State<ViewPost> {
                               padding: const EdgeInsetsDirectional.all(20),
                               itemCount: _postData.length,
                               itemBuilder: (context, index) {
-                                return PostBox(
-                                  content: _postData[index].content,
-                                  like: _postData[index].like,
-                                  comment: _postData[index].comment,
-                                  tag: _postData[index].tag,
+                                return GestureDetector(
+                                  child: PostBox(
+                                    content: _postData[index].content,
+                                    like: _postData[index].like,
+                                    comment: _postData[index].comment,
+                                    tag: _postData[index].tag,
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                        ViewPost(content: _postData[index].content,
+                                          like: _postData[index].like,
+                                          comment: _postData[index].comment,
+                                          tag: _postData[index].tag)));
+
+                                  },
                                 );
                               })),
                     ],
