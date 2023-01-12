@@ -1,20 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jitd_client/src/screens/HomePage.dart';
-import 'package:jitd_client/src/screens/ProfilePage.dart';
-import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
+import 'package:jitd_client/src/BottomNavigationWidget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
+import 'package:localstorage/localstorage.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
+  String checkCurentUser() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      print(FirebaseAuth.instance.currentUser);
+      return "/home";
+    } else {
+      return "/";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final LocalStorage storage = LocalStorage('jitD_storage');
+    // check credential Firebase Authed
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ProfilePage(),
-      // home:
+      initialRoute: checkCurentUser(),
+      routes: {
+        "/": (context) => const SignUp(),
+        "/home": (context) => const BottomNavigationWidget()
+      }, // home:
     );
   }
 }
