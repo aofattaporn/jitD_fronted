@@ -12,14 +12,20 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
-          return Center(
-            child: Center(
-              child: ElevatedButton(onPressed: () {
-                context.read<AuthenticationBloc>().add(SignOut());
-              }, child: const Text("Sign Up")),
-            ),
-          );
-        }
+      return Center(
+        child: Center(
+          child: Column(
+            children: [
+              Text(""),
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<AuthenticationBloc>().add(SignOut());
+                  },
+                  child: const Text("Sign Up")),
+            ],
+          ),
+        ),
       );
+    });
   }
 }

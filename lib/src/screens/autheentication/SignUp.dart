@@ -6,6 +6,9 @@ import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
@@ -64,8 +67,10 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
