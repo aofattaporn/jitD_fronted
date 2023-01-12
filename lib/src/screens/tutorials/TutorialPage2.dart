@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage3.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage5.dart';
+import 'package:rive/rive.dart';
 
 import '../../constant.dart';
 
@@ -39,9 +40,11 @@ class _TutorialPage2State extends State<TutorialPage2> {
                       children: [
                         Container(
                           //color: Colors.green,
+                          height: MediaQuery.of(context).size.height * 0.1,
                         child: const Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                         child: Text("JIT :D", style: TextStyle(color: Colors.white, fontSize: 64, fontWeight: FontWeight.bold)),)),
                         Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
                           width: MediaQuery.of(context).size.width * 0.9,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
@@ -58,14 +61,16 @@ class _TutorialPage2State extends State<TutorialPage2> {
                               ),
                           ),
                         ),
-                        Center(
-                          child: Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: Image.asset(
-                                'assets/images/bear.png',
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height: MediaQuery.of(context).size.width * 0.4,
-                                fit: BoxFit.cover,
+                        Expanded(
+                          child: SizedBox(
+                              // margin: EdgeInsets.only(top: 10),
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: const Expanded(
+                                child: RiveAnimation.asset(
+                                    "assets/images/login_screen_character.riv",
+                                    fit: BoxFit.cover,
+                                    animations: ['idle']),
                               )
                           ),
                         )

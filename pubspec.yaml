@@ -31,10 +31,13 @@ dev_dependencies:
   flutter_cache_manager: ^3.3.0
   equatable: ^2.0.5
   dio: ^4.0.6
+  rive: ^0.9.0
   firebase_auth: ^4.2.4
   firebase_core: ^2.4.1
   google_sign_in: ^5.4.2
   flutter_facebook_auth: ^5.0.7
+  localstorage: ^4.0.0+1
+#  localstorage: ^3.0.6
 
 
 # The following section is specific to Flutter packages.

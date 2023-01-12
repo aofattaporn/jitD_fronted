@@ -10,19 +10,24 @@ import 'package:jitd_client/src/screens/tutorials/TutorialPage5.dart';
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
-
+import 'package:localstorage/localstorage.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
+    final LocalStorage storage = LocalStorage('jitD_storage');
 
-      home: CreatePostPage(),
-
-      // home:
-    );
+    final uid = storage.getItem("uid");
+    if (uid != null) {
+      return MaterialApp(home: Scaffold(body: Center(child: Text(uid.toString()))));
+    } else {
+      return const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SignUp(),
+        // home:
+      );
+    }
   }
 }

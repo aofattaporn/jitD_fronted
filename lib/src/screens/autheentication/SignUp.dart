@@ -31,6 +31,9 @@ class SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    // listData = []
+    // get data backend
+    // listData = [Data]
     emailController = TextEditingController()
       ..addListener(() {
         setState(() {});
@@ -86,7 +89,7 @@ class SignUpState extends State<SignUp> {
 
                   /// Checking BlocListener + Sign Up content
                   BlocListener<AuthenticationBloc, AuthenticationState>(
-                    listener: (BuildContext context, state) {
+                    listener: (context, state) {
                       // Case SignUp Loaded
                       if (state is SignUpLoadedState) {
                         Navigator.push(
@@ -102,7 +105,7 @@ class SignUpState extends State<SignUp> {
                             builder: (context) {
                               return DialogMessage(
                                   title: state.err_msg, desc: state.err_desc);
-                              // return DialogMessage(message: message);
+                              // return DialogMessage(messag: message);
                             });
                       } else {}
                     },
@@ -320,9 +323,7 @@ class SignUpState extends State<SignUp> {
                       "Phone": phoneController?.text
                     };
 
-                    context
-                        .read<AuthenticationBloc>()
-                        .add(SignUpEvent(dataSignIn));
+                    context.read<AuthenticationBloc>().add(SignUpEvent(dataSignIn));
                   }
                 },
                 style: ElevatedButton.styleFrom(

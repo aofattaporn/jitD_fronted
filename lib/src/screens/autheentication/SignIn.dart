@@ -125,48 +125,51 @@ class SignInState extends State<SignIn> {
                   alignment: const AlignmentDirectional(0, -0.40),
                   child: Form(
                     key: _formKey,
-                    child: Stack(
-                      children: [
-                        //   // FORM
-                        Align(
-                          alignment: const AlignmentDirectional(0, -0.36),
-                          child: _formAuth(emailController, false, "Email",
-                              Icons.email, null),
-                        ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.28),
+                      child: Column(
+                        children: [
+                          //  FORM
+                          Align(
+                            child: _formAuth(emailController, false, "Email",
+                                Icons.email, null),
+                          ),
 
-                        Align(
-                            alignment: const AlignmentDirectional(0, -0.20),
-                            child: _formAuth(
-                                passwordController,
-                                !passwordVisibility,
-                                "Password",
-                                Icons.lock,
-                                _suffixIcon())),
-                        Align(
-                          alignment: const AlignmentDirectional(0, 0.05),
-                          child: _buttonSubmit(context),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                          Align(
+                              child: _formAuth(
+                                  passwordController,
+                                  !passwordVisibility,
+                                  "Password",
+                                  Icons.lock,
+                                  _suffixIcon())),
 
-                /// forget password
-                Align(
-                  alignment: const AlignmentDirectional(0.74, -0.08),
-                  child: Text(
-                    'Forgot password ?',
-                    style: GoogleFonts.getFont(
-                      'Lato',
-                      color: const Color(0xFF818181),
-                      fontSize: 14,
+                          /// forget password
+                          Align(
+                            alignment: const AlignmentDirectional(0.74, -0.08),
+                            child: Text(
+                              'Forgot password ?',
+                              style: GoogleFonts.getFont(
+                                'Lato',
+                                color: const Color(0xFF818181),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+
+                          // Button
+                          Align(
+                            alignment: const AlignmentDirectional(0, 0.05),
+                            child: _buttonSubmit(context),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
 
                 /// or text
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.2),
+                  alignment: const AlignmentDirectional(0, 0.3),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -182,7 +185,7 @@ class SignInState extends State<SignIn> {
                 ),
                 Align(
                   // ignore: prefer_const_constructors
-                  alignment: AlignmentDirectional(0, 0.2),
+                  alignment: AlignmentDirectional(0, 0.3),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -190,7 +193,6 @@ class SignInState extends State<SignIn> {
                       color: Colors.white,
                     ),
                     child: const Align(
-                      alignment: AlignmentDirectional(0, 0),
                       child: Text(
                         'or',
                         textAlign: TextAlign.center,
@@ -206,7 +208,7 @@ class SignInState extends State<SignIn> {
 
                 /// Ner Here ?
                 const Align(
-                  alignment: AlignmentDirectional(0.03, 0.3),
+                  alignment: AlignmentDirectional(0.03, 0.38),
                   child: Text(
                     'Sign up using social networks',
                     style: TextStyle(
@@ -217,7 +219,7 @@ class SignInState extends State<SignIn> {
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.45),
+                  alignment: const AlignmentDirectional(0, 0.50),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
