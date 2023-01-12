@@ -6,7 +6,6 @@ import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
@@ -32,6 +31,9 @@ class SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    // listData = []
+    // get data backend
+    // listData = [Data]
     emailController = TextEditingController()
       ..addListener(() {
         setState(() {});
@@ -87,30 +89,26 @@ class SignUpState extends State<SignUp> {
 
                   /// Checking BlocListener + Sign Up content
                   BlocListener<AuthenticationBloc, AuthenticationState>(
-                    listener: (BuildContext context, state) {
+                    listener: (context, state) {
                       // Case SignUp Loaded
                       if (state is SignUpLoadedState) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const TutorialPage1()),
-                            (r) {
-                          return false;
-                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BottomNavigationWidget()),
+                        );
                       } else if (state is SignUpError) {
-                        var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
                         showDialog(
                             context: context,
                             barrierDismissible: false, // user must tap button!
                             builder: (context) {
                               return DialogMessage(
-                                  title: state.err_msg, desc: desc);
-                              // return DialogMessage(message: message);
+                                  title: state.err_msg, desc: state.err_desc);
+                              // return DialogMessage(messag: message);
                             });
                       } else {}
                     },
-
-
                     child: Column(children: [
                       Padding(
                         padding: const EdgeInsetsDirectional.only(top: 160),
@@ -152,16 +150,18 @@ class SignUpState extends State<SignUp> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               //   // FORM
-                              _formAuth(
-                                  emailController, "Email", Icons.email, null),
+                              _formAuth(emailController, false, "Email",
+                                  Icons.email, null),
                               _formAuth(
                                   passwordController,
+                                  !passwordVisibility1,
                                   "Password",
                                   Icons.lock,
                                   _suffixIcon("passwordVisibility1",
                                       passwordVisibility1)),
                               _formAuth(
                                   passwordConfirmController,
+                                  !passwordVisibility2,
                                   "Password Confirm",
                                   Icons.lock,
                                   _suffixIcon("passwordVisibility2",
@@ -218,30 +218,6 @@ class SignUpState extends State<SignUp> {
                               }),
                             ),
                           ),
-
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Column(
-                              children: [
-                                ElevatedButton(
-                                    onPressed: () {
-                                      context
-                                          .read<AuthenticationBloc>()
-                                          .add(SignOut());
-                                    },
-                                    child: Text("SignOut")),
-                                BlocBuilder<AuthenticationBloc,
-                                        AuthenticationState>(
-                                    builder: (BuildContext context, state) {
-                                  if (state is CheckStatusAuthrn) {
-                                    return (Text(state.statueAuth.toString()));
-                                  } else {
-                                    return (Text("no state"));
-                                  }
-                                }),
-                              ],
-                            ),
-                          )
                         ],
                       ))
                     ]),
@@ -347,9 +323,7 @@ class SignUpState extends State<SignUp> {
                       "Phone": phoneController?.text
                     };
 
-                    context
-                        .read<AuthenticationBloc>()
-                        .add(SignUpEvent(dataSignIn));
+                    context.read<AuthenticationBloc>().add(SignUpEvent(dataSignIn));
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -368,8 +342,8 @@ class SignUpState extends State<SignUp> {
         }));
   }
 
-  Padding _formAuth(TextEditingController? controller, String hint,
-      IconData iconData, InkWell? inkwell) {
+  Padding _formAuth(TextEditingController? controller, bool obcuretxt,
+      String hint, IconData iconData, InkWell? inkwell) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
         child: TextFormField(
@@ -398,7 +372,7 @@ class SignUpState extends State<SignUp> {
             return null;
           },
           controller: controller,
-          obscureText: false,
+          obscureText: obcuretxt,
           decoration: InputDecoration(
               isDense: true,
               label: Text(hint, style: const TextStyle(color: textColor3)),
@@ -457,13 +431,16 @@ class SignUpState extends State<SignUp> {
     return InkWell(
       onTap: () => setState(() => {
             if (fag == "passwordVisibility1")
-              {passwordVisibility1 = !passwordVisibility1}
+              {
+                print(passwordVisibility1),
+                passwordVisibility1 = !passwordVisibility1
+              }
             else if (fag == "passwordVisibility2")
               {passwordVisibility2 = !passwordVisibility2}
           }),
-      focusNode: FocusNode(skipTraversal: true),
+      focusNode: FocusNode(skipTraversal: false),
       child: Icon(
-        passwordVisibility == passwordVisibility1
+        fag == "passwordVisibility1"
             ? passwordVisibility1
                 ? Icons.visibility_outlined
                 : Icons.visibility_off_outlined
