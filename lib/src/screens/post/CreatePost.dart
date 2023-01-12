@@ -107,7 +107,11 @@ class CreatePostState extends State<CreatePost> {
 
           // For collapsed panel
           collapsed: GestureDetector(
-            onTap: panelController.open,
+            onTap: () {
+              FocusScope.of(context).requestFocus(_unFocusNode);
+              panelController.open();
+            },
+            // onTap: panelController.open,
             child: Container(
               color: backgroundColor2,
               child: Center(
@@ -131,7 +135,10 @@ class CreatePostState extends State<CreatePost> {
           // This is a Main App
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
+                onTap: () {
+                  FocusScope.of(context).requestFocus(_unFocusNode);
+                  panelController.close();
+                },
               child: Stack(
                 children: [
                   Align(
@@ -253,6 +260,7 @@ class CreatePostState extends State<CreatePost> {
                                     MediaQuery.of(context).size.height * 0.4,
                                 child: Scrollbar(
                                   child: TextFormField(
+                                    onTap: () => panelController.close(),
                                     controller: textController,
                                     obscureText: false,
                                     decoration: InputDecoration(

@@ -25,6 +25,13 @@ class ViewPost extends StatefulWidget {
 class ViewPostState extends State<ViewPost> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController? commentController;
+
+  @override
+  void initState() {
+    super.initState();
+    commentController = TextEditingController();
+  }
 
   @override
   void dispose() {
@@ -34,239 +41,400 @@ class ViewPostState extends State<ViewPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/background_post.png'),
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        key: scaffoldKey,
-        body: SafeArea(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
-            child: Padding(
-              padding: const EdgeInsetsDirectional.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
+    return Scaffold(
+      key: scaffoldKey,
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
+          child: Stack(children: [
+            SingleChildScrollView(
+              child: Stack(
                 children: [
-                  // Section-Header
-                  Row(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.115,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new,
-                            color: textColor3,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.035),
-                  Row(children: [
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.0425,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: secondaryColor),
-                        child: Center(
-                            child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              10, 0, 10, 0),
-                          child: Text(
-                            "โพสหมายเลข 124343232",
-                            style: GoogleFonts.getFont("Sarabun",
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )))
-                  ]),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-                  // Section-PostDetail
                   Container(
-                    decoration:
-                        const BoxDecoration(
-                            color: Colors.white, 
-                            borderRadius: BorderRadiusDirectional.all(Radius.circular(10)),
-                            boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        color: Color.fromRGBO(170, 212, 204, 0.8),
-                        offset: Offset(0, 4),
-                      )
-                    ]),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(20, 5, 20, 10),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      decoration: const BoxDecoration(
+                          color: primaryColorSubtle,
+                          borderRadius: BorderRadiusDirectional.vertical(
+                              bottom: Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              color: Color.fromRGBO(0, 0, 0, 0.1),
+                              offset: Offset(0, 4),
+                            )
+                          ]),
+                      child: Align(
+                          alignment: const AlignmentDirectional(0.675, -0.875),
+                          child: Image.asset(
+                              'assets/images/background_post.png'))),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.all(20),
+                    child: SingleChildScrollView(
                       child: Column(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "23 Nov 2022",
-                                style: GoogleFonts.getFont("Lato",
-                                    fontSize: 16, color: textColor3),
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.more_horiz,
-                                    color: textColor3,
-                                    size: 30,
-                                  ))
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "ผู้ใช้ STOXX",
-                                style: GoogleFonts.getFont("Sarabun",
-                                    color: textColor3, fontSize: 12),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-
-                          // Section-Content
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  widget.content,
-                                  style: GoogleFonts.getFont("Sarabun",
-                                      fontSize: 16, color: textColor2),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1000,
-                                  softWrap: false,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.02),
-
-                          // Section-Tag ---------------------------------------------------
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.035,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: widget.tag.length,
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.02);
-                              },
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      color: secondaryColor),
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              10, 5, 10, 5),
-                                      child: Text(
-                                        widget.tag[index],
-                                        style: GoogleFonts.getFont(
-                                            "Sarabun",
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      )),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.02),
-
-                          // Section-Comments ----------------------------------------------
+                          // Section-Header
                           Row(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.6,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.115,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Colors.white),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: textColor3,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.035),
+                          Row(children: [
+                            Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.03,
+                                    MediaQuery.of(context).size.height * 0.0425,
                                 decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5)),
-                                    color: primaryColor),
+                                    color: secondaryColor),
                                 child: Center(
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text:
-                                              widget.comment?.length.toString(),
-                                          style: GoogleFonts.getFont('Lato',
-                                              fontSize: 16,
-                                              color: Colors.white)),
-                                      const TextSpan(text: '  '),
-                                      const WidgetSpan(
-                                          child: Icon(
-                                        Icons.chat,
-                                        size: 16,
+                                    child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      10, 0, 10, 0),
+                                  child: Text(
+                                    "โพสหมายเลข 124343232",
+                                    style: GoogleFonts.getFont("Bai Jamjuree",
+                                        fontSize: 12,
                                         color: Colors.white,
-                                      ))
-                                    ]),
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                ),
-                              ),
+                                )))
+                          ]),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
 
-                              // Section-Like
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.175,
-                                child: Center(
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: widget.like,
-                                          style: GoogleFonts.getFont('Lato',
-                                              fontSize: 18, color: textColor2)),
-                                      const TextSpan(text: ' '),
-                                      const WidgetSpan(
-                                          child: Icon(
-                                        Icons.favorite,
-                                        color: Colors.black12,
-                                        size: 22,
-                                      ))
-                                    ]),
+                          // Section-PostDetail
+                          Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadiusDirectional.all(
+                                    Radius.circular(10)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 10,
+                                    color: Color.fromRGBO(170, 212, 204, 0.8),
+                                    offset: Offset(0, 4),
+                                  )
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  20, 5, 20, 10),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "23 Nov 2022",
+                                        style: GoogleFonts.getFont("Lato",
+                                            fontSize: 16, color: textColor3),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            Icons.more_horiz,
+                                            color: textColor3,
+                                            size: 30,
+                                          ))
+                                    ],
                                   ),
-                                ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "ผู้ใช้ STOXX",
+                                        style: GoogleFonts.getFont(
+                                            "Bai Jamjuree",
+                                            color: textColor3,
+                                            fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.025,
+                                  ),
+
+                                  // Section-Content
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          widget.content,
+                                          style: GoogleFonts.getFont(
+                                              "Bai Jamjuree",
+                                              fontSize: 16,
+                                              color: textColor2),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1000,
+                                          softWrap: false,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.03),
+
+                                  // Section-Tag ---------------------------------------------------
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.035,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: widget.tag.length,
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02);
+                                      },
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              color: secondaryColor),
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(10, 5, 10, 5),
+                                              child: Text(
+                                                widget.tag[index],
+                                                style: GoogleFonts.getFont(
+                                                    "Bai Jamjuree",
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              )),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015),
+
+                                  // Section-Comments ----------------------------------------------
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.2,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.04,
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15)),
+                                            color: secondaryColor),
+                                        child: Center(
+                                          child: RichText(
+                                            text: TextSpan(children: [
+                                              TextSpan(
+                                                  text: 'Chat',
+                                                  style: GoogleFonts.getFont(
+                                                      'Lato',
+                                                      fontSize: 16,
+                                                      color: Colors.white)),
+                                              const TextSpan(text: '  '),
+                                              const WidgetSpan(
+                                                  child: Icon(
+                                                Icons.wechat,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ))
+                                            ]),
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Section-Like
+                                      SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.02),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.175,
+                                        child: Center(
+                                          child: RichText(
+                                            text: TextSpan(children: [
+                                              TextSpan(
+                                                  text: widget.like,
+                                                  style: GoogleFonts.getFont(
+                                                      'Lato',
+                                                      fontSize: 18,
+                                                      color: textColor2)),
+                                              const TextSpan(text: ' '),
+                                              const WidgetSpan(
+                                                  child: Icon(
+                                                Icons.favorite,
+                                                color: Colors.black12,
+                                                size: 22,
+                                              ))
+                                            ]),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+
+                          // Section-Comment
+                          Column(
+                            children: [
+                              // Sorter
+                              Row(
+                                children: [
+                                  Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.04,
+                                      decoration: const BoxDecoration(
+                                          color: thirterydColor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Center(
+                                        child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                                text: " เรียงตามความใหม่ ",
+                                                style: GoogleFonts.getFont(
+                                                    'Bai Jamjuree',
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            const WidgetSpan(
+                                              child: Icon(
+                                                Icons.arrow_drop_down,
+                                                size: 18,
+                                                color: backgroundColor3,
+                                              ),
+                                            ),
+                                          ]),
+                                        ),
+                                      ))
+                                ],
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.03),
+
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.15,
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        color: Colors.green,
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                    0.85 -
+                                                40,
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        color: Colors.grey,
+                                        child: ListView(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               )
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
-
-                  // Section-Comment
-                  Container(),
                 ],
               ),
             ),
-          ),
+
+            // BottomContainer
+            Positioned(
+                bottom: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: primaryColor,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              color: Color.fromRGBO(170, 212, 204, 0.4),
+                              offset: Offset(0, 4),
+                            )
+                          ]
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "เขียนความคิดเห็น",
+                            hintStyle: GoogleFonts.getFont("Bai Jamjuree", color: textColor3)
+                          ),
+                          minLines: 1,
+                          maxLines: 5,
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
+          ]),
         ),
       ),
     );
