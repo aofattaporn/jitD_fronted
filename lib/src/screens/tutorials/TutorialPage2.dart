@@ -95,7 +95,7 @@ class _TutorialPage2State extends State<TutorialPage2> {
                                       // color: Colors.amber,
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.25,
+                                              0.23,
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
                                       child: const RiveAnimation.asset(
@@ -129,7 +129,7 @@ class _TutorialPage2State extends State<TutorialPage2> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
-                            color: Colors.grey,
+                            color: Colors.transparent,
                             width: 3,
                           )),
                       filled: true,
@@ -147,13 +147,13 @@ class _TutorialPage2State extends State<TutorialPage2> {
                   children: [
                     // cucle 1
                     _curcle_page(thirterydColor),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // cucle 1
                     _curcle_page(thirterydColor),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // cucle 1
                     _curcle_page(Colors.white70),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // cucle 1
                     _curcle_page(Colors.white70),
                   ],
