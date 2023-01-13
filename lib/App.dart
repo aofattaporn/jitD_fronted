@@ -4,7 +4,7 @@ import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -20,15 +20,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LocalStorage storage = LocalStorage('jitD_storage');
-    // check credential Firebase Authed
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),
       routes: {
-        "/": (context) => const SignUp(),
-        "/home": (context) => const BottomNavigationWidget()
+        "/": (context) => const TutorialPage1(),
+        "/home": (context) => const TutorialPage1()
       }, // home:
     );
   }

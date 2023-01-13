@@ -6,9 +6,7 @@ import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-
+import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
@@ -67,10 +65,8 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
@@ -97,12 +93,13 @@ class SignUpState extends State<SignUp> {
                     listener: (context, state) {
                       // Case SignUp Loaded
                       if (state is SignUpLoadedState) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const BottomNavigationWidget()),
-                        );
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => const TutorialPage1()),
+                            (r) {
+                          return false;
+                        });
                       } else if (state is SignUpError) {
                         showDialog(
                             context: context,
@@ -328,7 +325,9 @@ class SignUpState extends State<SignUp> {
                       "Phone": phoneController?.text
                     };
 
-                    context.read<AuthenticationBloc>().add(SignUpEvent(dataSignIn));
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(SignUpEvent(dataSignIn));
                   }
                 },
                 style: ElevatedButton.styleFrom(

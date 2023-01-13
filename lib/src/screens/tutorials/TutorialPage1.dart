@@ -143,19 +143,19 @@ class _TutorialPage1State extends State<TutorialPage1> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const TutorialPage2()),
                       );
                     },
-                    child: Text("ถัดไป",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                         primary: thirterydColor,
                         minimumSize: const Size(100, 40),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5))
                         // fixedSize: Size.fromHeight(30)
-                        ))),
+                        ),
+                    child:  const Text("ถัดไป",
+                        style: TextStyle(fontWeight: FontWeight.bold)))),
           ),
         ],
       )),
