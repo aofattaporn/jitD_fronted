@@ -20,14 +20,14 @@ class _TutorialPage3State extends State<TutorialPage3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: primaryColorSubtle,
           elevation: 0,
         ),
         backgroundColor: secondaryColor,
         body: SafeArea(
-          child: Stack(
+          child: Column(
             children: [
               /// top-content
               Container(
@@ -39,11 +39,10 @@ class _TutorialPage3State extends State<TutorialPage3> {
                     color: primaryColorSubtle),
                 child: Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       /// JIT:D label
                       SizedBox(
-                          //color: Colors.green,
+                        //color: Colors.green,
                           height: MediaQuery.of(context).size.height * 0.1,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
@@ -55,109 +54,101 @@ class _TutorialPage3State extends State<TutorialPage3> {
                                     fontWeight: FontWeight.bold)),
                           )),
 
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            /// content backgrround
-                            Align(
-                                alignment: const Alignment(1, -0.8),
-                                child: Image.asset(
-                                    "assets/images/bgInStackPic1.png",
-                                height: MediaQuery.of(context).size.height * 0.2)),
-                            Align(
-                                alignment: const Alignment(1, 0.8),
-                                child: Image.asset(
-                                    "assets/images/bgInStackPic1.png",height: MediaQuery.of(context).size.height * 0.2)),
-
-                            /// Bear
-                            Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                      // color: Colors.amber,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.23,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6,
-                                      child: const RiveAnimation.asset(
-                                          "assets/images/login_screen_character.riv",
-                                          fit: BoxFit.cover,
-                                          animations: ['idle'])),
-                                ],
-                              ),
-                            )
-                          ],
+                      /// Box content
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 65),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: const TextSpan(
+                                text:
+                                "สวัสดีคนที่น่ารัก ยินดีต้อนรับครับ!!!เราเป็น สัตว์เลี้ยงของคุณ ที่จะอยู่เคียงข้างคุณตราบนานแสนนานวันนี้เจอปัญหามาหนักมากใช่ไหม มาระบายกับเราสิเราสัญญาว่าจะฟังอย่างตั้งใจเลยอยากเล่าให้เราฟังแล้วใช่ไหมล่ะ แต่มากอดก่อนเล่าเร็ว",
+                                style:
+                                TextStyle(fontSize: 16, color: textColor1)),
+                          ),
                         ),
                       ),
+
+                      /// Pet Riv
+                      Expanded(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: const RiveAnimation.asset(
+                              "assets/images/login_screen_character.riv",
+                              fit: BoxFit.cover,
+                              animations: const ['idle']),
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 0,
-                    horizontal: MediaQuery.of(context).size.width * 0.1),
-                child: Align(
-                  alignment: const AlignmentDirectional(-0.65, 0.2),
-                  child: Container(
-                    margin: EdgeInsets.only(top: 220),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: const TextSpan(
-                          text:
-                              "ตอนนี้คุณเครียดอยู่ใช่ไหม? มาระบายกับเราสิ มีผู้รับฟังมากมายที่เข้าใจ แล้วช่วยคุณได้นะ อย่างน้อยๆ มันช่วยให้ยิ้มได้นะ ",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500)),
-                    ),
-                  ),
-                ),
-              ),
-
-              Align(
-                alignment: const Alignment(0, 0.65),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              /// bottom-content
+              Center(
+                child: Column(
                   children: [
-                    // cucle 1
-                    _curcle_page(thirterydColor),
-                    const SizedBox(width: 10),
-                    // cucle 1
-                    _curcle_page(thirterydColor),
-                    const SizedBox(width: 10),
-                    // cucle 1
-                    _curcle_page(thirterydColor),
-                    const SizedBox(width: 10),
-                    // cucle 1
-                    _curcle_page(Colors.white70),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+
+                    Center(
+                      child: Align(
+                          alignment: AlignmentDirectional(0.5, 0.6),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // cucle 1
+                              _curcle_page(thirterydColor),
+                              SizedBox(width: 10),
+                              // cucle 1
+                              _curcle_page(thirterydColor),
+                              SizedBox(width: 10),
+                              // cucle 1
+                              _curcle_page(Colors.white70),
+                              SizedBox(width: 10),
+                              // cucle 1
+                              _curcle_page(Colors.white70),
+                            ],
+                          )),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+
+                    // stack 4 on bottom
+                    Center(
+                      child: Align(
+                          alignment: AlignmentDirectional(0, 0.8),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                      const TutorialPage3()),
+                                );
+                              },
+                              child: Text("ถัดไป",
+                                  style:
+                                  TextStyle(fontWeight: FontWeight.bold)),
+                              style: ElevatedButton.styleFrom(
+                                  primary: thirterydColor,
+                                  minimumSize: const Size(100, 40),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5))
+                                // fixedSize: Size.fromHeight(30)
+                              ))),
+                    ),
                   ],
                 ),
-              ),
-
-              Align(
-                alignment: const Alignment(0, 0.85),
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const TutorialPage4()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: thirterydColor,
-                        minimumSize: const Size(100, 40),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5))
-                        // fixedSize: Size.fromHeight(30)
-                        ),
-                    child: const Text("ถัดไป",
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-              ),
+              )
             ],
           ),
         ));
