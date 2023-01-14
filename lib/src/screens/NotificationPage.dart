@@ -15,6 +15,7 @@ class NotificationPage extends StatelessWidget {
       return Center(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(""),
               ElevatedButton(

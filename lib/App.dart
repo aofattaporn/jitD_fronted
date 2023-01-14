@@ -25,8 +25,8 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),
       routes: {
-        "/": (context) => const TutorialPage1(),
-        "/home": (context) => const TutorialPage1()
+        "/": (context) => const SignUp(),
+        "/home": (context) => const BottomNavigationWidget()
       }, // home:
     );
   }
