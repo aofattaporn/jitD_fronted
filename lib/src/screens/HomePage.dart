@@ -1,12 +1,10 @@
 import 'dart:ffi';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:rive/rive.dart';
-
 
 import '../blocs/counter/counter_bloc.dart';
 import '../blocs/counter/counter_event.dart';
@@ -156,11 +154,11 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(
-                child: const RiveAnimation.asset(
+            const Expanded(
+                child: RiveAnimation.asset(
                     "assets/images/login_screen_character.riv",
                     fit: BoxFit.cover,
-                    animations: const ['idle']))
+                    animations: ['idle']))
           ],
         ),
       ),
