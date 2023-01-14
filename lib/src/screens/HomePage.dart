@@ -52,6 +52,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
+
+            //  plan to create button chat
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.end,
             //   children: [
@@ -63,6 +65,7 @@ class HomePage extends StatelessWidget {
             //     )
             //   ],
             // ),
+
             Expanded(
               child: ListView.builder(
                   itemCount: 6,
