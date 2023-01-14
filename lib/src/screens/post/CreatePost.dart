@@ -12,10 +12,6 @@ class CreatePost extends StatefulWidget {
 }
 
 class CreatePostState extends State<CreatePost> {
-  List<String> privacyDropdown = ['สาธารณะ', 'ส่วนตัว'];
-  List<String> chatDropdown = ['เปิด', 'ปิด'];
-  String? selectPrivacyDropdown = 'สาธารณะ';
-  String? selectChatDropdown = 'เปิด';
 
   TextEditingController? textController;
   final _unFocusNode = FocusNode();
@@ -47,7 +43,7 @@ class CreatePostState extends State<CreatePost> {
           // defaultPanelState: PanelState.OPEN,
           controller: panelController,
           color: Colors.transparent,
-          maxHeight: MediaQuery.of(context).size.height * 0.37,
+          maxHeight: MediaQuery.of(context).size.height * 0.325,
           minHeight: MediaQuery.of(context).size.height * 0.1,
           // For Open Panel
           panel: Container(
@@ -59,47 +55,80 @@ class CreatePostState extends State<CreatePost> {
               ),
               child: Column(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.025,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.025,
+                  ),
                   buildDragHandle(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.085,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RichText(
-                        text: TextSpan(children: [
-                          const WidgetSpan(
-                              child: Icon(
-                                Icons.lock,
-                                size: 19,
-                                color: textColor3,
-                              )),
-                          TextSpan(
-                              text: "แก้ไขคำที่ต้องการบล็อค",
-                              style: GoogleFonts.getFont(
-                                'Bai Jamjuree',
-                                color: textColor3,
-                                fontSize: 16
-                              ))
-                        ]),
-                      ),
-                    ],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RichText(
-                        text: const TextSpan(children: [
-                          WidgetSpan(
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                                  offset: Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadiusDirectional.all(
+                                  Radius.circular(10))),
+                          child: const Padding(
+                              padding: EdgeInsetsDirectional.all(8),
                               child: Icon(
-                                Icons.person_search,
-                                size: 19,
-                                color: textColor3,
+                                Icons.lock,
+                                size: 28,
+                                color: textColor2,
                               )),
-                          TextSpan(
-                              text: "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพสได้",
-                              style: TextStyle(color: textColor3, fontSize: 18))
-                        ]),
+                        ),
                       ),
+                      Text(
+                        "แก้ไขคำที่ต้องการบล็อค",
+                        style:
+                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                                  offset: Offset(0, 4),
+                                )
+                              ],
+                              borderRadius: BorderRadiusDirectional.all(
+                                  Radius.circular(10))),
+                          child: const Padding(
+                              padding: EdgeInsetsDirectional.all(8),
+                              child: Icon(
+                                Icons.person_add,
+                                size: 28,
+                                color: textColor2,
+                              )),
+                        ),
+                      ),
+                      Text(
+                        "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพส",
+                        style:
+                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                      )
                     ],
                   )
                 ],
@@ -125,7 +154,8 @@ class CreatePostState extends State<CreatePost> {
                     )),
                     TextSpan(
                         text: "ตั้งค่าโพสเพิ่มเติม",
-                        style: GoogleFonts.getFont("Bai Jamjuree", fontSize: 18, color: textColor3))
+                        style: GoogleFonts.getFont("Bai Jamjuree",
+                            fontSize: 18, color: textColor3))
                   ]),
                 ),
               ),
@@ -135,10 +165,10 @@ class CreatePostState extends State<CreatePost> {
           // This is a Main App
           body: SafeArea(
             child: GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).requestFocus(_unFocusNode);
-                  panelController.close();
-                },
+              onTap: () {
+                FocusScope.of(context).requestFocus(_unFocusNode);
+                panelController.close();
+              },
               child: Stack(
                 children: [
                   Align(
@@ -159,26 +189,36 @@ class CreatePostState extends State<CreatePost> {
                           children: [
                             Align(
                               alignment: const AlignmentDirectional(1, -0.95),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                    textStyle: const TextStyle(fontSize: 16),
-                                    padding: const EdgeInsets.fromLTRB(
-                                        32, 10, 32, 10),
-                                    backgroundColor: thirterydColor,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(40)),
-                                    )),
-                                child: const Text("โพส"),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(onPressed: (){},
+                                      icon: const Icon(Icons.cancel_rounded, size: 40, color: textColor2,)),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        textStyle: const TextStyle(fontSize: 16),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            32, 0, 32, 0),
+                                        backgroundColor: thirterydColor,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.all(Radius.circular(40)),
+                                        )),
+                                    child: Text(
+                                      "โพส",
+                                      style: GoogleFonts.getFont("Bai Jamjuree",
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Align(
                               alignment: const AlignmentDirectional(0, -0.75),
                               child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     width: MediaQuery.of(context).size.width *
@@ -202,8 +242,8 @@ class CreatePostState extends State<CreatePost> {
                                     ),
                                   ),
                                   Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.325,
                                     height: MediaQuery.of(context).size.height *
                                         0.04,
                                     padding: const EdgeInsets.symmetric(
@@ -212,52 +252,41 @@ class CreatePostState extends State<CreatePost> {
                                       color: secondaryColor,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: DropdownButtonFormField<String>(
-                                      decoration: const InputDecoration(
-                                        enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: secondaryColor)),
-                                        focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: secondaryColor)),
-                                        errorBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: secondaryColor)),
-                                        focusedErrorBorder:
-                                            UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: secondaryColor)),
+                                    child: Center(
+                                      child: RichText(
+                                        text: TextSpan(children: [
+                                          const WidgetSpan(
+                                              child: Icon(
+                                            Icons.public,
+                                            size: 16,
+                                            color: Colors.white,
+                                          )),
+                                          TextSpan(
+                                              text: '  สาธารณะ',
+                                              style: GoogleFonts.getFont(
+                                                  'Bai Jamjuree',
+                                                  fontSize: 14,
+                                                  color: Colors.white)),
+                                          const TextSpan(text: '  '),
+                                          const WidgetSpan(
+                                              child: Icon(
+                                            Icons.arrow_drop_down,
+                                            size: 18,
+                                            color: Colors.white,
+                                          ))
+                                        ]),
                                       ),
-                                      dropdownColor: secondaryColor,
-                                      icon: const Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.white, // <-- SEE HERE
-                                      ),
-                                      value: selectPrivacyDropdown,
-                                      items: privacyDropdown
-                                          .map((item) =>
-                                              DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(item,
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white)),
-                                              ))
-                                          .toList(),
-                                      onChanged: (item) => setState(() {
-                                        selectPrivacyDropdown = item;
-                                      }),
                                     ),
                                   )
                                 ],
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(0, -0.3),
+                              alignment: const AlignmentDirectional(0, -0.45),
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height:
-                                    MediaQuery.of(context).size.height * 0.4,
+                                    MediaQuery.of(context).size.height * 0.28,
                                 child: Scrollbar(
                                   child: TextFormField(
                                     onTap: () => panelController.close(),
@@ -267,8 +296,10 @@ class CreatePostState extends State<CreatePost> {
                                       hintText: 'มีอะไรอยากจะบอกบ้าง',
                                       hintStyle:
                                           const TextStyle(color: textColor3),
-                                      enabledBorder: buildUnderlineInputBorder(),
-                                      focusedBorder: buildUnderlineInputBorder(),
+                                      enabledBorder:
+                                          buildUnderlineInputBorder(),
+                                      focusedBorder:
+                                          buildUnderlineInputBorder(),
                                       errorBorder: buildUnderlineInputBorder(),
                                       focusedErrorBorder:
                                           buildUnderlineInputBorder(),
@@ -279,7 +310,7 @@ class CreatePostState extends State<CreatePost> {
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(0, 0.5),
+                              alignment: const AlignmentDirectional(0, 0.175),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -323,7 +354,7 @@ class CreatePostState extends State<CreatePost> {
                                   Expanded(
                                     child: Align(
                                       alignment:
-                                          const AlignmentDirectional(0, 0.65),
+                                          const AlignmentDirectional(0, 0.325),
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -333,8 +364,12 @@ class CreatePostState extends State<CreatePost> {
                                         decoration: const BoxDecoration(
                                           color: Color(0xFFF8FAFA),
                                         ),
-                                        child: Stack(
-                                          children: [],
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                                            Text("กรุณาระบุประเภทของโพส", style: GoogleFonts.getFont("Bai Jamjuree",
+                                            color: textColor3),)
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -363,18 +398,17 @@ class CreatePostState extends State<CreatePost> {
     );
   }
 
-  Widget buildDragHandle() => GestureDetector(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: MediaQuery.of(context).size.height * 0.01,
-              decoration: BoxDecoration(
-                  color: textColor3, borderRadius: BorderRadius.circular(15)),
-            ),
-          ],
+  Widget buildDragHandle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.height * 0.01,
+          decoration: BoxDecoration(
+              color: textColor3, borderRadius: BorderRadius.circular(15)),
         ),
-        onTap: () {},
-      );
+      ],
+    );
+  }
 }
