@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 
 import '../../constant.dart';
 
@@ -13,7 +13,7 @@ class BlockWords extends StatefulWidget {
 }
 
 class BlockWordsState extends State<BlockWords> {
-//  final panelController = PanelController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -112,3 +112,4 @@ class BlockWordsState extends State<BlockWords> {
     );
   }
 }
+
