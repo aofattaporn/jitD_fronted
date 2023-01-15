@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
 
+import 'package:jitd_client/src/data/models/cat_model.dart';
 import '../blocs/counter/counter_bloc.dart';
 import '../blocs/counter/counter_event.dart';
 
@@ -38,7 +39,9 @@ class HomePage extends StatelessWidget {
                 ),
                 height: MediaQuery.of(context).size.height * 0.1,
                 width: MediaQuery.of(context).size.width * 0.7,
-                padding: EdgeInsets.symmetric(vertical: 19, horizontal: 30),
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.02,
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
                 child: const Text(
                   "JIT :D",
                   style: TextStyle(
@@ -49,6 +52,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
+
+            //  plan to create button chat
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.end,
             //   children: [
@@ -61,93 +66,13 @@ class HomePage extends StatelessWidget {
             //   ],
             // ),
 
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 110, left: 20),
-                    margin: EdgeInsets.all(2),
-                    child: ElevatedButton(
-                      child: Text('การงาน'),
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: primaryColor,
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 110, left: 10),
-                    margin: EdgeInsets.all(2),
-                    child: ElevatedButton(
-                      child: Text('การงาน'),
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: primaryColor,
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 110, left: 10),
-                    margin: EdgeInsets.all(2),
-                    child: ElevatedButton(
-                      child: Text('การงาน'),
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: primaryColor,
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 110, left: 10),
-                    margin: EdgeInsets.all(2),
-                    child: ElevatedButton(
-                      child: Text('การงาน'),
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: primaryColor,
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: 6,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context,index){
+                return Category();
+              }),
             ),
           ],
         ),

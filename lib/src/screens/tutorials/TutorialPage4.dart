@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage3.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage5.dart';
 import 'package:rive/rive.dart';
+
+import 'package:jitd_client/src/screens/tutorials/TutorialPage5.dart';
 
 import '../../constant.dart';
 
-class TutorialPage2 extends StatefulWidget {
-  const TutorialPage2({Key? key}) : super(key: key);
+class TutorialPage4 extends StatefulWidget {
+  const TutorialPage4({Key? key}) : super(key: key);
 
   @override
-  State<TutorialPage2> createState() => _TutorialPage2State();
+  State<TutorialPage4> createState() => _TutorialPage4State();
 }
 
-class _TutorialPage2State extends State<TutorialPage2> {
+class _TutorialPage4State extends State<TutorialPage4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +40,7 @@ class _TutorialPage2State extends State<TutorialPage2> {
                     children: [
                       /// JIT:D label
                       SizedBox(
-                          //color: Colors.green,
+                        //color: Colors.green,
                           height: MediaQuery.of(context).size.height * 0.1,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
@@ -57,33 +57,8 @@ class _TutorialPage2State extends State<TutorialPage2> {
                           children: [
                             /// content backgrround
                             Align(
-                              alignment: const Alignment(0, -0.8),
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.height *
-                                            0.03),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height *
-                                              0.02,
-                                      horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.05),
-                                  child: RichText(
-                                    textAlign: TextAlign.center,
-                                    text: const TextSpan(
-                                        text:
-                                            "สวัสดีคนที่น่ารัก ยินดีต้อนรับครับ!!!เราเป็น สัตว์เลี้ยงของคุณ ที่จะอยู่เคียงข้างคุณตราบนานแสนนานวันนี้เจอปัญหามาหนักมากใช่ไหม มาระบายกับเราสิเราสัญญาว่าจะฟังอย่างตั้งใจเลยอยากเล่าให้เราฟังแล้วใช่ไหมล่ะ แต่มากอดก่อนเล่าเร็ว",
-                                        style: TextStyle(
-                                            fontSize: 16, color: textColor1)),
-                                  ),
-                                ),
-                              ),
+                                alignment: const Alignment(0, -0.8),
+                                child: Image.asset("assets/images/bgInStackPic2.png", height: MediaQuery.of(context).size.height * 0.35)
                             ),
 
                             /// Bear
@@ -92,10 +67,10 @@ class _TutorialPage2State extends State<TutorialPage2> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   SizedBox(
-                                      // color: Colors.amber,
+                                    // color: Colors.amber,
                                       height:
-                                          MediaQuery.of(context).size.height *
-                                              0.23,
+                                      MediaQuery.of(context).size.height *
+                                          0.23,
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
                                       child: const RiveAnimation.asset(
@@ -113,28 +88,18 @@ class _TutorialPage2State extends State<TutorialPage2> {
                 ),
               ),
 
-              const Align(
-                alignment: Alignment(0, 0.35),
-                child: Text("ตั้งชื่อผมน่ารักๆ เท่ากับตัวคุณเลยนะ :)"),
-              ),
-
-              Align(
-                alignment: const Alignment(0, 0.55),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.02,
-                      horizontal: MediaQuery.of(context).size.width * 0.08),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 3,
-                          )),
-                      filled: true,
-                      fillColor: Colors.white,
-                      //contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: MediaQuery.of(context).size.width * 0.1),
+                child: Align(
+                  alignment: const AlignmentDirectional(-0.65, 0.2),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 220),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                          text: "หลังจากหายเครียดแล้วเรามาเป็นผู้ให้กันเถอะ ให้รอยยิ้ม วิธีการแก้จากตัวเราคอมเม้นท์ช่วยคนอื่นกันเป็นผู้ให้ ก็สุขใจและยิ่งใหญ่นะ",
+                          style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500)
+                      ),
                     ),
                   ),
                 ),
@@ -152,10 +117,10 @@ class _TutorialPage2State extends State<TutorialPage2> {
                     _curcle_page(thirterydColor),
                     const SizedBox(width: 10),
                     // cucle 1
-                    _curcle_page(Colors.white70),
+                    _curcle_page(thirterydColor),
                     const SizedBox(width: 10),
                     // cucle 1
-                    _curcle_page(Colors.white70),
+                    _curcle_page(thirterydColor),
                   ],
                 ),
               ),
@@ -167,7 +132,7 @@ class _TutorialPage2State extends State<TutorialPage2> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => const TutorialPage3()),
+                            builder: (context) => const TutorialPage5()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -175,8 +140,8 @@ class _TutorialPage2State extends State<TutorialPage2> {
                         minimumSize: const Size(100, 40),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5))
-                        // fixedSize: Size.fromHeight(30)
-                        ),
+                      // fixedSize: Size.fromHeight(30)
+                    ),
                     child: const Text("ถัดไป",
                         style: TextStyle(fontWeight: FontWeight.bold))),
               ),
@@ -184,14 +149,12 @@ class _TutorialPage2State extends State<TutorialPage2> {
           ),
         ));
   }
-
-  /// curcle-page
   Container _curcle_page(Color colorData) {
     return Container(
       height: 15,
       width: 15,
       decoration:
-          BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: [
+      BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: [
         BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
       ]),
       // decoration:

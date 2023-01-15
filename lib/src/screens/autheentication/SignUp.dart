@@ -6,6 +6,7 @@ import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
+import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
@@ -31,6 +32,9 @@ class SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    // listData = []
+    // get data backend
+    // listData = [Data]
     emailController = TextEditingController()
       ..addListener(() {
         setState(() {});
@@ -61,8 +65,10 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
@@ -86,15 +92,16 @@ class SignUpState extends State<SignUp> {
 
                   /// Checking BlocListener + Sign Up content
                   BlocListener<AuthenticationBloc, AuthenticationState>(
-                    listener: (BuildContext context, state) {
+                    listener: (context, state) {
                       // Case SignUp Loaded
                       if (state is SignUpLoadedState) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const BottomNavigationWidget()),
-                        );
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => const TutorialPage1()),
+                            (r) {
+                          return false;
+                        });
                       } else if (state is SignUpError) {
                         showDialog(
                             context: context,
@@ -102,7 +109,7 @@ class SignUpState extends State<SignUp> {
                             builder: (context) {
                               return DialogMessage(
                                   title: state.err_msg, desc: state.err_desc);
-                              // return DialogMessage(message: message);
+                              // return DialogMessage(messag: message);
                             });
                       } else {}
                     },

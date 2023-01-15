@@ -1,19 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage3.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage5.dart';
+import 'package:jitd_client/src/BottomNavigationWidget.dart';
+import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
+import 'package:jitd_client/src/screens/tutorials/TutorialPage2.dart';
 import 'package:rive/rive.dart';
 
 import '../../constant.dart';
 
-class TutorialPage2 extends StatefulWidget {
-  const TutorialPage2({Key? key}) : super(key: key);
+class TutorialPage5 extends StatefulWidget {
+  const TutorialPage5({Key? key}) : super(key: key);
 
   @override
-  State<TutorialPage2> createState() => _TutorialPage2State();
+  State<TutorialPage5> createState() => _TutorialPage5State();
 }
 
-class _TutorialPage2State extends State<TutorialPage2> {
+class _TutorialPage5State extends State<TutorialPage5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +79,7 @@ class _TutorialPage2State extends State<TutorialPage2> {
                                     textAlign: TextAlign.center,
                                     text: const TextSpan(
                                         text:
-                                            "สวัสดีคนที่น่ารัก ยินดีต้อนรับครับ!!!เราเป็น สัตว์เลี้ยงของคุณ ที่จะอยู่เคียงข้างคุณตราบนานแสนนานวันนี้เจอปัญหามาหนักมากใช่ไหม มาระบายกับเราสิเราสัญญาว่าจะฟังอย่างตั้งใจเลยอยากเล่าให้เราฟังแล้วใช่ไหมล่ะ แต่มากอดก่อนเล่าเร็ว",
+                                            "สุดท้ายแล้ว เย้ มาทำแบบทดสอบกัน คือทดสอบที่ปรึกษา มาลองทำด้วยกันนะ ไม่ต้องเครียดด้วย ทำตามที่เป็นจริงๆนะคนเก่งของผมระดับผู้ให้คำปรึกษาสูง ก็จะสามารถมองเห็นโพสได้มากยิ่งขึ้น",
                                         style: TextStyle(
                                             fontSize: 16, color: textColor1)),
                                   ),
@@ -113,61 +114,33 @@ class _TutorialPage2State extends State<TutorialPage2> {
                 ),
               ),
 
-              const Align(
-                alignment: Alignment(0, 0.35),
-                child: Text("ตั้งชื่อผมน่ารักๆ เท่ากับตัวคุณเลยนะ :)"),
-              ),
-
               Align(
-                alignment: const Alignment(0, 0.55),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.02,
-                      horizontal: MediaQuery.of(context).size.width * 0.08),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 3,
-                          )),
-                      filled: true,
-                      fillColor: Colors.white,
-                      //contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                    ),
-                  ),
-                ),
-              ),
-
-              Align(
-                alignment: const Alignment(0, 0.65),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // cucle 1
-                    _curcle_page(thirterydColor),
-                    const SizedBox(width: 10),
-                    // cucle 1
-                    _curcle_page(thirterydColor),
-                    const SizedBox(width: 10),
-                    // cucle 1
-                    _curcle_page(Colors.white70),
-                    const SizedBox(width: 10),
-                    // cucle 1
-                    _curcle_page(Colors.white70),
-                  ],
-                ),
+                alignment: const Alignment(0, 0.6),
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        primary: thirteryColorSubtle,
+                        minimumSize: const Size(100, 40),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5))
+                        // fixedSize: Size.fromHeight(30)
+                        ),
+                    child: const Text("ข้ามเพื่อเริ่มการใช้งาน",
+                        style: TextStyle(fontWeight: FontWeight.bold))),
               ),
 
               Align(
                 alignment: const Alignment(0, 0.85),
                 child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => const TutorialPage3()),
+                          builder: (context) => const BottomNavigationWidget(),
+                        ),
+                        (r) {
+                          return false;
+                        },
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -183,18 +156,5 @@ class _TutorialPage2State extends State<TutorialPage2> {
             ],
           ),
         ));
-  }
-
-  /// curcle-page
-  Container _curcle_page(Color colorData) {
-    return Container(
-      height: 15,
-      width: 15,
-      decoration:
-          BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: [
-        BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
-      ]),
-      // decoration:
-    );
   }
 }

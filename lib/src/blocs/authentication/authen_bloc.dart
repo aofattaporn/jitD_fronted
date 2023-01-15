@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
-import 'package:jitd_client/src/data/models/auth_status.dart';
 import 'package:jitd_client/src/data/respository/auth_provider.dart';
 
 import '../../data/models/auth_model.dart';
@@ -22,16 +21,20 @@ class AuthenticationBloc
       // Password confirm incorrect
       if (authModel.passworld.toString().trim() !=
           authModel.passworldConfirm.toString().trim()) {
-        emit(SignUpError(ErrorAuthenPasswordIncorrect().statusName,
-            ErrorAuthenPasswordIncorrect().statusDesc));
+        String err = "Password confirm incorrect";
+        String desc = "กดเพื่อลองใหม่อีกครั้ง";
+        emit(SignUpError(err, desc));
       } else {
         // signIn with firebase authentication.
-        String? temp = await authRepository.signUp(
-            authModel.email.toString().trim(),
+        String? temp;
+        temp = await authRepository.signUp(authModel.email.toString().trim(),
             authModel.passworld.toString().trim());
+
         // checking data
         if (temp == "The email address is already in use by another account.") {
-          emit(SignUpError(EmailExist().statusDesc, EmailExist().statusName));
+          String err = "Email already existing";
+          String desc = "กดเพื่อลองใหม่อีกครั้ง";
+          emit(SignUpError(err, desc));
         } else {
           // ยิงข้อมูลไปที่ backend
           emit(SignUpLoadedState());
@@ -44,18 +47,10 @@ class AuthenticationBloc
       // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
       // signIn with firebase authentication.
-      String? temp = await authRepository.signIn(
-          authModel.email.toString().trim(),
+      String? temp = await authRepository.signIn(authModel.email.toString().trim(),
           authModel.passworld.toString().trim());
-      if (temp == 'No user found for that email.') {
-        emit(SignUpError(NotFoundUser().statusName, NotFoundUser().statusDesc));
-      } else if (temp == 'Wrong password provided for that user.') {
-        emit(SignUpError(PasswordIncorrect().statusName, PasswordIncorrect().statusDesc));
-      } else {
-        // print(temp);
-        // check case sdignIn
-        emit(SignUpLoadedState());
-      }
+      // check case signIn  
+      emit(SignUpLoadedState());
     });
 
     /// SignIn by google
