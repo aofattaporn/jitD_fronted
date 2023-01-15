@@ -22,6 +22,8 @@ class SignUpError extends AuthenticationState {
   SignUpError(this._err_msg, this._err_desc);
 
   String get err_msg => _err_msg;
+  String get err_desc => _err_desc;
+
 
   @override
   List<Object?> get props => [_err_msg, _err_desc];

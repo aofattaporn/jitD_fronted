@@ -1,24 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
-import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+class SignUpCustom extends StatefulWidget {
+  const SignUpCustom({Key? key}) : super(key: key);
 
   @override
-  SignUpState createState() => SignUpState();
+  SignUpCustomState createState() => SignUpCustomState();
 }
 
-class SignUpState extends State<SignUp> {
+class SignUpCustomState extends State<SignUpCustom> {
   TextEditingController? emailController;
   TextEditingController? passwordController;
   late bool passwordVisibility1;
@@ -32,27 +29,30 @@ class SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
-    // listData = []
-    // get data backend
-    // listData = [Data]
-    emailController = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
-    passwordController = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     passwordVisibility1 = false;
-    passwordConfirmController = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
+    passwordConfirmController = TextEditingController();
     passwordVisibility2 = false;
-    phoneController = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
+    phoneController = TextEditingController();
+    // emailController = TextEditingController()
+    //   ..addListener(() {
+    //     setState(() {});
+    //   });
+    // passwordController = TextEditingController()
+    //   ..addListener(() {
+    //     setState(() {});
+    //   });
+    // passwordVisibility1 = false;
+    // passwordConfirmController = TextEditingController()
+    //   ..addListener(() {
+    //     setState(() {});
+    //   });
+    // passwordVisibility2 = false;
+    // phoneController = TextEditingController()
+    //   ..addListener(() {
+    //     setState(() {});
+    //   });
   }
 
   @override
@@ -65,10 +65,8 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
@@ -90,28 +88,30 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
 
-                  /// Checking BlocListener + Sign Up content
+                  /// ALL CONTENT
                   BlocListener<AuthenticationBloc, AuthenticationState>(
-                    listener: (context, state) {
-                      // Case SignUp Loaded
+                    listener: (BuildContext context, state) {
                       if (state is SignUpLoadedState) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const TutorialPage1()),
-                            (r) {
-                          return false;
-                        });
+                        var title = "สร้างบัญชีผู้ใช้สำเร็จ";
+                        var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (context) {
+                              return DialogMessage(title: title, desc: desc);
+                              // return DialogMessage(message: message);
+                            });
                       } else if (state is SignUpError) {
+                        var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
                         showDialog(
                             context: context,
                             barrierDismissible: false, // user must tap button!
                             builder: (context) {
                               return DialogMessage(
-                                  title: state.err_msg, desc: state.err_desc);
-                              // return DialogMessage(messag: message);
+                                  title: state.err_msg, desc: desc);
+                              // return DialogMessage(message: message);
                             });
-                      } else {}
+                      }
                     },
                     child: Column(children: [
                       Padding(
@@ -154,18 +154,16 @@ class SignUpState extends State<SignUp> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               //   // FORM
-                              _formAuth(emailController, false, "Email",
-                                  Icons.email, null),
+                              _formAuth(
+                                  emailController, "Email", Icons.email, null),
                               _formAuth(
                                   passwordController,
-                                  !passwordVisibility1,
                                   "Password",
                                   Icons.lock,
                                   _suffixIcon("passwordVisibility1",
                                       passwordVisibility1)),
                               _formAuth(
                                   passwordConfirmController,
-                                  !passwordVisibility2,
                                   "Password Confirm",
                                   Icons.lock,
                                   _suffixIcon("passwordVisibility2",
@@ -213,10 +211,22 @@ class SignUpState extends State<SignUp> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    _button3Party(context, SignIngoogle(),
-                                        "assets/images/google_icon.png"),
-                                    _button3Party(context, SignInFacebook(),
-                                        "assets/images/facebook_icon.png"),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context
+                                            .read<AuthenticationBloc>()
+                                            .add(SignIngoogle());
+                                      },
+                                      child: _button_3Party(
+                                          'assets/images/facebook_icon.png',
+                                          context),
+                                    ),
+                                    _button_3Party(
+                                        'assets/images/twitter_icon.png',
+                                        context),
+                                    _button_3Party(
+                                        'assets/images/google_icon.png',
+                                        context),
                                   ],
                                 );
                               }),
@@ -227,7 +237,7 @@ class SignUpState extends State<SignUp> {
                     ]),
                   ),
 
-                  /// Button navigate to Sign In
+                  /// Button to navigate
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -251,11 +261,7 @@ class SignUpState extends State<SignUp> {
                                   5, 0, 0, 0),
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => const SignIn()),
-                                  );
+                                  Navigator.pop(context);
                                 },
                                 child: const Text(
                                   'Sign in here',
@@ -276,26 +282,6 @@ class SignUpState extends State<SignUp> {
               ))
           // ),
           ),
-    );
-  }
-
-  ElevatedButton _button3Party(
-      BuildContext context, AuthenticationEvent authState, String urlLogo) {
-    return ElevatedButton(
-      onPressed: () {
-        context.read<AuthenticationBloc>().add(authState);
-      },
-      style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          minimumSize: const Size(40, 40),
-          shape: const CircleBorder()),
-      child: Image.asset(
-        urlLogo,
-        width: 40,
-        height: 40,
-        fit: BoxFit.cover,
-      ),
-      // fixedSize: Size.fromHeight(30)
     );
   }
 
@@ -348,8 +334,8 @@ class SignUpState extends State<SignUp> {
         }));
   }
 
-  Padding _formAuth(TextEditingController? controller, bool obcuretxt,
-      String hint, IconData iconData, InkWell? inkwell) {
+  Padding _formAuth(TextEditingController? controller, String hint,
+      IconData iconData, InkWell? inkwell) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
         child: TextFormField(
@@ -378,7 +364,7 @@ class SignUpState extends State<SignUp> {
             return null;
           },
           controller: controller,
-          obscureText: obcuretxt,
+          obscureText: false,
           decoration: InputDecoration(
               isDense: true,
               label: Text(hint, style: const TextStyle(color: textColor3)),
@@ -437,16 +423,13 @@ class SignUpState extends State<SignUp> {
     return InkWell(
       onTap: () => setState(() => {
             if (fag == "passwordVisibility1")
-              {
-                print(passwordVisibility1),
-                passwordVisibility1 = !passwordVisibility1
-              }
+              {passwordVisibility1 = !passwordVisibility1}
             else if (fag == "passwordVisibility2")
               {passwordVisibility2 = !passwordVisibility2}
           }),
-      focusNode: FocusNode(skipTraversal: false),
+      focusNode: FocusNode(skipTraversal: true),
       child: Icon(
-        fag == "passwordVisibility1"
+        passwordVisibility == passwordVisibility1
             ? passwordVisibility1
                 ? Icons.visibility_outlined
                 : Icons.visibility_off_outlined
