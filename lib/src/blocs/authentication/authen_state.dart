@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jitd_client/src/data/models/auth_status.dart';
 
 @immutable
 abstract class AuthenticationState {}
@@ -22,10 +21,7 @@ class SignUpError extends AuthenticationState {
 
   SignUpError(this._err_msg, this._err_desc);
 
-  // SignUpError(this.status)
-
   String get err_msg => _err_msg;
-  String get err_desc => _err_desc;
 
   @override
   List<Object?> get props => [_err_msg, _err_desc];

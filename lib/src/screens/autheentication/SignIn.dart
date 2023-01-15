@@ -62,15 +62,17 @@ class SignInState extends State<SignIn> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const BottomNavigationWidget()),
+                    builder: (context) =>
+                    const BottomNavigationWidget()),
               );
             } else if (state is SignUpError) {
+              var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
               showDialog(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (context) {
                     return DialogMessage(
-                        title: state.err_desc, desc: state.err_msg);
+                        title: state.err_msg, desc: desc);
                     // return DialogMessage(message: message);
                   });
             } else {}
@@ -125,51 +127,48 @@ class SignInState extends State<SignIn> {
                   alignment: const AlignmentDirectional(0, -0.40),
                   child: Form(
                     key: _formKey,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.28),
-                      child: Column(
-                        children: [
-                          //  FORM
-                          Align(
-                            child: _formAuth(emailController, false, "Email",
-                                Icons.email, null),
-                          ),
+                    child: Stack(
+                      children: [
+                        //   // FORM
+                        Align(
+                          alignment: const AlignmentDirectional(0, -0.36),
+                          child: _formAuth(
+                              emailController, "Email", Icons.email, null),
+                        ),
 
-                          Align(
-                              child: _formAuth(
-                                  passwordController,
-                                  !passwordVisibility,
-                                  "Password",
-                                  Icons.lock,
-                                  _suffixIcon())),
+                        Align(
+                            alignment: const AlignmentDirectional(0, -0.20),
+                            child: _formAuth(
+                                passwordController,
+                                "Password",
+                                Icons.lock,
+                                _suffixIcon(
+                                    "passwordVisibility1", passwordVisibility))),
+                        Align(
+                          alignment: const AlignmentDirectional(0, 0.05),
+                          child: _buttonSubmit(context),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
 
-                          /// forget password
-                          Align(
-                            alignment: const AlignmentDirectional(0.74, -0.08),
-                            child: Text(
-                              'Forgot password ?',
-                              style: GoogleFonts.getFont(
-                                'Lato',
-                                color: const Color(0xFF818181),
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-
-                          // Button
-                          Align(
-                            alignment: const AlignmentDirectional(0, 0.05),
-                            child: _buttonSubmit(context),
-                          )
-                        ],
-                      ),
+                /// forget password
+                Align(
+                  alignment: const AlignmentDirectional(0.74, -0.08),
+                  child: Text(
+                    'Forgot password ?',
+                    style: GoogleFonts.getFont(
+                      'Lato',
+                      color: const Color(0xFF818181),
+                      fontSize: 14,
                     ),
                   ),
                 ),
 
                 /// or text
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.3),
+                  alignment: const AlignmentDirectional(0, 0.2),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -185,7 +184,7 @@ class SignInState extends State<SignIn> {
                 ),
                 Align(
                   // ignore: prefer_const_constructors
-                  alignment: AlignmentDirectional(0, 0.3),
+                  alignment: AlignmentDirectional(0, 0.2),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -193,6 +192,7 @@ class SignInState extends State<SignIn> {
                       color: Colors.white,
                     ),
                     child: const Align(
+                      alignment: AlignmentDirectional(0, 0),
                       child: Text(
                         'or',
                         textAlign: TextAlign.center,
@@ -208,7 +208,7 @@ class SignInState extends State<SignIn> {
 
                 /// Ner Here ?
                 const Align(
-                  alignment: AlignmentDirectional(0.03, 0.38),
+                  alignment: AlignmentDirectional(0.03, 0.3),
                   child: Text(
                     'Sign up using social networks',
                     style: TextStyle(
@@ -219,7 +219,7 @@ class SignInState extends State<SignIn> {
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.50),
+                  alignment: const AlignmentDirectional(0, 0.45),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -333,8 +333,8 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Padding _formAuth(TextEditingController? controller, bool obsText,
-      String hint, IconData iconData, InkWell? inkwell) {
+  Padding _formAuth(TextEditingController? controller, String hint,
+      IconData iconData, InkWell? inkwell) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
         child: TextFormField(
@@ -363,7 +363,7 @@ class SignInState extends State<SignIn> {
             return null;
           },
           controller: controller,
-          obscureText: obsText,
+          obscureText: false,
           decoration: InputDecoration(
               isDense: true,
               label: Text(hint, style: const TextStyle(color: textColor3)),
@@ -396,22 +396,20 @@ class SignInState extends State<SignIn> {
 
   bool? _checkFormFill() {
     if (emailController?.text.toString().trim().isEmpty == true ||
-        passwordController?.text.toString().trim().isEmpty == true) {
+            passwordController?.text.toString().trim().isEmpty == true
+        ) {
       return false;
     } else {
       return true;
     }
   }
 
-  InkWell _suffixIcon() {
+  InkWell _suffixIcon(String fag, bool passwordVisibility) {
     return InkWell(
-      onTap: () => setState(() => {
-            print(passwordVisibility),
-            this.passwordVisibility = !this.passwordVisibility
-          }),
+      onTap: () => setState(() => {passwordVisibility = !passwordVisibility}),
       focusNode: FocusNode(skipTraversal: true),
       child: Icon(
-        this.passwordVisibility
+        passwordVisibility == !passwordVisibility
             ? Icons.visibility_outlined
             : Icons.visibility_off_outlined,
         color: const Color(0xFF757575),

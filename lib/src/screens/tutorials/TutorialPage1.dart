@@ -24,12 +24,8 @@ class _TutorialPage1State extends State<TutorialPage1> {
         children: [
           // stack 1
           Container(
+            color: Colors.white,
             height: MediaQuery.of(context).size.height * 0.54,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20)),
-                color: Colors.white),
             child: Center(
               child: Container(
                 // color: Colors.amber,
@@ -104,7 +100,7 @@ class _TutorialPage1State extends State<TutorialPage1> {
           Center(
             child: Container(
                 // color: Colors.amber,
-                margin: EdgeInsets.only(top: 190),
+                margin: EdgeInsets.only(top: 120),
                 child: Image.asset(
                   'assets/images/tutorial_bg1.png',
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -143,19 +139,16 @@ class _TutorialPage1State extends State<TutorialPage1> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const TutorialPage2()),
+                        MaterialPageRoute(builder: (context) => const TutorialPage2()),
                       );
                     },
-                    child: Text("ถัดไป",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text("ถัดไป"),
                     style: ElevatedButton.styleFrom(
-                        primary: thirterydColor,
-                        minimumSize: const Size(100, 40),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5))
-                        // fixedSize: Size.fromHeight(30)
-                        ))),
+                      primary: thirterydColor,
+                      minimumSize: const Size(100, 40),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
+                      // fixedSize: Size.fromHeight(30)
+                    ))),
           ),
         ],
       )),
@@ -166,13 +159,10 @@ class _TutorialPage1State extends State<TutorialPage1> {
     return Container(
       height: 15,
       width: 15,
-      decoration: BoxDecoration(
-          color: colorData,
-          shape: BoxShape.circle,
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
-          ]),
+      decoration:
+          BoxDecoration(color: colorData, shape: BoxShape.circle, boxShadow: const [
+        BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 4)
+      ]),
       // decoration:
     );
   }

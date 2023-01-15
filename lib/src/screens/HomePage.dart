@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
-import 'package:rive/rive.dart';
 
+import 'package:jitd_client/src/data/models/cat_model.dart';
 import '../blocs/counter/counter_bloc.dart';
 import '../blocs/counter/counter_event.dart';
 
@@ -21,144 +21,59 @@ class HomePage extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Stack(
-              children: [
-                Container(
-                  color: primaryColorSubtle,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 0),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                      color: primaryColor,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    padding: EdgeInsets.symmetric(vertical: 19, horizontal: 30),
-                    child: const Text(
-                      "JIT :D",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     Container(
-                //       child: Image.asset(
-                //         "assets/images/messenger.png",
-                //         height: 40,
-                //       ),
-                //     )
-                //   ],
-                // ),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 110, left: 20),
-                        margin: EdgeInsets.all(2),
-                        child: ElevatedButton(
-                          child: Text('การงาน'),
-                          style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: primaryColor,
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 110, left: 10),
-                        margin: EdgeInsets.all(2),
-                        child: ElevatedButton(
-                          child: Text('การงาน'),
-                          style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: primaryColor,
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 110, left: 10),
-                        margin: EdgeInsets.all(2),
-                        child: ElevatedButton(
-                          child: Text('การงาน'),
-                          style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: primaryColor,
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 110, left: 10),
-                        margin: EdgeInsets.all(2),
-                        child: ElevatedButton(
-                          child: Text('การงาน'),
-                          style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: primaryColor,
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            Container(
+              color: primaryColorSubtle,
+              height: MediaQuery.of(context).size.height * 0.2,
             ),
+            Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  color: primaryColor,
+                ),
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.7,
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.02,
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
+                child: const Text(
+                  "JIT :D",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+
+
+            //  plan to create button chat
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Container(
+            //       child: Image.asset(
+            //         "assets/images/messenger.png",
+            //         height: 40,
+            //       ),
+            //     )
+            //   ],
+            // ),
+
             Expanded(
-                child: const RiveAnimation.asset(
-                    "assets/images/login_screen_character.riv",
-                    fit: BoxFit.cover,
-                    animations: const ['idle']))
+              child: ListView.builder(
+                  itemCount: 6,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context,index){
+                return Category();
+              }),
+            ),
           ],
         ),
       ),
