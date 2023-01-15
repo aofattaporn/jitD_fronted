@@ -10,6 +10,7 @@ import 'package:jitd_client/src/screens/NotificationPage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
 import 'package:jitd_client/src/screens/TestApiPage.dart';
+import 'package:jitd_client/src/screens/post/CreatePost.dart';
 
 import 'blocs/authentication/authen_state.dart';
 import 'blocs/counter/counter_event.dart';
@@ -110,7 +111,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const CreatePostPage(),
+          const CreatePost(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

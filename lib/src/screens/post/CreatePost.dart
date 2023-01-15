@@ -192,7 +192,9 @@ class CreatePostState extends State<CreatePost> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  IconButton(onPressed: (){},
+                                  IconButton(onPressed: (){
+                                    Navigator.pop(context, MaterialPageRoute(builder: (context) => const CreatePost()));
+                                  },
                                       icon: const Icon(Icons.cancel_rounded, size: 40, color: textColor2,)),
                                   ElevatedButton(
                                     onPressed: () {},
@@ -200,7 +202,7 @@ class CreatePostState extends State<CreatePost> {
                                         textStyle: const TextStyle(fontSize: 16),
                                         padding: const EdgeInsets.fromLTRB(
                                             32, 0, 32, 0),
-                                        backgroundColor: thirterydColor,
+                                        // backgroundColor: thirterydColor,
                                         shape: const RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.all(Radius.circular(40)),

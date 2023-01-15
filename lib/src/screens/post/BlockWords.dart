@@ -65,7 +65,7 @@ class BlockWordsState extends State<BlockWords> {
                                 textStyle: const TextStyle(fontSize: 16),
                                 padding:
                                     const EdgeInsets.fromLTRB(32, 10, 32, 10),
-                                backgroundColor: thirterydColor,
+                                // backgroundColor: thirterydColor,
                                 shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(40)),

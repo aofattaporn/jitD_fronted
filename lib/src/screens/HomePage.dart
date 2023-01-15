@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
             //   ],
             // ),
 
-            Expanded(
+            Container(
               child: ListView.builder(
                   itemCount: 6,
                   scrollDirection: Axis.horizontal,
