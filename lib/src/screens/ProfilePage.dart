@@ -23,6 +23,7 @@ class ProfilePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              //Background Top
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -31,6 +32,8 @@ class ProfilePage extends StatelessWidget {
                   color: primaryColorSubtle,
                 ),
                 height: MediaQuery.of(context).size.height * 0.5,
+
+                // Widget in Top Background
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -86,6 +89,8 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
+
+              //Widget Name pet and Image smile
               Stack(
                 children: [
                   Row(
@@ -144,6 +149,7 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
 
+              //Widget will edit to button
               Stack(
                 children: [
                   Row(

@@ -8,7 +8,9 @@ class Category extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 110,left: 20),
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).devicePixelRatio*8,
+                    left: MediaQuery.of(context).devicePixelRatio*6),
                 child: ElevatedButton(
                   child: Text('การงาน'),
                   style: TextButton.styleFrom(
