@@ -11,7 +11,7 @@ class ConsultantLevel extends StatefulWidget {
 }
 
 class _ConsultantLevelState extends State<ConsultantLevel> {
-  // int _selectedLevel = 0;
+  int _selectedLevel = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -113,67 +113,67 @@ class _ConsultantLevelState extends State<ConsultantLevel> {
                             // mainAxisAlignment: MainAxisAlignment.center,
                             // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Divider(),
-                              // ListTile(
-                              //   title: Text('ระดับที่ 0'),
-                              //   leading: Radio(
-                              //     fillColor: MaterialStateColor.resolveWith(
-                              //             (states) => thirteryColorLight),
-                              //     value: 0,
-                              //     groupValue: _selectedLevel,
-                              //     onChanged: (int? value) {
-                              //       setState(() {
-                              //         _selectedLevel = value!;
-                              //       });
-                              //     },
-                              //   ),
-                              // ),
-                              // ListTile(
-                              //   title: Text('ระดับที่ 1'),
-                              //   leading: Radio(
-                              //     fillColor: MaterialStateColor.resolveWith(
-                              //             (states) => thirteryColorLight),
-                              //     value: 1,
-                              //     groupValue: _selectedLevel,
-                              //     onChanged: (int? value) {
-                              //       setState(() {
-                              //         _selectedLevel = value!;
-                              //       });
-                              //     },
-                              //   ),
-                              // ),
-                              // ListTile(
-                              //   title: Text('ระดับที่ 2'),
-                              //   leading: Radio(
-                              //     fillColor: MaterialStateColor.resolveWith(
-                              //             (states) => thirteryColorLight),
-                              //     value: 2,
-                              //     groupValue: _selectedLevel,
-                              //     onChanged: (int? value) {
-                              //       setState(() {
-                              //         _selectedLevel = value!;
-                              //       });
-                              //     },
-                              //   ),
-                              // ),
-                              // ListTile(
-                              //   title: Text(
-                              //     'ระดับที่ 3',
-                              //     style: TextStyle(
-                              //         color: textColor1, fontSize: 16),
-                              //   ),
-                              //   leading: Radio(
-                              //     fillColor: MaterialStateColor.resolveWith(
-                              //             (states) => thirteryColorLight),
-                              //     value: 3,
-                              //     groupValue: _selectedLevel,
-                              //     onChanged: (int? value) {
-                              //       setState(() {
-                              //         _selectedLevel = value!;
-                              //       });
-                              //     },
-                              //   ),
-                              // )
+                              Divider(),
+                              ListTile(
+                                title: Text('ระดับที่ 0'),
+                                leading: Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                          (states) => thirteryColorLight),
+                                  value: 0,
+                                  groupValue: _selectedLevel,
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      _selectedLevel = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: Text('ระดับที่ 1'),
+                                leading: Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                          (states) => thirteryColorLight),
+                                  value: 1,
+                                  groupValue: _selectedLevel,
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      _selectedLevel = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: Text('ระดับที่ 2'),
+                                leading: Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                          (states) => thirteryColorLight),
+                                  value: 2,
+                                  groupValue: _selectedLevel,
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      _selectedLevel = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'ระดับที่ 3',
+                                  style: TextStyle(
+                                      color: textColor1, fontSize: 16),
+                                ),
+                                leading: Radio(
+                                  fillColor: MaterialStateColor.resolveWith(
+                                          (states) => thirteryColorLight),
+                                  value: 3,
+                                  groupValue: _selectedLevel,
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      _selectedLevel = value!;
+                                    });
+                                  },
+                                ),
+                              )
                             ],
                           ),
                         ),
