@@ -62,17 +62,15 @@ class SignInState extends State<SignIn> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                    const BottomNavigationWidget()),
+                    builder: (context) => const BottomNavigationWidget()),
               );
             } else if (state is SignUpError) {
-              var desc = "กดเพื่อดพพเนินไปขั้นต่อไป";
               showDialog(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (context) {
                     return DialogMessage(
-                        title: state.err_msg, desc: desc);
+                        title: state.err_desc, desc: state.err_msg);
                     // return DialogMessage(message: message);
                   });
             } else {}
@@ -107,7 +105,7 @@ class SignInState extends State<SignIn> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                        const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                         child: Text(
                           'In',
                           style: GoogleFonts.getFont(
@@ -127,48 +125,51 @@ class SignInState extends State<SignIn> {
                   alignment: const AlignmentDirectional(0, -0.40),
                   child: Form(
                     key: _formKey,
-                    child: Stack(
-                      children: [
-                        //   // FORM
-                        Align(
-                          alignment: const AlignmentDirectional(0, -0.36),
-                          child: _formAuth(
-                              emailController, "Email", Icons.email, null),
-                        ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.28),
+                      child: Column(
+                        children: [
+                          //  FORM
+                          Align(
+                            child: _formAuth(emailController, false, "Email",
+                                Icons.email, null),
+                          ),
 
-                        Align(
-                            alignment: const AlignmentDirectional(0, -0.20),
-                            child: _formAuth(
-                                passwordController,
-                                "Password",
-                                Icons.lock,
-                                _suffixIcon(
-                                    "passwordVisibility1", passwordVisibility))),
-                        Align(
-                          alignment: const AlignmentDirectional(0, 0.05),
-                          child: _buttonSubmit(context),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                          Align(
+                              child: _formAuth(
+                                  passwordController,
+                                  !passwordVisibility,
+                                  "Password",
+                                  Icons.lock,
+                                  _suffixIcon())),
 
-                /// forget password
-                Align(
-                  alignment: const AlignmentDirectional(0.74, -0.08),
-                  child: Text(
-                    'Forgot password ?',
-                    style: GoogleFonts.getFont(
-                      'Lato',
-                      color: const Color(0xFF818181),
-                      fontSize: 14,
+                          /// forget password
+                          Align(
+                            alignment: const AlignmentDirectional(0.74, -0.08),
+                            child: Text(
+                              'Forgot password ?',
+                              style: GoogleFonts.getFont(
+                                'Lato',
+                                color: const Color(0xFF818181),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+
+                          // Button
+                          Align(
+                            alignment: const AlignmentDirectional(0, 0.05),
+                            child: _buttonSubmit(context),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
 
                 /// or text
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.2),
+                  alignment: const AlignmentDirectional(0, 0.3),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -184,7 +185,7 @@ class SignInState extends State<SignIn> {
                 ),
                 Align(
                   // ignore: prefer_const_constructors
-                  alignment: AlignmentDirectional(0, 0.2),
+                  alignment: AlignmentDirectional(0, 0.3),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.15,
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -192,7 +193,6 @@ class SignInState extends State<SignIn> {
                       color: Colors.white,
                     ),
                     child: const Align(
-                      alignment: AlignmentDirectional(0, 0),
                       child: Text(
                         'or',
                         textAlign: TextAlign.center,
@@ -208,7 +208,7 @@ class SignInState extends State<SignIn> {
 
                 /// Ner Here ?
                 const Align(
-                  alignment: AlignmentDirectional(0.03, 0.3),
+                  alignment: AlignmentDirectional(0.03, 0.38),
                   child: Text(
                     'Sign up using social networks',
                     style: TextStyle(
@@ -219,7 +219,7 @@ class SignInState extends State<SignIn> {
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.45),
+                  alignment: const AlignmentDirectional(0, 0.50),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +232,7 @@ class SignInState extends State<SignIn> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                        const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                         child: Image.asset(
                           'assets/images/twitter_icon.png',
                           width: 40,
@@ -333,8 +333,8 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Padding _formAuth(TextEditingController? controller, String hint,
-      IconData iconData, InkWell? inkwell) {
+  Padding _formAuth(TextEditingController? controller, bool obsText,
+      String hint, IconData iconData, InkWell? inkwell) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
         child: TextFormField(
@@ -363,7 +363,7 @@ class SignInState extends State<SignIn> {
             return null;
           },
           controller: controller,
-          obscureText: false,
+          obscureText: obsText,
           decoration: InputDecoration(
               isDense: true,
               label: Text(hint, style: const TextStyle(color: textColor3)),
@@ -396,20 +396,22 @@ class SignInState extends State<SignIn> {
 
   bool? _checkFormFill() {
     if (emailController?.text.toString().trim().isEmpty == true ||
-            passwordController?.text.toString().trim().isEmpty == true
-        ) {
+        passwordController?.text.toString().trim().isEmpty == true) {
       return false;
     } else {
       return true;
     }
   }
 
-  InkWell _suffixIcon(String fag, bool passwordVisibility) {
+  InkWell _suffixIcon() {
     return InkWell(
-      onTap: () => setState(() => {passwordVisibility = !passwordVisibility}),
+      onTap: () => setState(() => {
+        print(passwordVisibility),
+        this.passwordVisibility = !this.passwordVisibility
+      }),
       focusNode: FocusNode(skipTraversal: true),
       child: Icon(
-        passwordVisibility == !passwordVisibility
+        this.passwordVisibility
             ? Icons.visibility_outlined
             : Icons.visibility_off_outlined,
         color: const Color(0xFF757575),
@@ -423,45 +425,45 @@ class SignInState extends State<SignIn> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-          if (state is SignUpCheckingState) {
-            return ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 24),
-                    minimumSize: const Size.fromHeight(52),
-                    primary: thirterydColor,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )),
-                child: const CircularProgressIndicator(color: Colors.white70));
-          } else {
-            return ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate() &&
-                      _checkFormFill() == true) {
-                    Map<String, dynamic> dataSignIn = {
-                      "Email": emailController?.text,
-                      "Password": passwordController?.text,
-                    };
+              if (state is SignUpCheckingState) {
+                return ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 24),
+                        minimumSize: const Size.fromHeight(52),
+                        primary: thirterydColor,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )),
+                    child: const CircularProgressIndicator(color: Colors.white70));
+              } else {
+                return ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate() &&
+                          _checkFormFill() == true) {
+                        Map<String, dynamic> dataSignIn = {
+                          "Email": emailController?.text,
+                          "Password": passwordController?.text,
+                        };
 
-                    context
-                        .read<AuthenticationBloc>()
-                        .add(SignInEvent(dataSignIn));
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    minimumSize: const Size.fromHeight(52),
-                    elevation: (_checkFormFill() == true) ? 5 : 0,
-                    primary: (_checkFormFill() == true)
-                        ? thirterydColor
-                        : thirteryColorSubtle,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )),
-                child: const Text("Sign In"));
-          }
-        }));
+                        context
+                            .read<AuthenticationBloc>()
+                            .add(SignInEvent(dataSignIn));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        minimumSize: const Size.fromHeight(52),
+                        elevation: (_checkFormFill() == true) ? 5 : 0,
+                        primary: (_checkFormFill() == true)
+                            ? thirterydColor
+                            : thirteryColorSubtle,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )),
+                    child: const Text("Sign In"));
+              }
+            }));
   }
 }
