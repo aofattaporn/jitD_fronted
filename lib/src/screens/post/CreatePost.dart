@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/screens/post/BlockWords.dart';
+import 'package:jitd_client/src/screens/post/ConsultantLevel.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../constant.dart';
@@ -12,7 +14,6 @@ class CreatePost extends StatefulWidget {
 }
 
 class CreatePostState extends State<CreatePost> {
-
   TextEditingController? textController;
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -88,10 +89,13 @@ class CreatePostState extends State<CreatePost> {
                               )),
                         ),
                       ),
-                      Text(
-                        "แก้ไขคำที่ต้องการบล็อค",
-                        style:
-                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                      TextButton(
+                          onPressed: () => Navigator.of(context).push(_createRoute(BlockWords())),
+                        child: Text(
+                          "แก้ไขคำที่ต้องการบล็อค",
+                          style:
+                              GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                        ),
                       )
                     ],
                   ),
@@ -124,10 +128,13 @@ class CreatePostState extends State<CreatePost> {
                               )),
                         ),
                       ),
-                      Text(
-                        "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพส",
-                        style:
-                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).push(_createRoute(ConsultantLevel())),
+                        child: Text(
+                          "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพส",
+                          style:
+                              GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                        ),
                       )
                     ],
                   )
@@ -190,22 +197,33 @@ class CreatePostState extends State<CreatePost> {
                             Align(
                               alignment: const AlignmentDirectional(1, -0.95),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  IconButton(onPressed: (){
-                                    Navigator.pop(context, MaterialPageRoute(builder: (context) => const CreatePost()));
-                                  },
-                                      icon: const Icon(Icons.cancel_rounded, size: 40, color: textColor2,)),
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const CreatePost()));
+                                      },
+                                      icon: const Icon(
+                                        Icons.cancel_rounded,
+                                        size: 40,
+                                        color: textColor2,
+                                      )),
                                   ElevatedButton(
                                     onPressed: () {},
                                     style: ElevatedButton.styleFrom(
-                                        textStyle: const TextStyle(fontSize: 16),
+                                        textStyle:
+                                            const TextStyle(fontSize: 16),
                                         padding: const EdgeInsets.fromLTRB(
                                             32, 0, 32, 0),
-                                        // backgroundColor: thirterydColor,
+                                        primary: thirterydColor,
                                         shape: const RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.all(Radius.circular(40)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(40)),
                                         )),
                                     child: Text(
                                       "โพส",
@@ -220,7 +238,8 @@ class CreatePostState extends State<CreatePost> {
                             Align(
                               alignment: const AlignmentDirectional(0, -0.75),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     width: MediaQuery.of(context).size.width *
@@ -368,9 +387,17 @@ class CreatePostState extends State<CreatePost> {
                                         ),
                                         child: Row(
                                           children: [
-                                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
-                                            Text("กรุณาระบุประเภทของโพส", style: GoogleFonts.getFont("Bai Jamjuree",
-                                            color: textColor3),)
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.025),
+                                            Text(
+                                              "กรุณาระบุประเภทของโพส",
+                                              style: GoogleFonts.getFont(
+                                                  "Bai Jamjuree",
+                                                  color: textColor3),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -411,6 +438,25 @@ class CreatePostState extends State<CreatePost> {
               color: textColor3, borderRadius: BorderRadius.circular(15)),
         ),
       ],
+    );
+  }
+
+  Route _createRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 }

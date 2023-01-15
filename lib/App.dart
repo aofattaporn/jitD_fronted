@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -22,8 +21,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),

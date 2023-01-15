@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
-import 'package:jitd_client/src/screens/CreatePost_page.dart';
 
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/NotificationPage.dart';
