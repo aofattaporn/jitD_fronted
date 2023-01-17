@@ -9,7 +9,6 @@ import 'package:jitd_client/src/screens/NotificationPage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
 import 'package:jitd_client/src/screens/TestApiPage.dart';
-import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/CreatePost.dart';
 
 import 'blocs/authentication/authen_state.dart';
@@ -52,13 +51,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             child: BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (BuildContext context, state) {
                   if (state is SignOutSuccess) {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUp()),
-                            (r) {
-                          return false;
-                        });
+                    Navigator.pop(context);
                   }
                 },
                 child: PageStorage(
