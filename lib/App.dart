@@ -5,8 +5,10 @@ import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
+import 'package:jitd_client/src/screens/SettingPage.dart';
 
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
+import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 class App extends StatelessWidget {
