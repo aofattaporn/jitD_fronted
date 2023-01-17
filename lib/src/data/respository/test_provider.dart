@@ -6,12 +6,12 @@ import '../models/test_model.dart';
 class TestRepository {
   final String _baseUrl = "https://api.covid19api.com/summary";
 
-  Future<TestModel> getTest() async {
+  Future<String> getTest() async {
     final response = await http.get(Uri.parse(_baseUrl));
-    if (response.statusCode == 200) {
-      return testModelFromJson(response.body);
+    if (response.statusCode == 201) {
+      return "create data success";
     } else {
-      throw Exception("Failed to load joke");
+      return "somthing fail.";
     }
   }
 

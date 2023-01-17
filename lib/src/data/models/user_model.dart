@@ -5,7 +5,7 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String? tokenId;
+  String? userId;
   String? petName;
   int? point;
 
@@ -17,8 +17,7 @@ class UserModel {
 
   String? error;
 
-  UserModel(this.tokenId, this.petName, this.point);
-  // UserModel(this.error);
+  UserModel(this.userId, this.petName, this.point);
 
   UserModel.withError(String errorMessage) {
     error = errorMessage;
@@ -26,7 +25,7 @@ class UserModel {
 
   /// method convert map to json
   UserModel.fromJson(Map<String, dynamic> json) {
-    tokenId = json['tokenId'];
+    userId = json['tokenId'];
     petName = json['petName'];
     point = json['point'];
   }
@@ -34,7 +33,7 @@ class UserModel {
   /// method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['tokenId'] = tokenId;
+    data['tokenId'] = userId;
     data['petName'] = petName;
     data['point'] = point;
 
