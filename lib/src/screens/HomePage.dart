@@ -57,6 +57,22 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                    Container(
+                      margin: EdgeInsets.only(right: MediaQuery.of(context).devicePixelRatio * 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        color: primaryColor,
+                      ),
+                      child: IconButton(
+                        icon: Image.asset(
+                          'assets/images/messenger.png',
+                          color: Colors.white,
+                        ),
+                        onPressed: (){},
+                      ),
+                    ),
+
                   ],
                 ),
 

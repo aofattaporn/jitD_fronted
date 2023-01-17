@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                                     5),
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white),
                             height: MediaQuery.of(context).size.height * 0.04,
                             width: MediaQuery.of(context).size.width * 0.4,
@@ -60,7 +60,7 @@ class ProfilePage extends StatelessWidget {
                                     5),
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white),
                             height: MediaQuery.of(context).size.height * 0.04,
                             width: MediaQuery.of(context).size.width * 0.2,
@@ -158,14 +158,20 @@ class ProfilePage extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(
                           top: MediaQuery.of(context).devicePixelRatio * 10,
-                          left: MediaQuery.of(context).devicePixelRatio * 5,
+                          left: MediaQuery.of(context).devicePixelRatio * 10,
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: secondaryColor,
                         ),
-                        height: MediaQuery.of(context).size.height * 0.085,
-                        width: MediaQuery.of(context).size.width * 0.2,
+                        child: IconButton(
+                          icon: Icon(Icons.flash_on_rounded),
+                          color: Colors.white,
+                          iconSize: MediaQuery.of(context).size.height * 0.05,
+                          onPressed: (){},
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width * 0.15,
                       ),
                       Container(
                         margin: EdgeInsets.only(
@@ -175,8 +181,14 @@ class ProfilePage extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: secondaryColor,
                         ),
-                        height: MediaQuery.of(context).size.height * 0.085,
-                        width: MediaQuery.of(context).size.width * 0.2,
+                        child: IconButton(
+                          icon: Image.asset('assets/images/handshake.png',
+                            color: Colors.white,
+                          ),
+                          onPressed: (){},
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width * 0.15,
                       ),
                       Container(
                         margin: EdgeInsets.only(
@@ -186,20 +198,20 @@ class ProfilePage extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: secondaryColor,
                         ),
-                        height: MediaQuery.of(context).size.height * 0.085,
-                        width: MediaQuery.of(context).size.width * 0.2,
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width * 0.15,
                       ),
                       Container(
                         margin: EdgeInsets.only(
                           top: MediaQuery.of(context).devicePixelRatio * 10,
-                          right: MediaQuery.of(context).devicePixelRatio * 5,
+                          right: MediaQuery.of(context).devicePixelRatio * 10,
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: secondaryColor,
                         ),
-                        height: MediaQuery.of(context).size.height * 0.085,
-                        width: MediaQuery.of(context).size.width * 0.2,
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width * 0.15,
                       ),
                     ],
                   ),
