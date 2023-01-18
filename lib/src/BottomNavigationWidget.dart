@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
-
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/NotificationPage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
+import 'package:jitd_client/src/screens/Search/Search.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
-import 'package:jitd_client/src/screens/TestApiPage.dart';
 import 'package:jitd_client/src/screens/post/CreatePost.dart';
 import 'package:jitd_client/src/ui/DialogMessage.dart';
 
@@ -29,7 +28,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int currentTab = 0;
   final List<Widget> screens = const [
     HomePage(),
-    TestApiPage(),
+    Search(),
     NotificationPage(),
     ProfilePage(),
     SearchPage(),
@@ -90,7 +89,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       /// Bottom navigation Bar
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 60,
+          height: MediaQuery.of(context).size.height * 0.075,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -113,16 +112,16 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 
-  MaterialButton Button_Page(int indexSceeen, IconData xicon) {
+  MaterialButton Button_Page(int indexScreen, IconData xIcon) {
     return MaterialButton(
         onPressed: () {
           setState(() {
-            currentScreen = screens[indexSceeen];
-            currentTab = indexSceeen;
+            currentScreen = screens[indexScreen];
+            currentTab = indexScreen;
           });
         },
-        child: Icon(xicon,
-            color: currentTab == indexSceeen ? primaryColor : textColor2,
+        child: Icon(xIcon,
+            color: currentTab == indexScreen ? primaryColor : textColor2,
             size: 24));
   }
 

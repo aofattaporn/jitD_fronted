@@ -60,7 +60,6 @@ class _ConsultantLevelState extends State<ConsultantLevel> {
                           child: IconButton(
                             icon: const Icon(Icons.arrow_back),
                             onPressed: () {
-                              print("Testing");
                               Navigator.pop(context);
                             },
                           )),
