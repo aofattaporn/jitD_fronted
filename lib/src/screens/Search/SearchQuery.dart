@@ -13,6 +13,7 @@ class SearchQuery extends StatefulWidget {
 }
 
 class _SearchQueryState extends State<SearchQuery> {
+  final _unFocusNode = FocusNode();
   TextEditingController? searchController;
 
   @override
@@ -28,16 +29,18 @@ class _SearchQueryState extends State<SearchQuery> {
   void dispose() {
     super.dispose();
     searchController?.dispose();
+    _unFocusNode.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
+            child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(15),
             child: Column(
               children: [
                 // Header ----------------------------------------------------------
@@ -71,8 +74,14 @@ class _SearchQueryState extends State<SearchQuery> {
                                 const SizedBox(width: 5),
                                 GestureDetector(
                                     onTap: () => Navigator.pop(context),
-                                    child: const Icon(Icons.clear_rounded, color: backgroundColor2,size: 25,)),
-                                const SizedBox(width: 10,)
+                                    child: const Icon(
+                                      Icons.clear_rounded,
+                                      color: backgroundColor2,
+                                      size: 25,
+                                    )),
+                                const SizedBox(
+                                  width: 10,
+                                )
                               ],
                             ),
                             Row(
@@ -132,12 +141,15 @@ class _SearchQueryState extends State<SearchQuery> {
                                   hintText: "ค้นหาอะไรบางอย่าง",
                                   hintStyle: GoogleFonts.getFont("Bai Jamjuree",
                                       color: textColor3),
-                              suffixIcon: IconButton(
-                                onPressed: searchController?.clear,
-                                splashColor: Colors.transparent,
-                                icon: const Icon(Icons.cancel_rounded, color: secondaryColor, size: 22,),
-                              )
-                              ),
+                                  suffixIcon: IconButton(
+                                    onPressed: searchController?.clear,
+                                    splashColor: Colors.transparent,
+                                    icon: const Icon(
+                                      Icons.cancel_rounded,
+                                      color: secondaryColor,
+                                      size: 22,
+                                    ),
+                                  )),
                             ),
                           )),
                     ],
@@ -180,9 +192,9 @@ class _SearchQueryState extends State<SearchQuery> {
                   )
               ],
             ),
-          ),
         ),
-      )),
+      ),
+          )),
     );
   }
 }
