@@ -25,7 +25,7 @@ class UserModel {
 
   /// method convert map to json
   UserModel.fromJson(Map<String, dynamic> json) {
-    userId = json['tokenId'];
+    userId = json['userId'];
     petName = json['petName'];
     point = json['point'];
   }
@@ -33,7 +33,7 @@ class UserModel {
   /// method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['tokenId'] = userId;
+    data['userId'] = userId;
     data['petName'] = petName;
     data['point'] = point;
 

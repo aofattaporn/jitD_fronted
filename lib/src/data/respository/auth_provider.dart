@@ -21,6 +21,7 @@ class AuthRepository {
 
       UserModel userData = await UserModel(FirebaseAuth.instance.currentUser?.uid, "", 0);
 
+      print(userData.userId);
       final response = await http.post(Uri.parse(_createlocalUserUrl), body: userModelToJson(userData));
 
       if (response.statusCode == 201) {
