@@ -10,7 +10,6 @@ import '../../data/respository/post_repositpory.dart';
 part 'post_event.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-
   // creating object repository
   PostRepository postRepository = PostRepository();
 
@@ -19,7 +18,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       // TODO: implement event handler
       emit(CheckingPost());
       // ยิงหลังบ้าน
-      Future<String> response =  postRepository.creatingPost(event._content, event._IsPublic);
+      Future<String> response =
+          postRepository.creatingPost(event._content, event._IsPublic);
 
       print(response);
       // 200 -> return PostSuccess
