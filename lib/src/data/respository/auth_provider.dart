@@ -1,18 +1,41 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/auth_model.dart';
+import '../models/user_model.dart';
 
 class AuthRepository {
+  final String _createlocalUserUrl = "http://localhost:3000/v1/users/";
+  final String _createUserUrl = "https://jitd-backend.onrender.com/v1/users";
+
   /// signUp
-  Future<String> signUp(String email, String password) async {
+  Future<String?> signUp(String email, String password) async {
+
+    print(email);
+    print(password);
+
     try {
-      print(email + password);
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+
+      UserModel userData = await UserModel(FirebaseAuth.instance.currentUser?.uid, "", 0);
+
+      print(userData.userId);
+      final response = await http.post(Uri.parse(_createlocalUserUrl), body: userModelToJson(userData));
+
+      if (response.statusCode == 201) {
+        return "creating data success";
+      } else {
+        print("somthing wrong");
+        return "somthing wrong";
+      }
     } on FirebaseAuthException catch (e) {
       print(e.message);
-      print("object");
       return e.message.toString();
+    }  catch (e) {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return "somthing wrong";
     }
     return "creating data success";
   }
@@ -77,6 +100,7 @@ class AuthRepository {
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
+  /// signOut
   Future<void> signOut() async {
     // Once signed in, return the UserCredential
     await checkCredentail();
