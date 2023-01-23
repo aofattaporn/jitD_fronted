@@ -5,6 +5,7 @@ import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
+import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 class App extends StatelessWidget {
@@ -22,6 +23,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // theme: ThemeData(
+      //   pageTransitionsTheme: const PageTransitionsTheme(
+      //       builders: {
+      //         TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      //         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      //       }
+      //   )
+      // ),
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),
       routes: {

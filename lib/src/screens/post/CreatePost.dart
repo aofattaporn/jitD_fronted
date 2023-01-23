@@ -18,6 +18,7 @@ class CreatePost extends StatefulWidget {
 
 class CreatePostState extends State<CreatePost> {
   TextEditingController? textController;
+  static GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final panelController = PanelController();
@@ -49,142 +50,22 @@ class CreatePostState extends State<CreatePost> {
         color: Colors.transparent,
         maxHeight: MediaQuery.of(context).size.height * 0.325,
         minHeight: MediaQuery.of(context).size.height * 0.1,
-        // For Open Panel
-        panel: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(24),
-              ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.025,
-                ),
-                buildDragHandle(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 10,
-                                color: Color.fromRGBO(0, 0, 0, 0.1),
-                                offset: Offset(0, 4),
-                              )
-                            ],
-                            borderRadius: BorderRadiusDirectional.all(
-                                Radius.circular(10))),
-                        child: const Padding(
-                            padding: EdgeInsetsDirectional.all(8),
-                            child: Icon(
-                              Icons.lock,
-                              size: 28,
-                              color: textColor2,
-                            )),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context)
-                          .push(_createRoute(BlockWords())),
-                      child: Text(
-                        "แก้ไขคำที่ต้องการบล็อค",
-                        style:
-                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 10,
-                                color: Color.fromRGBO(0, 0, 0, 0.1),
-                                offset: Offset(0, 4),
-                              )
-                            ],
-                            borderRadius: BorderRadiusDirectional.all(
-                                Radius.circular(10))),
-                        child: const Padding(
-                            padding: EdgeInsetsDirectional.all(8),
-                            child: Icon(
-                              Icons.person_add,
-                              size: 28,
-                              color: textColor2,
-                            )),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context)
-                          .push(_createRoute(ConsultantLevel())),
-                      child: Text(
-                        "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพส",
-                        style:
-                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            )),
 
+        // For Open Panel
+        panel: buildOpenPanel(context),
         // For collapsed panel
-        collapsed: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(_unFocusNode);
-            panelController.open();
-          },
-          // onTap: panelController.open,
-          child: Container(
-            color: backgroundColor2,
-            child: Center(
-              child: RichText(
-                text: TextSpan(children: [
-                  const WidgetSpan(
-                      child: Icon(
-                    Icons.settings,
-                    size: 20,
-                    color: textColor3,
-                  )),
-                  TextSpan(
-                      text: "ตั้งค่าโพสเพิ่มเติม",
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          fontSize: 18, color: textColor3))
-                ]),
-              ),
-            ),
-          ),
-        ),
+        collapsed: buildCollapsedPanel(context),
 
         // This is a Main App
         body: BlocProvider(
           create: (_) => PostBloc(),
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
-                if(state is PostSuccess){
+                if (state is PostSuccess) {
                   Navigator.pop(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                          const CreatePost()));
+                          builder: (context) => const CreatePost()));
                 }
               },
               child: SafeArea(
@@ -242,7 +123,8 @@ class CreatePostState extends State<CreatePost> {
                                                   padding:
                                                       const EdgeInsets.fromLTRB(
                                                           32, 0, 32, 0),
-                                                  primary: thirterydColor,
+                                                  backgroundColor:
+                                                      thirterydColor,
                                                   shape:
                                                       const RoundedRectangleBorder(
                                                     borderRadius:
@@ -256,10 +138,13 @@ class CreatePostState extends State<CreatePost> {
                                         } else {
                                           return ElevatedButton(
                                             onPressed: () {
-                                              context.read<PostBloc>().add(
-                                                  CreatingPost(
-                                                      textController?.text,
-                                                      true));
+                                              if (keyForm.currentState!.validate()) {
+                                                keyForm.currentState!.save();
+                                                context.read<PostBloc>().add(
+                                                    CreatingPost(
+                                                        textController?.text,
+                                                        true));
+                                              }
                                             },
                                             style: ElevatedButton.styleFrom(
                                                 textStyle: const TextStyle(
@@ -267,7 +152,7 @@ class CreatePostState extends State<CreatePost> {
                                                 padding:
                                                     const EdgeInsets.fromLTRB(
                                                         32, 0, 32, 0),
-                                                primary: thirterydColor,
+                                                backgroundColor: thirterydColor,
                                                 shape:
                                                     const RoundedRectangleBorder(
                                                   borderRadius:
@@ -368,24 +253,31 @@ class CreatePostState extends State<CreatePost> {
                                     height: MediaQuery.of(context).size.height *
                                         0.28,
                                     child: Scrollbar(
-                                      child: TextFormField(
-                                        onTap: () => panelController.close(),
-                                        controller: textController,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'มีอะไรอยากจะบอกบ้าง',
-                                          hintStyle: const TextStyle(
-                                              color: textColor3),
-                                          enabledBorder:
-                                              buildUnderlineInputBorder(),
-                                          focusedBorder:
-                                              buildUnderlineInputBorder(),
-                                          errorBorder:
-                                              buildUnderlineInputBorder(),
-                                          focusedErrorBorder:
-                                              buildUnderlineInputBorder(),
+                                      child: Form(
+                                        key: keyForm,
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) return 'กรุณากรอกข้อความ';
+                                            return null;
+                                          },
+                                          onTap: () => panelController.close(),
+                                          controller: textController,
+                                          obscureText: false,
+                                          decoration: InputDecoration(
+                                            hintText: 'มีอะไรอยากจะบอกบ้าง',
+                                            hintStyle: const TextStyle(
+                                                color: textColor3),
+                                            enabledBorder:
+                                                buildUnderlineInputBorder(),
+                                            focusedBorder:
+                                                buildUnderlineInputBorder(),
+                                            errorBorder:
+                                                buildUnderlineInputBorder(),
+                                            focusedErrorBorder:
+                                                buildUnderlineInputBorder(),
+                                          ),
+                                          maxLines: null,
                                         ),
-                                        maxLines: null,
                                       ),
                                     ),
                                   ),
@@ -485,6 +377,129 @@ class CreatePostState extends State<CreatePost> {
         ),
       ),
     );
+  }
+
+  GestureDetector buildCollapsedPanel(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(_unFocusNode);
+        panelController.open();
+      },
+      // onTap: panelController.open,
+      child: Container(
+        color: backgroundColor2,
+        child: Center(
+          child: RichText(
+            text: TextSpan(children: [
+              const WidgetSpan(
+                  child: Icon(
+                Icons.settings,
+                size: 20,
+                color: textColor3,
+              )),
+              TextSpan(
+                  text: "ตั้งค่าโพสเพิ่มเติม",
+                  style: GoogleFonts.getFont("Bai Jamjuree",
+                      fontSize: 18, color: textColor3))
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container buildOpenPanel(BuildContext context) {
+    return Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.025,
+            ),
+            buildDragHandle(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.05,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 10,
+                            color: Color.fromRGBO(0, 0, 0, 0.1),
+                            offset: Offset(0, 4),
+                          )
+                        ],
+                        borderRadius:
+                            BorderRadiusDirectional.all(Radius.circular(10))),
+                    child: const Padding(
+                        padding: EdgeInsetsDirectional.all(8),
+                        child: Icon(
+                          Icons.lock,
+                          size: 28,
+                          color: textColor2,
+                        )),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context)
+                      .push(_createRoute(const BlockWords())),
+                  child: Text(
+                    "แก้ไขคำที่ต้องการบล็อค",
+                    style: GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 10,
+                            color: Color.fromRGBO(0, 0, 0, 0.1),
+                            offset: Offset(0, 4),
+                          )
+                        ],
+                        borderRadius:
+                            BorderRadiusDirectional.all(Radius.circular(10))),
+                    child: const Padding(
+                        padding: EdgeInsetsDirectional.all(8),
+                        child: Icon(
+                          Icons.person_add,
+                          size: 28,
+                          color: textColor2,
+                        )),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context)
+                      .push(_createRoute(const ConsultantLevel())),
+                  child: Text(
+                    "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพส",
+                    style: GoogleFonts.getFont("Bai Jamjuree", fontSize: 18),
+                  ),
+                )
+              ],
+            )
+          ],
+        ));
   }
 
   UnderlineInputBorder buildUnderlineInputBorder() {
