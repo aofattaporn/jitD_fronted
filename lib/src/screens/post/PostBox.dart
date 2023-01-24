@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constant.dart';
+import '../Utilities/PostModal.dart';
 
 class PostBox extends StatelessWidget {
   final String content;
@@ -46,13 +47,7 @@ class PostBox extends StatelessWidget {
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.more_horiz,
-                        color: textColor3,
-                        size: 30,
-                      ))
+                  const PostModal()
                 ],
               ),
               Row(
@@ -92,7 +87,8 @@ class PostBox extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: tag.length,
                   separatorBuilder: (context, index) {
-                    return SizedBox(width: MediaQuery.of(context).size.width * 0.02);
+                    return SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.02);
                   },
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -100,8 +96,8 @@ class PostBox extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: secondaryColor),
                       child: Padding(
-                          padding:
-                          const EdgeInsetsDirectional.fromSTEB(10, 5, 10, 5),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 5, 10, 5),
                           child: Text(
                             tag[index],
                             style: GoogleFonts.getFont("Bai Jamjuree",
@@ -111,8 +107,6 @@ class PostBox extends StatelessWidget {
                           )),
                     );
                   },
-
-
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),

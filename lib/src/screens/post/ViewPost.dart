@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constant.dart';
+import '../Utilities/PostModal.dart';
 
 class ViewPost extends StatefulWidget {
   final String content;
@@ -152,13 +153,7 @@ class ViewPostState extends State<ViewPost> {
                                         style: GoogleFonts.getFont("Lato",
                                             fontSize: 16, color: textColor3),
                                       ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.more_horiz,
-                                            color: textColor3,
-                                            size: 30,
-                                          ))
+                                      const PostModal()
                                     ],
                                   ),
                                   Row(
