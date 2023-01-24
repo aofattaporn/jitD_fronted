@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
 
 class Setting_notification extends StatefulWidget {
   const Setting_notification({Key? key}) : super(key: key);
@@ -76,10 +77,13 @@ class _Setting_notificationState extends State<Setting_notification> {
             color: Colors.black,fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+              Navigator.pop(context,
+                  MaterialPageRoute(builder: (context) => Setting_setting()));
+          },
           icon: const Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.white,
+            Icons.arrow_back_ios,
+            color: Colors.black,
           ),
         ),
       ),
