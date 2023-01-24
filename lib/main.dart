@@ -44,6 +44,7 @@ import 'package:jitd_client/src/screens/Setting/Setting_homepage.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_logout.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_notification.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_overview.dart';
+import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_user_data.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_user_status.dart';
 
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const Setting_homepage(),
+      home: const Setting_setting(),
     );
   }
 }

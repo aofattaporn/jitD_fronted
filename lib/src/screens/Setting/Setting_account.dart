@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'Setting_setting.dart';
+
 class Setting_account extends StatefulWidget {
   const Setting_account({Key? key}) : super(key: key);
 
@@ -41,7 +43,10 @@ class _Setting_accountState extends State<Setting_account> {
             color: Colors.black,fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context,
+                MaterialPageRoute(builder: (context) => Setting_setting()));
+          },
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
