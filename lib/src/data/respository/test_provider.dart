@@ -6,16 +6,15 @@ import '../models/test_model.dart';
 class TestRepository {
   final String _baseUrl = "https://api.covid19api.com/summary";
 
-  Future<String> getTest() async {
+  Future<TestModel> getTest() async {
     final response = await http.get(Uri.parse(_baseUrl));
-    if (response.statusCode == 201) {
-      return "create data success";
+    if (response.statusCode == 200) {
+      return testModelFromJson(response.body);
     } else {
-      return "somthing fail.";
+      throw Exception("Failed to load joke");
     }
   }
 
-  /// using cache Lib (CacheManager)
   Future<TestModel> getTestByCacheLib() async {
     var file = await DefaultCacheManager().getSingleFile(_baseUrl.toString());
     var data = testModelFromJson(file.readAsStringSync());
