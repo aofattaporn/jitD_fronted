@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_account.dart';
+import 'package:jitd_client/src/screens/ProfilePage.dart';
+
 
 import 'Setting_notification.dart';
 
@@ -46,7 +48,9 @@ class _Setting_settingState extends State<Setting_setting> {
               fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+              Navigator.pop(context);
+          },
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,

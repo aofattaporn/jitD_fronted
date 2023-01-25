@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/App.dart';
 import 'package:jitd_client/src/constant.dart';
-import 'package:jitd_client/src/screens/SettingPage.dart';
+import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
 import '../data/models/post_model.dart';
 import 'post/PostBox.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,11 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
 
                             onPressed: (){
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => const SettingPage()),
-                              );
+                              Navigator.push(context, CupertinoPageRoute(builder: (context) => Setting_setting()));
                             },
                           ),
                         ],
