@@ -16,7 +16,7 @@ class PostRepository {
     print(token);
     final response = await http.post(Uri.parse("${globalUrl}v1/posts/"),
         body:
-            postModelToJson(PostModel.Resquest(content, date, true, category)),
+        postModelToJson(PostModel.Resquest(content, date, true, category)),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 
-import '../../data/respository/post_repositpory.dart';
+import '../../data/respository/post_repository.dart';
 
 part 'post_event.dart';
 
