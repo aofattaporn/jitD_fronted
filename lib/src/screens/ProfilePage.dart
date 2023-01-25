@@ -174,24 +174,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: Row(
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: "หมีขั้วโลกเหนือ",
-                                style: TextStyle(fontSize: 16, color: textColor1),
+                      child: Container(
+                        margin: EdgeInsets.only(left: MediaQuery.of(context).devicePixelRatio*10),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: "หมีขั้วโลกเหนือ",
+                                  style: TextStyle(fontSize: 16, color: textColor1),
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.create_rounded,
-                              color: Colors.black26,
+                              Container(
+                                child: IconButton(
+                                  icon: Icon(Icons.create_rounded,
+                                  color: Colors.black26,
+                                  ),
+                                  onPressed: (){},
+                                ),
                               ),
-                              onPressed: (){},
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -356,90 +362,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ]),
                               ),
-                            )),
+                            ),
+                        ),
                       ),
                     ],
                   ),
-
                 ],
               ),
-
-              // Align(
-              //   alignment: const AlignmentDirectional(0, 1),
-              //   child: Container(
-              //     width: MediaQuery.of(context).size.width,
-              //     height: MediaQuery.of(context).size.height * 0.7,
-              //     decoration: const BoxDecoration(
-              //       color: Colors.white,
-              //     ),
-              //     child: Column(
-              //       mainAxisSize: MainAxisSize.max,
-              //       children: [
-              //         Row(
-              //           mainAxisSize: MainAxisSize.max,
-              //           mainAxisAlignment: MainAxisAlignment.end,
-              //           children: [
-              //             Padding(
-              //               padding: const EdgeInsetsDirectional.fromSTEB(
-              //                   30, 20, 30, 5),
-              //               child: Container(
-              //                   width: MediaQuery.of(context).size.width * 0.4,
-              //                   height:
-              //                   MediaQuery.of(context).size.height * 0.04,
-              //                   decoration: const BoxDecoration(
-              //                       color: thirterydColor,
-              //                       borderRadius:
-              //                       BorderRadius.all(Radius.circular(20))),
-              //                   child: Center(
-              //                     child: RichText(
-              //                       text: TextSpan(children: [
-              //                         TextSpan(
-              //                             text: " เรียงตามความนิยม ",
-              //                             style: GoogleFonts.getFont(
-              //                                 'Bai Jamjuree',
-              //                                 color: Colors.white,
-              //                                 fontSize: 14,
-              //                                 fontWeight: FontWeight.bold)),
-              //                         const WidgetSpan(
-              //                           child: Icon(
-              //                             Icons.arrow_drop_down,
-              //                             size: 18,
-              //                             color: backgroundColor3,
-              //                           ),
-              //                         ),
-              //                       ]),
-              //                     ),
-              //                   )),
-              //             ),
-              //           ],
-              //         ),
-              //         // Expanded(
-              //         //     child: ListView.builder(
-              //         //         padding: const EdgeInsetsDirectional.all(20),
-              //         //         itemCount: _postData.length,
-              //         //         itemBuilder: (context, index) {
-              //         //           return GestureDetector(
-              //         //             child: PostBox(
-              //         //               content: _postData[index].content,
-              //         //               like: _postData[index].like,
-              //         //               comment: _postData[index].comment,
-              //         //               tag: _postData[index].tag,
-              //         //             ),
-              //         //             onTap: () {
-              //         //               Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-              //         //                   ViewPost(content: _postData[index].content,
-              //         //                       like: _postData[index].like,
-              //         //                       comment: _postData[index].comment,
-              //         //                       tag: _postData[index].tag)));
-              //         //
-              //         //             },
-              //         //           );
-              //         //         })),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-
             ],
           ),
 

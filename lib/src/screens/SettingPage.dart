@@ -69,7 +69,12 @@ class SettingPage extends StatelessWidget {
               ),
 
               Row(
-
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.doorbell),
+                    onPressed: (){},
+                  ),
+                ],
               ),
 
             ],
