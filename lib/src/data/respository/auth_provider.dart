@@ -7,33 +7,35 @@ import '../models/auth_model.dart';
 import '../models/user_model.dart';
 
 class AuthRepository {
-  final String _createlocalUserUrl = "http://localhost:3000/v1/users/";
-  final String _createUserUrl = "https://jitd-backend.onrender.com/v1/users";
+  // -------------- declare url ------------------
+  final String localUrl = "http://localhost:3000/";
+  final String globalUrl = "https://jitd-backend.onrender.com/";
 
   /// signUp
   Future<String?> signUp(String email, String password) async {
-
-    print(email);
-    print(password);
-
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-
-      UserModel userData = await UserModel(FirebaseAuth.instance.currentUser?.uid, "", 0);
-
-      print(userData.userId);
-      final response = await http.post(Uri.parse(_createlocalUserUrl), body: userModelToJson(userData));
-
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      print(token);
+      final response = await http.post(Uri.parse("${globalUrl}v1/users/"),
+          body: userModelToJson(UserModel("", 0)),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+      print(response.request);
       if (response.statusCode == 201) {
         return "creating data success";
       } else {
-        print("somthing wrong");
+        await FirebaseAuth.instance.currentUser?.delete();
         return "somthing wrong";
       }
     } on FirebaseAuthException catch (e) {
       print(e.message);
       return e.message.toString();
-    }  catch (e) {
+    } catch (e) {
       await FirebaseAuth.instance.currentUser?.delete();
       return "somthing wrong";
     }
@@ -45,6 +47,8 @@ class AuthRepository {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      print(token);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

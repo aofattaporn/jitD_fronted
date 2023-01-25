@@ -14,23 +14,24 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostRepository postRepository = PostRepository();
 
   PostBloc() : super(InitialPost()) {
-    on<CreatingPost>((event, emit) {
-      // TODO: implement event handler
+    on<CreatingPost>((event, emit) async {
       emit(CheckingPost());
-      // ยิงหลังบ้าน
-      Future<String> response =
-          postRepository.creatingPost(event._content, event._IsPublic);
+      // TODO : changing Temporary variable by create event Create Category
+      /// Temporary variable
+      List<String>? category = ["Hello", "Hello2"];
 
-      print(response);
-      // 200 -> return PostSuccess
-      if (response != "create data success") {
+      Future<String> response = postRepository.creatingPost(event._content, event._IsPublic, category);
+
+      if (await response == "create data success") {
+        // 200 -> return PostSuccess
         emit(PostSuccess());
-      }
-      // !200 -> return PostError
-      else {
-        print(response);
+      } else {
+        // !200 -> return PostError
         emit(PostError());
       }
     });
+
+    /// event load post
+    ///
   }
 }

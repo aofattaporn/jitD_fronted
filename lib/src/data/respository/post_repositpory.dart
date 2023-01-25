@@ -6,23 +6,27 @@ import '../models/post_model.dart';
 import '../models/test_model.dart';
 
 class PostRepository {
-  final String _urlCreatingPost = "http://localhost:3000/v1/posts/";
+  final String localUrl = "http://localhost:3000/";
+  final String globalUrl = "https://jitd-backend.onrender.com/";
 
-  Future<String> creatingPost(String? content, bool? IsPublic ) async {
-    String date = DateTime.now().toString();
-    String? id = FirebaseAuth.instance.currentUser?.uid;
-    final response = await http.post(Uri.parse(_urlCreatingPost + id!),
-        body: postModelToJson(PostModel(content, "2023-01-16T23:28:13.418485+07:00", true)));
-
-    print("2023-01-16T23:28:13.418485+07:00");
-    print(date);
-
-    print(DateTime.now());
+  Future<String> creatingPost(
+      String? content, bool? isPublic, List<String> category) async {
+    String date = DateTime.now().toUtc().toString();
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
+    final response = await http.post(Uri.parse("${globalUrl}v1/posts/"),
+        body:
+            postModelToJson(PostModel.Resquest(content, date, true, category)),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
     if (response.statusCode == 200) {
       return "create data success";
     } else {
       print(response.statusCode);
-      return "somthing fail.";
+      return "something fail.";
     }
   }
 }

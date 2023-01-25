@@ -179,12 +179,11 @@ class CreatePostState extends State<CreatePost> {
           create: (_) => PostBloc(),
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
-                if(state is PostSuccess){
+                if (state is PostSuccess) {
                   Navigator.pop(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                          const CreatePost()));
+                          builder: (context) => const CreatePost()));
                 }
               },
               child: SafeArea(
@@ -233,7 +232,7 @@ class CreatePostState extends State<CreatePost> {
                                           )),
                                       BlocBuilder<PostBloc, PostState>(
                                           builder: (context, state) {
-                                        if (state is CheckingPost) {
+                                        if (state is CheckingPost ) {
                                           return ElevatedButton(
                                               onPressed: () {},
                                               style: ElevatedButton.styleFrom(
@@ -250,9 +249,13 @@ class CreatePostState extends State<CreatePost> {
                                                             Radius.circular(
                                                                 40)),
                                                   )),
-                                              child:
-                                                  const CircularProgressIndicator(
-                                                      color: Colors.white70));
+                                              child: const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: Colors.white70),
+                                              ));
                                         } else {
                                           return ElevatedButton(
                                             onPressed: () {
