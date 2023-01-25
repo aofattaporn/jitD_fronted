@@ -48,11 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: Column(
             children: [
               //Background Top
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(50),
                       bottomLeft: Radius.circular(50)),
@@ -371,7 +372,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-
         ),
       ),
     );
