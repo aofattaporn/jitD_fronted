@@ -21,7 +21,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       List<String>? category = ["Hello", "Hello2"];
 
       Future<String> response = postRepository.creatingPost(event._content, event._IsPublic, category);
-
+      // test
       if (await response == "create data success") {
         // 200 -> return PostSuccess
         emit(PostSuccess());
