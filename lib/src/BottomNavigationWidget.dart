@@ -2,17 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
+import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
-
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/NotificationPage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
+import 'package:jitd_client/src/screens/Search/Search.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
-import 'package:jitd_client/src/screens/TestApiPage.dart';
 import 'package:jitd_client/src/screens/post/CreatePost.dart';
+import 'package:jitd_client/src/ui/DialogMessage.dart';
 
 import 'blocs/authentication/authen_state.dart';
 import 'blocs/counter/counter_event.dart';
+import 'blocs/post/post_bloc.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   const BottomNavigationWidget({Key? key}) : super(key: key);
@@ -26,10 +28,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int currentTab = 0;
   final List<Widget> screens = const [
     HomePage(),
-    TestApiPage(),
+    Search(),
     NotificationPage(),
     ProfilePage(),
     SearchPage(),
+    CreatePost()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -42,23 +45,38 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     return Scaffold(
       /// body
       body: Center(
-        child: MultiBlocProvider(
+          child: MultiBlocProvider(
             providers: [
               BlocProvider<CounterBloc2>(create: (_) => CounterBloc2()),
-              BlocProvider<AuthenticationBloc>(
-                  create: (_) => AuthenticationBloc())
+              BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
+              BlocProvider<PostBloc>(create: (_) => PostBloc())
             ],
-            child: BlocListener<AuthenticationBloc, AuthenticationState>(
-                listener: (BuildContext context, state) {
-                  if (state is SignOutSuccess) {
-                    Navigator.pop(context);
-                  }
-                },
+            child: MultiBlocListener(
+                listeners: [
+                  BlocListener<AuthenticationBloc, AuthenticationState>(
+                      listener: (BuildContext context, state) {
+                        if (state is SignOutSuccess) {
+                          Navigator.pop(context);
+                        }
+                      }),
+                  BlocListener<PostBloc, PostState>(listener: (BuildContext context, state){
+                    if (state is CheckingPost) {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (context) {
+                            return const DialogMessage(
+                                title: "create data success", desc:"");
+                            // return DialogMessage(messag: message);
+                          });
+                    }
+                  })
+                ],
                 child: PageStorage(
                   bucket: bucket,
                   child: currentScreen,
-                ))),
-      ),
+                )),
+          )),
 
       /// FAB
       floatingActionButton: FloatingActionButton(
@@ -71,7 +89,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       /// Bottom navigation Bar
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 60,
+          height: MediaQuery.of(context).size.height * 0.075,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -94,30 +112,30 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 
-  MaterialButton Button_Page(int indexSceeen, IconData xicon) {
+  MaterialButton Button_Page(int indexScreen, IconData xIcon) {
     return MaterialButton(
         onPressed: () {
           setState(() {
-            currentScreen = screens[indexSceeen];
-            currentTab = indexSceeen;
+            currentScreen = screens[indexScreen];
+            currentTab = indexScreen;
           });
         },
-        child: Icon(xicon,
-            color: currentTab == indexSceeen ? primaryColor : textColor2,
+        child: Icon(xIcon,
+            color: currentTab == indexScreen ? primaryColor : textColor2,
             size: 24));
   }
 
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const CreatePost(),
+      const CreatePost(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
         const curve = Curves.ease;
 
         var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),

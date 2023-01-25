@@ -15,27 +15,38 @@ class AuthenticationBloc
     on<SignUpEvent>((event, emit) async {
       // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
+      final email = authModel.email.toString().trim();
+      final password = authModel.passworld.toString().trim();
+      final passwordCF = authModel.passworldConfirm.toString().trim();
 
       emit(SignUpCheckingState());
 
       // Password confirm incorrect
-      if (authModel.passworld.toString().trim() !=
-          authModel.passworldConfirm.toString().trim()) {
+      if (password != passwordCF) {
         String err = "Password confirm incorrect";
         String desc = "กดเพื่อลองใหม่อีกครั้ง";
         emit(SignUpError(err, desc));
       } else {
+
         // signIn with firebase authentication.
         String? temp;
-        temp = await authRepository.signUp(authModel.email.toString().trim(),
-            authModel.passworld.toString().trim());
+        temp = await authRepository.signUp(email, password);
 
         // checking data
         if (temp == "The email address is already in use by another account.") {
           String err = "Email already existing";
           String desc = "กดเพื่อลองใหม่อีกครั้ง";
           emit(SignUpError(err, desc));
-        } else {
+        }
+
+        // checking data
+        else if(temp == "somthing wrong"){
+          String err = "Somthing fial";
+          String desc = "กดเพื่อลองใหม่อีกครั้ง";
+          emit(SignUpError(err, desc));
+        }
+
+        else {
           // ยิงข้อมูลไปที่ backend
           emit(SignUpLoadedState());
         }
@@ -47,9 +58,10 @@ class AuthenticationBloc
       // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
       // signIn with firebase authentication.
-      String? temp = await authRepository.signIn(authModel.email.toString().trim(),
+      String? temp = await authRepository.signIn(
+          authModel.email.toString().trim(),
           authModel.passworld.toString().trim());
-      // check case signIn  
+      // check case signIn
       emit(SignUpLoadedState());
     });
 
