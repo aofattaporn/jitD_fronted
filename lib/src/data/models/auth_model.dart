@@ -26,4 +26,9 @@ class AuthModel {
     passworldConfirm = json['PasswordCF'];
     phone = json['Phone'];
   }
+
+
+  /// getter
+
+
 }
