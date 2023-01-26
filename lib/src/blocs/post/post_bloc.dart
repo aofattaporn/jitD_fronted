@@ -49,7 +49,7 @@ Future<void> caseSelfCache(emit, postRepository) async {
       emit(PostLoadedState(postData));
       print(postData);
     } catch (e, stacktrace) {
-      print("Exception occured: $e stackTrace: $stacktrace");
+      print("Exception occurred: $e stackTrace: $stacktrace");
       emit(PostError(e.toString()));
     }
   } else {

@@ -10,7 +10,7 @@ class AppRoute {
 
   final _route = <String, WidgetBuilder>{
     // view_post: (context) => ViewPost(title: "ViewPost"),
-    view_all_post: (context) => ViewAllPost(),
+    // view_all_post: (context) => ViewAllPost(),
 
   };
 

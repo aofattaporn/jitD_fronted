@@ -35,13 +35,15 @@ class PostRepository {
 
   Future<PostModel> getAllPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    final response = await http.get(Uri.parse("${globalUrl}v1/"),
+    final response = await http.get(Uri.parse("${globalUrl}v1/posts/"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         });
     if (response.statusCode == 200) {
+      print("This is a response");
+      print(response.body);
       return postModelFromJson(response.body);
     } else {
       return PostModel.withError("Data not found");
