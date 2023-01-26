@@ -1,23 +1,6 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../../data/models/test_model.dart';
-// part of 'post_bloc.dart';
-
-
-class TestPostState extends Equatable {
-
-  final String content;
-  final List<String> tag;
-
-  const TestPostState({required this.content, required this.tag});
-
-  @override
-  List<Object> get props => [];
-}
-
-// -------------------------------
+import '../../data/models/post_model.dart';
 
 
 @immutable
@@ -28,7 +11,6 @@ class InitialPost extends PostState {
   @override
   List<Object?> get props => [];
 }
-
 
 /// state loading
 class CheckingPost extends PostState {
@@ -45,6 +27,23 @@ class PostSuccess extends PostState {
 
 /// state error
 class PostError extends PostState {
+  final String error;
+  PostError(this.error);
   @override
   List<Object?> get props => [];
+}
+
+/// state post loading
+class PostLoadingState extends PostState {
+  @override
+  List<Object?> get props => [];
+}
+
+/// state loaded
+class PostLoadedState extends PostState {
+  final PostModel allPost;
+  PostLoadedState(this.allPost);
+
+  @override
+  List<Object?> get props => [allPost];
 }

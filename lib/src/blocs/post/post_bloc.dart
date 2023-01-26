@@ -5,6 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 
+import '../../Cash.dart';
+import '../../data/models/post_model.dart';
 import '../../data/respository/post_repository.dart';
 
 part 'post_event.dart';
@@ -27,11 +29,31 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         emit(PostSuccess());
       } else {
         // !200 -> return PostError
-        emit(PostError());
+        emit(PostError("Create Post Failed"));
       }
     });
 
-    /// event load post
-    ///
+    on<GetAllPost>((event, emit) async {
+
+      await caseSelfCache(emit, postRepository);
+    });
+  }
+}
+
+Future<void> caseSelfCache(emit, postRepository) async {
+  if (PostCache.getDataPost == null) {
+    emit(PostLoadingState());
+    try {
+      final postData = await postRepository.getAllPost();
+      PostCache.setDataPost = postData;
+      emit(PostLoadedState(postData));
+      print(postData);
+    } catch (e, stacktrace) {
+      print("Exception occured: $e stackTrace: $stacktrace");
+      emit(PostError(e.toString()));
+    }
+  } else {
+    var data = PostModel(PostCache.getDataPost?.content, PostCache.getDataPost?.date, PostCache.getDataPost?.isPublic, PostCache.getDataPost?.category);
+    emit(PostLoadedState(data));
   }
 }
