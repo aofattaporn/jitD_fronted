@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 class PostData {
   String content;
@@ -14,6 +15,12 @@ PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
 class PostModel {
+  //----- variable for getAllPost (เพราะมัน return มาเป็น list) ----
+  List<PostModel> posts = [];
+
+  //----- variable in Each PostModel----
+  String? userId;
+  String? postId;
   String? content;
   String? date;
   bool? isPublic;
@@ -24,9 +31,12 @@ class PostModel {
   int? countPost;
   String? error;
 
-  // PostModel(this.content, this.date, this.isPublic);
+  /// constructor method (Method ที่ยัด arg และจะสร้าง object เป็น type นั้น)
   PostModel(this.content, this.date, this.isPublic, this.category);
-  PostModel.Response(this.content, this.date, this.isPublic, this.category, this.countPost, this.countComment);
+
+  PostModel.Response(this.content, this.date, this.isPublic, this.category,
+      this.countPost, this.countComment);
+
   PostModel.Resquest(this.content, this.date, this.isPublic, this.category);
 
   PostModel.withError(String errorMessage) {
@@ -34,11 +44,25 @@ class PostModel {
   }
 
   /// method convert map to json
-  PostModel.fromJson(Map<String, dynamic> json) {
+  PostModel.fromJson(List<dynamic> json) {
+    if (json != null) {
+      json.forEach((element) {
+        // แตก json ที่เป็น list ออกเป็นก้อน object type PostModel
+        posts.add(PostModel.fromJsonResponse(element));
+      });
+      print(posts.length);
+    }
+  }
+
+  /// function get post
+  PostModel.fromJsonResponse(Map<String, dynamic> json) {
+    userId = json['userId'];
+    postId = json['postId'];
     content = json['content'];
-    date = json['Date'];
+    date = json['date'];
     isPublic = json['IsPublic'];
-    category = json['category'];
+    category =
+        (json['category'] as List).map((item) => item as String).toList();
   }
 
   /// method convert json to map
@@ -48,28 +72,6 @@ class PostModel {
     data['date'] = date;
     data['isPublic'] = isPublic;
     data['category'] = category;
-
     return data;
   }
-
-  // TODO : function get post
-  PostModel.fromJsonResponse(Map<String, dynamic> json) {
-    content = json['content'];
-    date = json['Date'];
-    isPublic = json['IsPublic'];
-    category = json['category'];
-    category = json['category'];
-    category = json['category'];
-  }
-
-// Map<String, dynamic> toJson() {
-//   final Map<String, dynamic> data = Map<String, dynamic>();
-//   data['content'] = content;
-//   data['date'] = date;
-//   data['isPublic'] = isPublic;
-//   data['category'] = category;
-//
-//   return data;
-// }
-
 }

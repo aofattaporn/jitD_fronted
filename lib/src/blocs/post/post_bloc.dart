@@ -16,13 +16,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostRepository postRepository = PostRepository();
 
   PostBloc() : super(InitialPost()) {
+    /// event create post
     on<CreatingPost>((event, emit) async {
       emit(CheckingPost());
       // TODO : changing Temporary variable by create event Create Category
       /// Temporary variable
       List<String>? category = ["Hello", "Hello2"];
 
-      Future<String> response = postRepository.creatingPost(event._content, event._IsPublic, category);
+      Future<String> response = postRepository.creatingPost(
+          event._content, event._IsPublic, category);
 
       if (await response == "create data success") {
         // 200 -> return PostSuccess
@@ -33,8 +35,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
+    /// event get all post
     on<GetAllPost>((event, emit) async {
-
       await caseSelfCache(emit, postRepository);
     });
   }
@@ -45,16 +47,17 @@ Future<void> caseSelfCache(emit, postRepository) async {
     print("Change state to loading");
     emit(PostLoadingState());
     try {
+      /// TODO: get Data and send List To PostLoadedState
       final postData = await postRepository.getAllPost();
-      PostCache.setDataPost = postData;
-      emit(PostLoadedState(postData));
-      print(postData);
+      final postModel = postModelFromJson(postData);
+      emit(PostLoadedState(postModel.posts));
     } catch (e, stacktrace) {
-      print("Exception occured: $e stackTrace: $stacktrace");
+      print("Exxception occured: $e stackTrace: $stacktrace");
       emit(PostError(e.toString()));
     }
   } else {
-    var data = PostModel(PostCache.getDataPost?.content, PostCache.getDataPost?.date, PostCache.getDataPost?.isPublic, PostCache.getDataPost?.category);
-    emit(PostLoadedState(data));
+    final postData = await postRepository.getAllPost();
+    final postModel = postModelFromJson(postData);
+    emit(PostLoadedState(postModel.posts));
   }
 }

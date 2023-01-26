@@ -68,8 +68,10 @@ class _HomePageState extends State<HomePage> {
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: Container(
                             margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).devicePixelRatio * 7,
-                                left: MediaQuery.of(context).devicePixelRatio * 5),
+                                top:
+                                    MediaQuery.of(context).devicePixelRatio * 7,
+                                left: MediaQuery.of(context).devicePixelRatio *
+                                    5),
                             child: const Text(
                               "JIT :D",
                               style: TextStyle(
@@ -81,7 +83,9 @@ class _HomePageState extends State<HomePage> {
                         ),
 
                         Container(
-                          margin: EdgeInsets.only(right: MediaQuery.of(context).devicePixelRatio * 5),
+                          margin: EdgeInsets.only(
+                              right:
+                                  MediaQuery.of(context).devicePixelRatio * 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(50)),
                             color: primaryColor,
@@ -91,10 +95,9 @@ class _HomePageState extends State<HomePage> {
                               'assets/images/messenger.png',
                               color: Colors.white,
                             ),
-                            onPressed: (){},
+                            onPressed: () {},
                           ),
                         ),
-
                       ],
                     ),
 
@@ -112,7 +115,8 @@ class _HomePageState extends State<HomePage> {
               ),
               BlocProvider(
                   create: (_) => _postBloc,
-                  child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+                  child: BlocBuilder<PostBloc, PostState>(
+                      builder: (context, state) {
                     if (state is PostLoadingState) {
                       return const Text("Loading Skeleton Layout");
                     } else if (state is PostLoadedState) {
@@ -120,30 +124,42 @@ class _HomePageState extends State<HomePage> {
                     } else {
                       return Text(state.props.toString());
                     }
-                  })
-              )
-
+                  }))
             ],
           ),
         ),
-
       ),
     );
   }
 }
 
-Widget _buildPostBox(BuildContext context, PostModel model) {
+Widget _buildPostBox(BuildContext context, List<PostModel> model) {
+  // return Text("data");
+  print(model[0].date);
   return ListView.builder(
     scrollDirection: Axis.vertical,
+    itemCount: model.length,
     shrinkWrap: true,
-    itemCount: 10,
     itemBuilder: (context, index) {
-      return Column(
-        children: [
-          Text(model.content?[index] ?? "No Data"),
-        ],
+      return Container(
+        child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              color:  primaryColorSubtle,
+                child: Column(
+                  children: [
+                    Text("postId: ${model[index].postId}"),
+                    Text("content: ${model[index].content}"),
+                    Text("date: ${model[index].date}"),
+                    Text("category: ${model[index].category.toString()}"),
+                  ],
+                )
+            )
+          ],
+        ),
       );
     },
   );
 }
-
