@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jitd_client/src/screens/HomePage.dart';
+import 'package:jitd_client/src/screens/ProfilePage.dart';
 
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';

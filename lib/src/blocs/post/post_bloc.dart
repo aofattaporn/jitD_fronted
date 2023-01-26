@@ -5,32 +5,33 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 
-import '../../data/respository/post_repositpory.dart';
+import '../../data/respository/post_repository.dart';
 
 part 'post_event.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-
   // creating object repository
   PostRepository postRepository = PostRepository();
 
   PostBloc() : super(InitialPost()) {
-    on<CreatingPost>((event, emit) {
-      // TODO: implement event handler
+    on<CreatingPost>((event, emit) async {
       emit(CheckingPost());
-      // ยิงหลังบ้าน
-      Future<String> response =  postRepository.creatingPost(event._content, event._IsPublic);
+      // TODO : changing Temporary variable by create event Create Category
+      /// Temporary variable
+      List<String>? category = ["Hello", "Hello2"];
 
-      print(response);
-      // 200 -> return PostSuccess
-      if (response != "create data success") {
+      Future<String> response = postRepository.creatingPost(event._content, event._IsPublic, category);
+
+      if (await response == "create data success") {
+        // 200 -> return PostSuccess
         emit(PostSuccess());
-      }
-      // !200 -> return PostError
-      else {
-        print(response);
+      } else {
+        // !200 -> return PostError
         emit(PostError());
       }
     });
+
+    /// event load post
+    ///
   }
 }

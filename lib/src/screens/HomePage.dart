@@ -1,13 +1,18 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jitd_client/src/blocs/homepage/homepage_bloc.dart';
-import 'package:jitd_client/src/blocs/homepage/homepage_event.dart';
-import 'package:jitd_client/src/blocs/homepage/homepage_state.dart';
+import 'package:jitd_client/src/constant.dart';
 
+import 'package:jitd_client/src/data/models/cat_model.dart';
+import '../blocs/counter/counter_bloc.dart';
+import '../blocs/counter/counter_event.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import '../constant.dart';
 import '../data/models/post_model.dart';
+import 'post/PostBox.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,13 +22,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HomepageBloc _homepageBloc = HomepageBloc();
-
-  @override
-  void initState() {
-    _homepageBloc.add(LoadHomePageEvent());
-    super.initState();
-  }
+  final List<PostData> _postData = [
+    PostData(
+        "เพิ่งตัดสินใจลาออกจากงานเนื่องจากงานที่ทำได้เงินเดือน 9,000บาทงานที่ทำอยู่เกี่ยวกับการ ขาย ของนะคะหากได้ตามเป้าก็จะได้คอมมิชชั่นแต่ก็นั่นแหละค่ะเป้ามันสูงมากเราเลยได้แต่เงินเดือนรู้สึกไม่คุ้มกับความเหนื่อยและความกดดันผมผมควรทำอย่างไรกับชีวิตดีครับตออนนี้จนปัญญามากเลย ไม่มีทางไหน ให้ไปแล้ว",
+        '123',
+        ['comment1', 'comment2'],
+        ['ปัญหาชีวิต', 'อะไรไม่รู้']),
+    PostData(
+        "ที่บ้านผมมีป้าข้างบ้านคนหนึ่งที่เขามักจะสนใจเรื่องของผมเป็นพิเศษครับ โดยเขาชอบมาถามแม่ผมถึงเรื่องต่างๆนาๆในชีวิตผมละชอบเอาไปใส่ไข่ แต่เขาไม่เคยที่จะสนใจลูกของเขาเลยครับ ส่วนแม่ของผมก็มีบ้างที่สนใจเขา ผมควรทำยังไงกับป้าคนนี้ครับ ยิ่งปล่อยยิ่งแย่",
+        '1223',
+        ['ผมคิดว่าลองทำความเข้าใจกับคุณแม่กันใหม่นะ ครับลองพูดเหตุผลให้ท่าน ชี้แจงว่าแบบไหนที่จะ ทำให้รู้สึกโอเคทั้งสองฝ่าย และปล่อยผ่านไปได้',
+          'ถ้าแม่คุณยังเชื่อคุณอยู่ ก็ปล่อยป้าแกเขา เถอะครับ อย่าไปยุ่งเลย ปวดหัวเปล่าๆ'],
+        ['การเรียน']),
+    PostData('สวัสดีครับ ผมเรียนอยู่ม.4 ครับ การเรียนของผม ก็ค่อนข้างที่จะดีครับแต่มีวิชาคณิตที่ฉุดคะแนนของผมตลอดเลยครับ ผมเครียดมากเลย ได้เกรด 1 เองครับ',
+        '2', [], ['การเรียน', 'การงาน', 'การเรียน','การเรียน','การเรียน','การเรียน',])
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +52,9 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
+                color: primaryColorSubtle,
                 height: MediaQuery.of(context).size.height * 0.2,
                 width: MediaQuery.of(context).size.height * 1,
-                decoration: const BoxDecoration(
-                    color: primaryColorSubtle,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 4,
-                        color: Color.fromRGBO(
-                            0, 0, 0, 0.25),
-                        offset: Offset(0, 4),
-                      )
-                    ]
-                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -60,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         //Widget Box and Text
                         Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -73,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                             margin: EdgeInsets.only(
                                 top: MediaQuery.of(context).devicePixelRatio * 7,
                                 left: MediaQuery.of(context).devicePixelRatio * 5),
-                            child: const Text(
+                            child: Text(
                               "JIT :D",
                               style: TextStyle(
                                   color: Colors.white,
@@ -82,6 +85,22 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
+
+                        Container(
+                          margin: EdgeInsets.only(right: MediaQuery.of(context).devicePixelRatio * 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: primaryColor,
+                          ),
+                          child: IconButton(
+                            icon: Image.asset(
+                              'assets/images/messenger.png',
+                              color: Colors.white,
+                            ),
+                            onPressed: (){},
+                          ),
+                        ),
+
                       ],
                     ),
 
@@ -91,73 +110,93 @@ class _HomePageState extends State<HomePage> {
                           itemCount: 6,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return CategoryBox();
+                            return Category();
                           }),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
 
-              BlocProvider(
-                create: (context) => _homepageBloc,
-                child: BlocBuilder<HomepageBloc, HomepageState>(builder: (context, state) {
-                  if (state is HomePageLoadingState) {
-                    return Text("Loading");
-                  } else if (state is HomePageLoadedState) {
-                    return _buildPostBox(context, state.allPost);
-                  } else {
-                    return Text(state.props.toString());
-                  }
-                })
-              )
+              //post
+              Align(
+                alignment: const AlignmentDirectional(0, 1),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                30, 20, 30, 5),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                MediaQuery.of(context).size.height * 0.04,
+                                decoration: const BoxDecoration(
+                                    color: thirterydColor,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                                child: Center(
+                                  child: RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                          text: " เรียงตามความนิยม ",
+                                          style: GoogleFonts.getFont(
+                                              'Bai Jamjuree',
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold)),
+                                      const WidgetSpan(
+                                        child: Icon(
+                                          Icons.arrow_drop_down,
+                                          size: 18,
+                                          color: backgroundColor3,
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                          child: ListView.builder(
+                              padding: const EdgeInsetsDirectional.all(20),
+                              itemCount: _postData.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  child: PostBox(
+                                    content: _postData[index].content,
+                                    like: _postData[index].like,
+                                    comment: _postData[index].comment,
+                                    tag: _postData[index].tag,
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                        ViewPost(content: _postData[index].content,
+                                            like: _postData[index].like,
+                                            comment: _postData[index].comment,
+                                            tag: _postData[index].tag)));
 
-              //Post Data Here
-
+                                  },
+                                );
+                              })),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
 
-      ),
-    );
-  }
-}
-
-Widget _buildPostBox(BuildContext context, PostModel model) {
-  return Container(child: Text(model.content ?? "Content is null"),);
-}
-
-class CategoryBox extends StatelessWidget {
-  const CategoryBox({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(
-                top: MediaQuery.of(context).devicePixelRatio*8,
-                left: MediaQuery.of(context).devicePixelRatio*6),
-            child: ElevatedButton(
-              style: TextButton.styleFrom(
-                backgroundColor: primaryColor,
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              onPressed: () {},
-              child: const Text('การงาน'),
-            ),
-          ),
-        ],
       ),
     );
   }

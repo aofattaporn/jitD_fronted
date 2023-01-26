@@ -15,6 +15,7 @@ class TestRepository {
     }
   }
 
+  /// using cache Lib (CacheManager)
   Future<TestModel> getTestByCacheLib() async {
     var file = await DefaultCacheManager().getSingleFile(_baseUrl.toString());
     var data = testModelFromJson(file.readAsStringSync());
