@@ -42,6 +42,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
 Future<void> caseSelfCache(emit, postRepository) async {
   if (PostCache.getDataPost == null) {
+    print("Change state to loading");
     emit(PostLoadingState());
     try {
       final postData = await postRepository.getAllPost();
@@ -49,7 +50,7 @@ Future<void> caseSelfCache(emit, postRepository) async {
       emit(PostLoadedState(postData));
       print(postData);
     } catch (e, stacktrace) {
-      print("Exception occurred: $e stackTrace: $stacktrace");
+      print("Exception occured: $e stackTrace: $stacktrace");
       emit(PostError(e.toString()));
     }
   } else {
