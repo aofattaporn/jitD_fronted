@@ -11,6 +11,8 @@ class PostModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         onPressed: () {
           showModalBottomSheet(
             shape: const RoundedRectangleBorder(

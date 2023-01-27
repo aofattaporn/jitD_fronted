@@ -6,17 +6,19 @@ import '../../constant.dart';
 import '../Utilities/PostModal.dart';
 
 class ViewPost extends StatefulWidget {
-  final String content;
-  final String like;
-  final List<String>? comment;
-  final List<String> tag;
+  final String? userId;
+  final String? postId;
+  final String? content;
+  final String? date;
+  final List<String>? category;
 
   const ViewPost(
       {Key? key,
-      required this.content,
-      required this.like,
-      this.comment,
-      required this.tag})
+      required this.userId,
+      required this.postId,
+        required this.content,
+        required this.date,
+      required this.category})
       : super(key: key);
 
   @override
@@ -48,6 +50,8 @@ class ViewPostState extends State<ViewPost> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
           child: Stack(children: [
+
+            /// Post-Comment
             SingleChildScrollView(
               child: Stack(
                 children: [
@@ -75,7 +79,7 @@ class ViewPostState extends State<ViewPost> {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          // Section-Header
+                          /// Section-Header
                           Row(
                             children: [
                               Container(
@@ -126,7 +130,7 @@ class ViewPostState extends State<ViewPost> {
                               height:
                                   MediaQuery.of(context).size.height * 0.03),
 
-                          // Section-PostDetail
+                          /// Section-PostDetail
                           Container(
                             decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -149,7 +153,7 @@ class ViewPostState extends State<ViewPost> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "23 Nov 2022",
+                                        widget.date ?? DateTime.now().toString(),
                                         style: GoogleFonts.getFont("Lato",
                                             fontSize: 16, color: textColor3),
                                       ),
@@ -172,12 +176,12 @@ class ViewPostState extends State<ViewPost> {
                                         0.025,
                                   ),
 
-                                  // Section-Content
+                                  /// Section-Content
                                   Row(
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          widget.content,
+                                          widget.content ?? "",
                                           style: GoogleFonts.getFont(
                                               "Bai Jamjuree",
                                               fontSize: 16,
@@ -194,13 +198,13 @@ class ViewPostState extends State<ViewPost> {
                                           MediaQuery.of(context).size.height *
                                               0.03),
 
-                                  // Section-Tag ---------------------------------------------------
+                                  /// Section-Tag
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.035,
                                     child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: widget.tag.length,
+                                      itemCount: widget.category!.length,
                                       separatorBuilder: (context, index) {
                                         return SizedBox(
                                             width: MediaQuery.of(context)
@@ -220,7 +224,7 @@ class ViewPostState extends State<ViewPost> {
                                                   const EdgeInsetsDirectional
                                                       .fromSTEB(10, 5, 10, 5),
                                               child: Text(
-                                                widget.tag[index],
+                                                widget.category![index],
                                                 style: GoogleFonts.getFont(
                                                     "Bai Jamjuree",
                                                     fontSize: 12,
@@ -236,7 +240,7 @@ class ViewPostState extends State<ViewPost> {
                                           MediaQuery.of(context).size.height *
                                               0.015),
 
-                                  // Section-Comments ----------------------------------------------
+                                  /// Section Chat/Like
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -271,8 +275,6 @@ class ViewPostState extends State<ViewPost> {
                                           ),
                                         ),
                                       ),
-
-                                      // Section-Like
                                       SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
@@ -286,7 +288,7 @@ class ViewPostState extends State<ViewPost> {
                                           child: RichText(
                                             text: TextSpan(children: [
                                               TextSpan(
-                                                  text: widget.like,
+                                                  text: "0",
                                                   style: GoogleFonts.getFont(
                                                       'Lato',
                                                       fontSize: 18,
@@ -354,12 +356,11 @@ class ViewPostState extends State<ViewPost> {
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.03),
-
                               ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: widget.comment?.length ?? 0,
+                                itemCount: 0,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding: EdgeInsetsDirectional.only(
@@ -444,8 +445,7 @@ class ViewPostState extends State<ViewPost> {
                                                     children: [
                                                       Flexible(
                                                         child: Text(
-                                                          widget
-                                                              .comment![index],
+                                                          "widget.comment![index]",
                                                           style: GoogleFonts
                                                               .getFont(
                                                             "Bai Jamjuree",
@@ -519,6 +519,10 @@ class ViewPostState extends State<ViewPost> {
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.06),
+                              Container(
+                                height: MediaQuery.of(context).size.height * 0.2695,
+                                  child: Text("No Comments Yet", style: GoogleFonts.getFont("Lato", color: textColor3),)
+                              ),
                             ],
                           ),
                         ],
@@ -529,7 +533,7 @@ class ViewPostState extends State<ViewPost> {
               ),
             ),
 
-            // BottomContainer-Comment
+            /// BottomContainer-CommentBox
             Positioned(
                 bottom: 0,
                 child: Container(
@@ -565,7 +569,7 @@ class ViewPostState extends State<ViewPost> {
                                           commentController!.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {},
-                                          icon: Icon(Icons.send, color: primaryColorDark,))
+                                          icon: const Icon(Icons.send, color: primaryColorDark,))
                                       : null),
                           minLines: 1,
                           maxLines: 5,

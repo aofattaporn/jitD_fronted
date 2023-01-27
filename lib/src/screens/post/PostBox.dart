@@ -6,14 +6,12 @@ import '../Utilities/PostModal.dart';
 
 class PostBox extends StatelessWidget {
   final String content;
-  final String like;
   final List<String>? comment;
   final List<String> tag;
 
   const PostBox(
       {super.key,
       required this.content,
-      required this.like,
       this.comment,
       required this.tag});
 
@@ -147,7 +145,7 @@ class PostBox extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: like,
+                              text: '0',
                               style: GoogleFonts.getFont('Lato',
                                   fontSize: 18, color: textColor2)),
                           const TextSpan(text: ' '),

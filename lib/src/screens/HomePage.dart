@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:jitd_client/src/screens/Utilities/PostModal.dart';
 
 import 'package:jitd_client/src/data/models/cat_model.dart';
-import '../blocs/counter/counter_bloc.dart';
-import '../blocs/counter/counter_event.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import '../blocs/post/post_state.dart';
@@ -36,19 +35,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: primaryColorSubtle,
-        elevation: 0,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           //Background on top
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                height: MediaQuery.of(context).size.height * 0.02,
+                width: MediaQuery.of(context).size.height,
                 color: primaryColorSubtle,
+              ),
+              Container(
                 height: MediaQuery.of(context).size.height * 0.2,
                 width: MediaQuery.of(context).size.height * 1,
+                decoration:
+                    const BoxDecoration(color: primaryColorSubtle, boxShadow: [
+                  BoxShadow(
+                    blurRadius: 4,
+                    color: Color.fromRGBO(0, 0, 0, 0.25),
+                    offset: Offset(0, 4),
+                  )
+                ]),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,9 +77,9 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             margin: EdgeInsets.only(
                                 top:
-                                    MediaQuery.of(context).devicePixelRatio * 7,
+                                    MediaQuery.of(context).devicePixelRatio * 4,
                                 left: MediaQuery.of(context).devicePixelRatio *
-                                    5),
+                                    10),
                             child: const Text(
                               "JIT :D",
                               style: TextStyle(
@@ -86,9 +94,9 @@ class _HomePageState extends State<HomePage> {
                           margin: EdgeInsets.only(
                               right:
                                   MediaQuery.of(context).devicePixelRatio * 5),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: primaryColor,
+                            color: secondaryColor,
                           ),
                           child: IconButton(
                             icon: Image.asset(
@@ -100,7 +108,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-
                     //Category btn
                     Expanded(
                       child: ListView.builder(
@@ -111,6 +118,24 @@ class _HomePageState extends State<HomePage> {
                           }),
                     ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: secondaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Text(
+                      "ปัญหาที่เพิ่มมาใหม่",
+                      style: GoogleFonts.getFont("Bai Jamjuree",
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
               BlocProvider(
@@ -124,7 +149,24 @@ class _HomePageState extends State<HomePage> {
                     } else {
                       return Text(state.props.toString());
                     }
-                  }))
+                  })),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              GestureDetector(
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      'เพิ่มเติม >>',
+                      style: GoogleFonts.getFont("Bai Jamjuree",
+                          color: textColor2,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.underline,
+                          decorationColor: thirterydColor,
+                          decorationThickness: 4),
+                    )),
+              ),
             ],
           ),
         ),
@@ -134,31 +176,129 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildPostBox(BuildContext context, List<PostModel> model) {
-  // return Text("data");
-  print(model[0].date);
-  return ListView.builder(
-    scrollDirection: Axis.vertical,
-    itemCount: model.length,
-    shrinkWrap: true,
-    itemBuilder: (context, index) {
-      return Container(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              color:  primaryColorSubtle,
+  const itemCount = 5;
+  return SizedBox(
+    height: MediaQuery.of(context).size.height * 0.235,
+    child: ListView.separated(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: itemCount,
+      separatorBuilder: (context, index) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.04,
+        );
+      },
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () => Navigator.of(context).push(_createRoute(ViewPost(
+            postId: model[index].postId ?? "123",
+            userId: model[index].userId ?? "123",
+            content: model[index].content ?? "ERROR",
+            category: model[index].category ?? ["ERROR"],
+            date: model[index].date ?? "404",
+          ))),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: backgroundColor2,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 15,
+                      color: Color.fromRGBO(170, 212, 204, 0.5),
+                      offset: Offset(0, 2),
+                    )
+                  ]),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 5),
                 child: Column(
                   children: [
-                    Text("postId: ${model[index].postId}"),
-                    Text("content: ${model[index].content}"),
-                    Text("date: ${model[index].date}"),
-                    Text("category: ${model[index].category.toString()}"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          model[index].date ?? DateTime.now().toString(),
+                          style: GoogleFonts.getFont("Lato",
+                              fontSize: 12, color: textColor3),
+                        ),
+                        const PostModal(),
+                      ],
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      height: MediaQuery.of(context).size.height * 0.08,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              model[index].content ?? "Error404 Not Found",
+                              style: GoogleFonts.getFont("Bai Jamjuree",
+                                  fontSize: 16, color: textColor2),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                              softWrap: false,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.035,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: model[index].category?.length ?? 0,
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02);
+                        },
+                        itemBuilder: (BuildContext context, int i) {
+                          return Container(
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: secondaryColor),
+                            child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    10, 5, 10, 5),
+                                child: Text(
+                                  model[index].category![i],
+                                  style: GoogleFonts.getFont("Bai Jamjuree",
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                )),
+                          );
+                        },
+                      ),
+                    )
                   ],
-                )
-            )
-          ],
-        ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
+
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, -0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
       );
     },
   );
