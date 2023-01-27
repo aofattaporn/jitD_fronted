@@ -9,6 +9,7 @@ import 'package:jitd_client/src/screens/Utilities/PostModal.dart';
 
 import 'package:jitd_client/src/data/models/cat_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import '../blocs/post/post_state.dart';
 import '../constant.dart';
@@ -145,27 +146,38 @@ class _HomePageState extends State<HomePage> {
                     if (state is PostLoadingState) {
                       return const Text("Loading Skeleton Layout");
                     } else if (state is PostLoadedState) {
-                      return _buildPostBox(context, state.allPost);
+                      return Column(
+                        children: [
+                          _buildPostBox(context, state.allPost),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context)
+                                .push(_createRoute(ViewAllPost(
+                              model: state.allPost,
+                            ))),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: Text(
+                                    'เพิ่มเติม >>',
+                                    style: GoogleFonts.getFont("Bai Jamjuree",
+                                        color: textColor2,
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: thirterydColor,
+                                        decorationThickness: 4),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      );
                     } else {
                       return Text(state.props.toString());
                     }
                   })),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              GestureDetector(
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: Text(
-                      'เพิ่มเติม >>',
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          color: textColor2,
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.underline,
-                          decorationColor: thirterydColor,
-                          decorationThickness: 4),
-                    )),
               ),
             ],
           ),
