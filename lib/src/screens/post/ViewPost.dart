@@ -520,7 +520,7 @@ class ViewPostState extends State<ViewPost> {
                                   height: MediaQuery.of(context).size.height *
                                       0.06),
                               Container(
-                                height: MediaQuery.of(context).size.height * 0.2695,
+                                height: MediaQuery.of(context).size.height * 0.325,
                                   child: Text("No Comments Yet", style: GoogleFonts.getFont("Lato", color: textColor3),)
                               ),
                             ],

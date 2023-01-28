@@ -11,6 +11,7 @@ import 'package:jitd_client/src/data/models/cat_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
+import 'package:shimmer/shimmer.dart';
 import '../blocs/post/post_state.dart';
 import '../constant.dart';
 import '../data/models/post_model.dart';
@@ -121,33 +122,109 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: Text(
-                      "ปัญหาที่เพิ่มมาใหม่",
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
               BlocProvider(
                   create: (_) => _postBloc,
                   child: BlocBuilder<PostBloc, PostState>(
                       builder: (context, state) {
                     if (state is PostLoadingState) {
-                      return const Text("Loading Skeleton Layout");
+                      return Shimmer.fromColors(
+                        baseColor: skeletonColor,
+                        highlightColor: skeletonHighlightColor,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                decoration: const BoxDecoration(
+                                    color: secondaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              physics: NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 0, 10),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.215,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: skeletonColor),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        15, 20, 0, 10),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.215,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: skeletonColor),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                  decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
+                                      color: skeletonColor),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
                     } else if (state is PostLoadedState) {
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: Text(
+                                  "ปัญหาที่เพิ่มมาใหม่",
+                                  style: GoogleFonts.getFont("Bai Jamjuree",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
                           _buildPostBox(context, state.allPost),
                           GestureDetector(
                             onTap: () => Navigator.of(context)

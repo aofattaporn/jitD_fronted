@@ -22,6 +22,7 @@ dependencies:
   rive: 0.9.1
   google_fonts: ^3.0.1
   sliding_up_panel: ^2.0.0+1
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

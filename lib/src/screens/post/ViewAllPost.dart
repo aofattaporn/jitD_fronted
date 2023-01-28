@@ -172,10 +172,14 @@ class ViewAllPostState extends State<ViewAllPost> {
                           category: widget.model[index].category ?? ["Tag1", "Tag2"],
                         ),
                         onTap: () {
-                          // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                          //     ViewPost(content: _postData[index].content,
-                          //       : _postData[index].comment,
-                          //       category: _postData[index].tag)));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                              ViewPost(
+                                userId: widget.model[index].userId ?? "",
+                                postId: widget.model[index].postId ?? "",
+                                content: widget.model[index].content ?? "No Data",
+                                date: widget.model[index].date ?? DateTime.now().toString(),
+                                category: widget.model[index].category ?? ["Tag1", "Tag2"],
+                              )));
                         },
                       );
                     }),
