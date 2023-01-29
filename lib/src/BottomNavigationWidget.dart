@@ -9,6 +9,7 @@ import 'package:jitd_client/src/screens/NotificationPage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/Search/Search.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
+import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/CreatePost.dart';
 import 'package:jitd_client/src/ui/DialogMessage.dart';
 
@@ -46,37 +47,45 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       /// body
       body: Center(
           child: MultiBlocProvider(
-            providers: [
-              BlocProvider<CounterBloc2>(create: (_) => CounterBloc2()),
-              BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
-              BlocProvider<PostBloc>(create: (_) => PostBloc())
+        providers: [
+          BlocProvider<CounterBloc2>(create: (_) => CounterBloc2()),
+          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
+          BlocProvider<PostBloc>(create: (_) => PostBloc())
+        ],
+        child: MultiBlocListener(
+            listeners: [
+              BlocListener<AuthenticationBloc, AuthenticationState>(
+                  listener: (BuildContext context, state) {
+                if (state is SignOutSuccess) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUp()),
+                      (r) {
+                    return false;
+                  });
+                }
+              }),
+              BlocListener<PostBloc, PostState>(
+                  listener: (BuildContext context, state) {
+                if (state is CheckingPost) {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      // user must tap button!
+                      builder: (context) {
+                        return const DialogMessage(
+                            title: "create data success", desc: "");
+                        // return DialogMessage(messag: message);
+                      });
+                }
+              })
             ],
-            child: MultiBlocListener(
-                listeners: [
-                  BlocListener<AuthenticationBloc, AuthenticationState>(
-                      listener: (BuildContext context, state) {
-                        if (state is SignOutSuccess) {
-                          Navigator.pop(context);
-                        }
-                      }),
-                  BlocListener<PostBloc, PostState>(listener: (BuildContext context, state){
-                    if (state is CheckingPost) {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (context) {
-                            return const DialogMessage(
-                                title: "create data success", desc:"");
-                            // return DialogMessage(messag: message);
-                          });
-                    }
-                  })
-                ],
-                child: PageStorage(
-                  bucket: bucket,
-                  child: currentScreen,
-                )),
-          )),
+            child: PageStorage(
+              bucket: bucket,
+              child: currentScreen,
+            )),
+      )),
 
       /// FAB
       floatingActionButton: FloatingActionButton(
@@ -128,14 +137,14 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-      const CreatePost(),
+          const CreatePost(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
         const curve = Curves.ease;
 
         var tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),

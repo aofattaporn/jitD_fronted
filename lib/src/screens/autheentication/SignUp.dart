@@ -102,7 +102,7 @@ class SignUpState extends State<SignUp> {
                             (r) {
                           return false;
                         });
-                      } else if (state is SignUpError) {
+                      } else if (state is AuthenUpError) {
                         showDialog(
                             context: context,
                             barrierDismissible: false, // user must tap button!
@@ -304,7 +304,7 @@ class SignUpState extends State<SignUp> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-          if (state is SignUpCheckingState) {
+          if (state is AuthenCheckingState) {
             return ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(

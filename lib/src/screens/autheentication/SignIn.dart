@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,18 +60,20 @@ class SignInState extends State<SignIn> {
           listener: (BuildContext context, state) {
             // Case SignUp Loaded
             if (state is SignUpLoadedState) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const BottomNavigationWidget()),
-              );
-            } else if (state is SignUpError) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => const BottomNavigationWidget()),
+                  (r) {
+                return false;
+              });
+            } else if (state is AuthenUpError) {
               showDialog(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (context) {
                     return DialogMessage(
-                        title: state.err_desc, desc: state.err_msg);
+                        title: state.err_msg, desc: state.err_desc);
                     // return DialogMessage(message: message);
                   });
             } else {}
@@ -105,7 +108,7 @@ class SignInState extends State<SignIn> {
                       ),
                       Padding(
                         padding:
-                        const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                         child: Text(
                           'In',
                           style: GoogleFonts.getFont(
@@ -126,7 +129,8 @@ class SignInState extends State<SignIn> {
                   child: Form(
                     key: _formKey,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.28),
+                      padding: EdgeInsets.symmetric(
+                          vertical: MediaQuery.of(context).size.height * 0.28),
                       child: Column(
                         children: [
                           //  FORM
@@ -232,7 +236,7 @@ class SignInState extends State<SignIn> {
                       ),
                       Padding(
                         padding:
-                        const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                         child: Image.asset(
                           'assets/images/twitter_icon.png',
                           width: 40,
@@ -395,8 +399,8 @@ class SignInState extends State<SignIn> {
   }
 
   bool? _checkFormFill() {
-    if (emailController?.text.toString().trim().isEmpty == true ||
-        passwordController?.text.toString().trim().isEmpty == true) {
+    if (emailController?.text.toString().trim().isEmpty != false ||
+        passwordController?.text.toString().trim().isEmpty != false) {
       return false;
     } else {
       return true;
@@ -406,9 +410,9 @@ class SignInState extends State<SignIn> {
   InkWell _suffixIcon() {
     return InkWell(
       onTap: () => setState(() => {
-        print(passwordVisibility),
-        this.passwordVisibility = !this.passwordVisibility
-      }),
+            print(passwordVisibility),
+            this.passwordVisibility = !this.passwordVisibility
+          }),
       focusNode: FocusNode(skipTraversal: true),
       child: Icon(
         this.passwordVisibility
@@ -425,45 +429,45 @@ class SignInState extends State<SignIn> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-              if (state is SignUpCheckingState) {
-                return ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 24),
-                        minimumSize: const Size.fromHeight(52),
-                        primary: thirterydColor,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        )),
-                    child: const CircularProgressIndicator(color: Colors.white70));
-              } else {
-                return ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate() &&
-                          _checkFormFill() == true) {
-                        Map<String, dynamic> dataSignIn = {
-                          "Email": emailController?.text,
-                          "Password": passwordController?.text,
-                        };
+          if (state is AuthenCheckingState) {
+            return ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 24),
+                    minimumSize: const Size.fromHeight(52),
+                    primary: thirterydColor,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )),
+                child: const CircularProgressIndicator(color: Colors.white70));
+          } else {
+            return ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate() &&
+                      _checkFormFill() == true) {
+                    Map<String, dynamic> dataSignIn = {
+                      "Email": emailController?.text,
+                      "Password": passwordController?.text,
+                    };
 
-                        context
-                            .read<AuthenticationBloc>()
-                            .add(SignInEvent(dataSignIn));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        minimumSize: const Size.fromHeight(52),
-                        elevation: (_checkFormFill() == true) ? 5 : 0,
-                        primary: (_checkFormFill() == true)
-                            ? thirterydColor
-                            : thirteryColorSubtle,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        )),
-                    child: const Text("Sign In"));
-              }
-            }));
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(SignInEvent(dataSignIn));
+                  } else {}
+                },
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                    minimumSize: const Size.fromHeight(52),
+                    elevation: (_checkFormFill() == true) ? 5 : 0,
+                    primary: (_checkFormFill() == true)
+                        ? thirterydColor
+                        : thirteryColorSubtle,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )),
+                child: const Text("Sign In"));
+          }
+        }));
   }
 }

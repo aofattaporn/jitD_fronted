@@ -52,11 +52,28 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        return 'No user found for that email.';
+
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+        return "Wrong password provided for that user.";
       }
     }
-    return "creating data success";
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
+    final response = await http.post(Uri.parse("${localUrl}v1/users/signIn"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
+    print(response.request);
+    if (response.statusCode == 200) {
+      return "creating data success";
+    } else {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return "something wrong";
+    }
   }
 
   /// check credentail function
@@ -78,7 +95,7 @@ class AuthRepository {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -98,7 +115,7 @@ class AuthRepository {
 
     // Create a credential from the access token
     final OAuthCredential facebookAuthCredential =
-    FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);

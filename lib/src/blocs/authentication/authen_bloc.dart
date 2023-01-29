@@ -19,13 +19,13 @@ class AuthenticationBloc
       final password = authModel.passworld.toString().trim();
       final passwordCF = authModel.passworldConfirm.toString().trim();
 
-      emit(SignUpCheckingState());
+      emit(AuthenCheckingState());
 
       // Password confirm incorrect
       if (password != passwordCF) {
         String err = "Password confirm incorrect";
         String desc = "กดเพื่อลองใหม่อีกครั้ง";
-        emit(SignUpError(err, desc));
+        emit(AuthenUpError(err, desc));
       } else {
 
         // signIn with firebase authentication.
@@ -36,14 +36,14 @@ class AuthenticationBloc
         if (temp == "The email address is already in use by another account.") {
           String err = "Email already existing";
           String desc = "กดเพื่อลองใหม่อีกครั้ง";
-          emit(SignUpError(err, desc));
+          emit(AuthenUpError(err, desc));
         }
 
         // checking data
         else if(temp == "somthing wrong"){
           String err = "Somthing fial";
           String desc = "กดเพื่อลองใหม่อีกครั้ง";
-          emit(SignUpError(err, desc));
+          emit(AuthenUpError(err, desc));
         }
 
         else {
@@ -55,14 +55,24 @@ class AuthenticationBloc
 
     /// SignIn event
     on<SignInEvent>((event, emit) async {
+
+      emit(AuthenCheckingState());
       // convert data to model
       var authModel = AuthModel.fromJson(event.dataSignUp);
       // signIn with firebase authentication.
       String? temp = await authRepository.signIn(
           authModel.email.toString().trim(),
           authModel.passworld.toString().trim());
-      // check case signIn
-      emit(SignUpLoadedState());
+      if(temp == "No user found for that email."){
+        emit(AuthenUpError("No user found for that email.", "Please to try again"));
+      }else if(temp == "Wrong password provided for that user."){
+        emit(AuthenUpError("Wrong password.", "Please to try again"));
+      }
+      else if(temp == "something wrong"){
+        emit(AuthenUpError("something wrong", "Please to try again"));
+      }else{
+        emit(SignUpLoadedState());
+      }
     });
 
     /// SignIn by google
