@@ -9,6 +9,7 @@ import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
+import 'package:jitd_client/src/screens/tutorials/TutorialPage2.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
