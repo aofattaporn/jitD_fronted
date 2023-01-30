@@ -26,14 +26,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // theme: ThemeData(
-      //   pageTransitionsTheme: const PageTransitionsTheme(
-      //       builders: {
-      //         TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      //         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      //       }
-      //   )
-      // ),
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),
       routes: {
