@@ -1,12 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../models/post_model.dart';
-import '../models/test_model.dart';
 
 class PostRepository {
   final String localUrl = "http://localhost:3000/";

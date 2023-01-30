@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/screens/post/BlockWords.dart';
@@ -22,11 +23,13 @@ class CreatePostState extends State<CreatePost> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final panelController = PanelController();
+  final toast = FToast();
 
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
+    toast.init(context);
   }
 
   @override
@@ -66,6 +69,7 @@ class CreatePostState extends State<CreatePost> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CreatePost()));
+                  showToast();
                 }
               },
               child: SafeArea(
@@ -545,4 +549,47 @@ class CreatePostState extends State<CreatePost> {
       },
     );
   }
+
+  void showToast() => toast.showToast(
+        child: successToast(),
+        gravity: ToastGravity.TOP,
+      );
+
+  Widget successToast() => Container(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+        color: statusColorSuccess,
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.check_circle,
+                color: Colors.white,
+                size: 30,
+              ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+              Text(
+                "สถานะการโพสสำเร็จ",
+                style: GoogleFonts.getFont("Bai Jamjuree",
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.015),
+              const VerticalDivider(
+                thickness: 1,
+                width: 20,
+                color: Colors.black,
+              ),
+              const CircleAvatar(
+                  backgroundColor: Color.fromRGBO(102, 204, 144, 1),
+                  child: Icon(
+                    Icons.cancel_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ))
+            ],
+          ),
+        ),
+      );
 }
