@@ -50,3 +50,9 @@ class PostLoadedState extends PostState {
   @override
   List<Object?> get props => [allPost];
 }
+
+/// state post loading
+class PostDeletedState extends PostState {
+  @override
+  List<Object?> get props => [];
+}

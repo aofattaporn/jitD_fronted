@@ -39,6 +39,26 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<GetAllPost>((event, emit) async {
       await caseSelfCache(emit, postRepository);
     });
+
+    on<DeleteMyPost>((event, emit) async {
+      await deletePost(emit, event.id, postRepository);
+    });
+  }
+}
+
+Future<void> deletePost(emit, id, postRepository) async {
+  emit(PostLoadingState());
+  try {
+    /// TODO: get Data and send List To PostLoadedState
+    final responstatus = await postRepository.deletePost(id);
+    if (await responstatus == "delete post success") {
+      emit(PostDeletedState());
+    } else {
+      emit(PostError("Something thing"));
+    }
+  } catch (e, stacktrace) {
+    print("Exxception occured: $e stackTrace: $stacktrace");
+    emit(PostError(e.toString()));
   }
 }
 
