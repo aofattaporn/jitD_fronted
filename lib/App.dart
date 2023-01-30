@@ -5,6 +5,7 @@ import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
+import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
@@ -29,7 +30,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),
       routes: {
-        "/": (context) => const SignUp(),
+        "/": (context) => const SignIn(),
         "/home": (context) => const BottomNavigationWidget()
       }, // home:
     );

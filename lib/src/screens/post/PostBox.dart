@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constant.dart';
+import '../Utilities/PostModal.dart';
 
 class PostBox extends StatelessWidget {
-  final String content;
-  final String like;
-  final List<String>? comment;
-  final List<String> tag;
+  final String? userId;
+  final String? postId;
+  final String? content;
+  final String? date;
+  final List<String>? category;
 
   const PostBox(
-      {super.key,
-      required this.content,
-      required this.like,
-      this.comment,
-      required this.tag});
+      {Key? key,
+        required this.userId,
+        required this.postId,
+        required this.content,
+        required this.date,
+        required this.category})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-          top: MediaQuery.of(context).size.height * 0.03),
+          bottom: MediaQuery.of(context).size.height * 0.03),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
         height: MediaQuery.of(context).size.height * 0.31,
@@ -42,17 +46,11 @@ class PostBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "23 Nov 2022",
+                    date?? DateTime.now().toString(),
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.more_horiz,
-                        color: textColor3,
-                        size: 30,
-                      ))
+                   PostModal(userId: userId,)
                 ],
               ),
               Row(
@@ -69,19 +67,23 @@ class PostBox extends StatelessWidget {
               ),
 
               // Section-Content
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      content,
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          fontSize: 16, color: textColor2),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                      softWrap: false,
-                    ),
-                  )
-                ],
+              Container(
+                alignment: Alignment.topLeft,
+                height: MediaQuery.of(context).size.height * 0.08,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        content ?? "No Data",
+                        style: GoogleFonts.getFont("Bai Jamjuree",
+                            fontSize: 16, color: textColor2),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        softWrap: false,
+                      ),
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
@@ -90,9 +92,10 @@ class PostBox extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.035,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: tag.length,
+                  itemCount: category!.length,
                   separatorBuilder: (context, index) {
-                    return SizedBox(width: MediaQuery.of(context).size.width * 0.02);
+                    return SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.02);
                   },
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -100,10 +103,10 @@ class PostBox extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: secondaryColor),
                       child: Padding(
-                          padding:
-                          const EdgeInsetsDirectional.fromSTEB(10, 5, 10, 5),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 5, 10, 5),
                           child: Text(
-                            tag[index],
+                            category![index],
                             style: GoogleFonts.getFont("Bai Jamjuree",
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -111,8 +114,6 @@ class PostBox extends StatelessWidget {
                           )),
                     );
                   },
-
-
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -130,7 +131,7 @@ class PostBox extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: comment?.length.toString(),
+                              text: '0',
                               style: GoogleFonts.getFont('Lato',
                                   fontSize: 16, color: Colors.white)),
                           const TextSpan(text: '  '),
@@ -153,7 +154,7 @@ class PostBox extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: like,
+                              text: '0',
                               style: GoogleFonts.getFont('Lato',
                                   fontSize: 18, color: textColor2)),
                           const TextSpan(text: ' '),
