@@ -12,20 +12,19 @@ class Category extends StatelessWidget {
                     top: MediaQuery.of(context).devicePixelRatio*8,
                     left: MediaQuery.of(context).devicePixelRatio*6),
                 child: ElevatedButton(
-                  child: Text('การงาน'),
                   style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    backgroundColor: primaryColor,
-                    textStyle: TextStyle(
+                    foregroundColor: Colors.white, backgroundColor: primaryColor,
+                    textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
-                    elevation: 2,
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   onPressed: () {},
+                  child: const Text('การงาน'),
                 ),
               ),
         ],

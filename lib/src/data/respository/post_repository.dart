@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,22 +33,19 @@ class PostRepository {
     }
   }
 
-  Future<String> GetMyPost()
-      async{
-        String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-        final response = await http.get(Uri.parse("${globalUrl}v1/posts/id/"),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          }
-        );
-      if (response.statusCode == 200) {
-        var data = postModelFromJson(response.body);
-        return "Get data success";
-      } else {
-        return "somthing fail.";
-      }
-  }
+  Future<Object> getAllPost() async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response = await http.get(Uri.parse("${globalUrl}v1/posts/"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
 
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return PostModel.withError("Data not found");
+    }
+  }
 }

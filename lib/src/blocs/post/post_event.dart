@@ -19,8 +19,8 @@ class CreatingPost extends PostEvent {
   List<Object> get props => [];
 }
 
-class GetMyPost extends PostEvent {
-
+class GetAllPost extends PostEvent {
   @override
   List<Object> get props => [];
+
 }

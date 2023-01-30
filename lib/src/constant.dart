@@ -28,6 +28,9 @@ const Color statusColorError = Color.fromARGB(255, 255, 76, 76);
 const Color statusColorSuccess = Color.fromARGB(255, 61, 204, 120);
 const Color statusColorWarning = Color.fromARGB(255, 255, 180, 77);
 
+const Color skeletonColor = Color.fromRGBO(222, 227, 227, 0.75);
+const Color skeletonHighlightColor = Color.fromRGBO(245, 247, 247, 1);
+
 const double kPadding = 20.0;
 
 

@@ -28,8 +28,6 @@ class TestModel {
     return TestModel(tese_model, id: '');
   }
 
-
-
   /// method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
