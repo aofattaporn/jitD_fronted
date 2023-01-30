@@ -9,6 +9,7 @@ import 'package:jitd_client/src/screens/NotificationPage.dart';
 import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/Search/Search.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
+import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/CreatePost.dart';
 import 'package:jitd_client/src/ui/DialogMessage.dart';
@@ -26,14 +27,14 @@ class BottomNavigationWidget extends StatefulWidget {
 
 class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   // late final TestRepository _testerRepository;
+  final PostBloc postBloc = PostBloc();
   int currentTab = 0;
-  final List<Widget> screens = const [
+  final List<Widget> screens =  [
     HomePage(),
     Search(),
     NotificationPage(),
     ProfilePage(),
     SearchPage(),
-    CreatePost()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -60,7 +61,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SignUp()),
+                          builder: (context) => const SignIn()),
                       (r) {
                     return false;
                   });
@@ -68,7 +69,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               }),
               BlocListener<PostBloc, PostState>(
                   listener: (BuildContext context, state) {
-                if (state is CheckingPost) {
+                if (state is PostSuccess) {
                   showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -137,7 +138,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const CreatePost(),
+           BlocProvider<PostBloc>(create: (BuildContext context) => PostBloc(),
+           child: CreatePost(postBloc: postBloc)),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

@@ -30,14 +30,14 @@ class AuthRepository {
         return "creating data success";
       } else {
         await FirebaseAuth.instance.currentUser?.delete();
-        return "somthing wrong";
+        return "Something wrong";
       }
     } on FirebaseAuthException catch (e) {
       print(e.message);
       return e.message.toString();
     } catch (e) {
       await FirebaseAuth.instance.currentUser?.delete();
-      return "somthing wrong";
+      return "Something wrong";
     }
     return "creating data success";
   }
@@ -61,7 +61,7 @@ class AuthRepository {
     }
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     print(token);
-    final response = await http.post(Uri.parse("${localUrl}v1/users/signIn"),
+    final response = await http.post(Uri.parse("${globalUrl}v1/users/signIn"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

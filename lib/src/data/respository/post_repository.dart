@@ -29,7 +29,7 @@ class PostRepository {
       return "create data success";
     } else {
       print(response.statusCode);
-      return "something fail.";
+      return "Something fail.";
     }
   }
 

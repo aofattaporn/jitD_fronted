@@ -9,6 +9,7 @@ import '../../blocs/authentication/authen_event.dart';
 import '../../blocs/authentication/authen_state.dart';
 import '../../constant.dart';
 import '../../ui/DialogMessage.dart';
+import 'SignUp.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -64,9 +65,7 @@ class SignInState extends State<SignIn> {
                   context,
                   CupertinoPageRoute(
                       builder: (context) => const BottomNavigationWidget()),
-                  (r) {
-                return false;
-              });
+                      (Route route) => false);
             } else if (state is AuthenUpError) {
               showDialog(
                   context: context,
@@ -296,7 +295,7 @@ class SignInState extends State<SignIn> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.push(context, CupertinoPageRoute(builder: (context)=> const SignUp()));
                                 },
                                 child: Text(
                                   'Sign up',

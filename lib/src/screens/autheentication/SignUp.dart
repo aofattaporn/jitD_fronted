@@ -65,10 +65,8 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
@@ -251,11 +249,7 @@ class SignUpState extends State<SignUp> {
                                   5, 0, 0, 0),
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => const SignIn()),
-                                  );
+                                  Navigator.pop(context);
                                 },
                                 child: const Text(
                                   'Sign in here',

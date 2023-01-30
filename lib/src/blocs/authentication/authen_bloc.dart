@@ -40,8 +40,8 @@ class AuthenticationBloc
         }
 
         // checking data
-        else if(temp == "somthing wrong"){
-          String err = "Somthing fial";
+        else if(temp == "Something wrong"){
+          String err = "Something fial";
           String desc = "กดเพื่อลองใหม่อีกครั้ง";
           emit(AuthenUpError(err, desc));
         }
