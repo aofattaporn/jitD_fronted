@@ -22,6 +22,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
       Future<String> response = postRepository.creatingPost(event._content, event._IsPublic, category);
 
+
       if (await response == "create data success") {
         // 200 -> return PostSuccess
         emit(PostSuccess());
@@ -29,6 +30,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         // !200 -> return PostError
         emit(PostError());
       }
+    });
+
+
+    on<GetMyPost>((event, emit) async{
+      emit(LoadingPost());
+      Future<String>? Resquest = postRepository.GetMyPost();
     });
 
     /// event load post

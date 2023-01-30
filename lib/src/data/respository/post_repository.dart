@@ -29,4 +29,23 @@ class PostRepository {
       return "something fail.";
     }
   }
+
+  Future<String> GetMyPost()
+      async{
+        String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+        final response = await http.get(Uri.parse("${globalUrl}v1/posts/id/"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          }
+        );
+      if (response.statusCode == 200) {
+        var data = postModelFromJson(response.body);
+        return "Get data success";
+      } else {
+        return "somthing fail.";
+      }
+  }
+
 }

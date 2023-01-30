@@ -48,3 +48,8 @@ class PostError extends PostState {
   @override
   List<Object?> get props => [];
 }
+
+class LoadingPost extends PostState {
+  @override
+  List<Object?> get props => [];
+}
