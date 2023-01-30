@@ -139,7 +139,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
            BlocProvider<PostBloc>(create: (BuildContext context) => PostBloc(),
-           child: CreatePost(postBloc: postBloc)),
+           child: const CreatePost()),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

@@ -97,9 +97,7 @@ class SignUpState extends State<SignUp> {
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => const TutorialPage1()),
-                            (r) {
-                          return false;
-                        });
+                            (Route route) => false);
                       } else if (state is AuthenUpError) {
                         showDialog(
                             context: context,
