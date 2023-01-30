@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../constant.dart';
 
 class PostModal extends StatelessWidget {
+  final String? userId;
   const PostModal({
     Key? key,
+    required this.userId
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final currentID = user?.uid;
+
     return IconButton(
       splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -43,10 +50,13 @@ class PostModal extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  if (currentID == userId)
                   SizedBox(
                     height:
                     MediaQuery.of(context).size.height * 0.05,
                   ),
+                  if (currentID == userId)
                   GestureDetector(
                     onTap: (){},
                     child: Row(
@@ -85,8 +95,9 @@ class PostModal extends StatelessWidget {
                               fontSize: 18, color: textColor2),
                         ),
                       ],
-                    ),
+                    )
                   ),
+
                   SizedBox(
                     height:
                     MediaQuery.of(context).size.height * 0.035,
@@ -131,13 +142,17 @@ class PostModal extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  if (currentID == userId)
                   SizedBox(
                     height:
                     MediaQuery.of(context).size.height * 0.035,
                   ),
+                  if (currentID == userId)
                   GestureDetector(
                     onTap: (){},
-                    child: Row(
+                    child:
+                    Row(
                       children: [
                         Padding(
                           padding:
@@ -173,8 +188,10 @@ class PostModal extends StatelessWidget {
                               fontSize: 18, color: textColor2),
                         ),
                       ],
-                    ),
+                    )
+
                   ),
+
                   SizedBox(
                     height:
                     MediaQuery.of(context).size.height * 0.035,
@@ -220,8 +237,6 @@ class PostModal extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.085),
-
-
                 ],
               );
             },

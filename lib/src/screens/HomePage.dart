@@ -313,7 +313,7 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
                           style: GoogleFonts.getFont("Lato",
                               fontSize: 12, color: textColor3),
                         ),
-                        const PostModal(),
+                        PostModal(userId: model[index].userId),
                       ],
                     ),
                     Container(

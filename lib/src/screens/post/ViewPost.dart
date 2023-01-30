@@ -157,7 +157,7 @@ class ViewPostState extends State<ViewPost> {
                                         style: GoogleFonts.getFont("Lato",
                                             fontSize: 16, color: textColor3),
                                       ),
-                                      const PostModal()
+                                      PostModal(userId: widget.userId,)
                                     ],
                                   ),
                                   Row(
