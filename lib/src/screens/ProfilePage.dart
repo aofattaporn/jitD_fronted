@@ -17,8 +17,7 @@ import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:rive/rive.dart';
 
 class ProfilePage extends StatefulWidget {
-  final List<PostModel> model;
-  const ProfilePage({Key? key,required this.model}) : super(key: key);
+  const ProfilePage({Key? key,required}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -31,7 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _postBloc.add(GetMyPost());
     super.initState();
-
   }
   @override
   Widget build(BuildContext context) {
@@ -364,24 +362,26 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
 
 
-                  // BlocProvider(
-                  //     create: (_) => _postBloc,
-                  //     child: BlocBuilder<PostBloc, PostState>(
-                  //         builder: (context, state) {
-                  //           if(state is PostLoadingState){
-                  //             return Text(
-                  //               "รอแปป",
-                  //             );
-                  //           } else if (state is PostLoadedState){
-                  //               return Column(
-                  //                 children: [
-                  //                   _buildPost(context, state.allPost),
-                  //                 ],
-                  //               );
-                  //           }
-                  //         }
-                  //         ),
-                  // ),
+                  BlocProvider(
+                      create: (_) => _postBloc,
+                      child: BlocBuilder<PostBloc, PostState>(
+                          builder: (context, state) {
+                            if(state is PostLoadingState){
+                              return Text(
+                                "รอแปป",
+                              );
+                            } else if (state is PostLoadedState){
+                                return Column(
+                                  children: [
+                                    _buildPost(context, state.allPost),
+                                  ],
+                                );
+                            }else {
+                              return Text(state.props.toString());
+                            }
+                          }
+                          ),
+                  ),
                 ],
               ),
             ],
@@ -393,29 +393,39 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 Widget _buildPost(BuildContext context, List<PostModel> model){
-  return SizedBox(
-    height: MediaQuery.of(context).size.height * 0.5,
-    child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        scrollDirection: Axis.horizontal,
-        itemCount: model.length,
-        separatorBuilder: (context, index){
-          return SizedBox(
-            width: MediaQuery.of(context).size.width * 0.04,
-          );
-        },
-      itemBuilder: (context, index){
-          return GestureDetector(
-            onTap: ()=> Navigator.of(context).push(_createRoute(ViewPost(
-            postId: model[index].postId ?? "123",
-            userId: model[index].userId ?? "123",
-            content: model[index].content ?? "ERROR",
-            category: model[index].category ?? ["ERROR"],
-            date: model[index].date ?? "404",
-          ))),
-          );
-      },
-    ),
+  return Column(
+    children: [
+      ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 3,
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          itemBuilder: (context, index){
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GestureDetector(
+                child: PostBox(
+                  userId: model[index].userId ?? "",
+                  postId: model[index].postId ?? "",
+                  content: model[index].content ?? "No Data",
+                  date: model[index].date ?? DateTime.now().toString(),
+                  category: model[index].category ?? ["Tag1", "Tag2"],
+                ),onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                    ViewPost(
+                      userId: model[index].userId ?? "",
+                      postId: model[index].postId ?? "",
+                      content: model[index].content ?? "No Data",
+                      date: model[index].date ?? DateTime.now().toString(),
+                      category: model[index].category ?? ["Tag1", "Tag2"],
+                    )));
+              },
+              ),
+            );
+          },
+      ),
+    ],
   );
 }
 
