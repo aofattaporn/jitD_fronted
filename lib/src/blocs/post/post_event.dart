@@ -24,3 +24,15 @@ class GetAllPost extends PostEvent {
   List<Object> get props => [];
 
 }
+
+class UpdatingPost extends PostEvent {
+  final String _content;
+  final String _date;
+  final bool _isPublic;
+  final String postID;
+
+  const UpdatingPost(this._content, this._date, this._isPublic, this.postID);
+
+  @override
+  List<Object> get props => [];
+}

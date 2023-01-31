@@ -39,12 +39,28 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<GetAllPost>((event, emit) async {
       await caseSelfCache(emit, postRepository);
     });
+
+    /// event updating post
+    on<UpdatingPost>((event, emit) async {
+      emit(CheckingPost());
+      List<String>? category = ["Update", "Update2"];
+
+      Future<String> response = postRepository.updatingPost(
+          event._content, event._date, event._isPublic, category, event.postID);
+
+      if (await response == "create data success") {
+        // 200 -> return UpdatePostSuccess
+        emit(UpdatedPost());
+      } else {
+        // !200 -> return UpdatePostError
+        emit(PostError("Create Post Failed"));
+      }
+    });
   }
 }
 
 Future<void> caseSelfCache(emit, postRepository) async {
   if (PostCache.getDataPost == null) {
-    print("Change state to loading");
     emit(PostLoadingState());
     try {
       /// TODO: get Data and send List To PostLoadedState
@@ -52,8 +68,7 @@ Future<void> caseSelfCache(emit, postRepository) async {
       final postModel = postModelFromJson(postData);
       emit(PostLoadedState(postModel.posts));
     } catch (e, stacktrace) {
-      print("Exxception occured: $e stackTrace: $stacktrace");
-      emit(PostError(e.toString()));
+      emit(PostError(e.toString() + stacktrace.toString()));
     }
   } else {
     final postData = await postRepository.getAllPost();

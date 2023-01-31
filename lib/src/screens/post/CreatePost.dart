@@ -69,7 +69,7 @@ class CreatePostState extends State<CreatePost> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CreatePost()));
-                  showToast();
+                  showToast("สถานะการโพสสำเร็จ");
                 }
               },
               child: SafeArea(
@@ -550,12 +550,12 @@ class CreatePostState extends State<CreatePost> {
     );
   }
 
-  void showToast() => toast.showToast(
-        child: successToast(),
+  void showToast(String msg) => toast.showToast(
+        child: successToast(msg),
         gravity: ToastGravity.TOP,
       );
 
-  Widget successToast() => Container(
+  Widget successToast(String msg) => Container(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
         color: statusColorSuccess,
         child: IntrinsicHeight(
@@ -569,7 +569,7 @@ class CreatePostState extends State<CreatePost> {
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05),
               Text(
-                "สถานะการโพสสำเร็จ",
+                "msg",
                 style: GoogleFonts.getFont("Bai Jamjuree",
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

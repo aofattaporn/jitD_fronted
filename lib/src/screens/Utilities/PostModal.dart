@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jitd_client/src/screens/post/CreatePost.dart';
 import '../../constant.dart';
 
 class PostModal extends StatelessWidget {
@@ -58,7 +59,8 @@ class PostModal extends StatelessWidget {
                   ),
                   if (currentID == userId)
                   GestureDetector(
-                    onTap: (){},
+                    onTap: () => Navigator.of(context).push(_createRoute(
+              CreatePost())),
                     child: Row(
                       children: [
                         Padding(
@@ -249,3 +251,22 @@ class PostModal extends StatelessWidget {
         ));
   }
 }
+
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+

@@ -50,3 +50,13 @@ class PostLoadedState extends PostState {
   @override
   List<Object?> get props => [allPost];
 }
+
+class UpdatingPost extends PostState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdatedPost extends PostState {
+  @override
+  List<Object?> get props => [];
+}
