@@ -24,3 +24,9 @@ class GetAllPost extends PostEvent {
   List<Object> get props => [];
 
 }
+
+class GetMyPost extends PostEvent {
+  @override
+  List<Object> get props => [];
+
+}

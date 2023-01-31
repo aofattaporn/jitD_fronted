@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/App.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../data/models/post_model.dart';
 import 'post/PostBox.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,13 +17,22 @@ import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:rive/rive.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final List<PostModel> model;
+  const ProfilePage({Key? key,required this.model}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final PostBloc _postBloc = PostBloc();
+
+  @override
+  void initState() {
+    _postBloc.add(GetMyPost());
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -348,6 +362,26 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
+
+
+                  // BlocProvider(
+                  //     create: (_) => _postBloc,
+                  //     child: BlocBuilder<PostBloc, PostState>(
+                  //         builder: (context, state) {
+                  //           if(state is PostLoadingState){
+                  //             return Text(
+                  //               "รอแปป",
+                  //             );
+                  //           } else if (state is PostLoadedState){
+                  //               return Column(
+                  //                 children: [
+                  //                   _buildPost(context, state.allPost),
+                  //                 ],
+                  //               );
+                  //           }
+                  //         }
+                  //         ),
+                  // ),
                 ],
               ),
             ],
@@ -356,4 +390,49 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+}
+
+Widget _buildPost(BuildContext context, List<PostModel> model){
+  return SizedBox(
+    height: MediaQuery.of(context).size.height * 0.5,
+    child: ListView.separated(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        scrollDirection: Axis.horizontal,
+        itemCount: model.length,
+        separatorBuilder: (context, index){
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.04,
+          );
+        },
+      itemBuilder: (context, index){
+          return GestureDetector(
+            onTap: ()=> Navigator.of(context).push(_createRoute(ViewPost(
+            postId: model[index].postId ?? "123",
+            userId: model[index].userId ?? "123",
+            content: model[index].content ?? "ERROR",
+            category: model[index].category ?? ["ERROR"],
+            date: model[index].date ?? "404",
+          ))),
+          );
+      },
+    ),
+  );
+}
+
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, -0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
