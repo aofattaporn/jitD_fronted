@@ -6,13 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/test_model.dart';
 
 class PetRepository {
-  final String _petNamingUrl =
-      "https://jitd-backend.onrender.com/v1/users/pet/id";
+  final String localUrl = 'http://localhost:3000/';
+  final String globalUrl = "https://jitd-backend.onrender.com/";
+
 
   Future<String> NamingPetEvent(String? PetName) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     print(token);
-    final response = await http.put(Uri.parse(_petNamingUrl),
+    final response = await http.put(Uri.parse("${globalUrl}v1/users/pet/id"),
         body: petModelToJson(PetModel(PetName)),
         headers: {
           'Content-Type': 'application/json',
