@@ -59,6 +59,12 @@ Future<void> deletePost(emit, id, postRepository) async {
   } catch (e, stacktrace) {
     print("Exxception occured: $e stackTrace: $stacktrace");
     emit(PostError(e.toString()));
+
+
+    /// event get my post
+    on<GetMyPost>((event, emit) async {
+      await myPost(emit, postRepository);
+    });
   }
 }
 
@@ -81,3 +87,16 @@ Future<void> caseSelfCache(emit, postRepository) async {
     emit(PostLoadedState(postModel.posts));
   }
 }
+
+
+Future<void> myPost(emit, postRepository) async {
+    try {
+      /// TODO: get Data and send List To PostLoadedState
+      final postData = await postRepository.getMyPost();
+      final postModel = postModelFromJson(postData);
+      emit(PostLoadedState(postModel.posts));
+    } catch (e, stacktrace) {
+      print("Exxception occured: $e stackTrace: $stacktrace");
+      emit(PostError(e.toString()));
+    }
+  }
