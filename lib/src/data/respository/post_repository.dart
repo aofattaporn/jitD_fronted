@@ -10,7 +10,6 @@ class PostRepository {
       String? content, bool? isPublic, List<String> category) async {
     String date = DateTime.now().toUtc().toString();
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    print(token);
     final response = await http.post(Uri.parse("${globalUrl}v1/posts/"),
         body:
             postModelToJson(PostModel.Resquest(content, date, true, category)),

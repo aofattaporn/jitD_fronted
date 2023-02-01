@@ -29,9 +29,9 @@ class UpdatingMyPost extends PostEvent {
    String _content;
    String _date;
    bool _isPublic;
-   String postID;
+   String _postID;
 
-   UpdatingMyPost(this._content, this._date, this._isPublic, this.postID);
+   UpdatingMyPost(this._content, this._date, this._isPublic, this._postID);
 
   @override
   List<Object> get props => [];

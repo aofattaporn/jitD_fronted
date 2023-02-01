@@ -46,7 +46,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       List<String>? category = ["Update", "Update2"];
 
       Future<String> response = postRepository.updatingPost(
-          event._content, event._date, event._isPublic, category, event.postID);
+          event._content, event._date, event._isPublic, category, event._postID);
 
       if (await response == "updating data success") {
         // 200 -> return UpdatePostSuccess
