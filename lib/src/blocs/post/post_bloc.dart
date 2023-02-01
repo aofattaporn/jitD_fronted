@@ -41,19 +41,19 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     /// event updating post
-    on<UpdatingPost>((event, emit) async {
+    on<UpdatingMyPost>((event, emit) async {
       emit(CheckingPost());
       List<String>? category = ["Update", "Update2"];
 
       Future<String> response = postRepository.updatingPost(
           event._content, event._date, event._isPublic, category, event.postID);
 
-      if (await response == "create data success") {
+      if (await response == "updating data success") {
         // 200 -> return UpdatePostSuccess
         emit(UpdatedPost());
       } else {
         // !200 -> return UpdatePostError
-        emit(PostError("Create Post Failed"));
+        emit(PostError("Update Post Failed"));
       }
     });
   }

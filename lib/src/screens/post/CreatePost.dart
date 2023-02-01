@@ -65,7 +65,7 @@ class CreatePostState extends State<CreatePost> {
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
                 if (state is PostSuccess) {
-                  Navigator.pop(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CreatePost()));
@@ -569,7 +569,7 @@ class CreatePostState extends State<CreatePost> {
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05),
               Text(
-                "msg",
+                msg,
                 style: GoogleFonts.getFont("Bai Jamjuree",
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
