@@ -65,7 +65,7 @@ class CreatePostState extends State<CreatePost> {
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
                 if (state is PostSuccess) {
-                  Navigator.push(
+                  Navigator.pop(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CreatePost()));

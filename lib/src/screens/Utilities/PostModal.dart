@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +9,10 @@ import 'package:jitd_client/src/blocs/post/post_state.dart';
 
 import 'package:jitd_client/src/screens/post/UpdatePost.dart';
 import '../../constant.dart';
+import '../../ui/DialogMessage.dart';
 
-class PostModal extends StatelessWidget {
+class PostModal extends StatefulWidget {
+  // const PostModal({Key? key}) : super(key: key);
   final String? userId;
   final String? postId;
   final String? content;
@@ -24,6 +27,19 @@ class PostModal extends StatelessWidget {
       required this.date,
       required this.category})
       : super(key: key);
+
+  @override
+  State<PostModal> createState() => _PostModalState();
+}
+
+class _PostModalState extends State<PostModal> {
+  final toast = FToast();
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,21 +74,22 @@ class PostModal extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (currentID == userId)
+                  if (currentID == widget.userId)
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                  if (currentID == userId)
+                  if (currentID == widget.userId)
                     GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                            Navigator.of(context).push(_createRoute(UpdatePost(
-                              userId: userId ?? "",
-                              postId: postId ?? "",
-                              content: content ?? "No Data",
-                              date: date ?? DateTime.now().toString(),
-                              category: category ?? ["Tag1", "Tag2"],
-                            )));},
+                          Navigator.of(context).push(_createRoute(UpdatePost(
+                            userId: widget.userId ?? "",
+                            postId: widget.postId ?? "",
+                            content: widget.content ?? "No Data",
+                            date: widget.date ?? DateTime.now().toString(),
+                            category: widget.category ?? ["Tag1", "Tag2"],
+                          )));
+                        },
                         child: Row(
                           children: [
                             Padding(
@@ -145,11 +162,11 @@ class PostModal extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (currentID == userId)
+                  if (currentID == widget.userId)
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.035,
                     ),
-                  if (currentID == userId)
+                  if (currentID == widget.userId)
                     GestureDetector(
                         onTap: () {},
                         child: Row(
@@ -178,10 +195,15 @@ class PostModal extends StatelessWidget {
                                     )),
                               ),
                             ),
-                            Text(
-                              "ลบโพสต์",
-                              style: GoogleFonts.getFont("Bai Jamjuree",
-                                  fontSize: 18, color: textColor2),
+                            TextButton(
+                              onPressed: () {
+                                _showAlertDialog(context);
+                              },
+                              child: Text(
+                                "ลบโพสต์",
+                                style: GoogleFonts.getFont("Bai Jamjuree",
+                                    fontSize: 18, color: textColor2),
+                              ),
                             ),
                           ],
                         )),
@@ -243,12 +265,29 @@ class PostModal extends StatelessWidget {
       context: context,
       builder: (BuildContext context) => BlocProvider<PostBloc>(
         create: (_) => PostBloc(),
-        child: BlocBuilder<PostBloc, PostState>(
-          builder: (context, state) {
+        child: BlocListener<PostBloc, PostState>(
+          listener: (context, state) {
+            if (state is PostLoadingState) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const CupertinoAlertDialog(
+                      title: Text("Deleting Your Post..."),
+                      // CircularProgressIndicator(color: thirterydColor)),
+                    );
+                  });
+            } else if (state is PostDeletedState) {
+              showToast("สถานะการลบสำเร็จ");
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }
+          },
+          child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
             return CupertinoAlertDialog(
               title: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("ยืนยันหารลบ", style: fontsTH16_Red),
+                child: Text("ยืนยันการลบ", style: fontsTH16_Red),
               ),
               content: const Text('เมื่อคุณกดลบโพสนี้จะไม่สามารถเห็นได้ได้'),
               actions: <CupertinoDialogAction>[
@@ -267,19 +306,60 @@ class PostModal extends StatelessWidget {
                   /// the action's text color to red.
                   isDestructiveAction: true,
                   onPressed: () {
-                    context.read<PostBloc>().add(DeleteMyPost(postId));
-                    Navigator.pop(context);
-                    Navigator.of(context, rootNavigator: true).pop(context);
+                    context.read<PostBloc>().add(DeleteMyPost(widget.postId));
                   },
                   child: const Text('ยืนยัน'),
                 ),
               ],
             );
-          }
+          }),
         ),
       ),
     );
   }
+
+  void showToast(String msg) => toast.showToast(
+        child: successToast(msg),
+        gravity: ToastGravity.TOP,
+      );
+
+  Widget successToast(String msg) => Container(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+        color: statusColorSuccess,
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.check_circle,
+                color: Colors.white,
+                size: 30,
+              ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+              Text(
+                msg,
+                style: GoogleFonts.getFont("Bai Jamjuree",
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.015),
+              const VerticalDivider(
+                thickness: 1,
+                width: 20,
+                color: Colors.black,
+              ),
+              const CircleAvatar(
+                  backgroundColor: Color.fromRGBO(102, 204, 144, 1),
+                  child: Icon(
+                    Icons.cancel_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ))
+            ],
+          ),
+        ),
+      );
 }
 
 Route _createRoute(Widget page) {
