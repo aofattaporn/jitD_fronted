@@ -50,7 +50,13 @@ class PostBox extends StatelessWidget {
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
-                   PostModal(userId: userId,)
+                   PostModal(
+                     userId: userId ?? "",
+                     postId: postId ?? "",
+                     content: content ?? "No Data",
+                     date: date ?? DateTime.now().toString(),
+                     category: category ?? ["Tag1", "Tag2"],
+                   )
                 ],
               ),
               Row(

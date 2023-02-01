@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 class PostData {
   String content;
@@ -50,6 +49,7 @@ class PostModel {
         posts.add(PostModel.fromJsonResponse(element));
       });
       print(posts.length);
+      posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
     }
   }
 

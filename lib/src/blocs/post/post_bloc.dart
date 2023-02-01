@@ -40,6 +40,23 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       await caseSelfCache(emit, postRepository);
     });
 
+    /// event updating post
+    on<UpdatingMyPost>((event, emit) async {
+      emit(CheckingPost());
+      List<String>? category = ["Update", "Update2"];
+
+      Future<String> response = postRepository.updatingPost(
+          event._content, event._date, event._isPublic, category, event._postID);
+
+      if (await response == "updating data success") {
+        // 200 -> return UpdatePostSuccess
+        emit(UpdatedPost());
+      } else {
+        // !200 -> return UpdatePostError
+        emit(PostError("Update Post Failed"));
+      }
+    });
+
 
     /// event get my post
     on<GetMyPost>((event, emit) async {
@@ -50,7 +67,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
 Future<void> caseSelfCache(emit, postRepository) async {
   if (PostCache.getDataPost == null) {
-    print("Change state to loading");
     emit(PostLoadingState());
     try {
       /// TODO: get Data and send List To PostLoadedState
