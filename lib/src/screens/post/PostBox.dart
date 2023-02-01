@@ -13,11 +13,11 @@ class PostBox extends StatelessWidget {
 
   const PostBox(
       {Key? key,
-      required this.userId,
-      required this.postId,
-      required this.content,
-      required this.date,
-      required this.category})
+        required this.userId,
+        required this.postId,
+        required this.content,
+        required this.date,
+        required this.category})
       : super(key: key);
 
   @override
@@ -46,11 +46,17 @@ class PostBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    date ?? DateTime.now().toString(),
+                    date?? DateTime.now().toString(),
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
-                  PostModal(userId: userId, postId: postId)
+                   PostModal(
+                     userId: userId ?? "",
+                     postId: postId ?? "",
+                     content: content ?? "No Data",
+                     date: date ?? DateTime.now().toString(),
+                     category: category ?? ["Tag1", "Tag2"],
+                   )
                 ],
               ),
               Row(

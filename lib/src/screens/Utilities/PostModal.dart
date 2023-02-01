@@ -6,17 +6,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 
+import 'package:jitd_client/src/screens/post/UpdatePost.dart';
 import '../../constant.dart';
 
 class PostModal extends StatelessWidget {
   final String? userId;
   final String? postId;
+  final String? content;
+  final String? date;
+  final List<String>? category;
 
-  const PostModal({
-    Key? key,
-    required this.userId,
-    required this.postId,
-  }) : super(key: key);
+  const PostModal(
+      {Key? key,
+      required this.userId,
+      required this.postId,
+      required this.content,
+      required this.date,
+      required this.category})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,15 @@ class PostModal extends StatelessWidget {
                     ),
                   if (currentID == userId)
                     GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pop(context);
+                            Navigator.of(context).push(_createRoute(UpdatePost(
+                              userId: userId ?? "",
+                              postId: postId ?? "",
+                              content: content ?? "No Data",
+                              date: date ?? DateTime.now().toString(),
+                              category: category ?? ["Tag1", "Tag2"],
+                            )));},
                         child: Row(
                           children: [
                             Padding(
@@ -163,16 +178,11 @@ class PostModal extends StatelessWidget {
                                     )),
                               ),
                             ),
-                            CupertinoButton(
-                              onPressed: () {
-                                _showAlertDialog(context);
-                              },
-                              child: Text(
-                                "ลบโพสต์",
-                                style: GoogleFonts.getFont("Bai Jamjuree",
-                                    fontSize: 18, color: textColor2),
-                              ),
-                            )
+                            Text(
+                              "ลบโพสต์",
+                              style: GoogleFonts.getFont("Bai Jamjuree",
+                                  fontSize: 18, color: textColor2),
+                            ),
                           ],
                         )),
                   SizedBox(
@@ -270,4 +280,22 @@ class PostModal extends StatelessWidget {
       ),
     );
   }
+}
+
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }

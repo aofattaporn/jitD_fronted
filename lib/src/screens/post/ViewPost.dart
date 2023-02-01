@@ -16,8 +16,8 @@ class ViewPost extends StatefulWidget {
       {Key? key,
       required this.userId,
       required this.postId,
-      required this.content,
-      required this.date,
+        required this.content,
+        required this.date,
       required this.category})
       : super(key: key);
 
@@ -50,6 +50,7 @@ class ViewPostState extends State<ViewPost> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
           child: Stack(children: [
+
             /// Post-Comment
             SingleChildScrollView(
               child: Stack(
@@ -152,14 +153,17 @@ class ViewPostState extends State<ViewPost> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        widget.date ??
-                                            DateTime.now().toString(),
+                                        widget.date ?? DateTime.now().toString(),
                                         style: GoogleFonts.getFont("Lato",
                                             fontSize: 16, color: textColor3),
                                       ),
                                       PostModal(
-                                          userId: widget.userId,
-                                          postId: widget.postId)
+                                        userId: widget.userId ?? "",
+                                        postId: widget.postId ?? "",
+                                        content: widget.content ?? "No Data",
+                                        date: widget.date ?? DateTime.now().toString(),
+                                        category: widget.category ?? ["Tag1", "Tag2"],
+                                      )
                                     ],
                                   ),
                                   Row(
@@ -522,13 +526,9 @@ class ViewPostState extends State<ViewPost> {
                                   height: MediaQuery.of(context).size.height *
                                       0.06),
                               Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.325,
-                                  child: Text(
-                                    "No Comments Yet",
-                                    style: GoogleFonts.getFont("Lato",
-                                        color: textColor3),
-                                  )),
+                                height: MediaQuery.of(context).size.height * 0.325,
+                                  child: Text("No Comments Yet", style: GoogleFonts.getFont("Lato", color: textColor3),)
+                              ),
                             ],
                           ),
                         ],
@@ -575,10 +575,7 @@ class ViewPostState extends State<ViewPost> {
                                           commentController!.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.send,
-                                            color: primaryColorDark,
-                                          ))
+                                          icon: const Icon(Icons.send, color: primaryColorDark,))
                                       : null),
                           minLines: 1,
                           maxLines: 5,

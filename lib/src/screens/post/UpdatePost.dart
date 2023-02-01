@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jitd_client/src/blocs/post/post_state.dart';
-import 'package:jitd_client/src/screens/post/BlockWords.dart';
-import 'package:jitd_client/src/screens/post/ConsultantLevel.dart';
+import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../blocs/post/post_bloc.dart';
+import '../../blocs/post/post_state.dart';
 import '../../constant.dart';
+import 'BlockWords.dart';
+import 'ConsultantLevel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/post/post_bloc.dart';
 
-class CreatePost extends StatefulWidget {
-  const CreatePost({Key? key}) : super(key: key);
+
+class UpdatePost extends StatefulWidget {
+  final String? userId;
+  final String? postId;
+  final String? content;
+  final String? date;
+  final List<String>? category;
+
+  const UpdatePost(
+      {Key? key,
+        required this.userId,
+        required this.postId,
+        required this.content,
+        required this.date,
+        required this.category})
+      : super(key: key);
 
   @override
-  CreatePostState createState() => CreatePostState();
+  State<UpdatePost> createState() => _UpdatePostState();
 }
 
-class CreatePostState extends State<CreatePost> {
+class _UpdatePostState extends State<UpdatePost> {
   TextEditingController? textController;
   static GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final _unFocusNode = FocusNode();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   final panelController = PanelController();
   final toast = FToast();
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController = TextEditingController(text: widget.content);
     toast.init(context);
   }
 
@@ -42,7 +55,6 @@ class CreatePostState extends State<CreatePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       backgroundColor: primaryColor,
       // resizeToAvoidBottomInset: false,
 
@@ -64,12 +76,12 @@ class CreatePostState extends State<CreatePost> {
           create: (_) => PostBloc(),
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
-                if (state is PostSuccess) {
-                  Navigator.push(
+                if (state is UpdatedPost) {
+                  Navigator.pop(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CreatePost()));
-                  showToast("สถานะการโพสสำเร็จ");
+                          builder: (context) => const HomePage()));
+                  showToast("แก้ไขโพสสำเร็จ");
                 }
               },
               child: SafeArea(
@@ -98,18 +110,14 @@ class CreatePostState extends State<CreatePost> {
                               children: [
                                 Align(
                                   alignment:
-                                      const AlignmentDirectional(1, -0.95),
+                                  const AlignmentDirectional(1, -0.95),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                           onPressed: () {
-                                            Navigator.pop(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const CreatePost()));
+                                            Navigator.pop(context);
                                           },
                                           icon: const Icon(
                                             Icons.cancel_rounded,
@@ -118,79 +126,81 @@ class CreatePostState extends State<CreatePost> {
                                           )),
                                       BlocBuilder<PostBloc, PostState>(
                                           builder: (context, state) {
-                                        if (state is CheckingPost) {
-                                          return ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 16),
-                                                  padding:
+                                            if (state is CheckingPost) {
+                                              return ElevatedButton(
+                                                  onPressed: () {},
+                                                  style: ElevatedButton.styleFrom(
+                                                      textStyle: const TextStyle(
+                                                          fontSize: 16),
+                                                      padding:
                                                       const EdgeInsets.fromLTRB(
                                                           32, 0, 32, 0),
-                                                  backgroundColor:
+                                                      backgroundColor:
                                                       thirterydColor,
-                                                  shape:
+                                                      shape:
                                                       const RoundedRectangleBorder(
-                                                    borderRadius:
+                                                        borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(
                                                                 40)),
-                                                  )),
-                                              child:
+                                                      )),
+                                                  child:
                                                   const CircularProgressIndicator(
                                                       color: Colors.white70));
-                                        } else {
-                                          return ElevatedButton(
-                                            onPressed: () {
-                                              if (keyForm.currentState!
-                                                  .validate()) {
-                                                keyForm.currentState!.save();
-                                                context.read<PostBloc>().add(
-                                                    CreatingPost(
-                                                        textController?.text,
-                                                        true));
-                                              }
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                textStyle: const TextStyle(
-                                                    fontSize: 16),
-                                                padding:
+                                            } else {
+                                              return ElevatedButton(
+                                                onPressed: () {
+                                                  if (keyForm.currentState!
+                                                      .validate()) {
+                                                    keyForm.currentState!.save();
+                                                    context.read<PostBloc>().add(UpdatingMyPost(
+                                                        textController?.text ?? "",
+                                                        widget.date!,
+                                                        true,
+                                                        widget.postId!
+                                                    ));
+                                                  }
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 16),
+                                                    padding:
                                                     const EdgeInsets.fromLTRB(
                                                         32, 0, 32, 0),
-                                                backgroundColor: thirterydColor,
-                                                shape:
+                                                    backgroundColor: thirterydColor,
+                                                    shape:
                                                     const RoundedRectangleBorder(
-                                                  borderRadius:
+                                                      borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(40)),
-                                                )),
-                                            child: Text(
-                                              "โพส",
-                                              style: GoogleFonts.getFont(
-                                                  "Bai Jamjuree",
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          );
-                                        }
-                                      }),
+                                                    )),
+                                                child: Text(
+                                                  "บันทึก",
+                                                  style: GoogleFonts.getFont(
+                                                      "Bai Jamjuree",
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.w500),
+                                                ),
+                                              );
+                                            }
+                                          }),
                                     ],
                                   ),
                                 ),
                                 Align(
                                   alignment:
-                                      const AlignmentDirectional(0, -0.75),
+                                  const AlignmentDirectional(0, -0.75),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         width:
-                                            MediaQuery.of(context).size.width *
-                                                0.35,
+                                        MediaQuery.of(context).size.width *
+                                            0.35,
                                         height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
+                                        MediaQuery.of(context).size.height *
+                                            0.04,
                                         decoration: const BoxDecoration(
                                           color: backgroundColor3,
                                           borderRadius: BorderRadius.all(
@@ -209,27 +219,27 @@ class CreatePostState extends State<CreatePost> {
                                       ),
                                       Container(
                                         width:
-                                            MediaQuery.of(context).size.width *
-                                                0.325,
+                                        MediaQuery.of(context).size.width *
+                                            0.325,
                                         height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
+                                        MediaQuery.of(context).size.height *
+                                            0.04,
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10),
                                         decoration: BoxDecoration(
                                           color: secondaryColor,
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                         ),
                                         child: Center(
                                           child: RichText(
                                             text: TextSpan(children: [
                                               const WidgetSpan(
                                                   child: Icon(
-                                                Icons.public,
-                                                size: 16,
-                                                color: Colors.white,
-                                              )),
+                                                    Icons.public,
+                                                    size: 16,
+                                                    color: Colors.white,
+                                                  )),
                                               TextSpan(
                                                   text: '  สาธารณะ',
                                                   style: GoogleFonts.getFont(
@@ -239,10 +249,10 @@ class CreatePostState extends State<CreatePost> {
                                               const TextSpan(text: '  '),
                                               const WidgetSpan(
                                                   child: Icon(
-                                                Icons.arrow_drop_down,
-                                                size: 18,
-                                                color: Colors.white,
-                                              ))
+                                                    Icons.arrow_drop_down,
+                                                    size: 18,
+                                                    color: Colors.white,
+                                                  ))
                                             ]),
                                           ),
                                         ),
@@ -252,7 +262,7 @@ class CreatePostState extends State<CreatePost> {
                                 ),
                                 Align(
                                   alignment:
-                                      const AlignmentDirectional(0, -0.45),
+                                  const AlignmentDirectional(0, -0.45),
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
@@ -262,10 +272,12 @@ class CreatePostState extends State<CreatePost> {
                                         key: keyForm,
                                         child: TextFormField(
                                           validator: (value) {
-                                            if (value == null || value.isEmpty)
+                                            if (value == null || value.isEmpty) {
                                               return 'กรุณากรอกข้อความ';
+                                            }
                                             return null;
                                           },
+                                          autofocus: true,
                                           onTap: () => panelController.close(),
                                           controller: textController,
                                           obscureText: false,
@@ -274,13 +286,13 @@ class CreatePostState extends State<CreatePost> {
                                             hintStyle: const TextStyle(
                                                 color: textColor3),
                                             enabledBorder:
-                                                buildUnderlineInputBorder(),
+                                            buildUnderlineInputBorder(),
                                             focusedBorder:
-                                                buildUnderlineInputBorder(),
+                                            buildUnderlineInputBorder(),
                                             errorBorder:
-                                                buildUnderlineInputBorder(),
+                                            buildUnderlineInputBorder(),
                                             focusedErrorBorder:
-                                                buildUnderlineInputBorder(),
+                                            buildUnderlineInputBorder(),
                                           ),
                                           maxLines: null,
                                         ),
@@ -290,17 +302,17 @@ class CreatePostState extends State<CreatePost> {
                                 ),
                                 Align(
                                   alignment:
-                                      const AlignmentDirectional(0, 0.175),
+                                  const AlignmentDirectional(0, 0.175),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Container(
                                         width:
-                                            MediaQuery.of(context).size.width *
-                                                0.45,
+                                        MediaQuery.of(context).size.width *
+                                            0.45,
                                         height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
+                                        MediaQuery.of(context).size.height *
+                                            0.04,
                                         decoration: BoxDecoration(
                                           color: const Color(0xFFAAD4CC),
                                           boxShadow: const [
@@ -311,7 +323,7 @@ class CreatePostState extends State<CreatePost> {
                                             )
                                           ],
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           shape: BoxShape.rectangle,
                                         ),
                                         child: Center(
@@ -343,8 +355,8 @@ class CreatePostState extends State<CreatePost> {
                                                 .size
                                                 .width,
                                             height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
+                                                .size
+                                                .height *
                                                 0.04,
                                             decoration: const BoxDecoration(
                                               color: Color(0xFFF8FAFA),
@@ -353,10 +365,10 @@ class CreatePostState extends State<CreatePost> {
                                               children: [
                                                 SizedBox(
                                                     width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.025),
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.025),
                                                 Text(
                                                   "กรุณาระบุประเภทของโพส",
                                                   style: GoogleFonts.getFont(
@@ -380,35 +392,6 @@ class CreatePostState extends State<CreatePost> {
                   ),
                 ),
               )),
-        ),
-      ),
-    );
-  }
-
-  GestureDetector buildCollapsedPanel(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(_unFocusNode);
-        panelController.open();
-      },
-      // onTap: panelController.open,
-      child: Container(
-        color: backgroundColor2,
-        child: Center(
-          child: RichText(
-            text: TextSpan(children: [
-              const WidgetSpan(
-                  child: Icon(
-                Icons.settings,
-                size: 20,
-                color: textColor3,
-              )),
-              TextSpan(
-                  text: "ตั้งค่าโพสเพิ่มเติม",
-                  style: GoogleFonts.getFont("Bai Jamjuree",
-                      fontSize: 18, color: textColor3))
-            ]),
-          ),
         ),
       ),
     );
@@ -446,7 +429,7 @@ class CreatePostState extends State<CreatePost> {
                           )
                         ],
                         borderRadius:
-                            BorderRadiusDirectional.all(Radius.circular(10))),
+                        BorderRadiusDirectional.all(Radius.circular(10))),
                     child: const Padding(
                         padding: EdgeInsetsDirectional.all(8),
                         child: Icon(
@@ -484,7 +467,7 @@ class CreatePostState extends State<CreatePost> {
                           )
                         ],
                         borderRadius:
-                            BorderRadiusDirectional.all(Radius.circular(10))),
+                        BorderRadiusDirectional.all(Radius.circular(10))),
                     child: const Padding(
                         padding: EdgeInsetsDirectional.all(8),
                         child: Icon(
@@ -506,6 +489,35 @@ class CreatePostState extends State<CreatePost> {
             )
           ],
         ));
+  }
+
+  GestureDetector buildCollapsedPanel(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(_unFocusNode);
+        panelController.open();
+      },
+      // onTap: panelController.open,
+      child: Container(
+        color: backgroundColor2,
+        child: Center(
+          child: RichText(
+            text: TextSpan(children: [
+              const WidgetSpan(
+                  child: Icon(
+                    Icons.settings,
+                    size: 20,
+                    color: textColor3,
+                  )),
+              TextSpan(
+                  text: "ตั้งค่าโพสเพิ่มเติม",
+                  style: GoogleFonts.getFont("Bai Jamjuree",
+                      fontSize: 18, color: textColor3))
+            ]),
+          ),
+        ),
+      ),
+    );
   }
 
   UnderlineInputBorder buildUnderlineInputBorder() {
@@ -540,7 +552,7 @@ class CreatePostState extends State<CreatePost> {
         const curve = Curves.ease;
 
         var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -551,45 +563,45 @@ class CreatePostState extends State<CreatePost> {
   }
 
   void showToast(String msg) => toast.showToast(
-        child: successToast(msg),
-        gravity: ToastGravity.TOP,
-      );
+    child: successToast(msg),
+    gravity: ToastGravity.TOP,
+  );
 
   Widget successToast(String msg) => Container(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-        color: statusColorSuccess,
-        child: IntrinsicHeight(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.check_circle,
+    padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+    color: statusColorSuccess,
+    child: IntrinsicHeight(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.check_circle,
+            color: Colors.white,
+            size: 30,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+          Text(
+            msg,
+            style: GoogleFonts.getFont("Bai Jamjuree",
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.015),
+          const VerticalDivider(
+            thickness: 1,
+            width: 20,
+            color: Colors.black,
+          ),
+          const CircleAvatar(
+              backgroundColor: Color.fromRGBO(102, 204, 144, 1),
+              child: Icon(
+                Icons.cancel_rounded,
                 color: Colors.white,
                 size: 30,
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-              Text(
-                msg,
-                style: GoogleFonts.getFont("Bai Jamjuree",
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.015),
-              const VerticalDivider(
-                thickness: 1,
-                width: 20,
-                color: Colors.black,
-              ),
-              const CircleAvatar(
-                  backgroundColor: Color.fromRGBO(102, 204, 144, 1),
-                  child: Icon(
-                    Icons.cancel_rounded,
-                    color: Colors.white,
-                    size: 30,
-                  ))
-            ],
-          ),
-        ),
-      );
+              ))
+        ],
+      ),
+    ),
+  );
 }

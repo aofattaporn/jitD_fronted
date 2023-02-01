@@ -32,6 +32,18 @@ class DeleteMyPost extends PostEvent {
   List<Object> get props => [];
 }
 
+class UpdatingMyPost extends PostEvent {
+   String _content;
+   String _date;
+   bool _isPublic;
+   String _postID;
+
+   UpdatingMyPost(this._content, this._date, this._isPublic, this._postID);
+
+  @override
+  List<Object> get props => [];
+}
+
 class GetMyPost extends PostEvent {
   @override
   List<Object> get props => [];

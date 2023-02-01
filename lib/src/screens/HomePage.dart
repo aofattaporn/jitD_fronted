@@ -1,21 +1,16 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Utilities/PostModal.dart';
-
 import 'package:jitd_client/src/data/models/cat_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
 import '../blocs/post/post_state.dart';
-import '../constant.dart';
 import '../data/models/post_model.dart';
-import 'post/PostBox.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -201,7 +196,8 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       );
-                    } else if (state is PostLoadedState) {
+                    }
+                    else if (state is PostLoadedState) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -249,7 +245,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       );
-                    } else {
+                    }
+                    else {
                       return Text(state.props.toString());
                     }
                   })),
@@ -313,7 +310,13 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
                           style: GoogleFonts.getFont("Lato",
                               fontSize: 12, color: textColor3),
                         ),
-                        PostModal(userId: model[index].userId, postId: model[index].postId),
+                        PostModal(
+                          userId: model[index].userId ?? "",
+                          postId: model[index].postId ?? "",
+                          content: model[index].content ?? "No Data",
+                          date: model[index].date ?? DateTime.now().toString(),
+                          category: model[index].category ?? ["Tag1", "Tag2"],
+                        ),
                       ],
                     ),
                     Container(

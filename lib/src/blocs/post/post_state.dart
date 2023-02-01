@@ -56,3 +56,12 @@ class PostDeletedState extends PostState {
   @override
   List<Object?> get props => [];
 }
+class UpdatingPost extends PostState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdatedPost extends PostState {
+  @override
+  List<Object?> get props => [];
+}
