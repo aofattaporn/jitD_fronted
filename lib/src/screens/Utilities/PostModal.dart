@@ -289,7 +289,7 @@ class _PostModalState extends State<PostModal> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text("ยืนยันการลบ", style: fontsTH16_Red),
               ),
-              content: const Text('เมื่อคุณกดลบโพสนี้จะไม่สามารถเห็นได้ได้'),
+              content: const Text('เมื่อคุณกดลบโพสนี้จะไม่สามารถเห็นได้อีก'),
               actions: <CupertinoDialogAction>[
                 CupertinoDialogAction(
                   /// This parameter indicates this action is the default,
