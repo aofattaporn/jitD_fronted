@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
 
 class BlockWords extends StatefulWidget {

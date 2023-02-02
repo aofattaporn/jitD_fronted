@@ -10,16 +10,16 @@ class InitialState extends AuthenticationState {
 }
 
 /// state for signIn
-class SignUpCheckingState extends AuthenticationState {
+class AuthenCheckingState extends AuthenticationState {
   @override
   List<Object?> get props => [];
 }
 
-class SignUpError extends AuthenticationState {
+class AuthenUpError extends AuthenticationState {
   late final String _err_msg;
   late final String _err_desc;
 
-  SignUpError(this._err_msg, this._err_desc);
+  AuthenUpError(this._err_msg, this._err_desc);
 
   String get err_msg => _err_msg;
   String get err_desc => _err_desc;

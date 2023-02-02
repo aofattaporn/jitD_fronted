@@ -14,7 +14,7 @@ class DialogMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return CupertinoAlertDialog(
       title: Center(
           child: Text(title,
               style: const TextStyle(
@@ -28,7 +28,7 @@ class DialogMessage extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Center(
+          child:  const Center(
               child: Text('ลองใหม่อีกครั้ง',
                   style: TextStyle(fontWeight: FontWeight.w100, fontSize: 16))),
           onPressed: () {
