@@ -39,12 +39,54 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<GetAllPost>((event, emit) async {
       await caseSelfCache(emit, postRepository);
     });
+
+    /// event updating post
+    on<UpdatingMyPost>((event, emit) async {
+      emit(CheckingPost());
+      List<String>? category = ["Update", "Update2"];
+
+      Future<String> response = postRepository.updatingPost(
+          event._content, event._date, event._isPublic, category, event._postID);
+
+      if (await response == "updating data success") {
+        // 200 -> return UpdatePostSuccess
+        emit(UpdatedPost());
+      } else {
+        // !200 -> return UpdatePostError
+        emit(PostError("Update Post Failed"));
+      }
+    });
+
+    on<DeleteMyPost>((event, emit) async {
+      await deletePost(emit, event.id, postRepository);
+    });
+
+    /// event get my post
+    on<GetMyPost>((event, emit) async {
+      await myPost(emit, postRepository);
+    });
+  }
+}
+
+Future<void> deletePost(emit, id, postRepository) async {
+  emit(PostLoadingState());
+  try {
+    /// TODO: get Data and send List To PostLoadedState
+    final responstatus = await postRepository.deletePost(id);
+    if ( responstatus == "delete post success") {
+      print("object");
+      emit(PostDeletedState());
+    } else {
+      emit(PostError("Something thing"));
+    }
+  } catch (e, stacktrace) {
+    print("Exxception occured: $e stackTrace: $stacktrace");
+    emit(PostError(e.toString()));
   }
 }
 
 Future<void> caseSelfCache(emit, postRepository) async {
   if (PostCache.getDataPost == null) {
-    print("Change state to loading");
     emit(PostLoadingState());
     try {
       /// TODO: get Data and send List To PostLoadedState
@@ -61,3 +103,16 @@ Future<void> caseSelfCache(emit, postRepository) async {
     emit(PostLoadedState(postModel.posts));
   }
 }
+
+
+Future<void> myPost(emit, postRepository) async {
+    try {
+      /// TODO: get Data and send List To PostLoadedState
+      final postData = await postRepository.getMyPost();
+      final postModel = postModelFromJson(postData);
+      emit(PostLoadedState(postModel.posts));
+    } catch (e, stacktrace) {
+      print("Exxception occured: $e stackTrace: $stacktrace");
+      emit(PostError(e.toString()));
+    }
+  }

@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/App.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../data/models/post_model.dart';
 import 'post/PostBox.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
-
 
 import 'package:rive/rive.dart';
 
@@ -19,6 +23,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final PostBloc _postBloc = PostBloc();
+
+  @override
+  void initState() {
+    _postBloc.add(GetMyPost());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     5),
                             decoration: BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white),
                             height: MediaQuery.of(context).size.height * 0.04,
                             width: MediaQuery.of(context).size.width * 0.4,
@@ -71,12 +83,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           //burger bar
                           IconButton(
                             icon: Image.asset(
-                                'assets/images/burger_bar.png',
-                                color: secondaryColorDark,
+                              'assets/images/burger_bar.png',
+                              color: secondaryColorDark,
                             ),
-
-                            onPressed: (){
-                              Navigator.push(context, CupertinoPageRoute(builder: (context) => Setting_setting()));
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => Setting_setting()));
                             },
                           ),
                         ],
@@ -127,11 +141,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
                         ),
-
                         Container(
                           child: Container(
                             margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).devicePixelRatio * 30,
+                              left:
+                                  MediaQuery.of(context).devicePixelRatio * 30,
                               top: MediaQuery.of(context).devicePixelRatio * 10,
                             ),
                             child: Image.asset(
@@ -140,7 +154,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
                         ),
-
                       ],
                     ),
 
@@ -156,7 +169,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: Container(
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).devicePixelRatio*10),
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).devicePixelRatio * 10),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Row(
@@ -166,15 +180,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
                                   text: "หมีขั้วโลกเหนือ",
-                                  style: TextStyle(fontSize: 16, color: textColor1),
+                                  style: TextStyle(
+                                      fontSize: 16, color: textColor1),
                                 ),
                               ),
                               Container(
                                 child: IconButton(
-                                  icon: Icon(Icons.create_rounded,
-                                  color: Colors.black26,
+                                  icon: Icon(
+                                    Icons.create_rounded,
+                                    color: Colors.black26,
                                   ),
-                                  onPressed: (){},
+                                  onPressed: () {},
                                 ),
                               ),
                             ],
@@ -193,8 +209,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     //4 btn
                     Container(
                       margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).devicePixelRatio * 10,
-                          vertical: MediaQuery.of(context).devicePixelRatio * 10,
+                        horizontal:
+                            MediaQuery.of(context).devicePixelRatio * 10,
+                        vertical: MediaQuery.of(context).devicePixelRatio * 10,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,22 +220,26 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                   color: secondaryColor,
                                 ),
                                 child: IconButton(
                                   icon: Icon(Icons.flash_on_rounded),
                                   color: Colors.white,
-                                  iconSize: MediaQuery.of(context).size.height * 0.05,
-                                  onPressed: (){},
+                                  iconSize:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  onPressed: () {},
                                 ),
-                                height: MediaQuery.of(context).size.height * 0.06,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
                                 width: MediaQuery.of(context).size.width * 0.15,
                               ),
                               Container(
                                 child: Text(
-                                    "ทดสอบความเครียด",
-                                  style: TextStyle(fontSize: 10, color: textColor1),
+                                  "ทดสอบความเครียด",
+                                  style: TextStyle(
+                                      fontSize: 10, color: textColor1),
                                 ),
                               ),
                             ],
@@ -227,48 +248,54 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                   color: secondaryColor,
                                 ),
                                 child: IconButton(
-                                  icon: Image.asset('assets/images/handshake.png',
+                                  icon: Image.asset(
+                                    'assets/images/handshake.png',
                                     color: Colors.white,
-
                                   ),
-                                  onPressed: (){},
+                                  onPressed: () {},
                                 ),
-                                height: MediaQuery.of(context).size.height * 0.06,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
                                 width: MediaQuery.of(context).size.width * 0.15,
                               ),
                               Container(
                                 child: Text(
                                   "ทดสอบที่ปรึกษา",
-                                  style: TextStyle(fontSize: 10, color: textColor1),
+                                  style: TextStyle(
+                                      fontSize: 10, color: textColor1),
                                 ),
                               ),
                             ],
                           ),
-
                           Column(
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                   color: secondaryColor,
                                 ),
                                 child: IconButton(
                                   icon: Icon(Icons.bookmark),
-                                    color: Colors.white,
-                                    iconSize: MediaQuery.of(context).size.height * 0.04,
-                                onPressed: (){},
+                                  color: Colors.white,
+                                  iconSize:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  onPressed: () {},
                                 ),
-                                height: MediaQuery.of(context).size.height * 0.06,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
                                 width: MediaQuery.of(context).size.width * 0.15,
                               ),
                               Container(
                                 child: Text(
                                   "โพสที่บันทึก",
-                                  style: TextStyle(fontSize: 10, color: textColor1),
+                                  style: TextStyle(
+                                      fontSize: 10, color: textColor1),
                                 ),
                               ),
                             ],
@@ -277,23 +304,26 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                   color: secondaryColor,
                                 ),
                                 child: IconButton(
-                                  icon: Image.asset('assets/images/smiley.png',
+                                  icon: Image.asset(
+                                    'assets/images/smiley.png',
                                     color: Colors.white,
-
                                   ),
-                                  onPressed: (){},
+                                  onPressed: () {},
                                 ),
-                                height: MediaQuery.of(context).size.height * 0.06,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
                                 width: MediaQuery.of(context).size.width * 0.15,
                               ),
                               Container(
                                 child: Text(
                                   "เพิ่มพลังงานบวก",
-                                  style: TextStyle(fontSize: 10, color: textColor1),
+                                  style: TextStyle(
+                                      fontSize: 10, color: textColor1),
                                 ),
                               ),
                             ],
@@ -314,39 +344,60 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            30, 20, 30, 5),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(30, 20, 30, 5),
                         child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height:
-                            MediaQuery.of(context).size.height * 0.04,
-                            decoration: const BoxDecoration(
-                                color: thirterydColor,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                            child: Center(
-                              child: RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: " เรียงตามความนิยม ",
-                                      style: GoogleFonts.getFont(
-                                          'Bai Jamjuree',
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                  const WidgetSpan(
-                                    child: Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 18,
-                                      color: backgroundColor3,
-                                    ),
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.04,
+                          decoration: const BoxDecoration(
+                              color: thirterydColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: " เรียงตามความนิยม ",
+                                    style: GoogleFonts.getFont('Bai Jamjuree',
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
+                                const WidgetSpan(
+                                  child: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 18,
+                                    color: backgroundColor3,
                                   ),
-                                ]),
-                              ),
+                                ),
+                              ]),
                             ),
+                          ),
                         ),
                       ),
                     ],
+                  ),
+                  BlocProvider(
+                    create: (_) => _postBloc,
+                    child: BlocBuilder<PostBloc, PostState>(
+                        builder: (context, state) {
+                      if (state is PostLoadingState) {
+                        return const Text(
+                          "รอแปป",
+                        );
+                      } else if (state is PostLoadedState) {
+                        if (state.allPost.length == 0) {
+                          return const Text("ไม่มีโพส");
+                        } else {
+                          return Column(
+                            children: [
+                              _buildPost(context, state.allPost),
+                            ],
+                          );
+                        }
+                      } else {
+                        return const Text("Please Waiting");
+                      }
+                    }),
                   ),
                 ],
               ),
@@ -356,4 +407,42 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+}
+
+Widget _buildPost(BuildContext context, List<PostModel> model) {
+  return Column(
+    children: [
+      ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: model.length,
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: GestureDetector(
+              child: PostBox(
+                userId: model[index].userId ?? "",
+                postId: model[index].postId ?? "",
+                content: model[index].content ?? "No Data",
+                date: model[index].date ?? DateTime.now().toString(),
+                category: model[index].category ?? ["Tag1", "Tag2"],
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ViewPost(
+                          userId: model[index].userId ?? "",
+                          postId: model[index].postId ?? "",
+                          content: model[index].content ?? "No Data",
+                          date: model[index].date ?? DateTime.now().toString(),
+                          category: model[index].category ?? ["Tag1", "Tag2"],
+                        )));
+              },
+            ),
+          );
+        },
+      ),
+    ],
+  );
 }
