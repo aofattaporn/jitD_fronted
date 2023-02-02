@@ -399,7 +399,7 @@ Widget _buildPost(BuildContext context, List<PostModel> model){
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: 3,
+          itemCount: model.length,
           padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
           itemBuilder: (context, index){
             return Padding(
