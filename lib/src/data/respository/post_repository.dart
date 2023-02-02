@@ -77,4 +77,21 @@ class PostRepository {
       return PostModel.withError("Data not found");
     }
   }
+
+  Future<Object> deletePost(String id) async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response =
+        await http.delete(Uri.parse("${globalUrl}v1/posts/$id"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return "delete post success";
+    } else {
+      return PostModel.withError("Data not found");
+    }
+  }
 }
