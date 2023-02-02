@@ -16,13 +16,8 @@ class NotificationPage extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(""),
-              ElevatedButton(
-                  onPressed: () {
-                    context.read<AuthenticationBloc>().add(SignOut());
-                  },
-                  child: const Text("Sign Up")),
+            children: const [
+              Text("Notification page"),
             ],
           ),
         ),

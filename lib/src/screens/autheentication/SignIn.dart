@@ -97,7 +97,7 @@ class SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Sing',
+                        'Sign',
                         style: GoogleFonts.getFont(
                           'Lato',
                           color: const Color(0xFFAAD4CC),
