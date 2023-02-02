@@ -12,9 +12,7 @@ class CreatingPost extends PostEvent {
   // DateTime? _Date;
   bool? _IsPublic;
 
-
   CreatingPost(this._content, this._IsPublic);
-
   @override
   List<Object> get props => [];
 }
@@ -22,7 +20,28 @@ class CreatingPost extends PostEvent {
 class GetAllPost extends PostEvent {
   @override
   List<Object> get props => [];
+}
 
+
+class DeleteMyPost extends PostEvent {
+  String? _id;
+  DeleteMyPost(this._id);
+  String? get id => _id;
+
+  @override
+  List<Object> get props => [];
+}
+
+class UpdatingMyPost extends PostEvent {
+   String _content;
+   String _date;
+   bool _isPublic;
+   String _postID;
+
+   UpdatingMyPost(this._content, this._date, this._isPublic, this._postID);
+
+  @override
+  List<Object> get props => [];
 }
 
 class GetMyPost extends PostEvent {
