@@ -65,10 +65,8 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
@@ -99,10 +97,8 @@ class SignUpState extends State<SignUp> {
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => const TutorialPage1()),
-                            (r) {
-                          return false;
-                        });
-                      } else if (state is SignUpError) {
+                            (Route route) => false);
+                      } else if (state is AuthenUpError) {
                         showDialog(
                             context: context,
                             barrierDismissible: false, // user must tap button!
@@ -251,11 +247,7 @@ class SignUpState extends State<SignUp> {
                                   5, 0, 0, 0),
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => const SignIn()),
-                                  );
+                                  Navigator.pop(context);
                                 },
                                 child: const Text(
                                   'Sign in here',
@@ -304,7 +296,7 @@ class SignUpState extends State<SignUp> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-          if (state is SignUpCheckingState) {
+          if (state is AuthenCheckingState) {
             return ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(

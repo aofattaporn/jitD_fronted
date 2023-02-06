@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             margin: EdgeInsets.only(
                                 top:
-                                    MediaQuery.of(context).devicePixelRatio * 4,
+                                    MediaQuery.of(context).devicePixelRatio * 6,
                                 left: MediaQuery.of(context).devicePixelRatio *
                                     10),
                             child: const Text(
