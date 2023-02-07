@@ -58,3 +58,44 @@ class TesterErrorState extends AuthenticationState {
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
+
+class GettingUser extends AuthenCheckingState{
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+class GettedUser extends AuthenCheckingState{
+  final int _countPosts;
+  final int _countLikes;
+  final int _countComments;
+  final String _userId;
+  final int _point;
+  final String _petName;
+
+
+  int? get countPosts => _countPosts;
+
+  GettedUser(this._countPosts, this._countLikes, this._countComments, this._userId,
+      this._point, this._petName);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+
+  int? get countLikes => _countLikes;
+
+  int? get countComments => _countComments;
+
+  String? get userId => _userId;
+
+  int? get point => _point;
+
+  String? get petName => _petName;
+}
+class GetUserError extends AuthenCheckingState{
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}

@@ -28,4 +28,21 @@ class PetRepository {
       return "Failed to name your pet";
     }
   }
+
+  Future<Object> GetPetName() async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response = await http.put(Uri.parse("${globalUrl}v1/users/pet/id"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return PetModel.withError("Data not found");
+    }
+  }
 }

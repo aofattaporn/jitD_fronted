@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
+import 'package:jitd_client/src/data/models/post_model.dart';
+import 'package:jitd_client/src/data/models/user_model.dart';
 import 'package:jitd_client/src/data/respository/auth_provider.dart';
 
 import '../../data/models/auth_model.dart';
@@ -97,6 +99,20 @@ class AuthenticationBloc
       String result = await authRepository.checkCredentail();
       emit(CheckStatusAuthrn(result));
       emit(SignOutSuccess());
+    });
+
+    /// UserID
+    on<getUserID>((event,emit) async{
+      await authRepository.GetMyUser();
+      emit(GettingUser());
+      try {
+        final userData = await authRepository.GetMyUser();
+        final userModel = await userModelFromJson(userData);
+        emit(GettedUser(userModel.countPosts,userModel.countLikes,userModel.countComments,userModel.userId,userModel.point,userModel.petName));
+      }catch(e, stacktrace){
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(GetUserError());
+      }
     });
   }
 }

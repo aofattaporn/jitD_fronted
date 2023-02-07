@@ -19,7 +19,7 @@ class AuthRepository {
       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
       print(token);
       final response = await http.post(Uri.parse("${globalUrl}v1/users/"),
-          body: userModelToJson(UserModel("", 0)),
+          body: userModelToJson(UserModel(0,"")),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -128,4 +128,21 @@ class AuthRepository {
 
     await FirebaseAuth.instance.signOut();
   }
+
+  Future<String> GetMyUser()async{
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      final response = await http.get(Uri.parse("${globalUrl}v1/users/id"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+      print(response.request);
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        return "Something wrong";
+      }
+    }
 }
+

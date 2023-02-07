@@ -48,3 +48,10 @@ class SignOut extends AuthenticationEvent {
   @override
   List<Object> get props => [];
 }
+
+class getUserID extends AuthenticationEvent{
+  getUserID();
+
+  @override
+  List<Object> get props => [];
+}

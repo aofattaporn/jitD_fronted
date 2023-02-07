@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/App.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
@@ -24,9 +27,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final PostBloc _postBloc = PostBloc();
+  final AuthenticationBloc _userBloc = AuthenticationBloc();
 
   @override
   void initState() {
+    _userBloc.add(getUserID());
     _postBloc.add(GetMyPost());
     super.initState();
   }
@@ -176,14 +181,29 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  text: "หมีขั้วโลกเหนือ",
-                                  style: TextStyle(
-                                      fontSize: 16, color: textColor1),
-                                ),
+                              BlocProvider(
+                                create: (_) => _userBloc,
+                                child: BlocBuilder<AuthenticationBloc,
+                                        AuthenticationState>(
+                                    builder: (context, state) {
+                                      if(state is GettingUser){
+                                        return Text("รอสักครู่");
+                                      }else if(state is GettedUser){
+                                        return Text(state.petName.toString());
+                                      }
+                                      else{
+                                        return Text("data");
+                                      }
+                                }),
                               ),
+                              // RichText(
+                              //   textAlign: TextAlign.center,
+                              //   text: TextSpan(
+                              //     text: "หมีขั้วโลกเหนือ",
+                              //     style: TextStyle(
+                              //         fontSize: 16, color: textColor1),
+                              //   ),
+                              // ),
                               Container(
                                 child: IconButton(
                                   icon: Icon(
