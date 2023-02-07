@@ -108,7 +108,8 @@ class AuthenticationBloc
       try {
         final userData = await authRepository.GetMyUser();
         final userModel = await userModelFromJson(userData);
-        emit(GettedUser(userModel.countPosts,userModel.countLikes,userModel.countComments,userModel.userId,userModel.point,userModel.petName));
+        // int? post = userModel.countPosts;
+        emit(GettedUser(userModel.countPosts!,userModel.countLikes!,userModel.countComments!,userModel.userId!,userModel.point!,userModel.petName!));
       }catch(e, stacktrace){
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(GetUserError());

@@ -189,7 +189,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       if(state is GettingUser){
                                         return Text("รอสักครู่");
                                       }else if(state is GettedUser){
-                                        return Text(state.petName.toString());
+                                        print(state.petName);
+                                    return Text(state.petName.toString());
                                       }
                                       else{
                                         return Text("data");
