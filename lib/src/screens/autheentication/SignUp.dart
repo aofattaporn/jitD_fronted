@@ -7,6 +7,7 @@ import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../blocs/authentication/authen_event.dart';
 import '../../ui/DialogMessage.dart';
@@ -144,126 +145,242 @@ class SignUpState extends State<SignUp> {
                       ),
                       Form(
                           child: Expanded(
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              //   // FORM
-                              _formAuth(emailController, false, "Email",
-                                  Icons.email, null),
-                              _formAuth(
-                                  passwordController,
-                                  !passwordVisibility1,
-                                  "Password",
-                                  Icons.lock,
-                                  _suffixIcon("passwordVisibility1",
-                                      passwordVisibility1)),
-                              _formAuth(
-                                  passwordConfirmController,
-                                  !passwordVisibility2,
-                                  "Password Confirm",
-                                  Icons.lock,
-                                  _suffixIcon("passwordVisibility2",
-                                      passwordVisibility2)),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  //   // FORM
+                                  _formAuth(emailController, false, "Email",
+                                      Icons.email, null),
+                                  _formAuth(
+                                      passwordController,
+                                      !passwordVisibility1,
+                                      "Password",
+                                      Icons.lock,
+                                      _suffixIcon("passwordVisibility1",
+                                          passwordVisibility1)),
+                                  _formAuth(
+                                      passwordConfirmController,
+                                      !passwordVisibility2,
+                                      "Password Confirm",
+                                      Icons.lock,
+                                      _suffixIcon("passwordVisibility2",
+                                          passwordVisibility2)),
 
-                              ///  Button
-                              _buttonSubmit(context),
-                            ],
-                          ),
-                        ),
+                                  ///  Button
+                                  _buttonSubmit(context),
+                                ],
+                              ),
+                            ),
                       )),
                       Expanded(
                           child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Center(
-                            child: Text("or"),
-                          ),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Center(
+                                child: Text("or"),
+                              ),
 
-                          // Show Sign up using
-                          const Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 15.0),
-                              child: Text(
-                                'Sign up using social networks',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  color: Color(0xFF818181),
-                                  fontWeight: FontWeight.normal,
+                              // Show Sign up using
+                              const Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 15.0),
+                                  child: Text(
+                                    'Sign up using social networks',
+                                    style: TextStyle(
+                                      fontFamily: 'Lato',
+                                      color: Color(0xFF818181),
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
 
-                          // 3 party
-                          Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: BlocBuilder<AuthenticationBloc,
-                                      AuthenticationState>(
-                                  builder: (context, state) {
-                                return Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    _button3Party(context, SignIngoogle(),
-                                        "assets/images/google_icon.png"),
-                                    _button3Party(context, SignInFacebook(),
-                                        "assets/images/facebook_icon.png"),
-                                  ],
-                                );
-                              }),
-                            ),
-                          ),
-                        ],
+                              // 3 party
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 1),
+                                  child: BlocBuilder<AuthenticationBloc,
+                                          AuthenticationState>(
+                                      builder: (context, state) {
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        _button3Party(context, SignIngoogle(),
+                                            "assets/images/google_icon.png"),
+                                        _button3Party(context, SignInFacebook(),
+                                            "assets/images/facebook_icon.png"),
+                                      ],
+                                    );
+                                  }),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        'Already have an account ?',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          fontFamily: 'Lato',
+                                          color: Color(0xFF818181),
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            5, 0, 0, 0),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            'Sign in here',
+                                            style: TextStyle(
+                                              fontFamily: 'Lato',
+                                              color: thirterydColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              )
+                            ],
                       ))
                     ]),
                   ),
 
-                  /// Button navigate to Sign In
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Already have an account ?',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                color: Color(0xFF818181),
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  5, 0, 0, 0),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  'Sign in here',
-                                  style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    color: thirterydColor,
+                  Align(
+                    alignment: const AlignmentDirectional(-1.01, 1.01),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFAAD4CC),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 10, 0, 0),
+                                child: Text(
+                                  'What is JIT :D ?',
+                                  style: GoogleFonts.getFont(
+                                    'Lato',
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 36,
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                          Align(
+                            alignment: const AlignmentDirectional(0, -0.05),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      5, 30, 5, 0),
+                                  child: RichText(
+                                    text: const TextSpan(
+                                      text: 'เป็นแอปพลิเคชันสำหรับ',
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ' ผู้ที่ต้องการระบายความเครียด\n',
+                                          style: TextStyle(color: thirterydColor, fontWeight: FontWeight.normal, fontSize: 16),),
+                                        TextSpan(
+                                          text: 'หรือ',
+                                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),),
+                                        TextSpan(
+                                          text: ' ผู้ที่ต้องการให้คำปรึกษา ',
+                                          style: TextStyle(color: thirterydColor, fontWeight: FontWeight.normal, fontSize: 16),),
+                                        TextSpan(
+                                          text: 'กับกลุ่มผู้ที่มีความเครียด',
+                                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),),
+                                      ],
+                                    ),
+                                    // style: GoogleFonts.getFont(
+                                    //   'Lato',
+                                    //   color: Colors.white,
+                                    //   fontWeight: FontWeight.bold,
+                                    //   fontSize: 16,
+                                    // ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
+                  /// Button navigate to Sign In
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     Padding(
+                  //       padding: const EdgeInsets.only(bottom: 20.0),
+                  //       child: Row(
+                  //         mainAxisSize: MainAxisSize.max,
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           const Text(
+                  //             'Already have an account ?',
+                  //             textAlign: TextAlign.end,
+                  //             style: TextStyle(
+                  //               fontFamily: 'Lato',
+                  //               color: Color(0xFF818181),
+                  //               fontWeight: FontWeight.normal,
+                  //             ),
+                  //           ),
+                  //           Padding(
+                  //             padding: const EdgeInsetsDirectional.fromSTEB(
+                  //                 5, 0, 0, 0),
+                  //             child: TextButton(
+                  //               onPressed: () {
+                  //                 Navigator.pop(context);
+                  //               },
+                  //               child: const Text(
+                  //                 'Sign in here',
+                  //                 style: TextStyle(
+                  //                   fontFamily: 'Lato',
+                  //                   color: thirterydColor,
+                  //                   fontWeight: FontWeight.bold,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ))
           // ),
@@ -335,7 +452,7 @@ class SignUpState extends State<SignUp> {
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                child: const Text("Sign In"));
+                child: const Text("Sign Up"));
           }
         }));
   }

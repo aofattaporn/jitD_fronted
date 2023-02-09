@@ -209,7 +209,7 @@ class SignInState extends State<SignIn> {
                   ),
                 ),
 
-                /// Ner Here ?
+                /// New Here ?
                 const Align(
                   alignment: AlignmentDirectional(0.03, 0.38),
                   child: Text(

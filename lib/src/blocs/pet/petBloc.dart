@@ -19,17 +19,23 @@ class petBloc extends Bloc<petEvent, petState> {
 
       emit(LoadingNamingPet());
 
-      Future<String> response = petRepository.NamingPetEvent(event._PetName);
+      print(event._PetName);
+      if (event._PetName?.length != 0) {
+        Future<String> response = petRepository.NamingPetEvent(event._PetName);
 
-      //ยิงหลังบ้านสำเร็จ
-      // 200 -> return LoadedNamingPet
-      if (await response == "Naming pet successfully"){
-        emit(LoadedNamingPet());
-      }
-      // 201 -> return ErrorNamingPet
-      else{
+        //ยิงหลังบ้านสำเร็จ
+        // 200 -> return LoadedNamingPet
+        if (await response == "Naming pet successfully"){
+          emit(LoadedNamingPet());
+        }
+        // 201 -> return ErrorNamingPet
+        else{
+          emit(ErrorNamingPet());
+        }
+      } else {
         emit(ErrorNamingPet());
       }
+
     });
   }
 }
