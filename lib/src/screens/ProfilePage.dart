@@ -85,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: Container(
                               padding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).devicePixelRatio*5,
+                                  left: MediaQuery.of(context).devicePixelRatio*6,
                                   top: MediaQuery.of(context).devicePixelRatio*4,
                               ),
                               child: BlocProvider(
@@ -94,13 +94,37 @@ class _ProfilePageState extends State<ProfilePage> {
                                     AuthenticationState>(
                                     builder: (context, state) {
                                       if(state is GettingUser){
-                                        return Text("");
+                                        return Shimmer.fromColors(
+                                          baseColor: skeletonColor,
+                                          highlightColor: skeletonHighlightColor,
+                                          child: Container(
+                                            margin: EdgeInsets.only(left: 0),
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5)),
+                                                  color: skeletonColor),
+                                            ),
+                                          ),
+                                        );
                                       }else if(state is GettedUser){
                                         print(state.userId);
-                                        return Text("ID : "+state.userId.toString());
+                                        return Text("ID : " + state.userId.toString());
                                       }
                                       else{
-                                        return Text("data");
+                                        return Shimmer.fromColors(
+                                          baseColor: skeletonColor,
+                                          highlightColor: skeletonHighlightColor,
+                                          child: Container(
+                                            margin: EdgeInsets.only(left: 0),
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5)),
+                                                  color: skeletonColor),
+                                            ),
+                                          ),
+                                        );
                                       }
                                     }),
                               ),
@@ -209,13 +233,45 @@ class _ProfilePageState extends State<ProfilePage> {
                                         AuthenticationState>(
                                     builder: (context, state) {
                                       if(state is GettingUser){
-                                        return Text("");
+                                        return Shimmer.fromColors(
+                                          baseColor: skeletonColor,
+                                          highlightColor: skeletonHighlightColor,
+                                          child: Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 0),
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width * 0.3,
+                                                height: MediaQuery.of(context).size.height * 0.0217,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                    color: skeletonColor),
+                                              ),
+                                            ),
+                                          ),
+                                        );
                                       }else if(state is GettedUser){
                                         print(state.petName);
                                     return Text(state.petName.toString());
                                       }
                                       else{
-                                        return Text("data");
+                                        return Shimmer.fromColors(
+                                          baseColor: skeletonColor,
+                                          highlightColor: skeletonHighlightColor,
+                                          child: Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 0),
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width * 0.3,
+                                                height: MediaQuery.of(context).size.height * 0.0217,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                    color: skeletonColor),
+                                              ),
+                                            ),
+                                          ),
+                                        );
                                       }
                                 }),
                               ),
@@ -416,8 +472,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: BlocBuilder<PostBloc, PostState>(
                         builder: (context, state) {
                       if (state is PostLoadingState) {
-                        return const Text(
-                          "รอแปป",
+                        return Shimmer.fromColors(
+                          baseColor: skeletonColor,
+                          highlightColor: skeletonHighlightColor,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      20, 20, 20, 20),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        1,
+                                    height:
+                                    MediaQuery.of(context).size.height *
+                                        0.3,
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: skeletonColor),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       } else if (state is PostLoadedState) {
                         if (state.allPost.length == 0) {
@@ -430,7 +509,32 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         }
                       } else {
-                        return const Text("Please Waiting");
+                        return Shimmer.fromColors(
+                          baseColor: skeletonColor,
+                          highlightColor: skeletonHighlightColor,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      20, 20, 20, 20),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        1,
+                                    height:
+                                    MediaQuery.of(context).size.height *
+                                        0.3,
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: skeletonColor),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       }
                     }),
                   ),
