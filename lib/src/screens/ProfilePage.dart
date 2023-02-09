@@ -83,6 +83,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Colors.white),
                             height: MediaQuery.of(context).size.height * 0.04,
                             width: MediaQuery.of(context).size.width * 0.4,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).devicePixelRatio*5,
+                                  top: MediaQuery.of(context).devicePixelRatio*4,
+                              ),
+                              child: BlocProvider(
+                                create: (_) => _userBloc,
+                                child: BlocBuilder<AuthenticationBloc,
+                                    AuthenticationState>(
+                                    builder: (context, state) {
+                                      if(state is GettingUser){
+                                        return Text("");
+                                      }else if(state is GettedUser){
+                                        print(state.userId);
+                                        return Text("ID : "+state.userId.toString());
+                                      }
+                                      else{
+                                        return Text("data");
+                                      }
+                                    }),
+                              ),
+                            ),
                           ),
 
                           //burger bar
@@ -187,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         AuthenticationState>(
                                     builder: (context, state) {
                                       if(state is GettingUser){
-                                        return Text("รอสักครู่");
+                                        return Text("");
                                       }else if(state is GettedUser){
                                         print(state.petName);
                                     return Text(state.petName.toString());
@@ -197,14 +219,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                       }
                                 }),
                               ),
-                              // RichText(
-                              //   textAlign: TextAlign.center,
-                              //   text: TextSpan(
-                              //     text: "หมีขั้วโลกเหนือ",
-                              //     style: TextStyle(
-                              //         fontSize: 16, color: textColor1),
-                              //   ),
-                              // ),
                               Container(
                                 child: IconButton(
                                   icon: Icon(
