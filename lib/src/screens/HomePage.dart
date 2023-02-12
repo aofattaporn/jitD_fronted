@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         child: RefreshIndicator(
           onRefresh: () async => _postBloc.add(GetAllPost()),
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             //Background on top
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
@@ -226,9 +226,7 @@ class _HomePageState extends State<HomePage> {
                             _buildPostBox(context, state.allPost),
                             GestureDetector(
                               onTap: () => Navigator.of(context)
-                                  .push(_createRoute(ViewAllPost(
-                                model: state.allPost,
-                              ))),
+                                  .push(_createRoute(const ViewAllPost())),
                               child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   alignment: AlignmentDirectional.centerEnd,
