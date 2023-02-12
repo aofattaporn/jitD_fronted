@@ -325,12 +325,6 @@ class SignUpState extends State<SignUp> {
                                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),),
                                       ],
                                     ),
-                                    // style: GoogleFonts.getFont(
-                                    //   'Lato',
-                                    //   color: Colors.white,
-                                    //   fontWeight: FontWeight.bold,
-                                    //   fontSize: 16,
-                                    // ),
                                   ),
                                 ),
                               ],
@@ -340,47 +334,6 @@ class SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-                  /// Button navigate to Sign In
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(bottom: 20.0),
-                  //       child: Row(
-                  //         mainAxisSize: MainAxisSize.max,
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           const Text(
-                  //             'Already have an account ?',
-                  //             textAlign: TextAlign.end,
-                  //             style: TextStyle(
-                  //               fontFamily: 'Lato',
-                  //               color: Color(0xFF818181),
-                  //               fontWeight: FontWeight.normal,
-                  //             ),
-                  //           ),
-                  //           Padding(
-                  //             padding: const EdgeInsetsDirectional.fromSTEB(
-                  //                 5, 0, 0, 0),
-                  //             child: TextButton(
-                  //               onPressed: () {
-                  //                 Navigator.pop(context);
-                  //               },
-                  //               child: const Text(
-                  //                 'Sign in here',
-                  //                 style: TextStyle(
-                  //                   fontFamily: 'Lato',
-                  //                   color: thirterydColor,
-                  //                   fontWeight: FontWeight.bold,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ))
           // ),

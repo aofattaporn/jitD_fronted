@@ -19,7 +19,6 @@ class petBloc extends Bloc<petEvent, petState> {
 
       emit(LoadingNamingPet());
 
-      print(event._PetName);
       if (event._PetName?.length != 0) {
         Future<String> response = petRepository.NamingPetEvent(event._PetName);
 
@@ -35,7 +34,6 @@ class petBloc extends Bloc<petEvent, petState> {
       } else {
         emit(ErrorNamingPet());
       }
-
     });
   }
 }
