@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/App.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../data/models/post_model.dart';
 import 'post/PostBox.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,9 +27,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final PostBloc _postBloc = PostBloc();
+  final AuthenticationBloc _userBloc = AuthenticationBloc();
 
   @override
   void initState() {
+    _userBloc.add(getUserID());
     _postBloc.add(GetMyPost());
     super.initState();
   }
@@ -43,7 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
         child: RefreshIndicator(
           onRefresh: () async => _postBloc.add(GetMyPost()),
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
@@ -78,6 +85,84 @@ class _ProfilePageState extends State<ProfilePage> {
                                   color: Colors.white),
                               height: MediaQuery.of(context).size.height * 0.04,
                               width: MediaQuery.of(context).size.width * 0.4,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).devicePixelRatio * 6,
+                                  top:
+                                      MediaQuery.of(context).devicePixelRatio * 4,
+                                ),
+                                child: BlocProvider(
+                                  create: (_) => _userBloc,
+                                  child: BlocBuilder<AuthenticationBloc,
+                                          AuthenticationState>(
+                                      builder: (context, state) {
+                                    if (state is GettingUser) {
+                                      return Shimmer.fromColors(
+                                        baseColor: skeletonColor,
+                                        highlightColor: skeletonHighlightColor,
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: MediaQuery.of(context)
+                                                      .devicePixelRatio *
+                                                  5.3,
+                                              bottom: MediaQuery.of(context)
+                                                      .devicePixelRatio *
+                                                  3),
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  5,
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.5,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5)),
+                                                color: skeletonColor),
+                                          ),
+                                        ),
+                                      );
+                                    } else if (state is GettedUser) {
+                                      String identifyuser =
+                                          state.userId.toString();
+                                      int maxLength = 10;
+                                      String conciseUser = (identifyuser.length >
+                                              maxLength)
+                                          ? identifyuser.substring(0, maxLength) +
+                                              "..."
+                                          : identifyuser;
+                                      return Text("ID : " + conciseUser);
+                                    } else {
+                                      return Shimmer.fromColors(
+                                        baseColor: skeletonColor,
+                                        highlightColor: skeletonHighlightColor,
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: MediaQuery.of(context)
+                                                      .devicePixelRatio *
+                                                  5.3,
+                                              bottom: MediaQuery.of(context)
+                                                      .devicePixelRatio *
+                                                  3),
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  5,
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.5,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5)),
+                                                color: skeletonColor),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }),
+                                ),
+                              ),
                             ),
 
                             //burger bar
@@ -176,21 +261,106 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    text: "หมีขั้วโลกเหนือ",
-                                    style: TextStyle(
-                                        fontSize: 16, color: textColor1),
-                                  ),
+                                BlocProvider(
+                                  create: (_) => _userBloc,
+                                  child: BlocBuilder<AuthenticationBloc,
+                                          AuthenticationState>(
+                                      builder: (context, state) {
+                                    if (state is GettingUser) {
+                                      return Shimmer.fromColors(
+                                        baseColor: skeletonColor,
+                                        highlightColor: skeletonHighlightColor,
+                                        child: Container(
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 0),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.0217,
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10)),
+                                                  color: skeletonColor),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    } else if (state is GettedUser) {
+                                      print(state.petName);
+                                      return Text(state.petName.toString());
+                                    } else {
+                                      return Shimmer.fromColors(
+                                        baseColor: skeletonColor,
+                                        highlightColor: skeletonHighlightColor,
+                                        child: Container(
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 0),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.0217,
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10)),
+                                                  color: skeletonColor),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }),
                                 ),
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.create_rounded,
-                                      color: Colors.black26,
-                                    ),
-                                    onPressed: () {},
+                                BlocProvider(
+                                  create: (_) => _userBloc,
+                                  child: BlocBuilder<AuthenticationBloc,
+                                      AuthenticationState>(
+                                    builder: (context, state) {
+                                      return IconButton(
+                                        icon: Icon(
+                                          Icons.create_rounded,
+                                          color: Colors.black26,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                    title:
+                                                        Text("Change Name Pet"),
+                                                    content: TextField(
+                                                      autofocus: true,
+                                                      decoration: InputDecoration(
+                                                          hintText: "Enter Name"),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: Text("Cancel"),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: Text("OK"),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ));
+                                        },
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -381,8 +551,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: BlocBuilder<PostBloc, PostState>(
                           builder: (context, state) {
                         if (state is PostLoadingState) {
-                          return const Text(
-                            "รอแปป",
+                          return Shimmer.fromColors(
+                            baseColor: skeletonColor,
+                            highlightColor: skeletonHighlightColor,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height: MediaQuery.of(context).size.height *
+                                          0.3,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: skeletonColor),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         } else if (state is PostLoadedState) {
                           if (state.allPost.length == 0) {
@@ -395,7 +587,31 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                           }
                         } else {
-                          return const Text("Please Waiting");
+                          return Shimmer.fromColors(
+                            baseColor: skeletonColor,
+                            highlightColor: skeletonHighlightColor,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height: MediaQuery.of(context).size.height *
+                                          0.3,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: skeletonColor),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       }),
                     ),

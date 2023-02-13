@@ -13,3 +13,9 @@ class NamingPetEvent extends petEvent {
   @override
   List<Object> get props => [];
 }
+
+class GetMyPet extends petEvent{
+
+  @override
+  List<Object> get props => [];
+}

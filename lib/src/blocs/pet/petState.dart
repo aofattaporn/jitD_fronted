@@ -22,6 +22,8 @@ class LoadedNamingPet extends petState {
 
 
 class ErrorNamingPet extends petState {
+  final String error;
+  ErrorNamingPet(this.error);
 
   @override
   List<Object?> get props => [];
