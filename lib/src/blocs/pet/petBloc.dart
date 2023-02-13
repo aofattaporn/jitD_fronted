@@ -29,10 +29,10 @@ class petBloc extends Bloc<petEvent, petState> {
         }
         // 201 -> return ErrorNamingPet
         else{
-          emit(ErrorNamingPet());
+          emit(ErrorNamingPet("Something Wrong"));
         }
       } else {
-        emit(ErrorNamingPet());
+        emit(ErrorNamingPet("Something Wrong"));
       }
     });
   }
