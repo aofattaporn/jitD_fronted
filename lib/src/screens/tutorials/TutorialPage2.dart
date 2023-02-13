@@ -7,6 +7,7 @@ import 'package:jitd_client/src/screens/tutorials/TutorialPage5.dart';
 import 'package:rive/rive.dart';
 
 import '../../constant.dart';
+import '../../ui/DialogMessage.dart';
 
 class TutorialPage2 extends StatefulWidget {
   const TutorialPage2({Key? key}) : super(key: key);
@@ -22,7 +23,10 @@ class _TutorialPage2State extends State<TutorialPage2> {
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -52,6 +56,16 @@ class _TutorialPage2State extends State<TutorialPage2> {
                     MaterialPageRoute(
                         builder: (context) => const TutorialPage3()));
               }
+              else if (state is ErrorNamingPet) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (context) {
+                      return DialogMessage(
+                          title: "กรุณาตั้งชื่อสัตว์เลี้ยงของคุณ", desc: "คุณต้องตั้งชื่อสัตว์เลี้ยงของคุณก่อนกดปุ่มถัดไป");
+                      // return DialogMessage(message: message);
+                    });
+              } else{}
             },
               child: SafeArea(
                   child: Stack(
