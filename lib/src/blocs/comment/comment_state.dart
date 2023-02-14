@@ -31,3 +31,27 @@ class CommentError extends CommentState {
   List<Object?> get props => [];
 }
 
+class LoadingComment extends CommentState{
+  @override
+  List<Object?> get props => [];
+}
+
+class LoadedComment extends CommentState{
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdatingComment extends CommentState{
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdatedComment extends CommentState{
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletedComment extends CommentState{
+  @override
+  List<Object?> get props => [];
+}
