@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 
 import '../../constant.dart';
 import '../Utilities/PostModal.dart';
