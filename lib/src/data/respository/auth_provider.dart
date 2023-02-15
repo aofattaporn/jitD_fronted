@@ -140,7 +140,6 @@ class AuthRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    print(response.request);
     if (response.statusCode == 200) {
       return response.body;
     } else {
