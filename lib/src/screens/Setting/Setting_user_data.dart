@@ -19,7 +19,7 @@ class _Setting_userdataState extends State<Setting_userdata> {
         title: const Text(
           "ข้อมูลส่วนตัว",
           style: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},

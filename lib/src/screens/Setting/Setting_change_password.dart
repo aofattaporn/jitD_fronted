@@ -19,7 +19,7 @@ class _Setting_change_passwordState extends State<Setting_change_password> {
         title: const Text(
           "เปลี่ยนรหัสผ่าน",
           style: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},

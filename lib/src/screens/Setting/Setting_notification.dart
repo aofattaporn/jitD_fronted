@@ -73,8 +73,8 @@ class _Setting_notificationState extends State<Setting_notification> {
       appBar: AppBar(
         backgroundColor: Colors.white ,
         centerTitle: true,
-        title: const Text("การแจ้งเตือน", style: TextStyle(fontSize: 22,
-            color: Colors.black,fontWeight: FontWeight.bold),
+        title: const Text("การแจ้งเตือน", style: TextStyle(fontSize: 16,
+            color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {
@@ -113,8 +113,7 @@ class _Setting_notificationState extends State<Setting_notification> {
                 Icon(Icons.volume_up_outlined, color: Colors.black),
                 SizedBox(width: 10),
                 Text("การแจ้งเตือนแบบพุซ", style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold))
+                    fontSize: 16))
               ],
             ),
             const Divider(height: 20, thickness: 1),
@@ -130,8 +129,7 @@ class _Setting_notificationState extends State<Setting_notification> {
                 Icon(Icons.volume_up_outlined, color: Colors.black),
                 SizedBox(width: 10),
                 Text("การแจ้งเตือนประเภทอื่นๆ", style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold))
+                    fontSize: 16))
               ],
             ),
             const Divider(height: 20, thickness: 1),
