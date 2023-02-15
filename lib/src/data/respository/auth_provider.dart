@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/auth_model.dart';
 import '../models/user_model.dart';
 
 class AuthRepository {
@@ -19,7 +18,7 @@ class AuthRepository {
       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
       print(token);
       final response = await http.post(Uri.parse("${globalUrl}v1/users/"),
-          body: userModelToJson(UserModel(0,"")),
+          body: userModelToJson(UserModel(0, "")),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -51,23 +50,19 @@ class AuthRepository {
       print(token);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
         return 'No user found for that email.';
-
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
         return "Wrong password provided for that user.";
       }
     }
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     print(token);
-    final response = await http.post(Uri.parse("${globalUrl}v1/users/signIn"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        });
-    print(response.request);
+    final response =
+        await http.post(Uri.parse("${globalUrl}v1/users/signIn"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
     if (response.statusCode == 200) {
       return "creating data success";
     } else {
@@ -89,24 +84,32 @@ class AuthRepository {
     return result;
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
-
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    await checkCredentail();
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
+    final response = await http
+        .post(Uri.parse("${globalUrl}v1/users/signIn/google"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode == 200) {
+      return "sign in success";
+    } else if (response.statusCode == 201) {
+      return "create user success";
+    } else {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return "something wrong";
+    }
   }
 
   Future<UserCredential> signInWithFacebook() async {
@@ -129,20 +132,18 @@ class AuthRepository {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<String> GetMyUser()async{
-      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-      final response = await http.get(Uri.parse("${globalUrl}v1/users/id"),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          });
-      print(response.request);
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        return "Something wrong";
-      }
+  Future<String> GetMyUser() async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response =
+        await http.get(Uri.parse("${globalUrl}v1/users/id"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return "Something wrong";
     }
+  }
 }
-
