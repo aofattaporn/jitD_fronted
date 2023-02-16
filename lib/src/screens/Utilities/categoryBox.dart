@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/constant.dart';
 
-class Category extends StatelessWidget {
+class CategoryBox extends StatelessWidget {
+  const CategoryBox({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
