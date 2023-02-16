@@ -11,8 +11,9 @@ class CreatingPost extends PostEvent {
   String? _content;
   // DateTime? _Date;
   bool? _IsPublic;
+  List<String> _category;
 
-  CreatingPost(this._content, this._IsPublic);
+  CreatingPost(this._content, this._IsPublic, this._category);
   @override
   List<Object> get props => [];
 }

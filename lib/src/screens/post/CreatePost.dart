@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
-import 'package:jitd_client/src/screens/Utilities/categoryBox.dart';
 import 'package:jitd_client/src/screens/post/BlockWords.dart';
 import 'package:jitd_client/src/screens/post/Category.dart';
 import 'package:jitd_client/src/screens/post/ConsultantLevel.dart';
@@ -122,66 +121,89 @@ class CreatePostState extends State<CreatePost> {
                                               size: 40,
                                               color: textColor2,
                                             )),
-                                        BlocBuilder<PostBloc, PostState>(
-                                            builder: (context, state) {
-                                          if (state is CheckingPost) {
-                                            return ElevatedButton(
-                                                onPressed: () {},
-                                                style: ElevatedButton.styleFrom(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 16),
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(32, 0, 32, 0),
-                                                    backgroundColor:
-                                                        thirterydColor,
-                                                    shape:
-                                                        const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  40)),
-                                                    )),
-                                                child:
-                                                    const CircularProgressIndicator(
-                                                        color: Colors.white70));
-                                          } else {
-                                            return ElevatedButton(
-                                              onPressed: () {
-                                                if (keyForm.currentState!
-                                                    .validate()) {
-                                                  keyForm.currentState!.save();
-                                                  context.read<PostBloc>().add(
-                                                      CreatingPost(
-                                                          textController?.text,
-                                                          true));
-                                                }
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 16),
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          32, 0, 32, 0),
-                                                  backgroundColor:
-                                                      thirterydColor,
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                40)),
-                                                  )),
-                                              child: Text(
-                                                "โพส",
-                                                style: GoogleFonts.getFont(
-                                                    "Bai Jamjuree",
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            );
-                                          }
-                                        }),
+                                        BlocBuilder<CategoryBloc,
+                                            CategoryState>(
+                                          builder: (contexts, states) {
+                                            return BlocBuilder<PostBloc,
+                                                    PostState>(
+                                                builder: (context, state) {
+                                              if (state is CheckingPost) {
+                                                return ElevatedButton(
+                                                    onPressed: () {},
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            textStyle:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        16),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    32,
+                                                                    0,
+                                                                    32,
+                                                                    0),
+                                                            backgroundColor:
+                                                                thirterydColor,
+                                                            shape:
+                                                                const RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          40)),
+                                                            )),
+                                                    child:
+                                                        const CircularProgressIndicator(
+                                                            color: Colors
+                                                                .white70));
+                                              } else {
+                                                return ElevatedButton(
+                                                  onPressed: () {
+                                                    if (keyForm.currentState!
+                                                        .validate()) {
+                                                      keyForm.currentState!
+                                                          .save();
+                                                      context
+                                                          .read<PostBloc>()
+                                                          .add(CreatingPost(
+                                                              textController
+                                                                  ?.text,
+                                                              true,
+                                                              states.selectedCategoryMap));
+                                                    }
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          textStyle:
+                                                              const TextStyle(
+                                                                  fontSize: 16),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  32, 0, 32, 0),
+                                                          backgroundColor:
+                                                              thirterydColor,
+                                                          shape:
+                                                              const RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            40)),
+                                                          )),
+                                                  child: Text(
+                                                    "โพส",
+                                                    style: GoogleFonts.getFont(
+                                                        "Bai Jamjuree",
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                );
+                                              }
+                                            });
+                                          },
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -359,77 +381,92 @@ class CreatePostState extends State<CreatePost> {
                                             MediaQuery.of(context).size.height *
                                                 0.0225),
                                     if (state.selectedCategoryMap.isNotEmpty)
-                                    Container(
-                                      color: backgroundColor3,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.06,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ListView.separated(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              state.selectedCategoryMap.length,
-                                          separatorBuilder: (context, index) {
-                                            return SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03);
-                                          },
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 0, bottom: 0),
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(20)),
-                                                    color: thirterydColor),
-                                                child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                            10, 5, 10, 5),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          state.selectedCategoryMap[
-                                                              index],
-                                                          style:
-                                                              GoogleFonts.getFont(
-                                                                  "Bai Jamjuree",
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            );
-                                          },
+                                      Container(
+                                        color: backgroundColor3,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.06,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListView.separated(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: state
+                                                .selectedCategoryMap.length,
+                                            separatorBuilder: (context, index) {
+                                              return SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.03);
+                                            },
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 0, bottom: 0),
+                                                child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                          color:
+                                                              thirterydColor),
+                                                  child: Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                              10, 5, 10, 5),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            state.selectedCategoryMap[
+                                                                index],
+                                                            style: GoogleFonts.getFont(
+                                                                "Bai Jamjuree",
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    )
+                                      )
                                     else if (state.selectedCategoryMap.isEmpty)
                                       Row(
                                         children: [
                                           Container(
-                                            width: MediaQuery.of(context).size.width * 0.85,
-                                            height: MediaQuery.of(context).size.height * 0.05,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.85,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.05,
                                             color: backgroundColor3,
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Text("    กรุณาระบุประเภทของโพส", style: fontsTH16_Grey,),
+                                                Text(
+                                                  "    กรุณาระบุประเภทของโพส",
+                                                  style: fontsTH16_Grey,
+                                                ),
                                               ],
-                                            ),),
+                                            ),
+                                          ),
                                         ],
                                       )
                                   ],

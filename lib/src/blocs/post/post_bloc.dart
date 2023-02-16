@@ -21,10 +21,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(CheckingPost());
       // TODO : changing Temporary variable by create event Create Category
       /// Temporary variable
-      List<String>? category = ["Hello", "Hello2"];
 
       Future<String> response = postRepository.creatingPost(
-          event._content, event._IsPublic, category);
+          event._content, event._IsPublic, event._category);
 
       if (await response == "create data success") {
         // 200 -> return PostSuccess
