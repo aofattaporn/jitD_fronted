@@ -1,9 +1,16 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../comment/CommentBox.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
+import 'package:jitd_client/src/blocs/comment/comment_state.dart';
+import 'package:jitd_client/src/screens/post/PostBox.dart';
 
 import '../../constant.dart';
+import '../../data/models/comment_model.dart';
 import '../Utilities/PostModal.dart';
 
 class ViewPost extends StatefulWidget {
@@ -29,11 +36,13 @@ class ViewPost extends StatefulWidget {
 class ViewPostState extends State<ViewPost> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final CommentBloc _commentBloc = CommentBloc();
   TextEditingController? commentController;
 
   @override
   void initState() {
     super.initState();
+    _commentBloc.add(GetComment(widget.postId));
     commentController = TextEditingController();
   }
 
@@ -523,12 +532,26 @@ class ViewPostState extends State<ViewPost> {
                                   );
                                 },
                               ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.06),
                               Container(
-                                height: MediaQuery.of(context).size.height * 0.325,
-                                  child: Text("No Comments Yet", style: GoogleFonts.getFont("Lato", color: textColor3),)
+                                height: MediaQuery.of(context).size.height * 0.6,
+                                child: BlocProvider(
+                                  create: (_) => _commentBloc,
+                                  child: BlocBuilder<CommentBloc, CommentState>(
+                                      builder: (context, state){
+                                        if (state is LoadingComment){
+                                          return Text('');
+                                        }else if (state is LoadedComment) {
+                                          return Column(
+                                            children: [
+                                              _buildComment(
+                                                  context, state.comment)
+                                            ],
+                                          );
+                                        } else{
+                                          return Text('');
+                                        }
+                                      }),
+                                ),
                               ),
                             ],
                           ),
@@ -591,3 +614,36 @@ class ViewPostState extends State<ViewPost> {
     );
   }
 }
+
+Widget _buildComment (BuildContext context, List<CommentModel> model){
+  return Column(
+    children: [
+      ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+        itemCount: 1,
+        padding: EdgeInsets.only(
+          left: MediaQuery.of(context).devicePixelRatio*25,
+
+        ),
+        itemBuilder: (context, index){
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: GestureDetector(
+              child: CommentBox(
+                userId: model[index].userId ?? "",
+                commentId: model[index].commentId ?? "",
+                content: model[index].content ?? "No Data",
+                like: 0,
+                postId: model[index].postId ?? "",
+                Date: model[index].Date ?? DateTime.now().toString(),
+              ),
+            ),
+          );
+        }
+      )
+    ],
+  );
+}
+

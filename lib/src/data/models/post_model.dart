@@ -64,6 +64,8 @@ class PostModel {
         (json['category'] as List).map((item) => item as String).toList();
   }
 
+  get comments => null;
+
   /// method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();

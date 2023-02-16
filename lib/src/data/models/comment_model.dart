@@ -1,30 +1,49 @@
 import 'dart:convert';
 
+import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
+
 CommentModel commentModelFromJson(String str) => CommentModel.fromJson(json.decode(str));
 
 String commentModelToJson(CommentModel data) => json.encode(data.toJson());
 
 class CommentModel {
+  List<CommentModel> comments = [];
+
+  String? userId;
+  String? commentId;
   String? content;
-  String? like;
+  int? like;
   String? postId;
   String? Date;
   String? error;
 
 
+  CommentModel(this.userId, this.content,this.commentId, this.like, this.postId, this.Date);
 
-  CommentModel(this.content, this.like, this.postId, this.Date);
 
   CommentModel.withError(String errorMessage) {
     error = errorMessage;
   }
 
   /// method convert map to json
-  CommentModel.fromJson(Map<String, dynamic> json) {
+  CommentModel.fromJson(List<dynamic> json) {
+    if (json != null) {
+      json.forEach((element) {
+        // แตก json ที่เป็น list ออกเป็นก้อน object type PostModel
+        comments.add(CommentModel.fromJsonResponse(element));
+      });
+      comments.sort((a, b) => (b.Date ?? "").compareTo(a.Date ?? ""));
+    }
+  }
+
+  /// function get comment
+  CommentModel.fromJsonResponse(Map<String, dynamic> json) {
     content = json['content'];
     like = json['like'];
     postId = json['postId'];
     Date = json['Date'];
+    commentId = json['commentId'];
+    userId = json['userId'];
   }
 
 
@@ -35,6 +54,8 @@ class CommentModel {
     data['like'] = like;
     data['postId'] = postId;
     data['Date'] = Date;
+    data['commentId'] = commentId;
+    data['userId'] = userId;
 
     return data;
   }

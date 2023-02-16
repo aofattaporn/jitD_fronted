@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../data/models/comment_model.dart';
+
 
 @immutable
 abstract class CommentState extends Equatable {}
@@ -27,6 +29,9 @@ class CommentSuccess extends CommentState {
 
 /// state error
 class CommentError extends CommentState {
+  final String error;
+  CommentError(this.error);
+
   @override
   List<Object?> get props => [];
 }
@@ -37,6 +42,11 @@ class LoadingComment extends CommentState{
 }
 
 class LoadedComment extends CommentState{
+  final List<CommentModel> _comment;
+  LoadedComment(this._comment);
+  List<CommentModel> get  comment => _comment;
+
+
   @override
   List<Object?> get props => [];
 }
