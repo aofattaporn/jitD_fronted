@@ -21,7 +21,6 @@ class petBloc extends Bloc<petEvent, petState> {
 
       if (event._PetName?.length != 0) {
         Future<String> response = petRepository.NamingPetEvent(event._PetName);
-
         //ยิงหลังบ้านสำเร็จ
         // 200 -> return LoadedNamingPet
         if (await response == "Naming pet successfully"){

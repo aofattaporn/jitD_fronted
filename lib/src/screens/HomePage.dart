@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Utilities/PostModal.dart';
-import 'package:jitd_client/src/data/models/cat_model.dart';
+import 'package:jitd_client/src/screens/Utilities/categoryBox.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
