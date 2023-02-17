@@ -20,11 +20,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       // ยิงหลังบ้าน
       Future<String> response = commentRepository.creatingComment(
           event._content,
-          event._commentId,
-          event._postId,
-          event._like,
-          event._userId,
-          event._date);
+        event._postId,
+        DateTime.now().toString());
 
       print(response);
       // 200 -> return CommentSuccess
@@ -51,13 +48,3 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   }
 }
 
-Future<void> getComment(emit, commentRepository, postId) async {
-  try {
-    final commentData = await commentRepository.getCommented();
-    final commentModel = postModelFromJson(commentData);
-    emit(LoadedComment(commentModel.comments));
-  } catch (e, stacktrace) {
-    print("Exxception occured: $e stackTrace: $stacktrace");
-    emit(CommentError(e.toString()));
-  }
-}

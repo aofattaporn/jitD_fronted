@@ -77,8 +77,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             //id user
                             Container(
                               margin: EdgeInsets.only(
-                                  left: MediaQuery.of(context).devicePixelRatio *
-                                      5),
+                                  left:
+                                      MediaQuery.of(context).devicePixelRatio *
+                                          5),
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
@@ -88,9 +89,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Container(
                                 padding: EdgeInsets.only(
                                   left:
-                                      MediaQuery.of(context).devicePixelRatio * 6,
-                                  top:
-                                      MediaQuery.of(context).devicePixelRatio * 4,
+                                      MediaQuery.of(context).devicePixelRatio *
+                                          6,
+                                  top: MediaQuery.of(context).devicePixelRatio *
+                                      4,
                                 ),
                                 child: BlocProvider(
                                   create: (_) => _userBloc,
@@ -109,12 +111,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                               bottom: MediaQuery.of(context)
                                                       .devicePixelRatio *
                                                   3),
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  5,
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.5,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
                                           child: Container(
                                             decoration: const BoxDecoration(
                                                 borderRadius: BorderRadius.all(
@@ -127,11 +131,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       String identifyuser =
                                           state.userId.toString();
                                       int maxLength = 10;
-                                      String conciseUser = (identifyuser.length >
-                                              maxLength)
-                                          ? identifyuser.substring(0, maxLength) +
-                                              "..."
-                                          : identifyuser;
+                                      String conciseUser =
+                                          (identifyuser.length > maxLength)
+                                              ? identifyuser.substring(
+                                                      0, maxLength) +
+                                                  "..."
+                                              : identifyuser;
                                       return Text("ID : " + conciseUser);
                                     } else {
                                       return Shimmer.fromColors(
@@ -145,12 +150,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                               bottom: MediaQuery.of(context)
                                                       .devicePixelRatio *
                                                   3),
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  5,
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.5,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
                                           child: Container(
                                             decoration: const BoxDecoration(
                                                 borderRadius: BorderRadius.all(
@@ -175,7 +182,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => Setting_setting()));
+                                        builder: (context) =>
+                                            Setting_setting()));
                               },
                             ),
                           ],
@@ -216,7 +224,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Container(
                             margin: EdgeInsets.only(
-                              right: MediaQuery.of(context).devicePixelRatio * 30,
+                              right:
+                                  MediaQuery.of(context).devicePixelRatio * 30,
                               top: MediaQuery.of(context).devicePixelRatio * 10,
                             ),
                             child: Container(
@@ -229,9 +238,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           Container(
                             child: Container(
                               margin: EdgeInsets.only(
-                                left:
-                                    MediaQuery.of(context).devicePixelRatio * 30,
-                                top: MediaQuery.of(context).devicePixelRatio * 10,
+                                left: MediaQuery.of(context).devicePixelRatio *
+                                    30,
+                                top: MediaQuery.of(context).devicePixelRatio *
+                                    10,
                               ),
                               child: Image.asset(
                                 'assets/images/veryhappy.png',
@@ -255,7 +265,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: Container(
                           margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).devicePixelRatio * 10),
+                              left:
+                                  MediaQuery.of(context).devicePixelRatio * 10),
                           child: Padding(
                             padding: const EdgeInsets.all(20),
                             child: Row(
@@ -284,8 +295,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       .height *
                                                   0.0217,
                                               decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
                                                   color: skeletonColor),
                                             ),
                                           ),
@@ -312,8 +324,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       .height *
                                                   0.0217,
                                               decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
                                                   color: skeletonColor),
                                             ),
                                           ),
@@ -340,20 +353,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         Text("Change Name Pet"),
                                                     content: TextField(
                                                       autofocus: true,
-                                                      decoration: InputDecoration(
-                                                          hintText: "Enter Name"),
+                                                      decoration:
+                                                          InputDecoration(
+                                                              hintText:
+                                                                  "Enter Name"),
                                                     ),
                                                     actions: [
                                                       TextButton(
                                                         child: Text("Cancel"),
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       ),
                                                       TextButton(
                                                         child: Text("OK"),
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       ),
                                                     ],
@@ -381,7 +398,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         margin: EdgeInsets.symmetric(
                           horizontal:
                               MediaQuery.of(context).devicePixelRatio * 10,
-                          vertical: MediaQuery.of(context).devicePixelRatio * 10,
+                          vertical:
+                              MediaQuery.of(context).devicePixelRatio * 10,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -398,12 +416,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     icon: Icon(Icons.flash_on_rounded),
                                     color: Colors.white,
                                     iconSize:
-                                        MediaQuery.of(context).size.height * 0.05,
+                                        MediaQuery.of(context).size.height *
+                                            0.05,
                                     onPressed: () {},
                                   ),
                                   height:
                                       MediaQuery.of(context).size.height * 0.06,
-                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
                                 ),
                                 Container(
                                   child: Text(
@@ -431,7 +451,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   height:
                                       MediaQuery.of(context).size.height * 0.06,
-                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
                                 ),
                                 Container(
                                   child: Text(
@@ -454,12 +475,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     icon: Icon(Icons.bookmark),
                                     color: Colors.white,
                                     iconSize:
-                                        MediaQuery.of(context).size.height * 0.04,
+                                        MediaQuery.of(context).size.height *
+                                            0.04,
                                     onPressed: () {},
                                   ),
                                   height:
                                       MediaQuery.of(context).size.height * 0.06,
-                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
                                 ),
                                 Container(
                                   child: Text(
@@ -487,7 +510,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   height:
                                       MediaQuery.of(context).size.height * 0.06,
-                                  width: MediaQuery.of(context).size.width * 0.15,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
                                 ),
                                 Container(
                                   child: Text(
@@ -514,8 +538,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(30, 20, 30, 5),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              30, 20, 30, 5),
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.4,
                             height: MediaQuery.of(context).size.height * 0.04,
@@ -559,13 +583,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Container(
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 20, 20),
                                     child: Container(
                                       width:
                                           MediaQuery.of(context).size.width * 1,
-                                      height: MediaQuery.of(context).size.height *
-                                          0.3,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
                                       decoration: const BoxDecoration(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
@@ -595,13 +620,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Container(
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 20, 20),
                                     child: Container(
                                       width:
                                           MediaQuery.of(context).size.width * 1,
-                                      height: MediaQuery.of(context).size.height *
-                                          0.3,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
                                       decoration: const BoxDecoration(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),

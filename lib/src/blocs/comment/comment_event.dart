@@ -8,13 +8,9 @@ abstract class CommentEvent extends Equatable {
 class CreatingComment extends CommentEvent {
   final String? _content;
   final String? _postId;
-  final String? _commentId;
-  final String? _userId;
-  final int? _like;
-  final String? _date;
 
-  const CreatingComment(
-      this._content, this._userId, this._commentId, this._date, this._like, this._postId);
+
+  CreatingComment(this._content,this._postId);
 
   @override
   List<Object> get props => [];

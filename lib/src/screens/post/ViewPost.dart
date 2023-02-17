@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shimmer/shimmer.dart';
 import '../comment/CommentBox.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,8 +25,8 @@ class ViewPost extends StatefulWidget {
       {Key? key,
       required this.userId,
       required this.postId,
-        required this.content,
-        required this.date,
+      required this.content,
+      required this.date,
       required this.category})
       : super(key: key);
 
@@ -60,7 +61,6 @@ class ViewPostState extends State<ViewPost> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
           child: Stack(children: [
-
             /// Post-Comment
             SingleChildScrollView(
               child: Stack(
@@ -163,7 +163,8 @@ class ViewPostState extends State<ViewPost> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        widget.date ?? DateTime.now().toString(),
+                                        widget.date ??
+                                            DateTime.now().toString(),
                                         style: GoogleFonts.getFont("Lato",
                                             fontSize: 16, color: textColor3),
                                       ),
@@ -171,8 +172,10 @@ class ViewPostState extends State<ViewPost> {
                                         userId: widget.userId ?? "",
                                         postId: widget.postId ?? "",
                                         content: widget.content ?? "No Data",
-                                        date: widget.date ?? DateTime.now().toString(),
-                                        category: widget.category ?? ["Tag1", "Tag2"],
+                                        date: widget.date ??
+                                            DateTime.now().toString(),
+                                        category:
+                                            widget.category ?? ["Tag1", "Tag2"],
                                       )
                                     ],
                                   ),
@@ -533,24 +536,107 @@ class ViewPostState extends State<ViewPost> {
                                 },
                               ),
                               Container(
-                                height: MediaQuery.of(context).size.height * 0.6,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
                                 child: BlocProvider(
                                   create: (_) => _commentBloc,
                                   child: BlocBuilder<CommentBloc, CommentState>(
-                                      builder: (context, state){
-                                        if (state is LoadingComment){
-                                          return Text('');
-                                        }else if (state is LoadedComment) {
-                                          return Column(
-                                            children: [
-                                              _buildComment(
-                                                  context, state.comment)
-                                            ],
-                                          );
-                                        } else{
-                                          return Text('');
-                                        }
-                                      }),
+                                      builder: (context, state) {
+                                    if (state is LoadingComment) {
+                                      return Shimmer.fromColors(
+                                        baseColor: skeletonColor,
+                                        highlightColor: skeletonHighlightColor,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .devicePixelRatio *
+                                                      25,
+                                                  top: MediaQuery.of(context)
+                                                          .devicePixelRatio *
+                                                      5,
+                                                ),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.235,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          color: skeletonColor),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else if (state is LoadedComment) {
+                                      if (state.comment.length == 0) {
+                                        return Text('No Comments.');
+                                      } else {
+                                        return Column(
+                                          children: [
+                                            _buildComment(
+                                                context, state.comment)
+                                          ],
+                                        );
+                                      }
+                                    } else {
+                                      return Shimmer.fromColors(
+                                        baseColor: skeletonColor,
+                                        highlightColor: skeletonHighlightColor,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .devicePixelRatio *
+                                                      25,
+                                                  top: MediaQuery.of(context)
+                                                          .devicePixelRatio *
+                                                      5,
+                                                ),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.235,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          color: skeletonColor),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  }),
                                 ),
                               ),
                             ],
@@ -597,9 +683,17 @@ class ViewPostState extends State<ViewPost> {
                                   MediaQuery.of(context).viewInsets.bottom !=
                                               0 ||
                                           commentController!.text.isNotEmpty
-                                      ? IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.send, color: primaryColorDark,))
+                                      ?
+                                             IconButton(
+                                              onPressed: () {
+                                                context.read<CommentBloc>().add(
+                                                    CreatingComment(
+                                                        commentController.toString(),
+                                                        widget.postId
+                                                    ));
+                                              },
+                                              icon: const Icon(Icons.send,
+                                                  color: primaryColorDark))
                                       : null),
                           minLines: 1,
                           maxLines: 5,
@@ -615,35 +709,32 @@ class ViewPostState extends State<ViewPost> {
   }
 }
 
-Widget _buildComment (BuildContext context, List<CommentModel> model){
+Widget _buildComment(BuildContext context, List<CommentModel> model) {
   return Column(
     children: [
       ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-        itemCount: 1,
-        padding: EdgeInsets.only(
-          left: MediaQuery.of(context).devicePixelRatio*25,
-
-        ),
-        itemBuilder: (context, index){
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: GestureDetector(
-              child: CommentBox(
-                userId: model[index].userId ?? "",
-                commentId: model[index].commentId ?? "",
-                content: model[index].content ?? "No Data",
-                like: 0,
-                postId: model[index].postId ?? "",
-                Date: model[index].Date ?? DateTime.now().toString(),
+          itemCount: model.length,
+          padding: EdgeInsets.only(
+            left: MediaQuery.of(context).devicePixelRatio * 25,
+          ),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GestureDetector(
+                child: CommentBox(
+                  userId: model[index].userId ?? "",
+                  commentId: model[index].commentId ?? "",
+                  content: model[index].content ?? "No Data",
+                  like: 0,
+                  postId: model[index].postId ?? "",
+                  Date: model[index].Date ?? DateTime.now().toString(),
+                ),
               ),
-            ),
-          );
-        }
-      )
+            );
+          })
     ],
   );
 }
-

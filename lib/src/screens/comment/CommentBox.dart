@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../constant.dart';
 import '../Utilities/PostModal.dart';
 
-class CommentBox extends StatelessWidget {
+class CommentBox extends StatefulWidget {
   final String? userId;
   final String? commentId;
   final String? content;
@@ -23,13 +23,17 @@ class CommentBox extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CommentBox> createState() => _CommentBoxState();
+}
+
+class _CommentBoxState extends State<CommentBox> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
           bottom: MediaQuery.of(context).size.height * 0.03),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.25,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Colors.white,
@@ -47,19 +51,30 @@ class CommentBox extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    Date?? DateTime.now().toString(),
-                    style: GoogleFonts.getFont("Lato",
-                        fontSize: 16, color: textColor3),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top : MediaQuery.of(context).devicePixelRatio*5,
+                    ),
+                    child: Text(
+                      widget.Date?? DateTime.now().toString(),
+                      style: GoogleFonts.getFont("Lato",
+                          fontSize: 16, color: textColor3),
+                    ),
                   ),
                 ],
               ),
               Row(
                 children: [
-                  Text(
-                    userId?? "",
-                    style: GoogleFonts.getFont("Bai Jamjuree",
-                        color: textColor3, fontSize: 12),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).devicePixelRatio*5,
+                      bottom: MediaQuery.of(context).devicePixelRatio*3,
+                    ),
+                    child: Text(
+                      widget.userId?? "",
+                      style: GoogleFonts.getFont("Bai Jamjuree",
+                          color: textColor3, fontSize: 12),
+                    ),
                   )
                 ],
               ),
@@ -68,30 +83,30 @@ class CommentBox extends StatelessWidget {
               ),
 
               // Section-Content
-              Container(
-                alignment: Alignment.topLeft,
-                height: MediaQuery.of(context).size.height * 0.08,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        content ?? "No Data",
-                        style: GoogleFonts.getFont("Bai Jamjuree",
-                            fontSize: 16, color: textColor2),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        softWrap: false,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              // Section-Comments ----------------------------------------------
-
               Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.content ?? "No Data",
+                      style: GoogleFonts.getFont("Bai Jamjuree",
+                          fontSize: 16, color: textColor2),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 100,
+                      softWrap: false,
+                    ),
+                  )
+                ],
+              ),
+
+
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+
+              // Section-Comments ----------------------------------------------
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   // Section-Like
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
