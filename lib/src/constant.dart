@@ -34,6 +34,8 @@ const Color skeletonHighlightColor = Color.fromRGBO(245, 247, 247, 1);
 
 const double kPadding = 20.0;
 
+final TextStyle fontsTH10_Black = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 10, color: textColor1);
 final TextStyle fontsTH14_thirteryd = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 14, color: thirterydColor);
 final TextStyle fontsTH16_Red = GoogleFonts.getFont(
