@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: 6,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return Category();
+                              return CategoryBox();
                             }),
                       ),
                     ],

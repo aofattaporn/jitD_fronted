@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../BottomNavigationWidget.dart';
 import '../../blocs/authentication/authen_bloc.dart';
@@ -60,12 +60,18 @@ class SignInState extends State<SignIn> {
         child: BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (BuildContext context, state) {
             // Case SignUp Loaded
-            if (state is SignUpLoadedState) {
+            if (state is SignUpLoadedState || state is SigUp3PartySuccess) {
               Navigator.pushAndRemoveUntil(
                   context,
                   CupertinoPageRoute(
                       builder: (context) => const BottomNavigationWidget()),
-                      (Route route) => false);
+                  (Route route) => false);
+            } else if (state is SigIn3PartySuccess) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => const BottomNavigationWidget()),
+                  (Route route) => false);
             } else if (state is AuthenUpError) {
               showDialog(
                   context: context,
@@ -222,34 +228,20 @@ class SignInState extends State<SignIn> {
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0, 0.50),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/facebook_icon.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                        child: Image.asset(
-                          'assets/images/twitter_icon.png',
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Image.asset(
-                        'assets/images/google_icon.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                      ),
-                    ],
+                  alignment: AlignmentDirectional(0.03, 0.5),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 1),
+                    child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                        builder: (context, state) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _button3Party(context, SignIngoogle(),
+                              "assets/images/google_icon.png"),
+                        ],
+                      );
+                    }),
                   ),
                 ),
                 Align(
@@ -295,7 +287,11 @@ class SignInState extends State<SignIn> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(context, CupertinoPageRoute(builder: (context)=> const SignUp()));
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const SignUp()));
                                 },
                                 child: Text(
                                   'Sign up',
@@ -333,6 +329,40 @@ class SignInState extends State<SignIn> {
           ),
         ),
       ),
+    );
+  }
+
+  ElevatedButton _button3Party(
+      BuildContext context, AuthenticationEvent authEvent, String urlLogo) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<AuthenticationBloc>().add(authEvent);
+      },
+      style: ElevatedButton.styleFrom(
+          primary: backgroundColor3,
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.8,
+              MediaQuery.of(context).size.height * 0.05),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          shadowColor: Colors.black45,
+          elevation: 5.0),
+      child: Row(
+        children: [
+          Image.asset(
+            urlLogo,
+            width: 30,
+            height: 30,
+            fit: BoxFit.cover,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child:
+                Text("SignIn with Google", style: TextStyle(color: textColor3)),
+          )
+        ],
+      ),
+      // fixedSize: Size.fromHeight(30)
     );
   }
 

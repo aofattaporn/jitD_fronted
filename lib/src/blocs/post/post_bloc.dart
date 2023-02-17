@@ -21,10 +21,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(CheckingPost());
       // TODO : changing Temporary variable by create event Create Category
       /// Temporary variable
-      List<String>? category = ["Hello", "Hello2"];
 
       Future<String> response = postRepository.creatingPost(
-          event._content, event._IsPublic, category);
+          event._content, event._IsPublic, event._category);
 
       if (await response == "create data success") {
         // 200 -> return PostSuccess
@@ -64,6 +63,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     /// event get my post
     on<GetMyPost>((event, emit) async {
       await myPost(emit, postRepository);
+    });
+
+    on<GetPostBySearch>((event, emit) async {
+      emit(PostLoadingState());
+      try {
+        final postData = await postRepository.getPostBySearch(event.content);
+        final postModel = postModelFromJson(postData);
+        emit(PostLoadedState(postModel.posts));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
     });
   }
 }
