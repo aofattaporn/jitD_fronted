@@ -160,7 +160,7 @@ class CreatePostState extends State<CreatePost> {
                                                 return ElevatedButton(
                                                   onPressed: () {
                                                     if (keyForm.currentState!
-                                                        .validate()) {
+                                                        .validate() && states.countSelectedCategory != 0) {
                                                       keyForm.currentState!
                                                           .save();
                                                       context
@@ -298,8 +298,9 @@ class CreatePostState extends State<CreatePost> {
                                           child: TextFormField(
                                             validator: (value) {
                                               if (value == null ||
-                                                  value.isEmpty)
+                                                  value.isEmpty) {
                                                 return 'กรุณากรอกข้อความ';
+                                              }
                                               return null;
                                             },
                                             onTap: () =>
@@ -324,6 +325,13 @@ class CreatePostState extends State<CreatePost> {
                                         ),
                                       ),
                                     ),
+                                    if (state.countSelectedCategory == 0)
+                                    Row(
+                                      children: [
+                                        Text("กรุณาเลือกประเภทของโพส*", style: fontsTH14_thirteryd,)
+                                      ],
+                                    ),
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
