@@ -23,6 +23,13 @@ class GetAllPost extends PostEvent {
   List<Object> get props => [];
 }
 
+class GetPostBySearch extends PostEvent {
+  String content;
+
+  GetPostBySearch(this.content);
+  @override
+  List<Object> get props => [];
+}
 
 class DeleteMyPost extends PostEvent {
   String? _id;

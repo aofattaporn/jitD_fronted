@@ -64,6 +64,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<GetMyPost>((event, emit) async {
       await myPost(emit, postRepository);
     });
+
+    on<GetPostBySearch>((event, emit) async {
+      emit(PostLoadingState());
+      try {
+        final postData = await postRepository.getPostBySearch(event.content);
+        final postModel = postModelFromJson(postData);
+        emit(PostLoadedState(postModel.posts));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
   }
 }
 
