@@ -686,11 +686,8 @@ class ViewPostState extends State<ViewPost> {
                                       ?
                                              IconButton(
                                               onPressed: () {
-                                                context.read<CommentBloc>().add(
-                                                    CreatingComment(
-                                                        commentController.toString(),
-                                                        widget.postId
-                                                    ));
+                                                _commentBloc.add(CreatingComment(commentController?.text, widget.postId));
+                                                commentController!.clear();
                                               },
                                               icon: const Icon(Icons.send,
                                                   color: primaryColorDark))

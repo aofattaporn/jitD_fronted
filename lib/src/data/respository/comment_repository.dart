@@ -11,17 +11,19 @@ class CommentRepository {
     String? id = FirebaseAuth.instance.currentUser?.uid;
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.post(
-        Uri.parse("${globalUrl}v1/comments/$id"),
+        Uri.parse("${globalUrl}v1/comments/$postId"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
         body: commentModelToJson(
-            CommentModel(content,postId,Date)));
-
+            CommentModel(content)));
+        print(response.body);
     if (response.statusCode == 200) {
       return "create data success";
+    }else if(response.statusCode == 502){
+      return response.body;
     } else {
       print(response.statusCode);
       return "somthing fail.";

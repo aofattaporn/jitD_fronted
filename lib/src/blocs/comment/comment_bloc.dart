@@ -25,7 +25,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
 
       print(response);
       // 200 -> return CommentSuccess
-      if (response != "create data success") {
+      if (response == "create data success") {
         emit(CommentSuccess());
       }
       // !200 -> return CommentError

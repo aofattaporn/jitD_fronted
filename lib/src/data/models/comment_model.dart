@@ -18,7 +18,7 @@ class CommentModel {
   String? error;
 
 
-  CommentModel(this.content,this.postId,this.Date);
+  CommentModel(this.content);
 
 
   CommentModel.withError(String errorMessage) {
