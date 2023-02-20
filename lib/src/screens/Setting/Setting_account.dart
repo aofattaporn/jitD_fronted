@@ -39,8 +39,8 @@ class _Setting_accountState extends State<Setting_account> {
       appBar: AppBar(
         backgroundColor: Colors.white ,
         centerTitle: true,
-        title: const Text("บัญชี", style: TextStyle(fontSize: 22,
-            color: Colors.black,fontWeight: FontWeight.bold),
+        title: const Text("บัญชี", style: TextStyle(fontSize: 16,
+            color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {
@@ -64,7 +64,7 @@ class _Setting_accountState extends State<Setting_account> {
                   children: [
 
                     SizedBox(width: 10),
-                    Text("ข้อมูลส่วนตัว", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("ข้อมูลส่วนตัว", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -86,7 +86,7 @@ class _Setting_accountState extends State<Setting_account> {
                   children: [
 
                     SizedBox(width: 10),
-                    Text("บันทึกแล้ว", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("บันทึกแล้ว", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -103,7 +103,7 @@ class _Setting_accountState extends State<Setting_account> {
                   children: [
 
                     SizedBox(width: 10),
-                    Text("สถานะบัญชี", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("สถานะบัญชี", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -120,7 +120,7 @@ class _Setting_accountState extends State<Setting_account> {
                   children: [
 
                     SizedBox(width: 10),
-                    Text("การตั้งค่า Link to Chat", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("การตั้งค่า Link to Chat", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -137,7 +137,7 @@ class _Setting_accountState extends State<Setting_account> {
                   children: [
 
                     SizedBox(width: 10),
-                    Text("เปลี่ยนรหัสผ่าน", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("เปลี่ยนรหัสผ่าน", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -154,7 +154,7 @@ class _Setting_accountState extends State<Setting_account> {
                   children: [
 
                     SizedBox(width: 10),
-                    Text("ลบบัญชี", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("ลบบัญชี", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
