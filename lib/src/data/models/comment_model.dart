@@ -19,6 +19,7 @@ class CommentModel {
 
 
   CommentModel(this.content);
+  CommentModel.Resquest(this.content,this.Date,this.postId,this.commentId);
 
 
   CommentModel.withError(String errorMessage) {

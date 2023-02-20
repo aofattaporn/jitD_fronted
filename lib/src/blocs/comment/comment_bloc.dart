@@ -59,6 +59,20 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
         emit(CommentError(e.toString()));
       }
     });
+
+    on<UpdatingMyComment>((event, emit) async {
+      emit(CheckingComment());
+      Future<Object> response = commentRepository.updateComment(
+          event._content, event._date,event._postID,event._commentId);
+
+      if (await response == "updating data success") {
+        // 200 -> return UpdatePostSuccess
+        emit(UpdatedComment());
+      } else {
+        // !200 -> return UpdatePostError
+        emit(CommentError("Update Post Failed"));
+      }
+    });
   }
 }
 

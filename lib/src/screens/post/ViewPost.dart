@@ -34,6 +34,7 @@ class ViewPost extends StatefulWidget {
   ViewPostState createState() => ViewPostState();
 }
 
+
 class ViewPostState extends State<ViewPost> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();

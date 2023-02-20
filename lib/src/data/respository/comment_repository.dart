@@ -71,6 +71,17 @@ class CommentRepository {
   Future<Object>updateComment(String? content, String? date, String? postId, String? commentId) async{
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.put(Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId"),
-    body: commentModelToJson(CommentModel.Resquest()));
+    body: commentModelToJson(CommentModel.Resquest(content, date, postId, commentId)),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+    if (response.statusCode == 200) {
+      return "updating data success";
+    } else {
+      print(response.statusCode);
+      return "something fail.";
+    }
   }
 }

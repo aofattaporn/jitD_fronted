@@ -83,6 +83,7 @@ class _CommentModalState extends State<CommentModal> {
                     GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
+
                         },
                         child: Row(
                           children: [
