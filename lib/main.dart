@@ -31,7 +31,5 @@ Future<void> main() async {
 
   /// custom observer for check log on state
   Bloc.observer = AppBlocObserver();
-  print("2023-01-16T23:28:13.418485+07:00");
-  print(DateTime.now().toLocal().toString());
   runApp(const App());
 }

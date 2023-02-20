@@ -15,8 +15,8 @@ class _Setting_user_statusState extends State<Setting_user_status> {
       appBar: AppBar(
         backgroundColor: Colors.white ,
         centerTitle: true,
-        title: const Text("สถานะบัญชี", style: TextStyle(fontSize: 22,
-            color: Colors.black,fontWeight: FontWeight.bold),
+        title: const Text("สถานะบัญชี", style: TextStyle(fontSize: 16,
+            color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},
