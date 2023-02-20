@@ -22,12 +22,12 @@ class TesterBloc extends Bloc<TesterEvent, TesterState> {
   }
 }
 
-/// case self cache
+/// case self cache ( without cache lib )
 Future<void> case_selfCach(emit, testerRepository) async {
   if (Cache.get_data_home_page == null) {
     emit(TesterLoadingState());
     try {
-      final data_test = await testerRepository.getTest();
+      final data_test = await testerRepository.NamingPetEvent();
       Cache.set_data_home_page = data_test;
       emit(TesterLoadedState(data_test));
     } catch (e) {
@@ -44,7 +44,7 @@ Future<void> case_LibCach(emit, testerRepository) async {
   if (Cache.get_data_home_page == null) {
     emit(TesterLoadingState());
     try {
-      final data_test = await testerRepository.getTest();
+      final data_test = await testerRepository.NamingPetEvent();
       emit(TesterLoadedState(data_test));
     } catch (e) {
       emit(TesterErrorState(e.toString()));

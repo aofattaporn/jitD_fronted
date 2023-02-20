@@ -5,20 +5,17 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String? tokenId;
-  String? petName;
+  int? countPosts;
+  int? countLikes;
+  int? countComments;
+  String? userId;
   int? point;
-
-  // Config? config;
-  // Post? posts;
-  // Comment? comment?
-  // Like? like?
-  // Notification? notiffication?
-
+  String? petName;
   String? error;
 
-  UserModel(this.tokenId, this.petName, this.point);
-  // UserModel(this.error);
+  UserModel.response(this.countPosts,this.countLikes,this.countComments,this.userId,this.point,this.petName);
+  UserModel(this.point,this.petName);
+
 
   UserModel.withError(String errorMessage) {
     error = errorMessage;
@@ -26,7 +23,10 @@ class UserModel {
 
   /// method convert map to json
   UserModel.fromJson(Map<String, dynamic> json) {
-    tokenId = json['tokenId'];
+    countPosts = json['countPosts'];
+    countLikes = json['countLikes'];
+    countComments = json['countComments'];
+    userId = json['userId'];
     petName = json['petName'];
     point = json['point'];
   }
@@ -34,7 +34,10 @@ class UserModel {
   /// method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['tokenId'] = tokenId;
+    // data['countPosts'] = countPosts;
+    // data['countLikes'] = countLikes;
+    // data['countComments'] = countComments;
+    // data['userId'] = userId;
     data['petName'] = petName;
     data['point'] = point;
 

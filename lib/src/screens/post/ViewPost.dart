@@ -3,19 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constant.dart';
+import '../Utilities/PostModal.dart';
 
 class ViewPost extends StatefulWidget {
-  final String content;
-  final String like;
-  final List<String>? comment;
-  final List<String> tag;
+  final String? userId;
+  final String? postId;
+  final String? content;
+  final String? date;
+  final List<String>? category;
 
   const ViewPost(
       {Key? key,
-      required this.content,
-      required this.like,
-      this.comment,
-      required this.tag})
+      required this.userId,
+      required this.postId,
+        required this.content,
+        required this.date,
+      required this.category})
       : super(key: key);
 
   @override
@@ -47,6 +50,8 @@ class ViewPostState extends State<ViewPost> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
           child: Stack(children: [
+
+            /// Post-Comment
             SingleChildScrollView(
               child: Stack(
                 children: [
@@ -74,7 +79,7 @@ class ViewPostState extends State<ViewPost> {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          // Section-Header
+                          /// Section-Header
                           Row(
                             children: [
                               Container(
@@ -125,7 +130,7 @@ class ViewPostState extends State<ViewPost> {
                               height:
                                   MediaQuery.of(context).size.height * 0.03),
 
-                          // Section-PostDetail
+                          /// Section-PostDetail
                           Container(
                             decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -148,17 +153,17 @@ class ViewPostState extends State<ViewPost> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "23 Nov 2022",
+                                        widget.date ?? DateTime.now().toString(),
                                         style: GoogleFonts.getFont("Lato",
                                             fontSize: 16, color: textColor3),
                                       ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.more_horiz,
-                                            color: textColor3,
-                                            size: 30,
-                                          ))
+                                      PostModal(
+                                        userId: widget.userId ?? "",
+                                        postId: widget.postId ?? "",
+                                        content: widget.content ?? "No Data",
+                                        date: widget.date ?? DateTime.now().toString(),
+                                        category: widget.category ?? ["Tag1", "Tag2"],
+                                      )
                                     ],
                                   ),
                                   Row(
@@ -177,12 +182,12 @@ class ViewPostState extends State<ViewPost> {
                                         0.025,
                                   ),
 
-                                  // Section-Content
+                                  /// Section-Content
                                   Row(
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          widget.content,
+                                          widget.content ?? "",
                                           style: GoogleFonts.getFont(
                                               "Bai Jamjuree",
                                               fontSize: 16,
@@ -199,13 +204,13 @@ class ViewPostState extends State<ViewPost> {
                                           MediaQuery.of(context).size.height *
                                               0.03),
 
-                                  // Section-Tag ---------------------------------------------------
+                                  /// Section-Tag
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.035,
                                     child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: widget.tag.length,
+                                      itemCount: widget.category!.length,
                                       separatorBuilder: (context, index) {
                                         return SizedBox(
                                             width: MediaQuery.of(context)
@@ -225,7 +230,7 @@ class ViewPostState extends State<ViewPost> {
                                                   const EdgeInsetsDirectional
                                                       .fromSTEB(10, 5, 10, 5),
                                               child: Text(
-                                                widget.tag[index],
+                                                widget.category![index],
                                                 style: GoogleFonts.getFont(
                                                     "Bai Jamjuree",
                                                     fontSize: 12,
@@ -241,7 +246,7 @@ class ViewPostState extends State<ViewPost> {
                                           MediaQuery.of(context).size.height *
                                               0.015),
 
-                                  // Section-Comments ----------------------------------------------
+                                  /// Section Chat/Like
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -276,8 +281,6 @@ class ViewPostState extends State<ViewPost> {
                                           ),
                                         ),
                                       ),
-
-                                      // Section-Like
                                       SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
@@ -291,7 +294,7 @@ class ViewPostState extends State<ViewPost> {
                                           child: RichText(
                                             text: TextSpan(children: [
                                               TextSpan(
-                                                  text: widget.like,
+                                                  text: "0",
                                                   style: GoogleFonts.getFont(
                                                       'Lato',
                                                       fontSize: 18,
@@ -359,135 +362,162 @@ class ViewPostState extends State<ViewPost> {
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.03),
-
                               ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: widget.comment?.length ?? 0,
+                                itemCount: 0,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding: EdgeInsetsDirectional.only(
                                         bottom:
                                             MediaQuery.of(context).size.height *
                                                 0.035),
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadiusDirectional.all(
-                                                  Radius.circular(10)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 20,
-                                              color: Color.fromRGBO(
-                                                  170, 212, 204, 0.5),
-                                              offset: Offset(0, 2),
-                                            )
-                                          ]),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(15, 0, 0, 15),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "23 Nov 2022",
-                                                  style: GoogleFonts.getFont(
-                                                      "Lato",
-                                                      fontSize: 12,
-                                                      color: textColor3),
-                                                ),
-                                                IconButton(
-                                                    onPressed: () {},
-                                                    icon: const Icon(
-                                                      Icons.more_horiz,
-                                                      color: textColor3,
-                                                      size: 24,
-                                                    ))
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "ผู้ใช้ STOXX",
-                                                  style: GoogleFonts.getFont(
-                                                      "Bai Jamjuree",
-                                                      color: textColor3,
-                                                      fontSize: 10),
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.01,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Flexible(
-                                                  child: Text(
-                                                    widget.comment![index],
-                                                    style: GoogleFonts.getFont(
-                                                      "Bai Jamjuree",
-                                                      color: textColor2,
-                                                    ),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 1000,
-                                                    softWrap: false,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.01,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.175,
-                                                  child: Center(
-                                                    child: RichText(
-                                                      text: TextSpan(children: [
-                                                        TextSpan(
-                                                            text: "0",
-                                                            style: GoogleFonts
-                                                                .getFont('Lato',
-                                                                    fontSize:
-                                                                        14,
-                                                                    color:
-                                                                        textColor2)),
-                                                        const TextSpan(
-                                                            text: ' '),
-                                                        const WidgetSpan(
-                                                            child: Icon(
-                                                          Icons.favorite,
-                                                          color: Colors.black12,
-                                                          size: 20,
-                                                        ))
-                                                      ]),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.125,
                                         ),
-                                      ),
+                                        Expanded(
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadiusDirectional.all(
+                                                        Radius.circular(10)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 20,
+                                                    color: Color.fromRGBO(
+                                                        170, 212, 204, 0.5),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ]),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(15, 0, 0, 15),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "23 Nov 2022",
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                                "Lato",
+                                                                fontSize: 12,
+                                                                color:
+                                                                    textColor3),
+                                                      ),
+                                                      IconButton(
+                                                          onPressed: () {},
+                                                          icon: const Icon(
+                                                            Icons.more_horiz,
+                                                            color: textColor3,
+                                                            size: 24,
+                                                          ))
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "ผู้ใช้ STOXX",
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                                "Bai Jamjuree",
+                                                                color:
+                                                                    textColor3,
+                                                                fontSize: 10),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.01,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          "widget.comment![index]",
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            "Bai Jamjuree",
+                                                            color: textColor2,
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1000,
+                                                          softWrap: false,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.01,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.175,
+                                                        child: Center(
+                                                          child: RichText(
+                                                            text: TextSpan(
+                                                                children: [
+                                                                  TextSpan(
+                                                                      text: "0",
+                                                                      style: GoogleFonts.getFont(
+                                                                          'Lato',
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              textColor2)),
+                                                                  const TextSpan(
+                                                                      text:
+                                                                          ' '),
+                                                                  const WidgetSpan(
+                                                                      child:
+                                                                          Icon(
+                                                                    Icons
+                                                                        .favorite,
+                                                                    color: Colors
+                                                                        .black12,
+                                                                    size: 20,
+                                                                  ))
+                                                                ]),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
@@ -495,6 +525,10 @@ class ViewPostState extends State<ViewPost> {
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.06),
+                              Container(
+                                height: MediaQuery.of(context).size.height * 0.325,
+                                  child: Text("No Comments Yet", style: GoogleFonts.getFont("Lato", color: textColor3),)
+                              ),
                             ],
                           ),
                         ],
@@ -505,7 +539,7 @@ class ViewPostState extends State<ViewPost> {
               ),
             ),
 
-            // BottomContainer
+            /// BottomContainer-CommentBox
             Positioned(
                 bottom: 0,
                 child: Container(
@@ -529,11 +563,20 @@ class ViewPostState extends State<ViewPost> {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                         child: TextField(
+                          controller: commentController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "เขียนความคิดเห็น",
                               hintStyle: GoogleFonts.getFont("Bai Jamjuree",
-                                  color: textColor3)),
+                                  color: textColor3),
+                              suffixIcon:
+                                  MediaQuery.of(context).viewInsets.bottom !=
+                                              0 ||
+                                          commentController!.text.isNotEmpty
+                                      ? IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.send, color: primaryColorDark,))
+                                      : null),
                           minLines: 1,
                           maxLines: 5,
                         ),

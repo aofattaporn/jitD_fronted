@@ -1,18 +1,42 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/user_model.dart';
 
 class AuthRepository {
+  // -------------- declare url ------------------
+  final String localUrl = "http://localhost:3000/";
+  final String globalUrl = "https://jitd-backend.onrender.com/";
+
   /// signUp
-  Future<String> signUp(String email, String password) async {
+  Future<String?> signUp(String email, String password) async {
     try {
-      print(email + password);
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      print(token);
+      final response = await http.post(Uri.parse("${globalUrl}v1/users/"),
+          body: userModelToJson(UserModel(0, "")),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+      print(response.request);
+      if (response.statusCode == 201) {
+        return "creating data success";
+      } else {
+        await FirebaseAuth.instance.currentUser?.delete();
+        return "Something wrong";
+      }
     } on FirebaseAuthException catch (e) {
       print(e.message);
-      print("object");
       return e.message.toString();
+    } catch (e) {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return "Something wrong";
     }
     return "creating data success";
   }
@@ -22,14 +46,29 @@ class AuthRepository {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      print(token);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        return 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        return "Wrong password provided for that user.";
       }
     }
-    return "creating data success";
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
+    final response =
+        await http.post(Uri.parse("${globalUrl}v1/users/signIn"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode == 200) {
+      return "creating data success";
+    } else {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return "something wrong";
+    }
   }
 
   /// check credentail function
@@ -45,24 +84,32 @@ class AuthRepository {
     return result;
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
-
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    await checkCredentail();
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
+    final response = await http
+        .post(Uri.parse("${globalUrl}v1/users/signIn/google"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode == 200) {
+      return "sign in success";
+    } else if (response.statusCode == 201) {
+      return "create user success";
+    } else {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return "something wrong";
+    }
   }
 
   Future<UserCredential> signInWithFacebook() async {
@@ -77,10 +124,26 @@ class AuthRepository {
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
+  /// signOut
   Future<void> signOut() async {
     // Once signed in, return the UserCredential
     await checkCredentail();
 
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<String> GetMyUser() async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response =
+        await http.get(Uri.parse("${globalUrl}v1/users/id"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return "Something wrong";
+    }
   }
 }

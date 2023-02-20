@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/constant.dart';
-import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 
 import '../../blocs/authentication/authen_event.dart';
@@ -65,10 +65,8 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       extendBodyBehindAppBar: false,
       key: scaffoldKey,
@@ -94,15 +92,21 @@ class SignUpState extends State<SignUp> {
                   BlocListener<AuthenticationBloc, AuthenticationState>(
                     listener: (context, state) {
                       // Case SignUp Loaded
-                      if (state is SignUpLoadedState) {
+                      if (state is SignUpLoadedState ||
+                          state is SigUp3PartySuccess) {
                         Navigator.pushAndRemoveUntil(
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => const TutorialPage1()),
-                            (r) {
-                          return false;
-                        });
-                      } else if (state is SignUpError) {
+                            (Route route) => false);
+                      } else if (state is SigIn3PartySuccess) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) =>
+                                    const BottomNavigationWidget()),
+                            (Route route) => false);
+                      } else if (state is AuthenUpError) {
                         showDialog(
                             context: context,
                             barrierDismissible: false, // user must tap button!
@@ -205,7 +209,7 @@ class SignUpState extends State<SignUp> {
                           Align(
                             alignment: Alignment.center,
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 1),
                               child: BlocBuilder<AuthenticationBloc,
                                       AuthenticationState>(
                                   builder: (context, state) {
@@ -215,62 +219,145 @@ class SignUpState extends State<SignUp> {
                                   children: [
                                     _button3Party(context, SignIngoogle(),
                                         "assets/images/google_icon.png"),
-                                    _button3Party(context, SignInFacebook(),
-                                        "assets/images/facebook_icon.png"),
                                   ],
                                 );
                               }),
                             ),
                           ),
+                          Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Already have an account ?',
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                        fontFamily: 'Lato',
+                                        color: Color(0xFF818181),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              5, 0, 0, 0),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text(
+                                          'Sign in here',
+                                          style: TextStyle(
+                                            fontFamily: 'Lato',
+                                            color: thirterydColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
                         ],
                       ))
                     ]),
                   ),
 
-                  /// Button navigate to Sign In
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Already have an account ?',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                color: Color(0xFF818181),
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  5, 0, 0, 0),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => const SignIn()),
-                                  );
-                                },
-                                child: const Text(
-                                  'Sign in here',
-                                  style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    color: thirterydColor,
+                  Align(
+                    alignment: const AlignmentDirectional(-1.01, 1.01),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFAAD4CC),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 10, 0, 0),
+                                child: Text(
+                                  'What is JIT :D ?',
+                                  style: GoogleFonts.getFont(
+                                    'Lato',
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 36,
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                          Align(
+                            alignment: const AlignmentDirectional(0, -0.05),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      5, 30, 5, 0),
+                                  child: RichText(
+                                    text: const TextSpan(
+                                      text: 'เป็นแอปพลิเคชันสำหรับ',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              ' ผู้ที่ต้องการระบายความเครียด\n',
+                                          style: TextStyle(
+                                              color: thirterydColor,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        TextSpan(
+                                          text: 'หรือ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        TextSpan(
+                                          text: ' ผู้ที่ต้องการให้คำปรึกษา ',
+                                          style: TextStyle(
+                                              color: thirterydColor,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                        TextSpan(
+                                          text: 'กับกลุ่มผู้ที่มีความเครียด',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ))
@@ -280,20 +367,34 @@ class SignUpState extends State<SignUp> {
   }
 
   ElevatedButton _button3Party(
-      BuildContext context, AuthenticationEvent authState, String urlLogo) {
+      BuildContext context, AuthenticationEvent authEvent, String urlLogo) {
     return ElevatedButton(
       onPressed: () {
-        context.read<AuthenticationBloc>().add(authState);
+        context.read<AuthenticationBloc>().add(authEvent);
       },
       style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          minimumSize: const Size(40, 40),
-          shape: const CircleBorder()),
-      child: Image.asset(
-        urlLogo,
-        width: 40,
-        height: 40,
-        fit: BoxFit.cover,
+          primary: backgroundColor3,
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.8,
+              MediaQuery.of(context).size.height * 0.05),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          shadowColor: Colors.black45,
+          elevation: 5.0),
+      child: Row(
+        children: [
+          Image.asset(
+            urlLogo,
+            width: 30,
+            height: 30,
+            fit: BoxFit.cover,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child:
+                Text("SignIn with Google", style: TextStyle(color: textColor3)),
+          )
+        ],
       ),
       // fixedSize: Size.fromHeight(30)
     );
@@ -304,7 +405,7 @@ class SignUpState extends State<SignUp> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-          if (state is SignUpCheckingState) {
+          if (state is AuthenCheckingState) {
             return ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
@@ -343,7 +444,7 @@ class SignUpState extends State<SignUp> {
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                child: const Text("Sign In"));
+                child: const Text("Sign Up"));
           }
         }));
   }
@@ -397,18 +498,6 @@ class SignUpState extends State<SignUp> {
             fontSize: 16,
           ),
         ));
-  }
-
-  Padding _button_3Party(String imgURL, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
-      child: Image.asset(
-        imgURL,
-        width: 40,
-        height: 40,
-        fit: BoxFit.cover,
-      ),
-    );
   }
 
   OutlineInputBorder statusBorder(Color color) {

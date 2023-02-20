@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_account.dart';
+import 'package:jitd_client/src/screens/ProfilePage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/authentication/authen_bloc.dart';
+import '../../blocs/authentication/authen_event.dart';
+import '../autheentication/SignIn.dart';
 import 'Setting_notification.dart';
 
 class Setting_setting extends StatefulWidget {
@@ -46,7 +52,9 @@ class _Setting_settingState extends State<Setting_setting> {
               fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
@@ -66,9 +74,10 @@ class _Setting_settingState extends State<Setting_setting> {
                         builder: (context) => Setting_notification()));
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [
+                    children: const [
                       Icon(
                         Icons.notifications,
                         color: Colors.black,
@@ -81,7 +90,6 @@ class _Setting_settingState extends State<Setting_setting> {
                   ),
                   Icon(Icons.arrow_forward_ios, color: Colors.grey),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
             ),
             // Divider(height: 20, thickness: 1),
@@ -185,15 +193,41 @@ class _Setting_settingState extends State<Setting_setting> {
                           SizedBox(height: 20),
                           Divider(height: 20, thickness: 1),
                           Align(
-                              //Icon(Icons.key_off_outlined),
-                              child: TextButton(
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.deepOrangeAccent),
+                            //Icon(Icons.key_off_outlined),
+                            child: BlocProvider<AuthenticationBloc>(
+                              create: (_) => AuthenticationBloc(),
+                              child: BlocListener<AuthenticationBloc,
+                                  AuthenticationState>(
+                                listener: (BuildContext context, state) {
+                                  if (state is SignOutSuccess) {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SignIn()), (r) {
+                                      return false;
+                                    });
+                                  }
+                                },
+                                child: BlocBuilder<AuthenticationBloc,
+                                    AuthenticationState>(
+                                  builder: (context, state) {
+                                    return TextButton(
+                                      style: ButtonStyle(
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.deepOrangeAccent),
+                                      ),
+                                      onPressed: () {
+                                        context.read<AuthenticationBloc>().add(SignOut());
+                                      },
+                                      child: Text('ออกจากระบบ'),
+                                    );
+                                  }
+                                ),
+                              ),
                             ),
-                            onPressed: () {},
-                            child: Text('ออกจากระบบ'),
-                          )),
+                          ),
                           Divider(height: 20, thickness: 1),
                           TextButton(
                             style: ButtonStyle(
@@ -202,7 +236,7 @@ class _Setting_settingState extends State<Setting_setting> {
                             ),
                             onPressed: () {},
                             child: Text('ยกเลิก'),
-                          ),
+                          )
                         ],
                       ),
                     ),
