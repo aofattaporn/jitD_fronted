@@ -47,4 +47,24 @@ class CommentRepository {
       return "somthing fail.";
     }
   }
+
+  Future<Object> deleteComment(String? commentId, String? postId) async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response =
+    await http.delete(
+        Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    print(commentId);
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return "delete post success";
+    } else {
+      return CommentModel.withError("Data not found");
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/screens/Utilities/CommentModal.dart';
 
 import '../../constant.dart';
 import '../Utilities/PostModal.dart';
@@ -61,6 +62,12 @@ class _CommentBoxState extends State<CommentBox> {
                           fontSize: 16, color: textColor3),
                     ),
                   ),
+                  CommentModal(
+                      userId: widget.userId,
+                      postId: widget.postId,
+                      commentId: widget.commentId,
+                      content: widget.content,
+                      date: widget.Date?? DateTime.now().toString())
                 ],
               ),
               Row(

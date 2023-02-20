@@ -35,11 +35,25 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       }
     });
     on<GetComment>((event, emit) async {
-      // await getComment(emit, commentRepository, event._postId);
       try {
         final commentData = await commentRepository.getCommented(event._postId);
         final commentModel = commentModelFromJson(commentData);
         emit(LoadedComment(commentModel.comments));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(CommentError(e.toString()));
+      }
+    });
+    on<DeleteMyComment>((event, emit) async {
+      emit(LoadingComment());
+      try {
+        final responstatus = await commentRepository.deleteComment(event._commentId, event._postId);
+        if ( responstatus == "delete post success") {
+          print("object");
+          emit(DeletedComment());
+        } else {
+          emit(CommentError("Something thing"));
+        }
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(CommentError(e.toString()));
