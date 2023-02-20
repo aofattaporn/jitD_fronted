@@ -36,3 +36,16 @@ class DeleteMyComment extends CommentEvent {
   @override
   List<Object> get props => [];
 }
+
+class UpdatingMyComment extends CommentEvent {
+  String? _content;
+  String? _date;
+  String? _postID;
+  String? _commentId;
+
+
+  UpdatingMyComment(this._content, this._date, this._postID, this._commentId);
+
+  @override
+  List<Object> get props => [];
+}

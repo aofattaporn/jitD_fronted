@@ -67,4 +67,10 @@ class CommentRepository {
       return CommentModel.withError("Data not found");
     }
   }
+
+  Future<Object>updateComment(String? content, String? date, String? postId, String? commentId) async{
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response = await http.put(Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId"),
+    body: commentModelToJson(CommentModel.Resquest()));
+  }
 }
