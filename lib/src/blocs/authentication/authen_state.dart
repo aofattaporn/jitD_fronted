@@ -9,7 +9,8 @@ class InitialState extends AuthenticationState {
   List<Object?> get props => [];
 }
 
-/// state for signIn
+// --------------- authen_state ---------------------
+
 class AuthenCheckingState extends AuthenticationState {
   @override
   List<Object?> get props => [];
@@ -24,7 +25,6 @@ class AuthenUpError extends AuthenticationState {
   String get err_msg => _err_msg;
   String get err_desc => _err_desc;
 
-
   @override
   List<Object?> get props => [_err_msg, _err_desc];
 }
@@ -34,6 +34,10 @@ class SignUpLoadedState extends AuthenticationState {
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
+
+class SigIn3PartySuccess extends AuthenticationState {}
+
+class SigUp3PartySuccess extends AuthenticationState {}
 
 class CheckStatusAuthrn extends AuthenticationState {
   late String _statueAuth;
@@ -59,13 +63,15 @@ class TesterErrorState extends AuthenticationState {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class GettingUser extends AuthenCheckingState{
+// --------------- user_state ---------------------
 
+class GettingUser extends AuthenCheckingState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
-class GettedUser extends AuthenCheckingState{
+
+class GettedUser extends AuthenCheckingState {
   final int _countPosts;
   final int _countLikes;
   final int _countComments;
@@ -73,11 +79,10 @@ class GettedUser extends AuthenCheckingState{
   final int _point;
   final String _petName;
 
-
   int? get countPosts => _countPosts;
 
-  GettedUser(this._countPosts, this._countLikes, this._countComments, this._userId,
-      this._point, this._petName);
+  GettedUser(this._countPosts, this._countLikes, this._countComments,
+      this._userId, this._point, this._petName);
 
   @override
   // TODO: implement props
@@ -93,8 +98,8 @@ class GettedUser extends AuthenCheckingState{
 
   String? get petName => _petName;
 }
-class GetUserError extends AuthenCheckingState{
 
+class GetUserError extends AuthenCheckingState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
