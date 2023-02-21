@@ -22,11 +22,11 @@ class CommentModal extends StatefulWidget {
 
   const CommentModal(
       {Key? key,
-        required this.userId,
-        required this.postId,
-        required this.commentId,
-        required this.content,
-        required this.date})
+      required this.userId,
+      required this.postId,
+      required this.commentId,
+      required this.content,
+      required this.date})
       : super(key: key);
 
   @override
@@ -35,11 +35,20 @@ class CommentModal extends StatefulWidget {
 
 class _CommentModalState extends State<CommentModal> {
   final toast = FToast();
+  TextEditingController? commentController;
+  final CommentBloc _commentBloc = CommentBloc();
 
   @override
   void initState() {
     super.initState();
     toast.init(context);
+    commentController = TextEditingController(text: widget.content);
+  }
+
+  @override
+  void dispose() {
+    commentController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -83,7 +92,53 @@ class _CommentModalState extends State<CommentModal> {
                     GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text("Edit comment"),
+                              content: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'กรุณากรอกข้อความ';
+                                  }
+                                  return null;
+                                },
+                                controller: commentController,
+                                autofocus: true,
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'คอมเมนต์ให้พลังงานบวกกัน',
+                                  hintStyle: const TextStyle(
+                                    color: textColor3,
+                                  ),
+                                ),
+                                minLines: 1,
+                                maxLines: 5,
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: Text("Cancel"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text("Save"),
+                                  onPressed: () {
+                                    String? editedComment =
+                                        commentController?.text;
+                                    _commentBloc.add(UpdatingMyComment(
+                                        editedComment,
+                                        widget.date,
+                                        widget.postId,
+                                        widget.commentId));
+                                    // Do something with the edited comment, like sending it to the server or updating it in the UI
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         child: Row(
                           children: [
@@ -112,7 +167,7 @@ class _CommentModalState extends State<CommentModal> {
                               ),
                             ),
                             Text(
-                              "แก้ไขโพสต์",
+                              "แก้ไขคอมเมนต์",
                               style: GoogleFonts.getFont("Bai Jamjuree",
                                   fontSize: 18, color: textColor2),
                             ),
@@ -121,7 +176,6 @@ class _CommentModalState extends State<CommentModal> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
-
                   if (currentID == widget.userId)
                     GestureDetector(
                         onTap: () {},
@@ -156,7 +210,7 @@ class _CommentModalState extends State<CommentModal> {
                                 _showAlertDialog(context);
                               },
                               child: Text(
-                                "ลบโพสต์",
+                                "ลบคอมเมนต์",
                                 style: GoogleFonts.getFont("Bai Jamjuree",
                                     fontSize: 18, color: textColor2),
                               ),
@@ -202,13 +256,15 @@ class _CommentModalState extends State<CommentModal> {
               Navigator.of(context).pop();
             }
           },
-          child: BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
+          child:
+              BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
             return CupertinoAlertDialog(
               title: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text("ยืนยันการลบ", style: fontsTH16_Red),
               ),
-              content: const Text('เมื่อคุณกดลบคอมเมนท์นี้จะไม่สามารถเห็นได้อีก'),
+              content:
+                  const Text('เมื่อคุณกดลบคอมเมนท์นี้จะไม่สามารถเห็นได้อีก'),
               actions: <CupertinoDialogAction>[
                 CupertinoDialogAction(
                   /// This parameter indicates this action is the default,
@@ -225,7 +281,9 @@ class _CommentModalState extends State<CommentModal> {
                   /// the action's text color to red.
                   isDestructiveAction: true,
                   onPressed: () {
-                    context.read<CommentBloc>().add(DeleteMyComment(widget.commentId,widget.postId));
+                    context
+                        .read<CommentBloc>()
+                        .add(DeleteMyComment(widget.commentId, widget.postId));
                   },
                   child: const Text('ยืนยัน'),
                 ),
@@ -238,47 +296,47 @@ class _CommentModalState extends State<CommentModal> {
   }
 
   void showToast(String msg) => toast.showToast(
-    child: successToast(msg),
-    gravity: ToastGravity.TOP,
-  );
+        child: successToast(msg),
+        gravity: ToastGravity.TOP,
+      );
 
   Widget successToast(String msg) => Container(
-    padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-    color: statusColorSuccess,
-    child: IntrinsicHeight(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.check_circle,
-            color: Colors.white,
-            size: 30,
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Text(
-            msg,
-            style: GoogleFonts.getFont("Bai Jamjuree",
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.015),
-          const VerticalDivider(
-            thickness: 1,
-            width: 20,
-            color: Colors.black,
-          ),
-          const CircleAvatar(
-              backgroundColor: Color.fromRGBO(102, 204, 144, 1),
-              child: Icon(
-                Icons.cancel_rounded,
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+        color: statusColorSuccess,
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.check_circle,
                 color: Colors.white,
                 size: 30,
-              ))
-        ],
-      ),
-    ),
-  );
+              ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+              Text(
+                msg,
+                style: GoogleFonts.getFont("Bai Jamjuree",
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.015),
+              const VerticalDivider(
+                thickness: 1,
+                width: 20,
+                color: Colors.black,
+              ),
+              const CircleAvatar(
+                  backgroundColor: Color.fromRGBO(102, 204, 144, 1),
+                  child: Icon(
+                    Icons.cancel_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ))
+            ],
+          ),
+        ),
+      );
 }
 
 Route _createRoute(Widget page) {

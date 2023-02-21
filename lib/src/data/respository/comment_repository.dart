@@ -38,8 +38,7 @@ class CommentRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    print(response.body);
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -58,9 +57,6 @@ class CommentRepository {
       'Authorization': 'Bearer $token',
     });
 
-    print(commentId);
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       return "delete post success";
     } else {
@@ -70,13 +66,15 @@ class CommentRepository {
 
   Future<Object>updateComment(String? content, String? date, String? postId, String? commentId) async{
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    final response = await http.put(Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId"),
+    final response = await http.put(Uri.parse("${globalUrl}v1/comments/$commentId"),
     body: commentModelToJson(CommentModel.Resquest(content, date, postId, commentId)),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       return "updating data success";
     } else {
