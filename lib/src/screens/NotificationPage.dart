@@ -13,6 +13,7 @@ class NotificationPage extends StatelessWidget {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
       return Center(
+
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
