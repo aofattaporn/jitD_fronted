@@ -114,15 +114,21 @@ class NotificationPageState extends State<NotificationPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: _values.length,
                     padding: const EdgeInsets.all(0.5),
-                    separatorBuilder: (context, index) => Divider(
-                      color: Colors.black,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 10,
                     ),
                     itemBuilder: (context, index) {
 
                       return Dismissible(
                         key: Key('item ${_values[index]}'),
                         background: Container(
-                          color: Colors.blue,
+                            decoration: const BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10)
+                                )
+                            ),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Row(
@@ -135,7 +141,13 @@ class NotificationPageState extends State<NotificationPage> {
                           ),
                         ),
                         secondaryBackground: Container(
-                          color: Colors.red,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)
+                            )
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Row(
@@ -182,11 +194,23 @@ class NotificationPageState extends State<NotificationPage> {
                             _values.removeAt(index);
                           });
                         },
-                        child: ListTile(
-                          leading: Icon(Icons.local_activity, size: 50),
-                          title: Text(_values[index]),
-                          subtitle: Text('Description here'),
-                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 1,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          decoration: const BoxDecoration(
+                              color: backgroundColor2,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                                  offset: Offset(0, 4),
+                                )
+                              ]
+                          ),
+                          child: Text(_values[index]),
+                        )
+
                       );
                     },
                   ),
