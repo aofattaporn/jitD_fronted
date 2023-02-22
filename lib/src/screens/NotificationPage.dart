@@ -24,9 +24,10 @@ class NotificationPage extends StatefulWidget {
 }
 
 class NotificationPageState extends State<NotificationPage> {
-  final items = List<String>.generate(20, (i) => 'Item ${i + 1}');
+  final items = List<String>.generate(10, (i) => 'Item ${i + 1}');
 
-  List<String> _values = ['หมู', 'หมา', 'กา', 'ไก่', 'นก'];
+  List<String> _values = ['แจ้งเตือน', 'ผู้ใช้งาน1234xx',
+    'ผู้ใช้งาน1234xx', 'ผู้ใช้งาน1234xx', 'ผู้ใช้งาน1234xx'];
 
 // class NotificationPage extends StatelessWidget {
 //   const NotificationPage({Key? key}) : super(key: key);
@@ -48,9 +49,11 @@ class NotificationPageState extends State<NotificationPage> {
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                     children: [
                       //Widget Box and Text
                       Container(
@@ -81,9 +84,6 @@ class NotificationPageState extends State<NotificationPage> {
                   ), //Category btn
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: Row(
@@ -113,12 +113,11 @@ class NotificationPageState extends State<NotificationPage> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: _values.length,
-                    padding: const EdgeInsets.all(0.5),
+                    padding: const EdgeInsets.all(8),
                     separatorBuilder: (context, index) => SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     itemBuilder: (context, index) {
-
                       return Dismissible(
                         key: Key('item ${_values[index]}'),
                         background: Container(
@@ -130,12 +129,10 @@ class NotificationPageState extends State<NotificationPage> {
                                 )
                             ),
                           child: Padding(
-                            padding: const EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(20),
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.favorite, color: Colors.white),
-                                Text('  Move to favorites',
-                                    style: TextStyle(color: Colors.white)),
                               ],
                             ),
                           ),
@@ -154,8 +151,6 @@ class NotificationPageState extends State<NotificationPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 Icon(Icons.delete, color: Colors.white),
-                                Text('Move to trash',
-                                    style: TextStyle(color: Colors.white)),
                               ],
                             ),
                           ),
@@ -208,7 +203,15 @@ class NotificationPageState extends State<NotificationPage> {
                                 )
                               ]
                           ),
-                          child: Text(_values[index]),
+                          child: Column(
+                            children: [
+                              //SizedBox(width: MediaQuery.of(context).size.width * 10,),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                              Text(_values[index]),
+                              SizedBox(height: 5,),
+                              Text("ผมคิดว่าทำแบบนั้นดีแล้วครับ สุดยอดมากเลยครับ")
+                            ],
+                          ),
                         )
 
                       );

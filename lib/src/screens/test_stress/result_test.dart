@@ -65,13 +65,13 @@ class _ResulttestState extends State<Resulttest> {
             Stack(
               children: [
                 Image.asset(
-                  'assets/images/test_stress1.png',
+                  'assets/images/test_stress3-depositphotos.png',
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.3,
                   fit: BoxFit.cover,
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(-0.75, -1),
+                  alignment: const AlignmentDirectional(-0.55, -1),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 150),
                     child: ElevatedButton(
@@ -84,19 +84,20 @@ class _ResulttestState extends State<Resulttest> {
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: thirterydColor,
-                            minimumSize: const Size(100, 40),
+                            minimumSize: const Size(140, 60),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             fixedSize: const Size.fromHeight(30)),
                         child: const Text("เริ่มต้นทดสอบ",
                             style: TextStyle(
+                              fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white))),
                   ),
                 ),
                 const Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 5, vertical: 60),
+                        EdgeInsets.symmetric(horizontal: 30, vertical: 60),
                     child: Text(
                       "ทดสอบระดับความเครียด",
                       style: TextStyle(
@@ -106,11 +107,11 @@ class _ResulttestState extends State<Resulttest> {
                     )),
                 const Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 8, vertical: 80),
+                        EdgeInsets.symmetric(horizontal: 30, vertical: 90),
                     child: Text(
                       "วัดระดับความเครียดของ\n"
                       "คุณภายใน 15 นาที",
-                      style: TextStyle(color: Colors.black, fontSize: 12),
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                     )),
               ],
             ),
@@ -133,11 +134,15 @@ class _ResulttestState extends State<Resulttest> {
                     ),
                       child: Column(
                         children: [
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
                           Icon(Icons.mood, size: 80, color: secondaryColorLight,),
                           Text("ทดสอบเมื่อ 24/11/2565",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
-                          Text("ท่านไม่มีอาการของโรคซึมเศร้า หรือมีอาการของโรคซึมเศร้าระดับน้อยมาก")
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                          Text("ท่านไม่มีอาการของโรคซึมเศร้า"),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                          Text("หรือมีอาการของโรคซึมเศร้า"),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                          Text("ระดับน้อยมาก"),
                         ],
                       ),
               ),
