@@ -389,38 +389,85 @@ class _ProfilePageState extends State<ProfilePage> {
                                       onPressed: () {
                                         showDialog(
                                             context: context,
-                                            builder: (context) => AlertDialog(
-                                                  title: const Text(
-                                                      "Change Name Pet"),
-                                                  content: TextField(
-                                                    controller: textController,
-                                                    autofocus: true,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            hintText:
-                                                                "Enter Name"),
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                      child:
-                                                          const Text("Cancel"),
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
+                                            builder: (context) => Dialog(
+                                              insetPadding: const EdgeInsets.all(20),
+                                              backgroundColor: Colors.transparent,
+
+                                              child: Stack(
+                                                clipBehavior: Clip.none,
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.of(context).size.width,
+                                                    height: MediaQuery.of(context).size.height * 0.195,
+                                                    decoration: const BoxDecoration(
+                                                      color: primaryColor,
+                                                      borderRadius: BorderRadius.all(Radius.circular(30))
                                                     ),
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        petContext
-                                                            .read<petBloc>()
-                                                            .add(NamingPetEvent(
+                                                    child: Column(
+                                                      children: [
+                                                        Text("\nแก้ไขชื่อสัตว์เลี้ยงของคุณ", style: GoogleFonts.getFont("Bai Jamjuree", fontSize: 18, fontWeight: FontWeight.bold, color: textColor2),),
+                                                        Padding(
+                                                          padding: const EdgeInsets.fromLTRB(30, 17, 30, 5),
+                                                          child: Container(
+                                                            height: MediaQuery.of(context).size.height * 0.04,
+                                                            width: MediaQuery.of(context).size.width,
+                                                            decoration: const BoxDecoration(
+                                                              borderRadius: BorderRadius.all(Radius.circular(10))
+                                                            ),
+                                                            child: TextField(
+                                                              autofocus: true,
+                                                              controller: textController,
+                                                              maxLines: 1,
+                                                              textAlign: TextAlign.center,
+                                                              decoration: const InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                                  borderSide: BorderSide.none,
+                                                                ),
+                                                                filled: true,
+                                                                fillColor: Colors.white,
+                                                              ),
+                                                              style: const TextStyle(fontSize: 14),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            petContext
+                                                                .read<petBloc>()
+                                                                .add(NamingPetEvent(
                                                                 textController
                                                                     ?.text));
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text("OK"),
-                                                    )
-                                                  ],
-                                                ));
+                                                            _userBloc.add(getUserID());
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Container(
+                                                            width: MediaQuery.of(context).size.width * 0.2,
+                                                              height: MediaQuery.of(context).size.height * 0.035,
+                                                            decoration: BoxDecoration(
+                                                                color: thirterydColor,
+                                                                borderRadius: BorderRadius.circular(10)
+                                                            ),
+                                                            alignment: AlignmentDirectional.center,
+                                                              child: Text("ยืนยัน", style: fontsTH14_white,),),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                      top: -20,
+                                                      right: 10,
+                                                      child: RawMaterialButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                        fillColor: statusColorErrorLight,
+                                                        padding: const EdgeInsets.all(11),
+                                                        shape: const CircleBorder(),
+                                                    child: Text("X", style: GoogleFonts.getFont("Lato", color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),),
+                                                  ))
+                                                ],
+                                              ),
+                                            ));
                                       },
                                     )
                                   ],

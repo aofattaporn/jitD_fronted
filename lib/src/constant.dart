@@ -26,6 +26,7 @@ const Color backgroundColor2 = Color.fromARGB(255, 255, 255, 255);
 const Color backgroundColor3 = Color.fromARGB(255, 248, 250, 250);
 
 const Color statusColorError = Color.fromARGB(255, 255, 76, 76);
+const Color statusColorErrorLight = Color.fromRGBO(255, 128, 128, 1);
 const Color statusColorSuccess = Color.fromARGB(255, 61, 204, 120);
 const Color statusColorWarning = Color.fromARGB(255, 255, 180, 77);
 
@@ -36,6 +37,8 @@ const double kPadding = 20.0;
 
 final TextStyle fontsTH10_Black = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 10, color: textColor1);
+final TextStyle fontsTH14_white = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 14, color: Colors.white);
 final TextStyle fontsTH14_thirteryd = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 14, color: thirterydColor);
 final TextStyle fontsTH16_Red = GoogleFonts.getFont(
