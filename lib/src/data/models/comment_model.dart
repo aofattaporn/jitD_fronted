@@ -5,6 +5,7 @@ ListCommentModel listCommentModelFromJson(String str) =>
 
 class ListCommentModel {
   List<CommentModel> comments = [];
+
   ListCommentModel();
 
   /// method convert map to json
@@ -49,7 +50,7 @@ class CommentModel {
     content = json['content'];
     like = json['like'];
     postId = json['postId'];
-    Date = json['Date'];
+    Date = convertDate(json['date']);
     commentId = json['commentId'];
     userId = json['userId'];
   }
@@ -65,5 +66,12 @@ class CommentModel {
     data['userId'] = userId;
 
     return data;
+  }
+
+  String convertDate(String? date) {
+    DateTime dt = DateTime.parse(date!);
+    String datFormat =
+        '${dt.day.toString()}-${dt.month.toString()}-${dt.year.toString()}';
+    return datFormat;
   }
 }

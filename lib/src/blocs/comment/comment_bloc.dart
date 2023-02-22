@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +48,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       try {
         final commentJSON = await commentRepository.deleteComment(
             event._commentId, event._postId);
-        final commentModel = await listCommentModelFromJson(commentJSON);
+        final commentModel = listCommentModelFromJson(commentJSON);
         listCommentModel.setComments(commentModel.comments);
         emit(DeletedComment(listCommentModel.comments));
       } catch (e, stacktrace) {
@@ -61,16 +59,17 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
 
     // update comment
     on<UpdatingMyComment>((event, emit) async {
-      // emit(CheckingComment());
-      Future<Object> response = commentRepository.updateComment(
-          event._content, event._date, event._postID, event._commentId);
-
-      if (await response == "updating data success") {
-        // 200 -> return UpdatePostSuccess
-        emit(UpdatedComment());
-      } else {
-        // !200 -> return UpdatePostError
-        emit(CommentError("Update Post Failed"));
+      // print(event.)
+      emit(UpdatingComment(listCommentModel.comments));
+      try {
+        final commentJSON = await commentRepository.updateComment(
+            event._content, event._date, event._postID, event._commentId);
+        final commentModel = listCommentModelFromJson(commentJSON);
+        listCommentModel.setComments(commentModel.comments);
+        emit(UpdatedComment(listCommentModel.comments));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(CommentError(e.toString()));
       }
     });
   }

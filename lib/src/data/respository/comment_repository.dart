@@ -45,9 +45,11 @@ class CommentRepository {
   }
 
   Future<String> deleteComment(String? commentId, String? postId) async {
+    String commentIdCheck = commentId!;
+    String postIdCheck = postId!;
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.delete(
-        Uri.parse("${localUrl}v1/comments/$commentId/post/$postId/"),
+        Uri.parse("${localUrl}v1/comments/$commentIdCheck/post/$postIdCheck/"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -60,25 +62,23 @@ class CommentRepository {
     }
   }
 
-  Future<Object> updateComment(
+  Future<String> updateComment(
       String? content, String? date, String? postId, String? commentId) async {
+    String commentIdCheck = commentId!;
+    String postIdCheck = postId!;
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.put(
-        Uri.parse("${localUrl}v1/comments/$commentId"),
-        body: commentModelToJson(
-            CommentModel.Resquest(content, date, postId, commentId)),
+        Uri.parse("${localUrl}v1/comments/$commentIdCheck/post/$postIdCheck/"),
+        body: commentModelToJson(CommentModel.PostContent(content)),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         });
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
-      return "updating data success";
+      return response.body;
     } else {
-      print(response.statusCode);
-      return "something fail.";
+      return "some thing wrong : ${response.body}";
     }
   }
 }

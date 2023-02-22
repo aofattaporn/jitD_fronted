@@ -10,7 +10,6 @@ import 'package:jitd_client/src/blocs/comment/comment_state.dart';
 import '../../constant.dart';
 
 class CommentModal extends StatefulWidget {
-  // const PostModal({Key? key}) : super(key: key);
   final String? userId;
   final String? postId;
   final String? commentId;
@@ -37,14 +36,8 @@ class _CommentModalState extends State<CommentModal> {
 
   @override
   void initState() {
-    super.initState();
     commentController = TextEditingController(text: widget.content);
-  }
-
-  @override
-  void dispose() {
-    commentController?.dispose();
-    super.dispose();
+    super.initState();
   }
 
   @override
@@ -121,10 +114,8 @@ class _CommentModalState extends State<CommentModal> {
                                 TextButton(
                                   child: Text("Save"),
                                   onPressed: () {
-                                    String? editedComment =
-                                        commentController?.text;
                                     widget.commentBloc.add(UpdatingMyComment(
-                                        editedComment,
+                                        commentController!.text,
                                         widget.date,
                                         widget.postId,
                                         widget.commentId));

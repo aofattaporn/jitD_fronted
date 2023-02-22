@@ -377,12 +377,51 @@ class ViewPostState extends State<ViewPost> {
             create: (_) => _commentBloc,
             child: BlocBuilder<CommentBloc, CommentState>(
                 builder: (context, state) {
-              // LoadingComment show skeleton
+              /// LoadingComment show skeleton
               if (state is LoadingComment) {
                 return const SkeletonComment();
+              } else if (state is LoadedComment) {
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
               }
 
-              // CheckingComment
+              /// comment success
+              else if (state is CreatingComment) {
+                return Column(children: [
+                  buildComment(context, state.comment, _commentBloc),
+                  const SkeletonComment()
+                ]);
+              } else if (state is CommentSuccess) {
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              }
+
+              /// CheckingComment
+              else if (state is UpdatingComment) {
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              } else if (state is UpdatedComment) {
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              }
+
+              /// CheckingComment
               else if (state is DeletingComment) {
                 return Column(
                   children: [
@@ -391,26 +430,6 @@ class ViewPostState extends State<ViewPost> {
                   ],
                 );
               } else if (state is DeletedComment) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
-              }
-
-              // comment success
-              else if (state is CommentSuccess) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
-              }
-
-              // loadedComment
-              else if (state is LoadedComment) {
                 return Column(
                   children: [
                     buildComment(context, state.comment, _commentBloc),

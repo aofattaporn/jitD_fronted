@@ -48,11 +48,17 @@ class CommentSuccess extends CommentState {
 
 /// state update a comment
 class UpdatingComment extends CommentState {
+  final List<CommentModel> _comment;
+  UpdatingComment(this._comment);
+  List<CommentModel> get comment => _comment;
   @override
   List<Object?> get props => [];
 }
 
 class UpdatedComment extends CommentState {
+  final List<CommentModel> _comment;
+  UpdatedComment(this._comment);
+  List<CommentModel> get comment => _comment;
   @override
   List<Object?> get props => [];
 }

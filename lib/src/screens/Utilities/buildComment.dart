@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/constant/constant_fonts.dart';
 
 import '../../blocs/comment/comment_bloc.dart';
 import '../../data/models/comment_model.dart';
@@ -12,9 +13,13 @@ Widget buildComment(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          color: Colors.blue,
+          // color: Colors.blue,
           width: MediaQuery.of(context).size.width * 0.8,
           height: MediaQuery.of(context).size.height * 0.235,
+          child: Center(
+            child:
+                Text("No comment in this post", style: fontsEN20ThirteryBold),
+          ),
         ),
         const SizedBox(
           height: 100,
