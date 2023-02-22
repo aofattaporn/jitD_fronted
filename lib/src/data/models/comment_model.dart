@@ -1,14 +1,31 @@
 import 'dart:convert';
 
-import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
+ListCommentModel listCommentModelFromJson(String str) =>
+    ListCommentModel.fromJson(json.decode(str));
 
-CommentModel commentModelFromJson(String str) => CommentModel.fromJson(json.decode(str));
+class ListCommentModel {
+  List<CommentModel> comments = [];
+  ListCommentModel();
+
+  /// method convert map to json
+  ListCommentModel.fromJson(List<dynamic> json) {
+    json.forEach((element) {
+      comments.add(CommentModel.fromJsonResponse(element));
+    });
+    comments.sort((a, b) => (b.Date ?? "").compareTo(a.Date ?? ""));
+  }
+
+  // set list comment
+  void setComments(List<CommentModel> list) {
+    comments = list;
+  }
+}
+
+//----------------------------------------------------------------
 
 String commentModelToJson(CommentModel data) => json.encode(data.toJson());
 
 class CommentModel {
-  List<CommentModel> comments = [];
-
   String? userId;
   String? commentId;
   String? content;
@@ -17,24 +34,14 @@ class CommentModel {
   String? Date;
   String? error;
 
+  CommentModel();
 
-  CommentModel(this.content);
-  CommentModel.Resquest(this.content,this.Date,this.postId,this.commentId);
+  CommentModel.PostContent(this.content);
 
+  CommentModel.Resquest(this.content, this.Date, this.postId, this.commentId);
 
   CommentModel.withError(String errorMessage) {
     error = errorMessage;
-  }
-
-  /// method convert map to json
-  CommentModel.fromJson(List<dynamic> json) {
-    if (json != null) {
-      json.forEach((element) {
-        // แตก json ที่เป็น list ออกเป็นก้อน object type PostModel
-        comments.add(CommentModel.fromJsonResponse(element));
-      });
-      comments.sort((a, b) => (b.Date ?? "").compareTo(a.Date ?? ""));
-    }
   }
 
   /// function get comment
@@ -46,7 +53,6 @@ class CommentModel {
     commentId = json['commentId'];
     userId = json['userId'];
   }
-
 
   /// method convert json to map
   Map<String, dynamic> toJson() {

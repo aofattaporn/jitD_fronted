@@ -1,16 +1,13 @@
 // TODO Implement this library.
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
 
-import 'package:jitd_client/src/screens/post/UpdatePost.dart';
 import '../../constant.dart';
-import '../../ui/DialogMessage.dart';
 
 class CommentModal extends StatefulWidget {
   // const PostModal({Key? key}) : super(key: key);
@@ -19,6 +16,7 @@ class CommentModal extends StatefulWidget {
   final String? commentId;
   final String? content;
   final String? date;
+  final CommentBloc commentBloc;
 
   const CommentModal(
       {Key? key,
@@ -26,7 +24,8 @@ class CommentModal extends StatefulWidget {
       required this.postId,
       required this.commentId,
       required this.content,
-      required this.date})
+      required this.date,
+      required this.commentBloc})
       : super(key: key);
 
   @override
@@ -34,14 +33,11 @@ class CommentModal extends StatefulWidget {
 }
 
 class _CommentModalState extends State<CommentModal> {
-  final toast = FToast();
   TextEditingController? commentController;
-  final CommentBloc _commentBloc = CommentBloc();
 
   @override
   void initState() {
     super.initState();
-    toast.init(context);
     commentController = TextEditingController(text: widget.content);
   }
 
@@ -106,9 +102,9 @@ class _CommentModalState extends State<CommentModal> {
                                 controller: commentController,
                                 autofocus: true,
                                 obscureText: false,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'คอมเมนต์ให้พลังงานบวกกัน',
-                                  hintStyle: const TextStyle(
+                                  hintStyle: TextStyle(
                                     color: textColor3,
                                   ),
                                 ),
@@ -127,7 +123,7 @@ class _CommentModalState extends State<CommentModal> {
                                   onPressed: () {
                                     String? editedComment =
                                         commentController?.text;
-                                    _commentBloc.add(UpdatingMyComment(
+                                    widget.commentBloc.add(UpdatingMyComment(
                                         editedComment,
                                         widget.date,
                                         widget.postId,
@@ -238,121 +234,34 @@ class _CommentModalState extends State<CommentModal> {
       context: context,
       builder: (BuildContext context) => BlocProvider<CommentBloc>(
         create: (_) => CommentBloc(),
-        child: BlocListener<CommentBloc, CommentState>(
-          listener: (context, state) {
-            if (state is LoadingComment) {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const CupertinoAlertDialog(
-                      title: Text("Deleting Your Comment..."),
-                      // CircularProgressIndicator(color: thirterydColor)),
-                    );
-                  });
-            } else if (state is DeletedComment) {
-              showToast("สถานะการลบสำเร็จ");
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            }
-          },
-          child:
-              BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
-            return CupertinoAlertDialog(
-              title: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("ยืนยันการลบ", style: fontsTH16_Red),
+        child:
+            BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
+          return CupertinoAlertDialog(
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("ยืนยันการลบ", style: fontsTH16_Red),
+            ),
+            content: const Text('เมื่อคุณกดลบคอมเมนท์นี้จะไม่สามารถเห็นได้อีก'),
+            actions: <CupertinoDialogAction>[
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('ยกเลิก'),
               ),
-              content:
-                  const Text('เมื่อคุณกดลบคอมเมนท์นี้จะไม่สามารถเห็นได้อีก'),
-              actions: <CupertinoDialogAction>[
-                CupertinoDialogAction(
-                  /// This parameter indicates this action is the default,
-                  /// and turns the action's text to bold text.
-                  isDefaultAction: true,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('ยกเลิก'),
-                ),
-                CupertinoDialogAction(
-                  /// This parameter indicates the action would perform
-                  /// a destructive action such as deletion, and turns
-                  /// the action's text color to red.
-                  isDestructiveAction: true,
-                  onPressed: () {
-                    context
-                        .read<CommentBloc>()
-                        .add(DeleteMyComment(widget.commentId, widget.postId));
-                  },
-                  child: const Text('ยืนยัน'),
-                ),
-              ],
-            );
-          }),
-        ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  widget.commentBloc
+                      .add(DeleteMyComment(widget.commentId, widget.postId));
+                },
+                child: const Text('ยืนยัน'),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
-
-  void showToast(String msg) => toast.showToast(
-        child: successToast(msg),
-        gravity: ToastGravity.TOP,
-      );
-
-  Widget successToast(String msg) => Container(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-        color: statusColorSuccess,
-        child: IntrinsicHeight(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.check_circle,
-                color: Colors.white,
-                size: 30,
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-              Text(
-                msg,
-                style: GoogleFonts.getFont("Bai Jamjuree",
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.015),
-              const VerticalDivider(
-                thickness: 1,
-                width: 20,
-                color: Colors.black,
-              ),
-              const CircleAvatar(
-                  backgroundColor: Color.fromRGBO(102, 204, 144, 1),
-                  child: Icon(
-                    Icons.cancel_rounded,
-                    color: Colors.white,
-                    size: 30,
-                  ))
-            ],
-          ),
-        ),
-      );
-}
-
-Route _createRoute(Widget page) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
 }

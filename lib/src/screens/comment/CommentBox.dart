@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/screens/Utilities/CommentModal.dart';
 
 import '../../constant.dart';
-import '../Utilities/PostModal.dart';
 
 class CommentBox extends StatefulWidget {
   final String? userId;
@@ -12,16 +12,18 @@ class CommentBox extends StatefulWidget {
   final int? like;
   final String? postId;
   final String? Date;
+  final CommentBloc? commentBloc;
 
-  const CommentBox(
-      {Key? key,
-        required this.userId,
-        required this.commentId,
-        required this.content,
-        required this.like,
-        required this.postId,
-        required this.Date,})
-      : super(key: key);
+  const CommentBox({
+    Key? key,
+    required this.userId,
+    required this.commentId,
+    required this.content,
+    required this.like,
+    required this.postId,
+    required this.Date,
+    this.commentBloc,
+  }) : super(key: key);
 
   @override
   State<CommentBox> createState() => _CommentBoxState();
@@ -54,10 +56,10 @@ class _CommentBoxState extends State<CommentBox> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      top : MediaQuery.of(context).devicePixelRatio*5,
+                      top: MediaQuery.of(context).devicePixelRatio * 5,
                     ),
                     child: Text(
-                      widget.Date?? DateTime.now().toString(),
+                      widget.Date ?? DateTime.now().toString(),
                       style: GoogleFonts.getFont("Lato",
                           fontSize: 16, color: textColor3),
                     ),
@@ -67,18 +69,19 @@ class _CommentBoxState extends State<CommentBox> {
                       postId: widget.postId,
                       commentId: widget.commentId,
                       content: widget.content,
-                      date: widget.Date?? DateTime.now().toString())
+                      date: widget.Date ?? DateTime.now().toString(),
+                      commentBloc: widget.commentBloc!)
                 ],
               ),
               Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).devicePixelRatio*5,
-                      bottom: MediaQuery.of(context).devicePixelRatio*3,
+                      top: MediaQuery.of(context).devicePixelRatio * 5,
+                      bottom: MediaQuery.of(context).devicePixelRatio * 3,
                     ),
                     child: Text(
-                      widget.userId?? "",
+                      widget.userId ?? "",
                       style: GoogleFonts.getFont("Bai Jamjuree",
                           color: textColor3, fontSize: 12),
                     ),
@@ -105,11 +108,9 @@ class _CommentBoxState extends State<CommentBox> {
                 ],
               ),
 
-
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-
 
               // Section-Comments ----------------------------------------------
               Row(
@@ -129,10 +130,10 @@ class _CommentBoxState extends State<CommentBox> {
                           const TextSpan(text: ' '),
                           const WidgetSpan(
                               child: Icon(
-                                Icons.favorite,
-                                color: Colors.black12,
-                                size: 22,
-                              ))
+                            Icons.favorite,
+                            color: Colors.black12,
+                            size: 22,
+                          ))
                         ]),
                       ),
                     ),

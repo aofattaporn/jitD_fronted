@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 const Color primaryColor = Color.fromARGB(255, 170, 212, 204);
 const Color primaryColorDark = Color.fromARGB(255, 143, 178, 172);
 const Color primaryColorLight = Color.fromARGB(255, 169, 212, 204);
@@ -34,20 +33,15 @@ const Color skeletonHighlightColor = Color.fromRGBO(245, 247, 247, 1);
 
 const double kPadding = 20.0;
 
-final TextStyle fontsTH16_Red = GoogleFonts.getFont(
-    "Lato", fontSize: 16, color: statusColorError);
-final TextStyle fontsTH16_Black = GoogleFonts.getFont(
-    "Lato", fontSize: 16, color: textColor1);
-final TextStyle fontsTH20_Black = GoogleFonts.getFont(
-    "Lato", fontSize: 20, color: textColor3);
+// final TextStyle fontsTH12White = GoogleFonts.getFont("Bai Jamjuree",
+//     fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold);
 
+// final TextStyle fontsEN12White =
+//     GoogleFonts.getFont("Lato", fontSize: 12, color: textColor3);
 
-
-
-
-
-
-
-
-
-
+final TextStyle fontsTH16_Red =
+    GoogleFonts.getFont("Lato", fontSize: 16, color: statusColorError);
+final TextStyle fontsTH16_Black =
+    GoogleFonts.getFont("Lato", fontSize: 16, color: textColor1);
+final TextStyle fontsTH20_Black =
+    GoogleFonts.getFont("Lato", fontSize: 20, color: textColor3);
