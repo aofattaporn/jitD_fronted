@@ -15,21 +15,6 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   ListCommentModel listCommentModel = ListCommentModel();
 
   CommentBloc() : super(InitialComment()) {
-    // event create comment
-    on<CreatingComment>((event, emit) async {
-      emit(CheckingComment(listCommentModel.comments));
-      try {
-        final commentJSON = await commentRepository.creatingComment(
-            event._content, event._postId, DateTime.now().toString());
-        final commentModel = listCommentModelFromJson(commentJSON);
-        listCommentModel.setComments(commentModel.comments);
-        emit(CommentSuccess(listCommentModel.comments));
-      } catch (e, stacktrace) {
-        print("Exxception occured: $e stackTrace: $stacktrace");
-        emit(CommentError(e.toString()));
-      }
-    });
-
     // get comment
     on<GetComment>((event, emit) async {
       emit(LoadingComment());
@@ -44,17 +29,30 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       }
     });
 
+    // event create comment
+    on<CreateComment>((event, emit) async {
+      emit(CreatingComment(listCommentModel.comments));
+      try {
+        final commentJSON = await commentRepository.creatingComment(
+            event._content, event._postId, DateTime.now().toString());
+        final commentModel = listCommentModelFromJson(commentJSON);
+        listCommentModel.setComments(commentModel.comments);
+        emit(CommentSuccess(listCommentModel.comments));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(CommentError(e.toString()));
+      }
+    });
+
     // delete comment
     on<DeleteMyComment>((event, emit) async {
-      emit(CheckingComment(listCommentModel.comments));
+      emit(DeletingComment(listCommentModel.comments));
       try {
         final commentJSON = await commentRepository.deleteComment(
             event._commentId, event._postId);
-        emit(DeletedComment());
         final commentModel = await listCommentModelFromJson(commentJSON);
         listCommentModel.setComments(commentModel.comments);
-        emit(CheckingComment(listCommentModel.comments));
-        emit(LoadedComment(listCommentModel.comments));
+        emit(DeletedComment(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(CommentError(e.toString()));

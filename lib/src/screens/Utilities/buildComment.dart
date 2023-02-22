@@ -48,7 +48,7 @@ Widget buildComment(
               ),
             );
           }),
-      const SizedBox(height: 30)
+      // SkeletonComment()
     ],
   );
 }

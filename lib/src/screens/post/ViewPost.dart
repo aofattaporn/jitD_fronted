@@ -63,8 +63,18 @@ class ViewPostState extends State<ViewPost> {
         create: (_) => _commentBloc,
         child: BlocListener<CommentBloc, CommentState>(
           listener: (context, state) {
-            if (state is DeletedComment) {
+            if (state is DeletingComment) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const CupertinoAlertDialog(
+                      title: Text("Deleting Your Post..."),
+                      // CircularProgressIndicator(color: thirterydColor)),
+                    );
+                  });
+            } else if (state is DeletedComment) {
               showToast("สถานะการลบสำเร็จ");
+              Navigator.of(context).pop();
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             } else if (state is CommentSuccess) {
@@ -121,7 +131,7 @@ class ViewPostState extends State<ViewPost> {
                               commentController!.text.isNotEmpty
                           ? IconButton(
                               onPressed: () {
-                                _commentBloc.add(CreatingComment(
+                                _commentBloc.add(CreateComment(
                                     commentController?.text, widget.postId));
                                 commentController!.clear();
                               },
@@ -212,8 +222,9 @@ class ViewPostState extends State<ViewPost> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
 
+                  /// section show-ALlComment
                   // Section-Comment
-                  CommentDetail(context),
+                  _commentDetail(context),
                 ],
               ),
             ),
@@ -223,7 +234,7 @@ class ViewPostState extends State<ViewPost> {
     );
   }
 
-  Column CommentDetail(BuildContext context) {
+  Column _commentDetail(BuildContext context) {
     return Column(
       children: [
         // Sorter
@@ -372,35 +383,40 @@ class ViewPostState extends State<ViewPost> {
               }
 
               // CheckingComment
-              else if (state is CheckingComment) {
-                if (state.comment.isEmpty) {
-                  return const Text('No Comments.');
-                } else {
-                  return Column(
-                    children: [
-                      buildComment(context, state.comment, _commentBloc),
-                      const SkeletonComment()
-                    ],
-                  );
-                }
+              else if (state is DeletingComment) {
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              } else if (state is DeletedComment) {
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
               }
 
               // comment success
               else if (state is CommentSuccess) {
-                if (state.comment.isEmpty) {
-                  return const Text('No Comments.');
-                } else {
-                  return Column(
-                    children: [
-                      buildComment(context, state.comment, _commentBloc),
-                    ],
-                  );
-                }
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
               }
 
               // loadedComment
               else if (state is LoadedComment) {
-                return buildComment(context, state.comment, _commentBloc);
+                return Column(
+                  children: [
+                    buildComment(context, state.comment, _commentBloc),
+                    const SizedBox(height: 30),
+                  ],
+                );
               }
 
               // else

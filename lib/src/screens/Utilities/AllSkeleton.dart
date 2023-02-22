@@ -19,18 +19,18 @@ class SkeletonComment extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(
               left: MediaQuery.of(context).devicePixelRatio * 25,
-              top: MediaQuery.of(context).devicePixelRatio * 5,
+              // top: padding: const EdgeInsets.only(bottom: 10),
             ),
             child: Column(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.235,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: skeletonColor),
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 120),
               ],
             ),
           ),
