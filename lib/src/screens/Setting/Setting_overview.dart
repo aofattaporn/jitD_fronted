@@ -37,8 +37,8 @@ class _Setting_overviewState extends State<Setting_overview> {
       appBar: AppBar(
         backgroundColor: Colors.white ,
         centerTitle: true,
-        title: const Text("การตั้งค่า", style: TextStyle(fontSize: 22,
-            color: Colors.black,fontWeight: FontWeight.bold),
+        title: const Text("การตั้งค่า", style: TextStyle(fontSize:16,
+            color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},
@@ -61,7 +61,7 @@ class _Setting_overviewState extends State<Setting_overview> {
                       Icons.notifications,
                       color: Colors.black,),
                     SizedBox(width: 10),
-                    Text("การแจ้งเตือน", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("การแจ้งเตือน", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -85,7 +85,7 @@ class _Setting_overviewState extends State<Setting_overview> {
                       Icons.account_circle,
                       color: Colors.black,),
                     SizedBox(width: 10),
-                    Text("บัญชี", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("บัญชี", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -104,7 +104,7 @@ class _Setting_overviewState extends State<Setting_overview> {
                       Icons.support,
                       color: Colors.black,),
                     SizedBox(width: 10),
-                    Text("ติดต่อแอดมิน", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("ติดต่อแอดมิน", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(
@@ -123,7 +123,7 @@ class _Setting_overviewState extends State<Setting_overview> {
                       Icons.report,
                       color: Colors.black,),
                     SizedBox(width: 10),
-                    Text("เกี่ยวกับการตั้งค่า", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text("เกี่ยวกับการตั้งค่า", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(

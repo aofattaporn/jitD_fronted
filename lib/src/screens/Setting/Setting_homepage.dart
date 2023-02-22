@@ -19,7 +19,7 @@ class _Setting_homepageState extends State<Setting_homepage> {
         title: const Text(
           "หน้าหลัก",
           style: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},
