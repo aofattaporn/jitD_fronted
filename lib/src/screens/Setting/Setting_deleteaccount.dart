@@ -14,8 +14,8 @@ class _Setting_deleteaccountState extends State<Setting_deleteaccount> {
       appBar: AppBar(
         backgroundColor: Colors.white ,
         centerTitle: true,
-        title: const Text("ลบบัญชี", style: TextStyle(fontSize: 22,
-            color: Colors.black,fontWeight: FontWeight.bold),
+        title: const Text("ลบบัญชี", style: TextStyle(fontSize: 16,
+            color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},
@@ -41,7 +41,7 @@ class _Setting_deleteaccountState extends State<Setting_deleteaccount> {
                   "ปิดใช้งานบัญชีของคุณ\n"
                       "แทนที่จะลบบัญชีใช่ไหม",
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       //letterSpacing: 2.2,
                       color: Colors.black)),
@@ -52,7 +52,7 @@ class _Setting_deleteaccountState extends State<Setting_deleteaccount> {
                 SizedBox(width: 20),
                 Icon(
                   Icons.remove_red_eye,
-                  size: 20.0,
+                  size: 16.0,
                   color: Colors.black,
                 ),
                 SizedBox(width: 20),

@@ -18,7 +18,7 @@ class _Setting_aboutState extends State<Setting_about> {
         title: const Text(
           "เกี่ยวกับ",
           style: TextStyle(
-              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},
@@ -40,7 +40,7 @@ class _Setting_aboutState extends State<Setting_about> {
                     SizedBox(width: 10),
                     Text("นโยบายความเป็นส่วนตัว",
                         style: TextStyle(
-                            fontSize: 18)),
+                            fontSize: 16)),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -60,7 +60,7 @@ class _Setting_aboutState extends State<Setting_about> {
                     SizedBox(width: 10),
                     Text("ข้อกำหนดการใช้งาน",
                         style: TextStyle(
-                            fontSize: 18,)),
+                            fontSize: 16,)),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -75,7 +75,7 @@ class _Setting_aboutState extends State<Setting_about> {
                     SizedBox(width: 10),
                     Text("ไลบารีโอเพนซอร์ส",
                         style: TextStyle(
-                            fontSize: 18, )),
+                            fontSize: 16, )),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),

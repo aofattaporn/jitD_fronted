@@ -25,7 +25,7 @@ class _Setting_logoutState extends State<Setting_logout> {
         title: const Text(
           "ออกจากระบบ",
           style: TextStyle(
-              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},

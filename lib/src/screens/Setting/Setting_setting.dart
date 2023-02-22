@@ -49,7 +49,7 @@ class _Setting_settingState extends State<Setting_setting> {
         title: const Text(
           "การตั้งค่า",
           style: TextStyle(
-              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {
@@ -85,7 +85,7 @@ class _Setting_settingState extends State<Setting_setting> {
                       SizedBox(width: 10),
                       Text("การแจ้งเตือน",
                           style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold)),
+                              fontSize: 16)),
                     ],
                   ),
                   Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -116,7 +116,7 @@ class _Setting_settingState extends State<Setting_setting> {
                         SizedBox(width: 10),
                         Text("บัญชี",
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold)),
+                                fontSize: 16)),
                       ],
                     ),
                     Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -135,7 +135,7 @@ class _Setting_settingState extends State<Setting_setting> {
                     SizedBox(width: 10),
                     Text("ติดต่อแอดมิน",
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold)),
+                            fontSize: 16)),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -154,7 +154,7 @@ class _Setting_settingState extends State<Setting_setting> {
                     SizedBox(width: 10),
                     Text("เกี่ยวกับการตั้งค่า",
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold)),
+                            fontSize: 16)),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),
