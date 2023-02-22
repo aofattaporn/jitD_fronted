@@ -33,8 +33,9 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       try {
         final commentJSON = await commentRepository.creatingComment(
             event._content, event._postId, DateTime.now().toString());
-        final commentModel = listCommentModelFromJson(commentJSON);
-        listCommentModel.setComments(commentModel.comments);
+        final commentModel = commentModelFromJson(commentJSON);
+        listCommentModel.addNewComment(commentModel);
+
         emit(CommentSuccess(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
@@ -48,12 +49,12 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       try {
         final commentJSON = await commentRepository.deleteComment(
             event._commentId, event._postId);
-        final commentModel = listCommentModelFromJson(commentJSON);
-        listCommentModel.setComments(commentModel.comments);
+        final commentModel = commentModelFromJson(commentJSON);
+        listCommentModel.deleteComment(commentModel);
         emit(DeletedComment(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
-        emit(CommentError(e.toString()));
+        print(e.toString());
       }
     });
 
@@ -64,8 +65,11 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       try {
         final commentJSON = await commentRepository.updateComment(
             event._content, event._date, event._postID, event._commentId);
-        final commentModel = listCommentModelFromJson(commentJSON);
-        listCommentModel.setComments(commentModel.comments);
+        final commentModel = commentModelFromJson(commentJSON);
+        listCommentModel.updateComment(commentModel);
+        for (var element in listCommentModel.comments) {
+          print(element.content);
+        }
         emit(UpdatedComment(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");

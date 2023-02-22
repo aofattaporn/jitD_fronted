@@ -30,6 +30,7 @@ class PostRepository {
   Future<String> updatingPost(String content, String date, bool isPublic,
       List<String> category, String postID) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
     final response = await http.put(Uri.parse("${localUrl}v1/posts/$postID"),
         body:
             postModelToJson(PostModel.Resquest(content, date, true, category)),
@@ -82,9 +83,8 @@ class PostRepository {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     String query = content.trim();
 
-    final response =
-    await http.get(Uri.parse("${globalUrl}v1/posts/keyword/$query"),
-        headers: {
+    final response = await http
+        .get(Uri.parse("${globalUrl}v1/posts/keyword/$query"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -97,7 +97,6 @@ class PostRepository {
       return "Data not found";
     }
   }
-
 
   Future<Object> deletePost(String id) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();

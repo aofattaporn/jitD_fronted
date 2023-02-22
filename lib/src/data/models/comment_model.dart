@@ -20,11 +20,39 @@ class ListCommentModel {
   void setComments(List<CommentModel> list) {
     comments = list;
   }
+
+  // add comment to list
+  void addNewComment(CommentModel newComment) {
+    comments.add(newComment);
+  }
+
+  // update comment to list
+  void updateComment(CommentModel newComment) {
+    for (var i = 0; i < comments.length; i++) {
+      if (comments[i].commentId! == newComment.commentId!) {
+        comments[i] = newComment;
+        break;
+      }
+    }
+  }
+
+  // delete comment to list
+  void deleteComment(CommentModel deleteComment) {
+    for (int i = 0; i < comments.length; i++) {
+      if (comments[i].commentId! == deleteComment.commentId!) {
+        comments.removeAt(i);
+        break; // stop the loop after removing the comment
+      }
+    }
+  }
 }
 
 //----------------------------------------------------------------
 
 String commentModelToJson(CommentModel data) => json.encode(data.toJson());
+
+CommentModel commentModelFromJson(String str) =>
+    CommentModel.fromJsonResponse(json.decode(str));
 
 class CommentModel {
   String? userId;

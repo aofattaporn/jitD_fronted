@@ -68,17 +68,29 @@ class ViewPostState extends State<ViewPost> {
                   context: context,
                   builder: (context) {
                     return const CupertinoAlertDialog(
-                      title: Text("Deleting Your Post..."),
+                      title: Text("Deleting Your Comment..."),
                       // CircularProgressIndicator(color: thirterydColor)),
                     );
                   });
             } else if (state is DeletedComment) {
-              showToast("สถานะการลบสำเร็จ");
+              showToast("delete comment success");
               Navigator.of(context).pop();
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             } else if (state is CommentSuccess) {
-              showToast("สถานะการโพสสำเร็จ");
+              showToast("comment success");
+            } else if (state is UpdatingComment) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const CupertinoAlertDialog(
+                      title: Text("Updating Your Comment..."),
+                      // CircularProgressIndicator(color: thirterydColor)),
+                    );
+                  });
+            } else if (state is UpdatedComment) {
+              showToast("update comment success");
+              Navigator.of(context).pop();
             }
           },
           child: SafeArea(
@@ -89,7 +101,10 @@ class ViewPostState extends State<ViewPost> {
                 _buildBodyContent(context),
 
                 /// BottomContainer-CommentBox
-                _buildTextBottom(context),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _buildTextBottom(context))
+                // child: Text("dsfddsfddsfd"))
               ]),
             ),
           ),
@@ -98,53 +113,59 @@ class ViewPostState extends State<ViewPost> {
     );
   }
 
-  Positioned _buildTextBottom(BuildContext context) {
-    return Positioned(
-        bottom: 0,
+  Container _buildTextBottom(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: const BoxDecoration(
+          color: primaryColorSubtle,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              color: Color.fromRGBO(170, 212, 204, 0.4),
+              offset: Offset(0, 4),
+            )
+          ]),
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          color: primaryColor,
+          decoration: const BoxDecoration(
+              color: primaryColorSubtle,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10,
+                  color: Color.fromRGBO(170, 212, 204, 0.4),
+                  offset: Offset(0, 4),
+                )
+              ]),
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
-            child: Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      color: Color.fromRGBO(170, 212, 204, 0.4),
-                      offset: Offset(0, 4),
-                    )
-                  ]),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                child: TextField(
-                  controller: commentController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "เขียนความคิดเห็น",
-                      hintStyle: GoogleFonts.getFont("Bai Jamjuree",
-                          color: textColor3),
-                      suffixIcon: MediaQuery.of(context).viewInsets.bottom !=
-                                  0 ||
-                              commentController!.text.isNotEmpty
-                          ? IconButton(
-                              onPressed: () {
-                                _commentBloc.add(CreateComment(
-                                    commentController?.text, widget.postId));
-                                commentController!.clear();
-                              },
-                              icon: const Icon(Icons.send,
-                                  color: primaryColorDark))
-                          : null),
-                  minLines: 1,
-                  maxLines: 5,
-                ),
-              ),
+            padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+            child: TextField(
+              controller: commentController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "เขียนความคิดเห็น",
+                  hintStyle:
+                      GoogleFonts.getFont("Bai Jamjuree", color: Colors.white),
+                  suffixIcon: MediaQuery.of(context).viewInsets.bottom != 0 ||
+                          commentController!.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _commentBloc.add(CreateComment(
+                                commentController?.text, widget.postId));
+                            commentController!.clear();
+                          },
+                          icon: const Icon(Icons.send, color: Colors.white))
+                      : null),
+              minLines: 1,
+              maxLines: 5,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   SingleChildScrollView _buildBodyContent(BuildContext context) {
@@ -260,7 +281,7 @@ class ViewPostState extends State<ViewPost> {
                       ),
                     ]),
                   ),
-                ))
+                )),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -391,6 +412,9 @@ class ViewPostState extends State<ViewPost> {
 
               /// comment success
               else if (state is CreatingComment) {
+                if (state.comment.isEmpty) {
+                  return const SkeletonComment();
+                }
                 return Column(children: [
                   buildComment(context, state.comment, _commentBloc),
                   const SkeletonComment()
@@ -591,7 +615,5 @@ class ViewPostState extends State<ViewPost> {
 
   /// manage showToast
   void showToast(String msg) => toast.showToast(
-        child: successToast(msg, context),
-        gravity: ToastGravity.TOP,
-      );
+      child: successToast(msg, context), gravity: ToastGravity.TOP);
 }

@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import '../../data/models/comment_model.dart';
 
 @immutable
-abstract class CommentState extends Equatable {}
+abstract class CommentState extends Equatable {
+  // final List<CommentModel> _comment;
+}
 
 /// state loading
 class InitialComment extends CommentState {
