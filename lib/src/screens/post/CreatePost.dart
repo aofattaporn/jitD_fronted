@@ -296,12 +296,14 @@ class CreatePostState extends State<CreatePost> {
                                         child: Form(
                                           key: keyForm,
                                           child: TextFormField(
+                                            autovalidateMode: AutovalidateMode.onUserInteraction,
                                             validator: (value) {
                                               if (value == null ||
                                                   value.isEmpty) {
                                                 return 'กรุณากรอกข้อความ';
+                                              } else {
+                                                return null;
                                               }
-                                              return null;
                                             },
                                             onTap: () =>
                                                 panelController.close(),

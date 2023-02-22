@@ -8,6 +8,8 @@ import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
 
 import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
+import 'package:jitd_client/src/screens/post/BlockWords.dart';
+import 'package:jitd_client/src/screens/post/ConsultantLevel.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
 import 'package:jitd_client/src/screens/tutorials/TutorialPage2.dart';
