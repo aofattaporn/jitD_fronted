@@ -21,10 +21,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(CheckingPost());
       // TODO : changing Temporary variable by create event Create Category
       /// Temporary variable
-      List<String>? category = ["Hello", "Hello2"];
 
       Future<String> response = postRepository.creatingPost(
-          event._content, event._IsPublic, category);
+          event._content, event._IsPublic, event._category);
 
       if (await response == "create data success") {
         // 200 -> return PostSuccess
@@ -45,8 +44,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(CheckingPost());
       List<String>? category = ["Update", "Update2"];
 
-      Future<String> response = postRepository.updatingPost(event._content,
-          event._date, event._isPublic, category, event._postID);
+      Future<String> response = postRepository.updatingPost(
+          event._content, event._date, event._isPublic, category, event._postID);
 
       if (await response == "updating data success") {
         // 200 -> return UpdatePostSuccess
@@ -65,6 +64,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<GetMyPost>((event, emit) async {
       await myPost(emit, postRepository);
     });
+
+    on<GetPostBySearch>((event, emit) async {
+      emit(PostLoadingState());
+      try {
+        final postData = await postRepository.getPostBySearch(event.content);
+        final postModel = postModelFromJson(postData);
+        emit(PostLoadedState(postModel.posts));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
   }
 }
 
@@ -73,7 +84,7 @@ Future<void> deletePost(emit, id, postRepository) async {
   try {
     /// TODO: get Data and send List To PostLoadedState
     final responstatus = await postRepository.deletePost(id);
-    if (responstatus == "delete post success") {
+    if ( responstatus == "delete post success") {
       print("object");
       emit(PostDeletedState());
     } else {
@@ -104,14 +115,15 @@ Future<void> caseSelfCache(emit, postRepository) async {
   }
 }
 
+
 Future<void> myPost(emit, postRepository) async {
-  try {
-    /// TODO: get Data and send List To PostLoadedState
-    final postData = await postRepository.getMyPost();
-    final postModel = postModelFromJson(postData);
-    emit(PostLoadedState(postModel.posts));
-  } catch (e, stacktrace) {
-    print("Exxception occured: $e stackTrace: $stacktrace");
-    emit(PostError(e.toString()));
+    try {
+      /// TODO: get Data and send List To PostLoadedState
+      final postData = await postRepository.getMyPost();
+      final postModel = postModelFromJson(postData);
+      emit(PostLoadedState(postModel.posts));
+    } catch (e, stacktrace) {
+      print("Exxception occured: $e stackTrace: $stacktrace");
+      emit(PostError(e.toString()));
+    }
   }
-}

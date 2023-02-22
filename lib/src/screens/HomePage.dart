@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
-import 'package:jitd_client/src/data/models/cat_model.dart';
 import 'package:jitd_client/src/screens/Utilities/PostModal.dart';
+import 'package:jitd_client/src/screens/Utilities/categoryBox.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../blocs/post/post_state.dart';
 import '../data/models/post_model.dart';
 
@@ -50,15 +49,14 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.height * 1,
-                  decoration: const BoxDecoration(
-                      color: primaryColorSubtle,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          offset: Offset(0, 4),
-                        )
-                      ]),
+                  decoration:
+                      const BoxDecoration(color: primaryColorSubtle, boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                      offset: Offset(0, 4),
+                    )
+                  ]),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -78,11 +76,10 @@ class _HomePageState extends State<HomePage> {
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: Container(
                               margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).devicePixelRatio *
-                                      6,
-                                  left:
-                                      MediaQuery.of(context).devicePixelRatio *
-                                          10),
+                                  top:
+                                      MediaQuery.of(context).devicePixelRatio * 6,
+                                  left: MediaQuery.of(context).devicePixelRatio *
+                                      10),
                               child: const Text(
                                 "JIT :D",
                                 style: TextStyle(
@@ -95,11 +92,10 @@ class _HomePageState extends State<HomePage> {
 
                           Container(
                             margin: EdgeInsets.only(
-                                right: MediaQuery.of(context).devicePixelRatio *
-                                    5),
+                                right:
+                                    MediaQuery.of(context).devicePixelRatio * 5),
                             decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
                               color: secondaryColor,
                             ),
                             child: IconButton(
@@ -118,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: 6,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return Category();
+                              return CategoryBox();
                             }),
                       ),
                     ],
@@ -136,17 +132,15 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 30, 0, 10),
+                                padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
                                 child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
+                                  width: MediaQuery.of(context).size.width * 0.5,
                                   height:
                                       MediaQuery.of(context).size.height * 0.05,
                                   decoration: const BoxDecoration(
                                       color: secondaryColor,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10))),
                                 ),
                               ),
                               SingleChildScrollView(
@@ -158,9 +152,8 @@ class _HomePageState extends State<HomePage> {
                                       padding: const EdgeInsets.fromLTRB(
                                           20, 20, 0, 10),
                                       child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.7,
+                                        width: MediaQuery.of(context).size.width *
+                                            0.7,
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.215,
@@ -174,9 +167,8 @@ class _HomePageState extends State<HomePage> {
                                       padding: const EdgeInsets.fromLTRB(
                                           15, 20, 0, 10),
                                       child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.7,
+                                        width: MediaQuery.of(context).size.width *
+                                            0.7,
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.215,
@@ -195,11 +187,11 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     width:
                                         MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.03,
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.03,
                                     decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
+                                        borderRadius:
+                                            BorderRadius.all(Radius.circular(5)),
                                         color: skeletonColor),
                                   ),
                                 ],
@@ -270,13 +262,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildPostBox(BuildContext context, List<PostModel> model) {
+  const itemCount = 5;
   return SizedBox(
     height: MediaQuery.of(context).size.height * 0.235,
     child: ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: model.length,
+      itemCount: itemCount,
       separatorBuilder: (context, index) {
         return SizedBox(
           width: MediaQuery.of(context).size.width * 0.04,
