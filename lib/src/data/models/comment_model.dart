@@ -61,6 +61,7 @@ class CommentModel {
   int? like;
   String? postId;
   String? Date;
+  bool? isLike;
   String? error;
 
   CommentModel();
@@ -81,6 +82,7 @@ class CommentModel {
     Date = convertDate(json['date']);
     commentId = json['commentId'];
     userId = json['userId'];
+    isLike = json['isLike'];
   }
 
   /// method convert json to map

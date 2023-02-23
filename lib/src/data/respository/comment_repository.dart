@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:jitd_client/src/constant/constant_url.dart';
 import 'package:jitd_client/src/data/models/comment_model.dart';
 
 class CommentRepository {
-  final String globalUrl = "https://jitd-backend.onrender.com/";
-  final String localUrl = 'http://localhost:3000/';
-
   Future<String> creatingComment(
       String? content, String? postId, String? Date) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
-        await http.post(Uri.parse("${localUrl}v1/comments/post/$postId"),
+        await http.post(Uri.parse("${globalUrl}v1/comments/post/$postId"),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -30,7 +28,7 @@ class CommentRepository {
   Future<String> getCommented(String? postId) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http
-        .get(Uri.parse("${localUrl}v1/comments/post/$postId"), headers: {
+        .get(Uri.parse("${globalUrl}v1/comments/post/$postId"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -49,7 +47,7 @@ class CommentRepository {
     String postIdCheck = postId!;
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.delete(
-        Uri.parse("${localUrl}v1/comments/$commentIdCheck/post/$postIdCheck/"),
+        Uri.parse("${globalUrl}v1/comments/$commentIdCheck/post/$postIdCheck/"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -68,7 +66,7 @@ class CommentRepository {
     String postIdCheck = postId!;
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.put(
-        Uri.parse("${localUrl}v1/comments/$commentIdCheck/post/$postIdCheck/"),
+        Uri.parse("${globalUrl}v1/comments/$commentIdCheck/post/$postIdCheck/"),
         body: commentModelToJson(CommentModel.PostContent(content)),
         headers: {
           'Content-Type': 'application/json',

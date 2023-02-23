@@ -117,7 +117,7 @@ class ViewPostState extends State<ViewPost> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: const BoxDecoration(
-          color: primaryColorSubtle,
+          color: primaryColorLight,
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
@@ -131,15 +131,16 @@ class ViewPostState extends State<ViewPost> {
         padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
         child: Container(
           decoration: const BoxDecoration(
-              color: primaryColorSubtle,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 10,
-                  color: Color.fromRGBO(170, 212, 204, 0.4),
-                  offset: Offset(0, 4),
-                )
-              ]),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            // boxShadow: [
+            //   BoxShadow(
+            //     blurRadius: 10,
+            //     color: Color.fromRGBO(170, 212, 204, 0.4),
+            //     offset: Offset(0, 4),
+            //   )
+            // ]
+          ),
           child: Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
             child: TextField(
@@ -157,7 +158,7 @@ class ViewPostState extends State<ViewPost> {
                                 commentController?.text, widget.postId));
                             commentController!.clear();
                           },
-                          icon: const Icon(Icons.send, color: Colors.white))
+                          icon: const Icon(Icons.send, color: secondaryColor))
                       : null),
               minLines: 1,
               maxLines: 5,
@@ -401,13 +402,6 @@ class ViewPostState extends State<ViewPost> {
               /// LoadingComment show skeleton
               if (state is LoadingComment) {
                 return const SkeletonComment();
-              } else if (state is LoadedComment) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
               }
 
               /// comment success
@@ -419,41 +413,16 @@ class ViewPostState extends State<ViewPost> {
                   buildComment(context, state.comment, _commentBloc),
                   const SkeletonComment()
                 ]);
-              } else if (state is CommentSuccess) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
               }
 
               /// CheckingComment
-              else if (state is UpdatingComment) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
-              } else if (state is UpdatedComment) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
-              }
-
-              /// CheckingComment
-              else if (state is DeletingComment) {
-                return Column(
-                  children: [
-                    buildComment(context, state.comment, _commentBloc),
-                    const SizedBox(height: 30),
-                  ],
-                );
-              } else if (state is DeletedComment) {
+              else if (state is UpdatingComment ||
+                  state is UpdatedComment ||
+                  state is DeletingComment ||
+                  state is DeletedComment ||
+                  state is LoadedComment ||
+                  state is CommentSuccess ||
+                  state is LoadedComment) {
                 return Column(
                   children: [
                     buildComment(context, state.comment, _commentBloc),

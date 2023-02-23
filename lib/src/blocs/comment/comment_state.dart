@@ -5,7 +5,7 @@ import '../../data/models/comment_model.dart';
 
 @immutable
 abstract class CommentState extends Equatable {
-  // final List<CommentModel> _comment;
+  late final List<CommentModel> comment;
 }
 
 /// state loading
@@ -21,11 +21,14 @@ class LoadingComment extends CommentState {
 }
 
 class LoadedComment extends CommentState {
-  final List<CommentModel> _comment;
-  LoadedComment(this._comment);
-  LoadedComment.Adding(this._comment);
+  // TODO: constructor
+  LoadedComment(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
 
-  List<CommentModel> get comment => _comment;
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
 
   @override
   List<Object?> get props => [];
@@ -33,51 +36,81 @@ class LoadedComment extends CommentState {
 
 /// state in add comment
 class CreatingComment extends CommentState {
-  final List<CommentModel> _comment;
-  CreatingComment(this._comment);
-  List<CommentModel> get comment => _comment;
+  // TODO: constructor
+  CreatingComment(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }
 
 class CommentSuccess extends CommentState {
-  final List<CommentModel> _comment;
-  CommentSuccess(this._comment);
-  List<CommentModel> get comment => _comment;
+  // TODO: constructor
+  CommentSuccess(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }
 
 /// state update a comment
 class UpdatingComment extends CommentState {
-  final List<CommentModel> _comment;
-  UpdatingComment(this._comment);
-  List<CommentModel> get comment => _comment;
+  // TODO: constructor
+  UpdatingComment(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }
 
 class UpdatedComment extends CommentState {
-  final List<CommentModel> _comment;
-  UpdatedComment(this._comment);
-  List<CommentModel> get comment => _comment;
+  // TODO: constructor
+  UpdatedComment(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }
 
 /// state delete a comment
 class DeletingComment extends CommentState {
-  final List<CommentModel> _comment;
-  DeletingComment(this._comment);
-  List<CommentModel> get comment => _comment;
+  // TODO: constructor
+  DeletingComment(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }
 
 class DeletedComment extends CommentState {
-  final List<CommentModel> _comment;
-  DeletedComment(this._comment);
-  List<CommentModel> get comment => _comment;
+  // TODO: constructor
+  DeletedComment(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }

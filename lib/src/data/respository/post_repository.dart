@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constant/constant_url.dart';
 import '../models/post_model.dart';
 
 class PostRepository {
-  final String localUrl = "http://localhost:3000/";
-  final String globalUrl = "https://jitd-backend.onrender.com/";
-
   Future<String> creatingPost(
       String? content, bool? isPublic, List<String> category) async {
     String date = DateTime.now().toUtc().toString();

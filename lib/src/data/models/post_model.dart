@@ -1,13 +1,5 @@
 import 'dart:convert';
 
-class PostData {
-  String content;
-  List<String>? comment;
-  List<String> tag;
-
-  PostData(this.content, this.comment, this.tag);
-}
-
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
