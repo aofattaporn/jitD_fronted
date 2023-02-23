@@ -262,14 +262,13 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildPostBox(BuildContext context, List<PostModel> model) {
-  const itemCount = 5;
   return SizedBox(
     height: MediaQuery.of(context).size.height * 0.235,
     child: ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: itemCount,
+      itemCount: model.length < 5 ? model.length : 5,
       separatorBuilder: (context, index) {
         return SizedBox(
           width: MediaQuery.of(context).size.width * 0.04,
