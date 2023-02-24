@@ -77,7 +77,7 @@ class CommentModel {
   /// function get comment
   CommentModel.fromJsonResponse(Map<String, dynamic> json) {
     content = json['content'];
-    like = json['like'];
+    like = json['countLike'];
     postId = json['postId'];
     Date = convertDate(json['date']);
     commentId = json['commentId'];
@@ -89,7 +89,7 @@ class CommentModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['content'] = content;
-    data['like'] = like;
+    data['countLike'] = like;
     data['postId'] = postId;
     data['Date'] = Date;
     data['commentId'] = commentId;

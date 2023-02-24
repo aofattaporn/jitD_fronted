@@ -6,9 +6,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
+import 'package:like_button/like_button.dart';
 
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
+import '../../data/respository/like_repository.dart';
 import '../Utilities/AllSkeleton.dart';
 import '../Utilities/AllToast.dart';
 import '../Utilities/PostModal.dart';
@@ -19,6 +21,10 @@ class ViewPost extends StatefulWidget {
   final String? postId;
   final String? content;
   final String? date;
+  final String? countComment;
+  final String? countLike;
+  final bool? isLike;
+  final bool? tempIsLike;
   final List<String>? category;
 
   const ViewPost(
@@ -27,7 +33,11 @@ class ViewPost extends StatefulWidget {
       required this.postId,
       required this.content,
       required this.date,
-      required this.category})
+      required this.countComment,
+      required this.countLike,
+      required this.isLike,
+      required this.category,
+      this.tempIsLike})
       : super(key: key);
 
   @override
@@ -40,6 +50,7 @@ class ViewPostState extends State<ViewPost> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final CommentBloc _commentBloc = CommentBloc();
   TextEditingController? commentController;
+  LikeRepository likeRepository = LikeRepository();
 
   @override
   void initState() {
@@ -149,11 +160,12 @@ class ViewPostState extends State<ViewPost> {
                   border: InputBorder.none,
                   hintText: "เขียนความคิดเห็น",
                   hintStyle:
-                      GoogleFonts.getFont("Bai Jamjuree", color: Colors.white),
+                      GoogleFonts.getFont("Bai Jamjuree", color: textColor3),
                   suffixIcon: MediaQuery.of(context).viewInsets.bottom != 0 ||
                           commentController!.text.isNotEmpty
                       ? IconButton(
                           onPressed: () {
+                            FocusScope.of(context).requestFocus(_unFocusNode);
                             _commentBloc.add(CreateComment(
                                 commentController?.text, widget.postId));
                             commentController!.clear();
@@ -239,7 +251,7 @@ class ViewPostState extends State<ViewPost> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
                   /// Section-PostDetail
-                  PostDetail(context),
+                  postDetail(context),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
@@ -442,7 +454,7 @@ class ViewPostState extends State<ViewPost> {
     );
   }
 
-  Container PostDetail(BuildContext context) {
+  Container postDetail(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -557,22 +569,28 @@ class ViewPostState extends State<ViewPost> {
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.175,
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(children: [
-                        TextSpan(text: "0", style: fontsEN12TextColor2),
-                        const TextSpan(text: ' '),
-                        const WidgetSpan(
-                            child: Icon(
-                          Icons.favorite,
-                          color: Colors.black12,
-                          size: 22,
-                        ))
-                      ]),
-                    ),
-                  ),
+                LikeButton(
+                  isLiked: widget.isLike,
+                  likeCount: int.parse(widget.countLike!),
+                  likeBuilder: (bool isLiked) {
+                    return Icon(
+                      Icons.favorite,
+                      color: isLiked ? heartColor : Colors.black12,
+                      size: 30.0,
+                    );
+                  },
+                  onTap: (unLike) async {
+
+                    if (unLike == true) {
+                      // print(tempIsLike);
+                      likeRepository.unlikePost(postId: widget.postId);
+                    }
+                    else {
+                      // print(tempIsLike);
+                      likeRepository.likePost(postId: widget.postId);
+                    }
+                    return !unLike;
+                  },
                 )
               ],
             )
