@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
@@ -30,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   SMIInput<bool>? trigSuccess;
   bool showingMsg = false;
 
+  final happyWord = ['อาหารมื้อที่ดีที่สุด คือมื้อที่คุณป้อนครับ', 'หวังว่าวันนี้จะเป็นวันที่ดีสำหรับเธอนะ', 'ขอบคุณสำหรับพลังงานแสนอบอุ่นนะ'];
   final PostBloc _postBloc = PostBloc();
   final postsBlocProvider =
       BlocProvider<PostBloc>(create: (context) => PostBloc());
@@ -469,7 +472,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Colors.white),
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  spreadRadius:
+                                                      showingMsg ? 1 : 0,
+                                                  color: primaryColorLight,
+                                                  blurRadius:
+                                                      showingMsg ? 20 : 0,
+                                                  blurStyle: BlurStyle.outer)
+                                            ]),
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               left: 10, right: 10),
@@ -480,20 +492,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                               Image.asset(
                                                 'assets/images/smile.png',
                                               ),
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.55,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.0125,
-                                                decoration: BoxDecoration(
-                                                    color: primaryColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
+                                              Shimmer.fromColors(
+                                                baseColor: primaryColor,
+                                                highlightColor: showingMsg ? secondaryColor : primaryColor,
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.55,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.0125,
+                                                  decoration: BoxDecoration(
+                                                      color: primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                ),
                                               ),
                                               Image.asset(
                                                 'assets/images/veryhappy.png',
@@ -505,44 +521,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
 
                                     //Box text
-                                    showingMsg
-                                        ? Column(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                    .devicePixelRatio *
-                                                    5),
-                                            decoration: const BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.all(
-                                                  Radius.circular(20)),
-                                              color: Colors.white,
-                                            ),
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                                0.095,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                                0.75,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 75),
-                                            child: Align(
-                                              alignment:
-                                              AlignmentDirectional
-                                                  .topEnd,
-                                              child: Image.asset(
-                                                'assets/images/triangle.png',
-                                              ),
-                                            ),
-                                          )
-                                        ]
-                                    )
-                                        : Column()
+                                    showingMsg ? buildMsgBox(context) : Column()
                                   ],
                                 ),
                                 SizedBox(
@@ -702,16 +681,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      print(showingMsg);
                                       setState(() {
                                         showingMsg = true;
-                                        Future.delayed(Duration(milliseconds: 4250), () {
+                                        Future.delayed(
+                                            const Duration(milliseconds: 4250),
+                                            () {
                                           setState(() {
                                             showingMsg = false;
                                           });
                                         });
                                       });
-                                      print(showingMsg);
                                       trigSuccess?.change(true);
                                     },
                                   ),
@@ -856,6 +835,34 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  Column buildMsgBox(BuildContext context) {
+    final random = Random();
+    var msgWord = happyWord[random.nextInt(happyWord.length)];
+
+    return Column(children: [
+      Container(
+        margin:
+            EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 5),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Colors.white,
+        ),
+        height: MediaQuery.of(context).size.height * 0.095,
+        width: MediaQuery.of(context).size.width * 0.75,
+        child: Center(child: Text(msgWord, textAlign: TextAlign.center, style: fontsTH16_black_bold,)),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 75),
+        child: Align(
+          alignment: AlignmentDirectional.topEnd,
+          child: Image.asset(
+            'assets/images/triangle.png',
+          ),
+        ),
+      )
+    ]);
   }
 }
 
