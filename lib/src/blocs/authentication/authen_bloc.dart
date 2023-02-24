@@ -10,7 +10,8 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(InitialState()) {
     /// inject Repository
-    AuthRepository authRepository = new AuthRepository();
+    AuthRepository authRepository = AuthRepository();
+    UserModel userModel = UserModel();
 
     /// SignUP event
     on<SignUpEvent>((event, emit) async {
@@ -108,19 +109,25 @@ class AuthenticationBloc
 
     /// UserID
     on<getUserID>((event, emit) async {
-      await authRepository.GetMyUser();
+      await authRepository.getMyUser();
       emit(GettingUser());
       try {
-        final userData = await authRepository.GetMyUser();
-        final userModel = await userModelFromJson(userData);
+        final userJSON = await authRepository.getMyUser();
+        print(userJSON);
+
+        final userModel = userModelFromJson(userJSON);
+        print(userModel);
+
         // int? post = userModel.countPosts;
-        emit(GettedUser(
-            userModel.countPosts!,
-            userModel.countLikes!,
-            userModel.countComments!,
-            userModel.userId!,
-            userModel.point!,
-            userModel.petName!));
+        String userId = userModel.userID!;
+        int point = userModel.point!;
+        String petName = userModel.petName!;
+
+        print(userId);
+        print(point);
+        print(petName);
+
+        emit(GettedUser(userId, point, petName));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(GetUserError());

@@ -3,13 +3,9 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/user_model.dart';
+import '../../constant/constant_url.dart';
 
 class AuthRepository {
-  // -------------- declare url ------------------
-  final String localUrl = "http://localhost:3000/";
-  final String globalUrl = "https://jitd-backend.onrender.com/";
-
   /// signUp
   Future<String?> signUp(String email, String password) async {
     try {
@@ -17,13 +13,12 @@ class AuthRepository {
           .createUserWithEmailAndPassword(email: email, password: password);
       String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
       print(token);
-      final response = await http.post(Uri.parse("${globalUrl}v1/users/"),
-          body: userModelToJson(UserModel(0, "")),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          });
+      final response =
+          await http.post(Uri.parse("${globalUrl}v1/users/"), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
       print(response.request);
       if (response.statusCode == 201) {
         return "creating data success";
@@ -132,10 +127,10 @@ class AuthRepository {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<String> GetMyUser() async {
+  Future<String> getMyUser() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
-        await http.get(Uri.parse("${globalUrl}v1/users/id"), headers: {
+        await http.get(Uri.parse("${localUrl}v1/users/id"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
