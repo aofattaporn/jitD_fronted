@@ -29,7 +29,7 @@ class PostRepository {
       List<String> category, String postID) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     print(token);
-    final response = await http.put(Uri.parse("${localUrl}v1/posts/$postID"),
+    final response = await http.put(Uri.parse("${globalUrl}v1/posts/$postID"),
         body:
             postModelToJson(PostModel.Resquest(content, date, true, category)),
         headers: {
@@ -48,7 +48,7 @@ class PostRepository {
   Future<Object> getAllPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
-        await http.get(Uri.parse("${localUrl}v1/posts/"), headers: {
+        await http.get(Uri.parse("${globalUrl}v1/posts/"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -64,7 +64,7 @@ class PostRepository {
   Future<Object> getMyPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
-        await http.get(Uri.parse("${localUrl}v1/posts/id"), headers: {
+        await http.get(Uri.parse("${globalUrl}v1/posts/id"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -99,7 +99,7 @@ class PostRepository {
   Future<Object> deletePost(String id) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
-        await http.delete(Uri.parse("${localUrl}v1/posts/$id"), headers: {
+        await http.delete(Uri.parse("${globalUrl}v1/posts/$id"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
