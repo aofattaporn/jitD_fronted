@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constant/constant_url.dart';
 import '../models/post_model.dart';
 
 class PostRepository {
-  final String localUrl = "http://localhost:3000/";
-  final String globalUrl = "https://jitd-backend.onrender.com/";
-
   Future<String> creatingPost(
       String? content, bool? isPublic, List<String> category) async {
     String date = DateTime.now().toUtc().toString();
@@ -30,6 +28,7 @@ class PostRepository {
   Future<String> updatingPost(String content, String date, bool isPublic,
       List<String> category, String postID) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print(token);
     final response = await http.put(Uri.parse("${globalUrl}v1/posts/$postID"),
         body:
             postModelToJson(PostModel.Resquest(content, date, true, category)),
@@ -54,9 +53,9 @@ class PostRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-
+    print(token);
     if (response.statusCode == 200) {
-      return response.body;
+      return response.body.toString();
     } else {
       return PostModel.withError("Data not found");
     }
@@ -82,9 +81,8 @@ class PostRepository {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     String query = content.trim();
 
-    final response =
-    await http.get(Uri.parse("${globalUrl}v1/posts/keyword/$query"),
-        headers: {
+    final response = await http
+        .get(Uri.parse("${globalUrl}v1/posts/keyword/$query"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -97,7 +95,6 @@ class PostRepository {
       return "Data not found";
     }
   }
-
 
   Future<Object> deletePost(String id) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
