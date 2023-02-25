@@ -12,6 +12,7 @@ import '../../constant/constant_fonts.dart';
 import '../Utilities/AllSkeleton.dart';
 import '../Utilities/AllToast.dart';
 import '../Utilities/PostModal.dart';
+import '../Utilities/SortModal.dart';
 import '../Utilities/buildComment.dart';
 
 class ViewPost extends StatefulWidget {
@@ -262,27 +263,9 @@ class ViewPostState extends State<ViewPost> {
         // Sorter
         Row(
           children: [
-            Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.height * 0.04,
-                decoration: const BoxDecoration(
-                    color: thirterydColor,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Center(
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: " เรียงตามความใหม่ ", style: fontsTH12White),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          size: 18,
-                          color: backgroundColor3,
-                        ),
-                      ),
-                    ]),
-                  ),
-                )),
+            SortModal(
+                userId: widget.userId,
+                commentBloc: _commentBloc!),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
