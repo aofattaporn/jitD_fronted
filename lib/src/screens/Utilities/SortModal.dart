@@ -102,6 +102,7 @@ class _SortModalState extends State<SortModal>{
                     child: Text("เรียงตามความนิยม"),
                     onTap: (){
                       Navigator.pop(context);
+                      widget.commentBloc.add(SortCommentByLike());
                     },
                   ),
                   Divider(height: 20, thickness: 1),

@@ -404,6 +404,7 @@ class ViewPostState extends State<ViewPost> {
                   state is DeletingComment ||
                   state is DeletedComment ||
                   state is SortedCommentByDate ||
+                  state is SortedCommentByLike ||
                   state is LoadedComment ||
                   state is CommentSuccess ||
                   state is LoadedComment) {
