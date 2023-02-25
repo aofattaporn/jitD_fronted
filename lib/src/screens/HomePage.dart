@@ -22,6 +22,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PostBloc _postBloc = PostBloc();
+  List<String> category = [
+    "การเรียน",
+    "การงาน",
+    "สุขภาพจิต",
+    "ปัญหาชีวิต",
+    "ความสัมพันธ์",
+    "ครอบครัว",
+    "สุขภาพร่างกาย"
+  ];
 
   @override
   void initState() {
@@ -112,10 +121,10 @@ class _HomePageState extends State<HomePage> {
                       //Category btn
                       Expanded(
                         child: ListView.builder(
-                            itemCount: 6,
+                            itemCount: category.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return CategoryBox();
+                              return CategoryBox(category: category[index],);
                             }),
                       ),
                     ],
