@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
 import 'package:like_button/like_button.dart';
-
+import 'package:intl/intl.dart';
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
 import '../../data/respository/like_repository.dart';
@@ -349,7 +349,10 @@ class ViewPostState extends State<ViewPost> {
                             ),
                             Row(
                               children: [
-                                Text("ผู้ใช้ STOXX", style: fontsTH10White)
+                                Text("ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                                  style: GoogleFonts.getFont("Bai Jamjuree",
+                                      color: textColor3, fontSize: 12),)
+
                               ],
                             ),
                             SizedBox(
@@ -474,7 +477,10 @@ class ViewPostState extends State<ViewPost> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.date ?? DateTime.now().toString(),
+                  DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                      DateTime.parse(widget.date!)
+                          .toUtc()
+                          .add(const Duration(hours: 7))),
                   style: GoogleFonts.getFont("Lato",
                       fontSize: 16, color: textColor3),
                 ),
@@ -489,10 +495,9 @@ class ViewPostState extends State<ViewPost> {
             ),
             Row(
               children: [
-                Text(
-                  "ผู้ใช้ STOXX",
-                  style: fontsTH12TextColor2,
-                )
+                Text("ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                  style: GoogleFonts.getFont("Bai Jamjuree",
+                      color: textColor3, fontSize: 12),)
               ],
             ),
             SizedBox(

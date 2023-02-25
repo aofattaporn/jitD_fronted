@@ -11,6 +11,7 @@ import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
 import '../blocs/post/post_state.dart';
 import '../data/models/post_model.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -309,7 +310,10 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          model[index].date ?? DateTime.now().toString(),
+                          DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                              DateTime.parse(model[index].date!)
+                                  .toUtc()
+                                  .add(const Duration(hours: 7))),
                           style: GoogleFonts.getFont("Lato",
                               fontSize: 12, color: textColor3),
                         ),

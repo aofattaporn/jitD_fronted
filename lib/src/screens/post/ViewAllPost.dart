@@ -17,6 +17,7 @@ class ViewAllPost extends StatefulWidget {
 }
 
 class ViewAllPostState extends State<ViewAllPost> {
+  late List filteredList;
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final PostBloc _postBloc = PostBloc();
@@ -189,6 +190,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                           );
                         }
                         else if (state is PostLoadedState) {
+                          filteredList = state.allPost.where((element) => element.category!.contains('การงาน')).toList();
                           return Column(
                             children: [
                               Row(
