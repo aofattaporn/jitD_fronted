@@ -45,7 +45,7 @@ Widget buildComment(
                   userId: model[index].userId ?? "",
                   commentId: model[index].commentId ?? "",
                   content: model[index].content ?? "No Data",
-                  like: model[index].like,
+                  countLike: model[index].countLike,
                   postId: model[index].postId ?? "",
                   Date: model[index].Date ?? DateTime.now().toString(),
                   isLike: model[index].isLike,

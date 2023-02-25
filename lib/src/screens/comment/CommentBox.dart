@@ -11,7 +11,7 @@ class CommentBox extends StatefulWidget {
   final String? userId;
   final String? commentId;
   final String? content;
-  final int? like;
+  final int? countLike;
   final String? postId;
   final String? Date;
   final bool? isLike;
@@ -22,7 +22,7 @@ class CommentBox extends StatefulWidget {
     required this.userId,
     required this.commentId,
     required this.content,
-    required this.like,
+    required this.countLike,
     required this.postId,
     required this.Date,
     required this.isLike,
@@ -126,7 +126,7 @@ class _CommentBoxState extends State<CommentBox> {
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   LikeButton(
                     isLiked: widget.isLike,
-                    likeCount: widget.like,
+                    likeCount: widget.countLike,
                     likeBuilder: (bool isLiked) {
                       return Icon(
                         Icons.favorite,
