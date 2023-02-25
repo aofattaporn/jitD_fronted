@@ -59,7 +59,7 @@ class _CommentBoxState extends State<CommentBox> {
                       top: MediaQuery.of(context).devicePixelRatio * 5,
                     ),
                     child: Text(
-                      widget.Date ?? DateTime.now().toString(),
+                      convertDate(widget.Date),
                       style: GoogleFonts.getFont("Lato",
                           fontSize: 16, color: textColor3),
                     ),
@@ -145,5 +145,11 @@ class _CommentBoxState extends State<CommentBox> {
         ),
       ),
     );
+  }
+  String convertDate(String? date) {
+    DateTime dt = DateTime.parse(date!);
+    String datFormat =
+        '${dt.day.toString()}-${dt.month.toString()}-${dt.year.toString()}';
+    return datFormat;
   }
 }

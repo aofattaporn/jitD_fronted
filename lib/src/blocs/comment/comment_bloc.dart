@@ -79,9 +79,15 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
 
     // Sort comment by date
     on<SortCommentByDate>((event, emit) {
+      print('ซอสเสร็จ');
       listCommentModel.comments.sort((comment1, comment2) =>
-          comment1.Date.toString().compareTo(comment2.Date.toString()));
+          convertDate(comment1.Date).compareTo(convertDate(comment2.Date)));
+      listCommentModel.comments = listCommentModel.comments.reversed.toList();
       emit(SortedCommentByDate(listCommentModel.comments));
     });
+  }
+  DateTime convertDate(String? date) {
+    DateTime dt = DateTime.parse(date!);
+    return dt;
   }
 }
