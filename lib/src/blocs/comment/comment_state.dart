@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 
 import '../../data/models/comment_model.dart';
 
@@ -121,6 +122,19 @@ class CommentError extends CommentState {
 
   CommentError(this.error);
 
+  @override
+  List<Object?> get props => [];
+}
+
+///----------Sort By Date--------------
+class SortedCommentByDate extends CommentState{
+  SortedCommentByDate(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }

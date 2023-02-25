@@ -50,3 +50,9 @@ class DeleteMyComment extends CommentEvent {
   @override
   List<Object> get props => [];
 }
+
+class SortCommentByDate extends CommentEvent{
+
+  @override
+  List<Object> get props => [];
+}

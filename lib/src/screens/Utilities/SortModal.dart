@@ -112,6 +112,7 @@ class _SortModalState extends State<SortModal>{
                     child: Text("เรียงตามโพสล่าสุด"),
                     onTap: (){
                       Navigator.pop(context);
+                      widget.commentBloc.add(SortCommentByDate());
                     },
                   ),
                   Divider(height: 20, thickness: 1),
