@@ -75,10 +75,11 @@ class GettingUser extends AuthenCheckingState {
 }
 
 class GetUserSuccess extends AuthenticationState {
-  GetUserSuccess(String userId, int point, String petName) {
+  GetUserSuccess(String userId, int point, String petName, int petHP) {
     super.user.userID = userId;
     super.user.point = point;
     super.user.petName = petName;
+    super.user.petHP = petHP;
   }
 
   @override
@@ -86,10 +87,11 @@ class GetUserSuccess extends AuthenticationState {
 }
 
 class SetPetNameSuccess extends AuthenticationState {
-  SetPetNameSuccess(String userId, int point, String petName) {
+  SetPetNameSuccess(String userId, int point, String petName, int petHP) {
     super.user.userID = userId;
     super.user.point = point;
     super.user.petName = petName;
+    super.user.petHP = petHP;
   }
 
   @override
@@ -97,10 +99,11 @@ class SetPetNameSuccess extends AuthenticationState {
 }
 
 class SettingNamePet extends AuthenticationState {
-  SettingNamePet(String userId, int point, String petName) {
+  SettingNamePet(String userId, int point, String petName, int petHP) {
     super.user.userID = userId;
     super.user.point = point;
     super.user.petName = petName;
+    super.user.petHP = petHP;
   }
 
   @override
