@@ -244,6 +244,9 @@ class ViewAllPostState extends State<ViewAllPost> {
                                             DateTime.now().toString(),
                                         category: state.allPost[index].category ??
                                             ["Tag1", "Tag2"],
+                                        countComment: state.allPost[index].countComment.toString(),
+                                        countLike: state.allPost[index].countLike.toString(),
+                                        isLike: state.allPost[index].isLike,
                                       ),
                                       onTap: () {
                                         Navigator.of(context).push(MaterialPageRoute(
@@ -261,6 +264,9 @@ class ViewAllPostState extends State<ViewAllPost> {
                                                   category:
                                                   state.allPost[index].category ??
                                                       ["Tag1", "Tag2"],
+                                                  countComment: state.allPost[index].countComment.toString(),
+                                                  countLike: state.allPost[index].countLike.toString(),
+                                                  isLike: state.allPost[index].isLike,
                                                 )));
                                       },
                                     );

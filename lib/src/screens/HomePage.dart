@@ -269,7 +269,7 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: itemCount,
+      itemCount: model.length < itemCount ? model.length : itemCount,
       separatorBuilder: (context, index) {
         return SizedBox(
           width: MediaQuery.of(context).size.width * 0.04,
@@ -283,6 +283,9 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
             content: model[index].content ?? "ERROR",
             category: model[index].category ?? ["ERROR"],
             date: model[index].date ?? "404",
+            countComment: model[index].countComment.toString(),
+            countLike: model[index].countLike.toString(),
+            isLike: model[index].isLike
           ))),
           child: Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
