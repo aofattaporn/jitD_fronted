@@ -119,26 +119,24 @@ class AuthenticationBloc
 
         String userId = userModel.userID!;
         int point = userModel.point!;
+        int petHP = userModel.petHP!;
         String petName = userModel.petName!;
 
-        emit(GetUserSuccess(userId, point, petName));
+        emit(GetUserSuccess(userId, point, petName, petHP));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(GetUserError());
       }
     });
 
-    on<SetPetName>((event, emit) {
-      String userId = userModel.userID!;
-      int point = userModel.point!;
-      String petName = event.petName;
-
-      emit(SetPetNameSuccess(userId, point, petName));
+    on<WaitingSet>((event, emit) {
+      emit(SettingNamePet(userModel.userID!, userModel.point!,
+          userModel.petName!, userModel.petHP!));
     });
 
-    on<WaitingSet>((event, emit) {
-      emit(SettingNamePet(
-          userModel.userID!, userModel.point!, userModel.petName!));
+    on<SetPetName>((event, emit) {
+      emit(SetPetNameSuccess(userModel.userID!, userModel.point!,
+          userModel.petName!, userModel.petHP!));
     });
   }
 }
