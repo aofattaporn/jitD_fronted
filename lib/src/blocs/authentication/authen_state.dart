@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jitd_client/src/data/models/user_model.dart';
 
 @immutable
-abstract class AuthenticationState {}
+abstract class AuthenticationState {
+  late final UserModel user = UserModel();
+}
 
 /// initial state
 class InitialState extends AuthenticationState {
@@ -71,22 +74,37 @@ class GettingUser extends AuthenCheckingState {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class GettedUser extends AuthenCheckingState {
-  final String _userId;
-  final int _point;
-  final String _petName;
-
-  GettedUser(this._userId, this._point, this._petName);
+class GetUserSuccess extends AuthenticationState {
+  GetUserSuccess(String userId, int point, String petName) {
+    super.user.userID = userId;
+    super.user.point = point;
+    super.user.petName = petName;
+  }
 
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
+}
 
-  String? get userId => _userId;
+class SetPetNameSuccess extends AuthenticationState {
+  SetPetNameSuccess(String userId, int point, String petName) {
+    super.user.userID = userId;
+    super.user.point = point;
+    super.user.petName = petName;
+  }
 
-  int? get point => _point;
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}
 
-  String? get petName => _petName;
+class SettingNamePet extends AuthenticationState {
+  SettingNamePet(String userId, int point, String petName) {
+    super.user.userID = userId;
+    super.user.point = point;
+    super.user.petName = petName;
+  }
+
+  @override
+  List<Object?> get props => throw UnimplementedError();
 }
 
 class GetUserError extends AuthenCheckingState {

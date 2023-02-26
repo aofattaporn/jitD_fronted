@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    _userBloc.add(getUserID());
+    _userBloc.add(GetUserID());
     _postBloc.add(GetMyPost());
     super.initState();
     textController = TextEditingController()
@@ -83,31 +83,40 @@ class _ProfilePageState extends State<ProfilePage> {
         // declare instance
         child: RefreshIndicator(
           onRefresh: () async {
-            _userBloc.add(getUserID());
+            _userBloc.add(GetUserID());
             _postBloc.add(GetMyPost());
           },
 
           // create multi bloc provider
           child: MultiBlocProvider(
             providers: [postsBlocProvider, authBlocProvider, petBlocProvider],
-            child: BlocBuilder<petBloc, petState>(
-              builder: (petContext, petsState) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      // section #1 profile header + bear img
-                      headerProfile(context, petContext),
-
-                      // section #2 group of Icons activity
-                      groupActivity(context),
-
-                      // section #3 show all my post
-                      bodyShowMyPost(context),
-                    ],
-                  ),
-                );
+            child: BlocListener<petBloc, petState>(
+              listener: (context, state) {
+                if (state is LoadedNamingPet) {
+                  _userBloc.add(SetPetName(state.petName));
+                } else if (state is LoadingNamingPet) {
+                  _userBloc.add(WaitingSet());
+                }
               },
+              child: BlocBuilder<petBloc, petState>(
+                builder: (petContext, petsState) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        // section #1 profile header + bear img
+                        headerProfile(context, petContext),
+
+                        // section #2 group of Icons activity
+                        groupActivity(context),
+
+                        // section #3 show all my post
+                        bodyShowMyPost(context),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -131,9 +140,11 @@ class _ProfilePageState extends State<ProfilePage> {
               create: (_) => _userBloc,
               child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
                 builder: (context, state) {
-                  if (state is GettedUser) {
+                  if (state is GetUserSuccess || state is SetPetNameSuccess) {
                     // show pet name
                     return showPetName(context, state, petContext);
+                  } else if (state is SettingNamePet) {
+                    return const ShimmerPetName();
                   } else {
                     // show skeletion
                     return const ShimmerPetName();
@@ -308,8 +319,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (context, state) {
               if (state is GettingUser) {
                 return const ShmmimerUserID();
-              } else if (state is GettedUser) {
-                String identifyuser = state.userId.toString();
+              } else if (state is GetUserSuccess ||
+                  state is SetPetNameSuccess ||
+                  state is SettingNamePet) {
+                String identifyuser = state.user.userID.toString();
                 int maxLength = 10;
                 String conciseUser = (identifyuser.length > maxLength)
                     ? "${identifyuser.substring(0, maxLength)}..."
@@ -325,8 +338,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Container showPetName(
-      BuildContext context, GettedUser state, BuildContext petContext) {
+  Container showPetName(BuildContext context, AuthenticationState state,
+      BuildContext petContext) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       height: MediaQuery.of(context).size.height * 0.045,
@@ -337,7 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Align(
               alignment: AlignmentDirectional.center,
-              child: Text(state.petName.toString())),
+              child: Text(state.user.petName.toString())),
           Align(
               alignment: AlignmentDirectional.centerEnd,
               child: Padding(
@@ -349,7 +362,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         builder: (context) => DialogPetName(
                             textController: textController,
                             userBloc: _userBloc,
-                            petContext: petContext));
+                            petContext: petContext,
+                            postBloc: _postBloc));
                   },
                   child: Container(
                       decoration: BoxDecoration(

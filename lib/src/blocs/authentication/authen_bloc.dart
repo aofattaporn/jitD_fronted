@@ -107,23 +107,38 @@ class AuthenticationBloc
       emit(SignOutSuccess());
     });
 
+    // ---------------- User Event ------------------------------
+
     /// UserID
-    on<getUserID>((event, emit) async {
+    on<GetUserID>((event, emit) async {
       await authRepository.getMyUser();
       emit(GettingUser());
       try {
         final userJSON = await authRepository.getMyUser();
-        final userModel = userModelFromJson(userJSON);
+        userModel = userModelFromJson(userJSON);
 
         String userId = userModel.userID!;
         int point = userModel.point!;
         String petName = userModel.petName!;
 
-        emit(GettedUser(userId, point, petName));
+        emit(GetUserSuccess(userId, point, petName));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(GetUserError());
       }
+    });
+
+    on<SetPetName>((event, emit) {
+      String userId = userModel.userID!;
+      int point = userModel.point!;
+      String petName = event.petName;
+
+      emit(SetPetNameSuccess(userId, point, petName));
+    });
+
+    on<WaitingSet>((event, emit) {
+      emit(SettingNamePet(
+          userModel.userID!, userModel.point!, userModel.petName!));
     });
   }
 }
