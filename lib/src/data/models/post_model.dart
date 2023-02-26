@@ -17,8 +17,10 @@ class PostModel {
   List<String>? category;
 
   //----- data for get response ----
+  int? countLike;
   int? countComment;
   int? countPost;
+  bool? isLike;
   String? error;
 
   /// constructor method (Method ที่ยัด arg และจะสร้าง object เป็น type นั้น)
@@ -54,6 +56,9 @@ class PostModel {
     isPublic = json['IsPublic'];
     category =
         (json['category'] as List).map((item) => item as String).toList();
+    countLike = json['countLike'];
+    countComment = json['countComment'];
+    isLike = json['isLike'];
   }
 
   get comments => null;

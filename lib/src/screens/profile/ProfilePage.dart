@@ -92,10 +92,10 @@ class _ProfilePageState extends State<ProfilePage> {
             providers: [postsBlocProvider, authBlocProvider, petBlocProvider],
             child: BlocListener<petBloc, petState>(
               listener: (context, state) {
-                if (state is LoadedNamingPet) {
-                  _userBloc.add(SetPetName(state.petName));
-                } else if (state is LoadingNamingPet) {
+                if (state is LoadingNamingPet) {
                   _userBloc.add(WaitingSet());
+                } else if (state is LoadedNamingPet) {
+                  _userBloc.add(SetPetName(state.petName));
                 }
               },
               child: BlocBuilder<petBloc, petState>(

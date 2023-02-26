@@ -136,7 +136,7 @@ class AuthenticationBloc
 
     on<SetPetName>((event, emit) {
       emit(SetPetNameSuccess(userModel.userID!, userModel.point!,
-          userModel.petName!, userModel.petHP!));
+          event.petName!, userModel.petHP!));
     });
   }
 }

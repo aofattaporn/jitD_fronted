@@ -33,6 +33,8 @@ const Color statusColorWarning = Color.fromARGB(255, 255, 180, 77);
 const Color skeletonColor = Color.fromRGBO(222, 227, 227, 0.75);
 const Color skeletonHighlightColor = Color.fromRGBO(245, 247, 247, 1);
 
+const Color heartColor = Color.fromRGBO(255, 64, 129, 1);
+
 const double kPadding = 20.0;
 
 final TextStyle fontsTH10_Black = GoogleFonts.getFont(
