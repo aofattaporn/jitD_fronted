@@ -113,19 +113,11 @@ class AuthenticationBloc
       emit(GettingUser());
       try {
         final userJSON = await authRepository.getMyUser();
-        print(userJSON);
-
         final userModel = userModelFromJson(userJSON);
-        print(userModel);
 
-        // int? post = userModel.countPosts;
         String userId = userModel.userID!;
         int point = userModel.point!;
         String petName = userModel.petName!;
-
-        print(userId);
-        print(point);
-        print(petName);
 
         emit(GettedUser(userId, point, petName));
       } catch (e, stacktrace) {
