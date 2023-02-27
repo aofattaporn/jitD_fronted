@@ -321,9 +321,8 @@ class _ProfilePageState extends State<ProfilePage> {
               if (state is !GettingUser) {
                 return Text(state.user.point.toString());
               } else {
-                return Text("Loading");
+                return const Text("Loading");
               }
-
             },
           ),
         ),
@@ -341,30 +340,29 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.white),
         height: MediaQuery.of(context).size.height * 0.04,
         width: MediaQuery.of(context).size.width * 0.4,
-        child: Container(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).devicePixelRatio * 6,
-            top: MediaQuery.of(context).devicePixelRatio * 4,
-          ),
-          child: BlocProvider(
-            create: (_) => _userBloc,
-            child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-              if (state is GettingUser) {
-                return const ShmmimerUserID();
-              } else if (state is GetUserSuccess ||
-                  state is UpdatingPetName ||
-                  state is UpdatePetNameSuccess) {
-                String identifyuser = state.user.userID.toString();
-                int maxLength = 10;
-                String conciseUser = (identifyuser.length > maxLength)
-                    ? "${identifyuser.substring(0, maxLength)}..."
-                    : identifyuser;
-                return Text("ID : $conciseUser");
-              } else {
-                return const ShmmimerUserID();
-              }
-            }),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocProvider(
+              create: (_) => _userBloc,
+              child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+                if (state is GettingUser) {
+                  return const ShmmimerUserID();
+                } else if (state is GetUserSuccess ||
+                    state is UpdatingPetName ||
+                    state is UpdatePetNameSuccess) {
+                  String identifyuser = state.user.userID.toString();
+                  int maxLength = 10;
+                  String conciseUser = (identifyuser.length > maxLength)
+                      ? "${identifyuser.substring(0, maxLength)}..."
+                      : identifyuser;
+                  return Text("ID : $conciseUser");
+                } else {
+                  return const ShmmimerUserID();
+                }
+              }),
+            ),
+          ],
         ),
       ),
     );
