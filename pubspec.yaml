@@ -25,6 +25,7 @@ dependencies:
   shimmer: ^2.0.0
   fluttertoast: ^8.1.2
   provider: ^6.0.0
+  like_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:

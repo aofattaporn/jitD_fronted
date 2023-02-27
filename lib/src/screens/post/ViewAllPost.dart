@@ -10,13 +10,15 @@ import 'PostBox.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewAllPost extends StatefulWidget {
-  const ViewAllPost({Key? key}) : super(key: key);
+  final String? categorySelected;
+  const ViewAllPost({Key? key, this.categorySelected}) : super(key: key);
 
   @override
   ViewAllPostState createState() => ViewAllPostState();
 }
 
 class ViewAllPostState extends State<ViewAllPost> {
+  late List filteredList;
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final PostBloc _postBloc = PostBloc();
@@ -105,17 +107,22 @@ class ViewAllPostState extends State<ViewAllPost> {
                                         BorderRadius.all(Radius.circular(10)),
                                     color: Colors.white),
                                 child: Center(
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: "ปัญหาที่เพิ่มมาใหม่    ",
+                                    child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          widget.categorySelected ??
+                                              "ปัญหาที่เพิ่มมาใหม่",
                                           style: GoogleFonts.getFont(
                                               'Bai Jamjuree',
                                               color: textColor2,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold)),
-                                      const WidgetSpan(
-                                          child: CircleAvatar(
+                                      const CircleAvatar(
                                         radius: 12,
                                         backgroundColor: secondaryColorSubtle,
                                         child: Icon(
@@ -123,10 +130,10 @@ class ViewAllPostState extends State<ViewAllPost> {
                                           size: 25,
                                           color: backgroundColor3,
                                         ),
-                                      )),
-                                    ]),
+                                      )
+                                    ],
                                   ),
-                                ))),
+                                )))),
                       ],
                     ),
                   ),
@@ -148,36 +155,56 @@ class ViewAllPostState extends State<ViewAllPost> {
                                   children: [
                                     Padding(
                                       padding:
-                                      const EdgeInsetsDirectional.fromSTEB(0, 20, 20, 0),
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 20, 20, 0),
                                       child: Container(
-                                          width: MediaQuery.of(context).size.width * 0.4,
-                                          height: MediaQuery.of(context).size.height * 0.04,
-                                          decoration: const BoxDecoration(
-                                              color: thirterydColor,
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(20))),),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.04,
+                                        decoration: const BoxDecoration(
+                                            color: thirterydColor,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20))),
+                                      ),
                                     ),
                                   ],
                                 ),
                                 ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 20, 0),
                                     itemCount: 3,
                                     itemBuilder: (context, index) {
                                       return Padding(
-                                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.03),
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width * 0.8,
-                                          height: MediaQuery.of(context).size.height * 0.31,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.31,
                                           decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
                                               color: Colors.white,
                                               boxShadow: [
                                                 BoxShadow(
                                                   blurRadius: 10,
-                                                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 0.1),
                                                   offset: Offset(0, 4),
                                                 )
                                               ]),
@@ -187,8 +214,16 @@ class ViewAllPostState extends State<ViewAllPost> {
                               ],
                             ),
                           );
-                        }
-                        else if (state is PostLoadedState) {
+                        } else if (state is PostLoadedState) {
+                          if (widget.categorySelected == null) {
+                            filteredList = state.allPost;
+                          } else {
+                            filteredList = state.allPost
+                                .where((element) => element.category!
+                                    .contains(widget.categorySelected))
+                                .toList();
+                          }
+
                           return Column(
                             children: [
                               Row(
@@ -197,23 +232,30 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 children: [
                                   Padding(
                                     padding:
-                                    const EdgeInsetsDirectional.fromSTEB(0, 20, 20, 0),
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 20, 20, 0),
                                     child: Container(
-                                        width: MediaQuery.of(context).size.width * 0.4,
-                                        height: MediaQuery.of(context).size.height * 0.04,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.04,
                                         decoration: const BoxDecoration(
                                             color: thirterydColor,
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(20))),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20))),
                                         child: Center(
                                           child: RichText(
                                             text: TextSpan(children: [
                                               TextSpan(
                                                   text: " เรียงตามความนิยม ",
-                                                  style: GoogleFonts.getFont('Bai Jamjuree',
+                                                  style: GoogleFonts.getFont(
+                                                      'Bai Jamjuree',
                                                       color: Colors.white,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.bold)),
+                                                      fontWeight:
+                                                          FontWeight.bold)),
                                               const WidgetSpan(
                                                 child: Icon(
                                                   Icons.arrow_drop_down,
@@ -231,44 +273,66 @@ class ViewAllPostState extends State<ViewAllPost> {
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  itemCount: state.allPost.length,
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                                  itemCount: filteredList.length,
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       child: PostBox(
-                                        userId: state.allPost[index].userId ?? "",
-                                        postId: state.allPost[index].postId ?? "",
-                                        content:
-                                        state.allPost[index].content ?? "No Data",
-                                        date: state.allPost[index].date ??
+                                        userId:
+                                            filteredList[index].userId ?? "",
+                                        postId:
+                                            filteredList[index].postId ?? "",
+                                        content: filteredList[index].content ??
+                                            "No Data",
+                                        date: filteredList[index].date ??
                                             DateTime.now().toString(),
-                                        category: state.allPost[index].category ??
-                                            ["Tag1", "Tag2"],
+                                        category:
+                                            filteredList[index].category ??
+                                                ["Tag1", "Tag2"],
+                                        countComment: filteredList[index]
+                                            .countComment
+                                            .toString(),
+                                        countLike: filteredList[index]
+                                            .countLike
+                                            .toString(),
+                                        isLike: filteredList[index].isLike,
                                       ),
                                       onTap: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                ViewPost(
-                                                  userId:
-                                                  state.allPost[index].userId ?? "",
-                                                  postId:
-                                                  state.allPost[index].postId ?? "",
-                                                  content:
-                                                  state.allPost[index].content ??
-                                                      "No Data",
-                                                  date: state.allPost[index].date ??
-                                                      DateTime.now().toString(),
-                                                  category:
-                                                  state.allPost[index].category ??
-                                                      ["Tag1", "Tag2"],
-                                                )));
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (context) => ViewPost(
+                                                      userId: filteredList[index]
+                                                              .userId ??
+                                                          "",
+                                                      postId: filteredList[index]
+                                                              .postId ??
+                                                          "",
+                                                      content: filteredList[index]
+                                                              .content ??
+                                                          "No Data",
+                                                      date: filteredList[index]
+                                                              .date ??
+                                                          DateTime.now()
+                                                              .toString(),
+                                                      category: filteredList[index]
+                                                              .category ??
+                                                          ["Tag1", "Tag2"],
+                                                      countComment: filteredList[index]
+                                                          .countComment
+                                                          .toString(),
+                                                      countLike: filteredList[index]
+                                                          .countLike
+                                                          .toString(),
+                                                      isLike: filteredList[index]
+                                                          .isLike,
+                                                    )));
                                       },
                                     );
                                   }),
                             ],
                           );
-                        }
-                        else {
+                        } else {
                           return Text(state.props.toString());
                         }
                       },

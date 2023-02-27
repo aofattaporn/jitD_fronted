@@ -757,6 +757,9 @@ Widget _buildPost(BuildContext context, List<PostModel> model) {
                 content: model[index].content ?? "No Data",
                 date: model[index].date ?? DateTime.now().toString(),
                 category: model[index].category ?? ["Tag1", "Tag2"],
+                  countComment: model[index].countComment.toString(),
+                  countLike: model[index].countLike.toString(),
+                  isLike: model[index].isLike
               ),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -766,6 +769,9 @@ Widget _buildPost(BuildContext context, List<PostModel> model) {
                           content: model[index].content ?? "No Data",
                           date: model[index].date ?? DateTime.now().toString(),
                           category: model[index].category ?? ["Tag1", "Tag2"],
+                          countComment: model[index].countComment.toString(),
+                          countLike: model[index].countLike.toString(),
+                          isLike: model[index].isLike
                         )));
               },
             ),

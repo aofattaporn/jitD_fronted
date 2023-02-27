@@ -335,6 +335,9 @@ class _SearchQueryState extends State<SearchQuery> {
                                                   DateTime.now().toString(),
                                               category: state.allPost[index].category ??
                                                   ["Tag1", "Tag2"],
+                                                countComment: state.allPost[index].countComment.toString(),
+                                                countLike: state.allPost[index].countLike.toString(),
+                                                isLike: state.allPost[index].isLike
                                             ),
                                             onTap: () {
                                               Navigator.of(context).push(MaterialPageRoute(
@@ -352,6 +355,9 @@ class _SearchQueryState extends State<SearchQuery> {
                                                         category:
                                                         state.allPost[index].category ??
                                                             ["Tag1", "Tag2"],
+                                                        countComment: state.allPost[index].countComment.toString(),
+                                                        countLike: state.allPost[index].countLike.toString(),
+                                                        isLike: state.allPost[index].isLike
                                                       )));
                                             },
                                           );

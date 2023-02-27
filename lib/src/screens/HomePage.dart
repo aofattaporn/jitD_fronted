@@ -11,6 +11,7 @@ import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
 import '../blocs/post/post_state.dart';
 import '../data/models/post_model.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,6 +22,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PostBloc _postBloc = PostBloc();
+  List<String> category = [
+    "การเรียน",
+    "การงาน",
+    "สุขภาพจิต",
+    "ปัญหาชีวิต",
+    "ความสัมพันธ์",
+    "ครอบครัว",
+    "สุขภาพร่างกาย"
+  ];
 
   @override
   void initState() {
@@ -111,10 +121,10 @@ class _HomePageState extends State<HomePage> {
                       //Category btn
                       Expanded(
                         child: ListView.builder(
-                            itemCount: 6,
+                            itemCount: category.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return CategoryBox();
+                              return CategoryBox(category: category[index],);
                             }),
                       ),
                     ],
@@ -269,7 +279,7 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: itemCount,
+      itemCount: model.length < itemCount ? model.length : itemCount,
       separatorBuilder: (context, index) {
         return SizedBox(
           width: MediaQuery.of(context).size.width * 0.04,
@@ -283,6 +293,9 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
             content: model[index].content ?? "ERROR",
             category: model[index].category ?? ["ERROR"],
             date: model[index].date ?? "404",
+            countComment: model[index].countComment.toString(),
+            countLike: model[index].countLike.toString(),
+            isLike: model[index].isLike
           ))),
           child: Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -306,7 +319,10 @@ Widget _buildPostBox(BuildContext context, List<PostModel> model) {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          model[index].date ?? DateTime.now().toString(),
+                          DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                              DateTime.parse(model[index].date!)
+                                  .toUtc()
+                                  .add(const Duration(hours: 7))),
                           style: GoogleFonts.getFont("Lato",
                               fontSize: 12, color: textColor3),
                         ),
