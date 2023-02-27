@@ -23,7 +23,7 @@ class App extends StatelessWidget {
       initialRoute: checkCurentUser(),
       routes: {
         "/": (context) => const SignIn(),
-        "/home": (context) => const BottomNavigationWidget()
+        "/home": (context) => const BottomNavigationWidget(),
       }, // home:
     );
   }

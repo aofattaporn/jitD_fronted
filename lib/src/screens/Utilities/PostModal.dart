@@ -1,15 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
-
+import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:jitd_client/src/screens/post/UpdatePost.dart';
+
 import '../../constant.dart';
-import '../../ui/DialogMessage.dart';
 
 class PostModal extends StatefulWidget {
   // const PostModal({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class PostModal extends StatefulWidget {
   final String? content;
   final String? date;
   final List<String>? category;
+  final PostBloc? postBloc;
 
   const PostModal(
       {Key? key,
@@ -25,7 +26,8 @@ class PostModal extends StatefulWidget {
       required this.postId,
       required this.content,
       required this.date,
-      required this.category})
+      required this.category,
+      this.postBloc})
       : super(key: key);
 
   @override
@@ -197,7 +199,7 @@ class _PostModalState extends State<PostModal> {
                             ),
                             TextButton(
                               onPressed: () {
-                                _showAlertDialog(context);
+                                _showAlertDialog(context, widget.postBloc!);
                               },
                               child: Text(
                                 "ลบโพสต์",
@@ -260,7 +262,7 @@ class _PostModalState extends State<PostModal> {
   }
 
   // This shows a CupertinoModalPopup which hosts a CupertinoAlertDialog.
-  void _showAlertDialog(BuildContext context) {
+  void _showAlertDialog(BuildContext context, PostBloc postBloc) {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => BlocProvider<PostBloc>(
@@ -278,6 +280,7 @@ class _PostModalState extends State<PostModal> {
                   });
             } else if (state is PostDeletedState) {
               showToast("สถานะการลบสำเร็จ");
+              print("dsfdsfdsf");
               Navigator.of(context).pop();
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -301,12 +304,9 @@ class _PostModalState extends State<PostModal> {
                   child: const Text('ยกเลิก'),
                 ),
                 CupertinoDialogAction(
-                  /// This parameter indicates the action would perform
-                  /// a destructive action such as deletion, and turns
-                  /// the action's text color to red.
                   isDestructiveAction: true,
                   onPressed: () {
-                    context.read<PostBloc>().add(DeleteMyPost(widget.postId));
+                    postBloc.add(DeleteMyPost(widget.postId));
                   },
                   child: const Text('ยืนยัน'),
                 ),
@@ -338,10 +338,7 @@ class _PostModalState extends State<PostModal> {
               SizedBox(width: MediaQuery.of(context).size.width * 0.05),
               Text(
                 msg,
-                style: GoogleFonts.getFont("Bai Jamjuree",
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+                style: fontsTH20White,
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.015),
               const VerticalDivider(

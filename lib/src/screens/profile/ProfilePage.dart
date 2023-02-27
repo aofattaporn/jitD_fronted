@@ -516,12 +516,12 @@ class _ProfilePageState extends State<ProfilePage> {
             if (state is PostLoadingState) {
               return const ShimmerMyPost();
             } else if (state is PostLoadedState) {
-              if (state.allPost.isEmpty) {
+              if (state.listPostModel.isEmpty) {
                 return const Text("ไม่มีโพส");
               } else {
                 return Column(
                   children: [
-                    BuildMyPost(context, state.allPost),
+                    BuildMyPost(context, state.listPostModel, _postBloc),
                   ],
                 );
               }

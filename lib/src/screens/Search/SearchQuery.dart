@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../blocs/post/post_bloc.dart';
 import '../../blocs/post/post_state.dart';
 import '../../constant.dart';
@@ -228,37 +229,59 @@ class _SearchQueryState extends State<SearchQuery> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Padding(
-                                          padding:
-                                          const EdgeInsetsDirectional.fromSTEB(0, 20, 20, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 20, 20, 0),
                                           child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.4,
-                                            height: MediaQuery.of(context).size.height * 0.04,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.04,
                                             decoration: const BoxDecoration(
                                                 color: thirterydColor,
-                                                borderRadius:
-                                                BorderRadius.all(Radius.circular(20))),),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20))),
+                                          ),
                                         ),
                                       ],
                                     ),
                                     ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 20, 20, 0),
                                         itemCount: 3,
                                         itemBuilder: (context, index) {
                                           return Padding(
-                                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.03),
                                             child: Container(
-                                              width: MediaQuery.of(context).size.width * 0.8,
-                                              height: MediaQuery.of(context).size.height * 0.31,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.31,
                                               decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10)),
                                                   color: Colors.white,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       blurRadius: 10,
-                                                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 0.1),
                                                       offset: Offset(0, 4),
                                                     )
                                                   ]),
@@ -268,43 +291,51 @@ class _SearchQueryState extends State<SearchQuery> {
                                   ],
                                 ),
                               );
-
-                            }
-                            else if (state is PostLoadedState)
-                              {
-                                if (state.allPost.isEmpty)
-                                  {
-                                    return const Padding(
-                                      padding: EdgeInsets.all(50),
-                                      child: Text("ไม่มีข้อมูลที่เกี่ยวข้อง"),
-                                    );
-                                  }
-                                else {
-                                  return Column(
+                            } else if (state is PostLoadedState) {
+                              if (state.listPostModel.isEmpty) {
+                                return const Padding(
+                                  padding: EdgeInsets.all(50),
+                                  child: Text("ไม่มีข้อมูลที่เกี่ยวข้อง"),
+                                );
+                              } else {
+                                return Column(
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Padding(
-                                          padding:
-                                          const EdgeInsetsDirectional.fromSTEB(0, 20, 20, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 20, 20, 0),
                                           child: Container(
-                                              width: MediaQuery.of(context).size.width * 0.4,
-                                              height: MediaQuery.of(context).size.height * 0.04,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.4,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
                                               decoration: const BoxDecoration(
                                                   color: thirterydColor,
                                                   borderRadius:
-                                                  BorderRadius.all(Radius.circular(20))),
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
                                               child: Center(
                                                 child: RichText(
                                                   text: TextSpan(children: [
                                                     TextSpan(
-                                                        text: " เรียงตามความนิยม ",
-                                                        style: GoogleFonts.getFont('Bai Jamjuree',
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.bold)),
+                                                        text:
+                                                            " เรียงตามความนิยม ",
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                                'Bai Jamjuree',
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
                                                     const WidgetSpan(
                                                       child: Icon(
                                                         Icons.arrow_drop_down,
@@ -321,52 +352,97 @@ class _SearchQueryState extends State<SearchQuery> {
                                     ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        padding: const EdgeInsets.fromLTRB(5, 20, 5, 0),
-                                        itemCount: state.allPost.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            5, 20, 5, 0),
+                                        itemCount: state.listPostModel.length,
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             child: PostBox(
-                                              userId: state.allPost[index].userId ?? "",
-                                              postId: state.allPost[index].postId ?? "",
-                                              content:
-                                              state.allPost[index].content ?? "No Data",
-                                              date: state.allPost[index].date ??
-                                                  DateTime.now().toString(),
-                                              category: state.allPost[index].category ??
-                                                  ["Tag1", "Tag2"],
-                                                countComment: state.allPost[index].countComment.toString(),
-                                                countLike: state.allPost[index].countLike.toString(),
-                                                isLike: state.allPost[index].isLike
-                                            ),
+                                                userId: state.listPostModel[index].userId ??
+                                                    "",
+                                                postId:
+                                                    state.listPostModel[index].postId ??
+                                                        "",
+                                                content: state
+                                                        .listPostModel[index]
+                                                        .content ??
+                                                    "No Data",
+                                                date: state.listPostModel[index].date ??
+                                                    DateTime.now().toString(),
+                                                category: state
+                                                        .listPostModel[index]
+                                                        .category ??
+                                                    ["Tag1", "Tag2"],
+                                                countComment: state
+                                                    .listPostModel[index]
+                                                    .countComment
+                                                    .toString(),
+                                                countLike: state
+                                                    .listPostModel[index]
+                                                    .countLike
+                                                    .toString(),
+                                                isLike: state.listPostModel[index].isLike,
+                                                postBloc: PostBloc()),
                                             onTap: () {
-                                              Navigator.of(context).push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewPost(
-                                                        userId:
-                                                        state.allPost[index].userId ?? "",
-                                                        postId:
-                                                        state.allPost[index].postId ?? "",
-                                                        content:
-                                                        state.allPost[index].content ??
-                                                            "No Data",
-                                                        date: state.allPost[index].date ??
-                                                            DateTime.now().toString(),
-                                                        category:
-                                                        state.allPost[index].category ??
-                                                            ["Tag1", "Tag2"],
-                                                        countComment: state.allPost[index].countComment.toString(),
-                                                        countLike: state.allPost[index].countLike.toString(),
-                                                        isLike: state.allPost[index].isLike
-                                                      )));
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ViewPost(
+                                                            userId: state
+                                                                    .listPostModel[
+                                                                        index]
+                                                                    .userId ??
+                                                                "",
+                                                            postId: state
+                                                                    .listPostModel[
+                                                                        index]
+                                                                    .postId ??
+                                                                "",
+                                                            content: state
+                                                                    .listPostModel[
+                                                                        index]
+                                                                    .content ??
+                                                                "No Data",
+                                                            date: state
+                                                                    .listPostModel[
+                                                                        index]
+                                                                    .date ??
+                                                                DateTime.now()
+                                                                    .toString(),
+                                                            category: state
+                                                                    .listPostModel[
+                                                                        index]
+                                                                    .category ??
+                                                                [
+                                                                  "Tag1",
+                                                                  "Tag2"
+                                                                ],
+                                                            countComment: state
+                                                                .listPostModel[
+                                                                    index]
+                                                                .countComment
+                                                                .toString(),
+                                                            countLike: state
+                                                                .listPostModel[
+                                                                    index]
+                                                                .countLike
+                                                                .toString(),
+                                                            isLike: state
+                                                                .listPostModel[
+                                                                    index]
+                                                                .isLike,
+                                                            postBloc:
+                                                                PostBloc(),
+                                                          )));
                                             },
                                           );
                                         }),
                                   ],
                                 );
-                                }
                               }
-                            else {
+                            } else {
                               return Text(state.props.toString());
                             }
                           },
