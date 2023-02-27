@@ -13,18 +13,14 @@ class SortModal extends StatefulWidget {
   final String? userId;
   final CommentBloc commentBloc;
 
-  const SortModal(
-      {Key? key,
-        required this.userId,
-        required this.commentBloc})
+  const SortModal({Key? key, required this.userId, required this.commentBloc})
       : super(key: key);
 
   @override
   State<SortModal> createState() => _SortModalState();
 }
 
-class _SortModalState extends State<SortModal>{
-
+class _SortModalState extends State<SortModal> {
   @override
   void initState() {
     super.initState();
@@ -46,9 +42,7 @@ class _SortModalState extends State<SortModal>{
           child: Center(
             child: RichText(
               text: TextSpan(children: [
-                TextSpan(
-                    text: " เรียงตามความใหม่ ",
-                    style: fontsTH14White),
+                TextSpan(text: " เรียงตามความใหม่ ", style: fontsTH14White),
                 const WidgetSpan(
                   child: Icon(
                     Icons.arrow_drop_down,
@@ -59,15 +53,15 @@ class _SortModalState extends State<SortModal>{
               ]),
             ),
           )),
-      onPressed: (){
-        showBottomSheet(
+      onPressed: () {
+        showModalBottomSheet(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
             context: context,
-            builder: (BuildContext context){
+            builder: (BuildContext context) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min ,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.025,
@@ -87,20 +81,24 @@ class _SortModalState extends State<SortModal>{
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                  Text("เรียงตามความต้องการ",
-                    style :GoogleFonts.getFont("Bai Jamjuree",
-                        fontSize: 18, color: thirterydColor),
+                  Text(
+                    "เรียงตามความต้องการ",
+                    style: GoogleFonts.getFont("Bai Jamjuree",
+                        fontSize: 24, color: thirterydColor),
                   ),
-                  Text("คุณสามารถเรียงในสิ่งที่คุณต้องการได้",
-                    style :GoogleFonts.getFont("Bai Jamjuree",
-                        fontSize: 14, color: textColor3),
+                  Text(
+                    "คุณสามารถเรียงในสิ่งที่คุณต้องการได้",
+                    style: GoogleFonts.getFont("Bai Jamjuree",
+                        fontSize: 16, color: textColor3),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
                   GestureDetector(
-                    child: Text("เรียงตามความนิยม"),
-                    onTap: (){
+                    child: Text("เรียงตามความนิยม",
+                        style:
+                            GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
+                    onTap: () {
                       Navigator.pop(context);
                       widget.commentBloc.add(SortCommentByLike());
                     },
@@ -110,8 +108,10 @@ class _SortModalState extends State<SortModal>{
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   GestureDetector(
-                    child: Text("เรียงตามโพสล่าสุด"),
-                    onTap: (){
+                    child: Text("เรียงตามโพสล่าสุด",
+                        style:
+                        GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
+                    onTap: () {
                       Navigator.pop(context);
                       widget.commentBloc.add(SortCommentByDate());
                     },

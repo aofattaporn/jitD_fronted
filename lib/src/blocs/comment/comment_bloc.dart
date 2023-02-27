@@ -90,7 +90,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       listCommentModel.comments.sort((comment1, comment2) =>
           (comment1.countLike.toString())
               .compareTo(comment2.countLike.toString()));
-      print('ซอสไลค์เสร็จ');
+      listCommentModel.comments = listCommentModel.comments.reversed.toList();
       emit(SortedCommentByDate(listCommentModel.comments));
     });
   }
