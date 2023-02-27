@@ -47,6 +47,7 @@ class PostLoadedState extends PostState {
   PostLoadedState(List<PostModel> list) {
     super.listPostModel = list;
   }
+
   @override
   List<Object?> get props => [];
 }
@@ -61,6 +62,7 @@ class PostDeletedState extends PostState {
   PostDeletedState(List<PostModel> list) {
     super.listPostModel = list;
   }
+
   @override
   List<Object?> get props => [];
 }
@@ -71,6 +73,10 @@ class UpdatingPost extends PostState {
 }
 
 class UpdatedPost extends PostState {
+  UpdatedPost(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+
   @override
   List<Object?> get props => [];
 }

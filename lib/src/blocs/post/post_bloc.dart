@@ -23,6 +23,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getAllPost();
         final listPostData = listPostModelFromJson(listPostJSON);
+        print("ss");
 
         listPostModel.posts = listPostData.posts;
 
@@ -50,19 +51,35 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     // event updating post
     on<UpdatingMyPost>((event, emit) async {
-      emit(CheckingPost());
+      emit(PostLoadingState());
       List<String>? category = ["Update", "Update2"];
 
-      Future<String> response = postRepository.updatingPost(event._content,
-          event._date, event._isPublic, category, event._postID);
+      String content = event._content;
+      String date = event._date;
+      bool isPublic = event._isPublic;
+      String postID = event._postID;
+      try {
+        final userJSON = await postRepository.updatingPost(
+            content, date, isPublic, category, postID);
+        final userData = postModelFromJson(userJSON);
 
-      if (await response == "updating data success") {
-        // 200 -> return UpdatePostSuccess
-        emit(UpdatedPost());
-      } else {
-        // !200 -> return UpdatePostError
-        emit(PostError("Update Post Failed"));
+        // update for post id
+        for (var element in listPostModel.posts) {
+          if (element.postId == userData.postId) {
+            print(element.content);
+            element.content = userData.content;
+            element.category = userData.category;
+            element.isPublic = userData.isPublic;
+          }
+        }
+
+        emit(UpdatedPost(listPostModel.posts));
+      } catch (e, stacktrace) {
+        print("Exception occurred: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
       }
+
+      // save to user data
     });
 
     // event delete my post
@@ -72,16 +89,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final postJSON = await postRepository.deletePost(event.id!);
         final postData = await postModelIDFromJson(postJSON);
 
-        print("before -> ${listPostModel.posts.length}");
-
         for (int i = 0; i < listPostModel.posts.length; i++) {
           if (listPostModel.posts[i].postId! == postData.postId!) {
             listPostModel.posts.removeAt(i);
             break; // stop the loop after removing the comment
           }
         }
-
-        print("after -> ${listPostModel.posts.length}");
 
         emit(PostDeletedState(listPostModel.posts));
       } catch (e, stacktrace) {

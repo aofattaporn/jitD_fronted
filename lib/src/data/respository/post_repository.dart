@@ -28,7 +28,6 @@ class PostRepository {
   Future<String> updatingPost(String content, String date, bool isPublic,
       List<String> category, String postID) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    print(token);
     final response = await http.put(Uri.parse("${globalUrl}v1/posts/$postID"),
         body:
             postModelToJson(PostModel.Resquest(content, date, true, category)),
@@ -38,7 +37,7 @@ class PostRepository {
           'Authorization': 'Bearer $token',
         });
     if (response.statusCode == 200) {
-      return "updating data success";
+      return response.body;
     } else {
       print(response.statusCode);
       return "something fail.";

@@ -18,7 +18,7 @@ class PostModal extends StatefulWidget {
   final String? content;
   final String? date;
   final List<String>? category;
-  final PostBloc? postBloc;
+  final PostBloc postBloc;
 
   const PostModal(
       {Key? key,
@@ -27,7 +27,7 @@ class PostModal extends StatefulWidget {
       required this.content,
       required this.date,
       required this.category,
-      this.postBloc})
+      required this.postBloc})
       : super(key: key);
 
   @override
@@ -90,6 +90,7 @@ class _PostModalState extends State<PostModal> {
                             content: widget.content ?? "No Data",
                             date: widget.date ?? DateTime.now().toString(),
                             category: widget.category ?? ["Tag1", "Tag2"],
+                            postBloc: widget.postBloc!,
                           )));
                         },
                         child: Row(
@@ -279,6 +280,7 @@ class _PostModalState extends State<PostModal> {
                     );
                   });
             } else if (state is PostDeletedState) {
+              postBloc.close();
               showToast("สถานะการลบสำเร็จ");
               print("dsfdsfdsf");
               Navigator.of(context).pop();
