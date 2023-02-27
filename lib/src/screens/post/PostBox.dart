@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
-
+import 'package:intl/intl.dart';
 import '../../constant.dart';
 import '../../data/respository/like_repository.dart';
 import '../Utilities/PostModal.dart';
@@ -17,14 +17,14 @@ class PostBox extends StatelessWidget {
   final List<String>? category;
   const PostBox(
       {Key? key,
-        required this.userId,
-        required this.postId,
-        required this.content,
-        required this.date,
-        required this.countComment,
-        required this.countLike,
-        required this.isLike,
-        required this.category})
+      required this.userId,
+      required this.postId,
+      required this.content,
+      required this.date,
+      required this.countComment,
+      required this.countLike,
+      required this.isLike,
+      required this.category})
       : super(key: key);
 
   @override
@@ -56,23 +56,26 @@ class PostBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    date?? DateTime.now().toString(),
+                    DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                        DateTime.parse(date!)
+                            .toUtc()
+                            .add(const Duration(hours: 7))),
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
-                   PostModal(
-                     userId: userId ?? "",
-                     postId: postId ?? "",
-                     content: content ?? "No Data",
-                     date: date ?? DateTime.now().toString(),
-                     category: category ?? ["Tag1", "Tag2"],
-                   )
+                  PostModal(
+                    userId: userId ?? "",
+                    postId: postId ?? "",
+                    content: content ?? "No Data",
+                    date: date ?? DateTime.now().toString(),
+                    category: category ?? ["Tag1", "Tag2"],
+                  )
                 ],
               ),
               Row(
                 children: [
                   Text(
-                    "ผู้ใช้ STOXX",
+                    "ชื่อผู้ใช้ ${"${userId!.substring(0, 5)}xxx"}",
                     style: GoogleFonts.getFont("Bai Jamjuree",
                         color: textColor3, fontSize: 12),
                   )
@@ -179,8 +182,7 @@ class PostBox extends StatelessWidget {
                       if (unLike == true) {
                         print(tempIsLike);
                         likeRepository.unlikePost(postId: postId);
-                      }
-                      else {
+                      } else {
                         print(tempIsLike);
                         likeRepository.likePost(postId: postId);
                       }
