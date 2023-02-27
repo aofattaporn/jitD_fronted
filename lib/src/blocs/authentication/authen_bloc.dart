@@ -106,37 +106,5 @@ class AuthenticationBloc
       emit(CheckStatusAuthrn(result));
       emit(SignOutSuccess());
     });
-
-    // ---------------- User Event ------------------------------
-
-    /// UserID
-    on<GetUserID>((event, emit) async {
-      await authRepository.getMyUser();
-      emit(GettingUser());
-      try {
-        final userJSON = await authRepository.getMyUser();
-        userModel = userModelFromJson(userJSON);
-
-        String userId = userModel.userID!;
-        int point = userModel.point!;
-        int petHP = userModel.petHP!;
-        String petName = userModel.petName!;
-
-        emit(GetUserSuccess(userId, point, petName, petHP));
-      } catch (e, stacktrace) {
-        print("Exxception occured: $e stackTrace: $stacktrace");
-        emit(GetUserError());
-      }
-    });
-
-    on<WaitingSet>((event, emit) {
-      emit(SettingNamePet(userModel.userID!, userModel.point!,
-          userModel.petName!, userModel.petHP!));
-    });
-
-    on<SetPetName>((event, emit) {
-      emit(SetPetNameSuccess(userModel.userID!, userModel.point!,
-          event.petName!, userModel.petHP!));
-    });
   }
 }

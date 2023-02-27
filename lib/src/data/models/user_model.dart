@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+UserModel petFromJson(String str) => UserModel.fromPetJson(json.decode(str));
 
 UserModel petNameFromJson(String str) =>
     UserModel.fromJsonPet(json.decode(str));
@@ -26,6 +27,10 @@ class UserModel {
     petName = json['petName'];
     petHP = json['petHP'];
     point = json['point'];
+  }
+
+  UserModel.fromPetJson(Map<String, dynamic> json) {
+    petName = json['petName'];
   }
 
   // method convert map to json

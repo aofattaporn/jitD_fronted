@@ -3,12 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
-import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
-import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
-import 'package:jitd_client/src/blocs/pet/petBloc.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
+import 'package:jitd_client/src/blocs/user/user_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
 import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
@@ -17,6 +14,8 @@ import 'package:jitd_client/src/screens/profile/shimmerUserID.dart';
 import 'package:rive/rive.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../blocs/user/user_bloc.dart';
+import '../../blocs/user/user_event.dart';
 import '../../constant/constant_fonts.dart';
 import 'DialogPetName.dart';
 import 'buildMyPost.dart';
@@ -41,19 +40,20 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
 
   // declare bloc instance variable
-  final AuthenticationBloc _userBloc = AuthenticationBloc();
-  final petBlocProvider = BlocProvider<petBloc>(create: (context) => petBloc());
+  final UserBloc _userBloc = UserBloc();
+
+  // final petBlocProvider = BlocProvider<petBloc>(create: (context) => petBloc());
   final PostBloc _postBloc = PostBloc();
 
   // declare bloc provider
-  final authBlocProvider = BlocProvider<AuthenticationBloc>(
-      create: (context) => AuthenticationBloc());
+  final authBlocProvider =
+      BlocProvider<UserBloc>(create: (context) => UserBloc());
   final postsBlocProvider =
       BlocProvider<PostBloc>(create: (context) => PostBloc());
 
   @override
   void initState() {
-    _userBloc.add(GetUserID());
+    _userBloc.add(const GetUserByID());
     _postBloc.add(GetMyPost());
     super.initState();
     textController = TextEditingController()
@@ -83,40 +83,31 @@ class _ProfilePageState extends State<ProfilePage> {
         // declare instance
         child: RefreshIndicator(
           onRefresh: () async {
-            _userBloc.add(GetUserID());
+            _userBloc.add(const GetUserByID());
             _postBloc.add(GetMyPost());
           },
 
           // create multi bloc provider
           child: MultiBlocProvider(
-            providers: [postsBlocProvider, authBlocProvider, petBlocProvider],
-            child: BlocListener<petBloc, petState>(
-              listener: (context, state) {
-                if (state is LoadingNamingPet) {
-                  _userBloc.add(WaitingSet());
-                } else if (state is LoadedNamingPet) {
-                  _userBloc.add(SetPetName(state.petName));
-                }
+            providers: [postsBlocProvider, authBlocProvider],
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (petContext, petsState) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      // section #1 profile header + bear img
+                      headerProfile(context, petContext),
+
+                      // section #2 group of Icons activity
+                      groupActivity(context),
+
+                      // section #3 show all my post
+                      bodyShowMyPost(context),
+                    ],
+                  ),
+                );
               },
-              child: BlocBuilder<petBloc, petState>(
-                builder: (petContext, petsState) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        // section #1 profile header + bear img
-                        headerProfile(context, petContext),
-
-                        // section #2 group of Icons activity
-                        groupActivity(context),
-
-                        // section #3 show all my post
-                        bodyShowMyPost(context),
-                      ],
-                    ),
-                  );
-                },
-              ),
             ),
           ),
         ),
@@ -138,13 +129,12 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.only(bottom: 12),
             child: BlocProvider(
               create: (_) => _userBloc,
-              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              child: BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
-                  if (state is GetUserSuccess || state is SetPetNameSuccess) {
+                  if (state is GetUserSuccess ||
+                      state is UpdatePetNameSuccess) {
                     // show pet name
                     return showPetName(context, state, petContext);
-                  } else if (state is SettingNamePet) {
-                    return const ShimmerPetName();
                   } else {
                     // show skeletion
                     return const ShimmerPetName();
@@ -315,13 +305,12 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           child: BlocProvider(
             create: (_) => _userBloc,
-            child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) {
+            child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
               if (state is GettingUser) {
                 return const ShmmimerUserID();
               } else if (state is GetUserSuccess ||
-                  state is SetPetNameSuccess ||
-                  state is SettingNamePet) {
+                  state is UpdatingPetName ||
+                  state is UpdatePetNameSuccess) {
                 String identifyuser = state.user.userID.toString();
                 int maxLength = 10;
                 String conciseUser = (identifyuser.length > maxLength)
@@ -338,8 +327,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Container showPetName(BuildContext context, AuthenticationState state,
-      BuildContext petContext) {
+  Container showPetName(
+      BuildContext context, UserState state, BuildContext petContext) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       height: MediaQuery.of(context).size.height * 0.045,

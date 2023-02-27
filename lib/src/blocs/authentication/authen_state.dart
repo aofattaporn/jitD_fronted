@@ -68,14 +68,14 @@ class TesterErrorState extends AuthenticationState {
 
 // --------------- user_state ---------------------
 
-class GettingUser extends AuthenCheckingState {
+class GettingUser2 extends AuthenCheckingState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
-class GetUserSuccess extends AuthenticationState {
-  GetUserSuccess(String userId, int point, String petName, int petHP) {
+class GetUserSuccess2 extends AuthenticationState {
+  GetUserSuccess2(String userId, int point, String petName, int petHP) {
     super.user.userID = userId;
     super.user.point = point;
     super.user.petName = petName;

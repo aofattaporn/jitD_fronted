@@ -9,7 +9,7 @@ class PetRepository {
   Future<String> NamingPetEvent(String? PetName) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     print(token);
-    final response = await http.put(Uri.parse("${localUrl}v1/users/pet/id"),
+    final response = await http.put(Uri.parse("${globalUrl}v1/users/pet/id"),
         body: petModelToJson(PetModel(PetName)),
         headers: {
           'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ class DiryQuestRepository {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
 
     final response =
-        await http.put(Uri.parse("${localUrl}v1/quest/id"), headers: {
+        await http.get(Uri.parse("${globalUrl}v1/quest/id"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',

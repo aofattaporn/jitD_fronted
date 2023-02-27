@@ -1,26 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:jitd_client/src/blocs/user/user_event.dart';
 
-import '../../blocs/authentication/authen_bloc.dart';
-import '../../blocs/pet/petBloc.dart';
 import '../../blocs/post/post_bloc.dart';
+import '../../blocs/user/user_bloc.dart';
 import '../../constant.dart';
 
 class DialogPetName extends StatelessWidget {
   const DialogPetName(
       {Key? key,
       required this.textController,
-      required AuthenticationBloc userBloc,
+      required UserBloc userBloc,
       required this.petContext,
       required this.postBloc})
       : _userBloc = userBloc,
         super(key: key);
 
   final TextEditingController? textController;
-  final AuthenticationBloc _userBloc;
+  final UserBloc _userBloc;
   final PostBloc postBloc;
   final BuildContext petContext;
 
@@ -74,10 +72,8 @@ class DialogPetName extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    petContext
-                        .read<petBloc>()
-                        .add(NamingPetEvent(textController?.text));
-                    // _userBloc.add(getUserID());
+                    _userBloc
+                        .add(UpdatePetName(textController!.text.toString()));
                     Navigator.pop(context);
                   },
                   child: Container(
