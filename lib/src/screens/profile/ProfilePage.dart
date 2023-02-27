@@ -8,6 +8,7 @@ import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/blocs/user/user_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
+import 'package:jitd_client/src/screens/profile/DialogQuest.dart';
 import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
 import 'package:jitd_client/src/screens/profile/shimmerPetName.dart';
 import 'package:jitd_client/src/screens/profile/shimmerUserID.dart';
@@ -164,8 +165,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        //id user
-                        showUserID(context),
+                        //id user + point
+                        Row(
+                          children: [
+                            showUserID(context),
+                            showPoints(context),
+                          ],
+                        ),
 
                         //burger bar
                         IconButton(
@@ -189,18 +195,28 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: primaryColor),
-                            child: const Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Icon(
-                                Icons.book,
-                                color: Colors.white,
-                                size: 26,
-                              ),
-                            ))
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => DialogQuest(
+                                    // userBloc: _userBloc,
+                                    // questBloc: ,
+                                    ));
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: primaryColor),
+                              child: const Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Icon(
+                                  Icons.book,
+                                  color: Colors.white,
+                                  size: 26,
+                                ),
+                              )),
+                        )
                       ],
                     ),
                   ),
@@ -282,6 +298,33 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               )
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row showPoints(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 10, right: 4),
+          child: Image.asset(
+            'assets/images/Point.png',
+            height: 20,
+          ),
+        ),
+        BlocProvider(
+          create: (_) => _userBloc,
+          child: BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is !GettingUser) {
+                return Text(state.user.point.toString());
+              } else {
+                return Text("Loading");
+              }
+
+            },
           ),
         ),
       ],

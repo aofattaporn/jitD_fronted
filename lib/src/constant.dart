@@ -53,8 +53,14 @@ final TextStyle fontsTH16_Black = GoogleFonts.getFont(
     "Lato", fontSize: 16, color: textColor1);
 final TextStyle fontsTH16_Grey = GoogleFonts.getFont(
     "Lato", fontSize: 16, color: textColor3);
+final TextStyle fontsENG18_White = GoogleFonts.getFont(
+    "Lato", fontSize: 18, color: Colors.white);
+final TextStyle fontsENG18_White_Bold = GoogleFonts.getFont(
+    "Lato", fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
 final TextStyle fontsTH20_Black = GoogleFonts.getFont(
     "Lato", fontSize: 20, color: textColor3);
+final TextStyle fontsENG20_White_Bold = GoogleFonts.getFont(
+    "Lato", fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
 
 
 
