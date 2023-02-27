@@ -159,6 +159,7 @@ class CreatePostState extends State<CreatePost> {
                                               } else {
                                                 return ElevatedButton(
                                                   onPressed: () {
+                                                    FocusScope.of(context).requestFocus(_unFocusNode);
                                                     if (keyForm.currentState!
                                                         .validate() && states.countSelectedCategory != 0) {
                                                       keyForm.currentState!
@@ -296,6 +297,7 @@ class CreatePostState extends State<CreatePost> {
                                         child: Form(
                                           key: keyForm,
                                           child: TextFormField(
+                                            autofocus: true,
                                             autovalidateMode: AutovalidateMode.onUserInteraction,
                                             validator: (value) {
                                               if (value == null ||
