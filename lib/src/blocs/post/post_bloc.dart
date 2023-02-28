@@ -14,6 +14,7 @@ part 'post_event.dart';
 class PostBloc extends Bloc<PostEvent, PostState> {
   // creating object repository
   PostRepository postRepository = PostRepository();
+  ListPostModel listPostModel = ListPostModel();
 
   PostBloc() : super(InitialPost()) {
     /// event create post
@@ -63,6 +64,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     /// event get my post
     on<GetMyPost>((event, emit) async {
       await myPost(emit, postRepository);
+    });
+
+    on<SortPostByDate>((event, emit){
+      listPostModel.posts.sort();
     });
 
     on<GetPostBySearch>((event, emit) async {

@@ -91,7 +91,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
           (comment1.countLike.toString())
               .compareTo(comment2.countLike.toString()));
       listCommentModel.comments = listCommentModel.comments.reversed.toList();
-      emit(SortedCommentByDate(listCommentModel.comments));
+      emit(SortedCommentByLike(listCommentModel.comments));
     });
   }
   DateTime convertDate(String? date) {

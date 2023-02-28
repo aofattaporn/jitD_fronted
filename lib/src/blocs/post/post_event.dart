@@ -55,5 +55,14 @@ class UpdatingMyPost extends PostEvent {
 class GetMyPost extends PostEvent {
   @override
   List<Object> get props => [];
+}
 
+class SortPostByDate extends PostEvent{
+  @override
+  List<Object> get props => [];
+}
+
+class SortPostByLike extends PostEvent{
+  @override
+  List<Object> get props => [];
 }

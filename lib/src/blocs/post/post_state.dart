@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import '../../data/models/post_model.dart';
 
 @immutable
-abstract class PostState extends Equatable {}
+abstract class PostState extends Equatable {
+  late final List<PostModel> posts;
+}
 
 /// state loading
 class InitialPost extends PostState {
@@ -62,6 +64,28 @@ class UpdatingPost extends PostState {
 }
 
 class UpdatedPost extends PostState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SortedPostByDate extends PostState{
+  SortedPostByDate(List<PostModel>_posts){
+    super.posts = _posts;
+  }
+  @override
+  // TODO: implement comment
+  List<PostModel> get posts => super.posts;
+  @override
+  List<Object?> get props => [];
+}
+
+class SortedPostByLike extends PostState{
+  SortedPostByLike(List<PostModel>_posts){
+    super.posts = _posts;
+  }
+  @override
+  // TODO: implement comment
+  List<PostModel> get posts => super.posts;
   @override
   List<Object?> get props => [];
 }

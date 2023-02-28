@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/screens/Utilities/SortPostModal.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../blocs/post/post_bloc.dart';
 import '../../blocs/post/post_state.dart';
+import '../Utilities/SortPostModal.dart';
 import '../../constant.dart';
 import 'PostBox.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -226,47 +228,52 @@ class ViewAllPostState extends State<ViewAllPost> {
 
                           return Column(
                             children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.025,
+                              ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            0, 20, 20, 0),
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
-                                        decoration: const BoxDecoration(
-                                            color: thirterydColor,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20))),
-                                        child: Center(
-                                          child: RichText(
-                                            text: TextSpan(children: [
-                                              TextSpan(
-                                                  text: " เรียงตามความนิยม ",
-                                                  style: GoogleFonts.getFont(
-                                                      'Bai Jamjuree',
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              const WidgetSpan(
-                                                child: Icon(
-                                                  Icons.arrow_drop_down,
-                                                  size: 18,
-                                                  color: backgroundColor3,
-                                                ),
-                                              ),
-                                            ]),
-                                          ),
-                                        )),
-                                  ),
+                                  SortPostModal(postBloc: _postBloc!),
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsetsDirectional.fromSTEB(
+                                  //           0, 20, 20, 0),
+                                  //   child: Container(
+                                  //       width:
+                                  //           MediaQuery.of(context).size.width *
+                                  //               0.4,
+                                  //       height:
+                                  //           MediaQuery.of(context).size.height *
+                                  //               0.04,
+                                  //       decoration: const BoxDecoration(
+                                  //           color: thirterydColor,
+                                  //           borderRadius: BorderRadius.all(
+                                  //               Radius.circular(20))),
+                                  //       child: Center(
+                                  //         child: RichText(
+                                  //           text: TextSpan(children: [
+                                  //             TextSpan(
+                                  //                 text: " เรียงตามความนิยม ",
+                                  //                 style: GoogleFonts.getFont(
+                                  //                     'Bai Jamjuree',
+                                  //                     color: Colors.white,
+                                  //                     fontSize: 14,
+                                  //                     fontWeight:
+                                  //                         FontWeight.bold)),
+                                  //             const WidgetSpan(
+                                  //               child: Icon(
+                                  //                 Icons.arrow_drop_down,
+                                  //                 size: 18,
+                                  //                 color: backgroundColor3,
+                                  //               ),
+                                  //             ),
+                                  //           ]),
+                                  //         ),
+                                  //       )),
+                                  // ),
                                 ],
                               ),
                               ListView.builder(
@@ -302,30 +309,37 @@ class ViewAllPostState extends State<ViewAllPost> {
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                                 builder: (context) => ViewPost(
-                                                      userId: filteredList[index]
-                                                              .userId ??
-                                                          "",
-                                                      postId: filteredList[index]
-                                                              .postId ??
-                                                          "",
-                                                      content: filteredList[index]
-                                                              .content ??
-                                                          "No Data",
+                                                      userId:
+                                                          filteredList[index]
+                                                                  .userId ??
+                                                              "",
+                                                      postId:
+                                                          filteredList[index]
+                                                                  .postId ??
+                                                              "",
+                                                      content:
+                                                          filteredList[index]
+                                                                  .content ??
+                                                              "No Data",
                                                       date: filteredList[index]
                                                               .date ??
                                                           DateTime.now()
                                                               .toString(),
-                                                      category: filteredList[index]
-                                                              .category ??
-                                                          ["Tag1", "Tag2"],
-                                                      countComment: filteredList[index]
-                                                          .countComment
-                                                          .toString(),
-                                                      countLike: filteredList[index]
-                                                          .countLike
-                                                          .toString(),
-                                                      isLike: filteredList[index]
-                                                          .isLike,
+                                                      category:
+                                                          filteredList[index]
+                                                                  .category ??
+                                                              ["Tag1", "Tag2"],
+                                                      countComment:
+                                                          filteredList[index]
+                                                              .countComment
+                                                              .toString(),
+                                                      countLike:
+                                                          filteredList[index]
+                                                              .countLike
+                                                              .toString(),
+                                                      isLike:
+                                                          filteredList[index]
+                                                              .isLike,
                                                     )));
                                       },
                                     );
