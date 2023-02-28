@@ -3,7 +3,7 @@ import 'package:jitd_client/src/data/models/dialyQuest_model.dart';
 
 @immutable
 abstract class QuestState {
-  final DialyQuestModel dialyquestModel = DialyQuestModel();
+  final DailyQuestModel dialyquestModel = DailyQuestModel();
 
   QuestState();
 }

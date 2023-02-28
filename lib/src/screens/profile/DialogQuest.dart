@@ -11,14 +11,6 @@ import '../../constant.dart';
 class DialogQuest extends StatelessWidget {
   const DialogQuest({super.key});
 
-  // const DialogQuest({Key? key,
-  //   required UserBloc userBloc,
-  //   required this.questBloc
-  //   }): _userBloc = userBloc,
-  // super(key:key);
-
-  // final UserBloc _userBloc;
-  // final QuestBloc questBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +57,7 @@ class DialogQuest extends StatelessWidget {
                         color: primaryColorLight),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+
                       child: Column(
                         children: [
                           Container(

@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/blocs/dialyQuest/quest_bloc.dart';
+import 'package:jitd_client/src/blocs/dialyQuest/quest_event.dart';
+import 'package:jitd_client/src/blocs/dialyQuest/quest_state.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/blocs/user/user_state.dart';
@@ -42,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // declare bloc instance variable
   final UserBloc _userBloc = UserBloc();
+  final QuestBloc _questBloc = QuestBloc();
 
   // final petBlocProvider = BlocProvider<petBloc>(create: (context) => petBloc());
   final PostBloc _postBloc = PostBloc();
@@ -56,6 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _userBloc.add(const GetUserByID());
     _postBloc.add(GetMyPost());
+    _questBloc.add(const GetMyQuest());
     super.initState();
     textController = TextEditingController()
       ..addListener(() {
@@ -190,34 +195,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => DialogQuest(
-                                    // userBloc: _userBloc,
-                                    // questBloc: ,
-                                    ));
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: primaryColor),
-                              child: const Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Icon(
-                                  Icons.book,
-                                  color: Colors.white,
-                                  size: 26,
-                                ),
-                              )),
-                        )
-                      ],
+                  BlocProvider(
+                    create: (context) => _questBloc,
+                    child: BlocBuilder<QuestBloc, QuestState>(
+                      builder: (context, state) {
+                        if (state is GetMyQuestSuccess) {
+                          return iconQuest(context);
+                        } else
+                          return Container();
+                      },
                     ),
                   ),
 
@@ -304,6 +290,34 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Padding iconQuest(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          GestureDetector(
+            onTap: () {
+              showDialog(context: context, builder: (context) => DialogQuest());
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: primaryColor),
+                child: const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Icon(
+                    Icons.book,
+                    color: Colors.white,
+                    size: 26,
+                  ),
+                )),
+          )
+        ],
+      ),
+    );
+  }
+
   Row showPoints(BuildContext context) {
     return Row(
       children: [
@@ -318,7 +332,7 @@ class _ProfilePageState extends State<ProfilePage> {
           create: (_) => _userBloc,
           child: BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              if (state is !GettingUser) {
+              if (state is! GettingUser) {
                 return Text(state.user.point.toString());
               } else {
                 return const Text("Loading");
@@ -345,7 +359,8 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             BlocProvider(
               create: (_) => _userBloc,
-              child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+              child:
+                  BlocBuilder<UserBloc, UserState>(builder: (context, state) {
                 if (state is GettingUser) {
                   return const ShmmimerUserID();
                 } else if (state is GetUserSuccess ||
