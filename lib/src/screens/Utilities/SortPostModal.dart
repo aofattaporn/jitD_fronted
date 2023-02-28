@@ -105,7 +105,7 @@ class _SortPostModalState extends State<SortPostModal>{
                           GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                       onTap: () {
                         Navigator.pop(context);
-                        widget.postBloc.add(event);
+                        widget.postBloc.add(SortPostByLike());
                       },
                     ),
                     Divider(height: 20, thickness: 1),
@@ -118,6 +118,8 @@ class _SortPostModalState extends State<SortPostModal>{
                           GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                       onTap: () {
                         Navigator.pop(context);
+                        widget.postBloc.add(SortPostByDate());
+
                       },
                     ),
                     Divider(height: 20, thickness: 1),

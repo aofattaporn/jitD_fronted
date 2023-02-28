@@ -67,7 +67,17 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     on<SortPostByDate>((event, emit){
-      listPostModel.posts.sort();
+      listPostModel.posts.sort((posts1, posts2)=>
+          convertDate(posts1.date).compareTo(convertDate(posts2.date)));
+      listPostModel.posts = listPostModel.posts.reversed.toList();
+      emit(SortedPostByDate(listPostModel.posts));
+    });
+
+    on<SortPostByLike>((event, emit){
+      listPostModel.posts.sort((posts1, posts2)=>
+          (posts1.countLike.toString()).compareTo(posts2.countLike.toString()));
+      listPostModel.posts = listPostModel.posts.reversed.toList();
+      emit(SortedPostByLike(listPostModel.posts));
     });
 
     on<GetPostBySearch>((event, emit) async {
@@ -130,4 +140,9 @@ Future<void> myPost(emit, postRepository) async {
     print("Exxception occured: $e stackTrace: $stacktrace");
     emit(PostError(e.toString()));
   }
+}
+
+DateTime convertDate(String? date) {
+  DateTime dt = DateTime.parse(date!);
+  return dt;
 }
