@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../blocs/post/post_bloc.dart';
 import '../../blocs/post/post_state.dart';
 import '../../constant.dart';
+import '../Utilities/AllToast.dart';
 import 'BlockWords.dart';
 import 'ConsultantLevel.dart';
 
@@ -75,7 +75,7 @@ class _UpdatePostState extends State<UpdatePost> {
 
         // This is a Main App
         body: BlocProvider(
-          create: (_) => widget.postBloc,
+          create: (context) => widget.postBloc,
           child: SafeArea(
             child: GestureDetector(
               onTap: () {
@@ -96,287 +96,15 @@ class _UpdatePostState extends State<UpdatePost> {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            20, 0, 20, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                         child: Stack(
                           children: [
-                            Align(
-                              alignment:
-                                  const AlignmentDirectional(1, -0.95),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: const Icon(
-                                        Icons.cancel_rounded,
-                                        size: 40,
-                                        color: textColor2,
-                                      )),
-                                  BlocBuilder<PostBloc, PostState>(
-                                      builder: (context, state) {
-                                    if (state is CheckingPost) {
-                                      return ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 16),
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      32, 0, 32, 0),
-                                              backgroundColor:
-                                                  thirterydColor,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(
-                                                            40)),
-                                              )),
-                                          child:
-                                              const CircularProgressIndicator(
-                                                  color: Colors.white70));
-                                    } else {
-                                      return ElevatedButton(
-                                        onPressed: () {
-                                          if (keyForm.currentState!
-                                              .validate()) {
-                                            keyForm.currentState!.save();
-                                            widget.postBloc.add(
-                                                UpdatingMyPost(
-                                                    textController?.text ??
-                                                        "",
-                                                    widget.date!,
-                                                    true,
-                                                    widget.postId!));
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            textStyle: const TextStyle(
-                                                fontSize: 16),
-                                            padding:
-                                                const EdgeInsets.fromLTRB(
-                                                    32, 0, 32, 0),
-                                            backgroundColor: thirterydColor,
-                                            shape:
-                                                const RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(40)),
-                                            )),
-                                        child: Text(
-                                          "บันทึก",
-                                          style: GoogleFonts.getFont(
-                                              "Bai Jamjuree",
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      );
-                                    }
-                                  }),
-                                ],
-                              ),
-                            ),
-                            Align(
-                              alignment:
-                                  const AlignmentDirectional(0, -0.75),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.35,
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                            0.04,
-                                    decoration: const BoxDecoration(
-                                      color: backgroundColor3,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5)),
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        'user id : 1242413',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          color: Color(0xFF666666),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.325,
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                            0.04,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      color: secondaryColor,
-                                      borderRadius:
-                                          BorderRadius.circular(10),
-                                    ),
-                                    child: Center(
-                                      child: RichText(
-                                        text: TextSpan(children: [
-                                          const WidgetSpan(
-                                              child: Icon(
-                                            Icons.public,
-                                            size: 16,
-                                            color: Colors.white,
-                                          )),
-                                          TextSpan(
-                                              text: '  สาธารณะ',
-                                              style: GoogleFonts.getFont(
-                                                  'Bai Jamjuree',
-                                                  fontSize: 14,
-                                                  color: Colors.white)),
-                                          const TextSpan(text: '  '),
-                                          const WidgetSpan(
-                                              child: Icon(
-                                            Icons.arrow_drop_down,
-                                            size: 18,
-                                            color: Colors.white,
-                                          ))
-                                        ]),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Align(
-                              alignment:
-                                  const AlignmentDirectional(0, -0.45),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height *
-                                    0.28,
-                                child: Scrollbar(
-                                  child: Form(
-                                    key: keyForm,
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty) {
-                                          return 'กรุณากรอกข้อความ';
-                                        }
-                                        return null;
-                                      },
-                                      autofocus: true,
-                                      onTap: () => panelController.close(),
-                                      controller: textController,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'มีอะไรอยากจะบอกบ้าง',
-                                        hintStyle: const TextStyle(
-                                            color: textColor3),
-                                        enabledBorder:
-                                            buildUnderlineInputBorder(),
-                                        focusedBorder:
-                                            buildUnderlineInputBorder(),
-                                        errorBorder:
-                                            buildUnderlineInputBorder(),
-                                        focusedErrorBorder:
-                                            buildUnderlineInputBorder(),
-                                      ),
-                                      maxLines: null,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment:
-                                  const AlignmentDirectional(0, 0.175),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.45,
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                            0.04,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFAAD4CC),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          blurRadius: 20,
-                                          color: Color(0x80AAD4CC),
-                                          offset: Offset(0, 2),
-                                        )
-                                      ],
-                                      borderRadius:
-                                          BorderRadius.circular(10),
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'เลือกประเภทที่เกี่ยวข้อง+',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.getFont(
-                                          'Lato',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Align(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Align(
-                                      alignment: const AlignmentDirectional(
-                                          0, 0.325),
-                                      child: Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                            0.04,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFFF8FAFA),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                                width:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.025),
-                                            Text(
-                                              "กรุณาระบุประเภทของโพส",
-                                              style: GoogleFonts.getFont(
-                                                  "Bai Jamjuree",
-                                                  color: textColor3),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            headerUpdatePost(context),
+                            showIDupdate(context),
+                            formUpdate(context),
+                            selectCategory(context),
+                            selectCategory2(context),
                           ],
                         ),
                       ),
@@ -387,6 +115,238 @@ class _UpdatePostState extends State<UpdatePost> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Align selectCategory2(BuildContext context) {
+    return Align(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: Align(
+              alignment: const AlignmentDirectional(0, 0.325),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.04,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF8FAFA),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                    Text(
+                      "กรุณาระบุประเภทของโพส",
+                      style: GoogleFonts.getFont("Bai Jamjuree",
+                          color: textColor3),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Align selectCategory(BuildContext context) {
+    return Align(
+      alignment: const AlignmentDirectional(0, 0.175),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.45,
+            height: MediaQuery.of(context).size.height * 0.04,
+            decoration: BoxDecoration(
+              color: const Color(0xFFAAD4CC),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 20,
+                  color: Color(0x80AAD4CC),
+                  offset: Offset(0, 2),
+                )
+              ],
+              borderRadius: BorderRadius.circular(10),
+              shape: BoxShape.rectangle,
+            ),
+            child: Center(
+              child: Text(
+                'เลือกประเภทที่เกี่ยวข้อง+',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.getFont(
+                  'Lato',
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Align formUpdate(BuildContext context) {
+    return Align(
+      alignment: const AlignmentDirectional(0, -0.45),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.28,
+        child: Scrollbar(
+          child: Form(
+            key: keyForm,
+            child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'กรุณากรอกข้อความ';
+                }
+                return null;
+              },
+              autofocus: true,
+              // onTap: () => panelController.close(),
+              controller: textController,
+              obscureText: false,
+              decoration: InputDecoration(
+                hintText: 'มีอะไรอยากจะบอกบ้าง',
+                hintStyle: const TextStyle(color: textColor3),
+                enabledBorder: buildUnderlineInputBorder(),
+                focusedBorder: buildUnderlineInputBorder(),
+                errorBorder: buildUnderlineInputBorder(),
+                focusedErrorBorder: buildUnderlineInputBorder(),
+              ),
+              maxLines: null,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Align showIDupdate(BuildContext context) {
+    return Align(
+      alignment: const AlignmentDirectional(0, -0.75),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.35,
+            height: MediaQuery.of(context).size.height * 0.04,
+            decoration: const BoxDecoration(
+              color: backgroundColor3,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            child: const Center(
+              child: Text(
+                'user id : 1242413',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Color(0xFF666666),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.325,
+            height: MediaQuery.of(context).size.height * 0.04,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: secondaryColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: RichText(
+                text: TextSpan(children: [
+                  const WidgetSpan(
+                      child: Icon(
+                    Icons.public,
+                    size: 16,
+                    color: Colors.white,
+                  )),
+                  TextSpan(
+                      text: '  สาธารณะ',
+                      style: GoogleFonts.getFont('Bai Jamjuree',
+                          fontSize: 14, color: Colors.white)),
+                  const TextSpan(text: '  '),
+                  const WidgetSpan(
+                      child: Icon(
+                    Icons.arrow_drop_down,
+                    size: 18,
+                    color: Colors.white,
+                  ))
+                ]),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Align headerUpdatePost(BuildContext context) {
+    return Align(
+      alignment: const AlignmentDirectional(1, -0.95),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.cancel_rounded,
+                size: 40,
+                color: textColor2,
+              )),
+          BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+            if (state is CheckingPost) {
+              return ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 16),
+                      padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+                      backgroundColor: thirterydColor,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      )),
+                  child:
+                      const CircularProgressIndicator(color: Colors.white70));
+            } else {
+              return ElevatedButton(
+                onPressed: () {
+                  widget.postBloc.add(UpdatingMyPost(textController!.text,
+                      widget.date!, true, widget.postId!, widget.category!));
+                  // if (keyForm.currentState!.validate()) {
+                  //   // keyForm.currentState!.save();
+                  //   widget.postBloc.add(UpdatingMyPost(
+                  //       textController!.text,
+                  //       widget.date!,
+                  //       true,
+                  //       widget.postId!
+                  //       )
+                  //       );
+                  // }
+                },
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 16),
+                    padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+                    backgroundColor: thirterydColor,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                    )),
+                child: Text(
+                  "บันทึก",
+                  style: GoogleFonts.getFont("Bai Jamjuree",
+                      fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              );
+            }
+          }),
+        ],
       ),
     );
   }
@@ -557,45 +517,7 @@ class _UpdatePostState extends State<UpdatePost> {
   }
 
   void showToast(String msg) => toast.showToast(
-        child: successToast(msg),
+        child: successToast(msg, context),
         gravity: ToastGravity.TOP,
-      );
-
-  Widget successToast(String msg) => Container(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-        color: statusColorSuccess,
-        child: IntrinsicHeight(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.check_circle,
-                color: Colors.white,
-                size: 30,
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-              Text(
-                msg,
-                style: GoogleFonts.getFont("Bai Jamjuree",
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.015),
-              const VerticalDivider(
-                thickness: 1,
-                width: 20,
-                color: Colors.black,
-              ),
-              const CircleAvatar(
-                  backgroundColor: Color.fromRGBO(102, 204, 144, 1),
-                  child: Icon(
-                    Icons.cancel_rounded,
-                    color: Colors.white,
-                    size: 30,
-                  ))
-            ],
-          ),
-        ),
       );
 }

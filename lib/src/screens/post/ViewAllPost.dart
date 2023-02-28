@@ -35,7 +35,7 @@ class ViewAllPostState extends State<ViewAllPost> {
   @override
   void dispose() {
     _unFocusNode.dispose();
-    _postBloc.close();
+    // _postBloc.close();
     super.dispose();
   }
 
@@ -163,12 +163,9 @@ class ViewAllPostState extends State<ViewAllPost> {
                     title: Text("Deleting Your Post..."),
                   );
                 });
-          } else if (state is PostDeletedState) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
-
-            // showToast("Delete post success");
+          } else if (state is PostDeletedState || state is UpdatedPost) {
+            Navigator.pop(context,
+                MaterialPageRoute(builder: (context) => const ViewAllPost()));
           }
         },
         child: BlocBuilder<PostBloc, PostState>(

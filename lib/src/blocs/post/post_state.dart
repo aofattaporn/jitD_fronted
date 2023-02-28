@@ -80,3 +80,12 @@ class UpdatedPost extends PostState {
   @override
   List<Object?> get props => [];
 }
+
+class EditCategorySuccess extends PostState {
+  EditCategorySuccess(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}

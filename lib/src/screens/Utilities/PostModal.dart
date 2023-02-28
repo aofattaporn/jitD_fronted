@@ -7,9 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
-import 'package:jitd_client/src/screens/post/UpdatePost.dart';
 
 import '../../constant.dart';
+import '../post/UpdatePost2.dart';
 
 class PostModal extends StatefulWidget {
   // const PostModal({Key? key}) : super(key: key);
@@ -83,14 +83,12 @@ class _PostModalState extends State<PostModal> {
                   if (currentID == widget.userId)
                     GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(_createRoute(UpdatePost(
-                            userId: widget.userId ?? "",
-                            postId: widget.postId ?? "",
+                          Navigator.of(context).push(_createRoute(UpdatePost2(
                             content: widget.content ?? "No Data",
                             date: widget.date ?? DateTime.now().toString(),
                             category: widget.category ?? ["Tag1", "Tag2"],
-                            postBloc: widget.postBloc!,
+                            postBloc: widget.postBloc,
+                            postID: widget.postId ?? "",
                           )));
                         },
                         child: Row(
@@ -242,7 +240,7 @@ class _PostModalState extends State<PostModal> {
                           ),
                         ),
                         Text(
-                          "ปิดการแจ้งเตือนสำหรับโพสต์นี้",
+                          "ปิดดการแจ้งเตือนสำหรับโพสต์นี้",
                           style: GoogleFonts.getFont("Bai Jamjuree",
                               fontSize: 18, color: textColor2),
                         ),
@@ -280,11 +278,7 @@ class _PostModalState extends State<PostModal> {
                     );
                   });
             } else if (state is PostDeletedState) {
-              postBloc.close();
               showToast("สถานะการลบสำเร็จ");
-              print("dsfdsfdsf");
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
               Navigator.of(context).pop();
             }
           },
@@ -297,8 +291,6 @@ class _PostModalState extends State<PostModal> {
               content: const Text('เมื่อคุณกดลบโพสนี้จะไม่สามารถเห็นได้อีก'),
               actions: <CupertinoDialogAction>[
                 CupertinoDialogAction(
-                  /// This parameter indicates this action is the default,
-                  /// and turns the action's text to bold text.
                   isDefaultAction: true,
                   onPressed: () {
                     Navigator.pop(context);

@@ -15,6 +15,28 @@ class ListPostModel {
     }
     posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
   }
+
+  void setCategory(List<PostModel> list, List<String> category, String postID) {
+    for (var element in list) {
+      if (element.postId == postID) {
+        print("-----check1------------");
+        for (var element2 in element.category!) {
+          print(element2);
+        }
+        print("-----check1------------");
+        // element.category!.clear();
+        element.category = category.toList();
+
+        print("-----check2------------");
+        for (var element2 in element.category!) {
+          print(element2);
+        }
+        print("-----check2------------");
+
+        break;
+      }
+    }
+  }
 }
 
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));

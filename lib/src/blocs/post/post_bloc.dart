@@ -52,12 +52,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     // event updating post
     on<UpdatingMyPost>((event, emit) async {
       emit(PostLoadingState());
-      List<String>? category = ["Update", "Update2"];
 
       String content = event._content;
+      List<String> category = event.category;
       String date = event._date;
       bool isPublic = event._isPublic;
       String postID = event._postID;
+
+      for (var element in event.category) {
+        print("category -> $element");
+      }
       try {
         final userJSON = await postRepository.updatingPost(
             content, date, isPublic, category, postID);
@@ -66,7 +70,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         // update for post id
         for (var element in listPostModel.posts) {
           if (element.postId == userData.postId) {
-            print(element.content);
             element.content = userData.content;
             element.category = userData.category;
             element.isPublic = userData.isPublic;
@@ -132,6 +135,27 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
       }
+    });
+
+    // remove category
+    on<RemoveCategory>((event, emit) {
+      for (var element in listPostModel.posts) {
+        if (element.postId == element.postId) {
+          element.category
+              ?.removeWhere((element2) => element2 == event.category);
+        }
+      }
+
+      // emit remove success
+      emit(EditCategorySuccess(listPostModel.posts));
+    });
+
+    on<UpdateCategory>((event, emit) {
+      listPostModel.setCategory(
+          listPostModel.posts, event.category, event.postID);
+
+      // emit remove success
+      emit(EditCategorySuccess(listPostModel.posts));
     });
   }
 }

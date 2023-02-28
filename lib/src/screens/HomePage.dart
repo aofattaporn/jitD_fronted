@@ -44,6 +44,16 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  bool _isDisposed = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _postBloc.close();
+
+    _isDisposed = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,11 +165,10 @@ class _HomePageState extends State<HomePage> {
                                 title: Text("Deleting Your Post..."),
                               );
                             });
-                      } else if (state is PostDeletedState) {
+                      } else if (state is PostDeletedState ||
+                          state is UpdatedPost) {
                         Navigator.popUntil(
                             context, ModalRoute.withName('/home'));
-
-                        // showToast("Delete post success");
                       }
                     },
                     child: BlocBuilder<PostBloc, PostState>(
