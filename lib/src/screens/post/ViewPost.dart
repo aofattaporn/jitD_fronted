@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
 import 'package:like_button/like_button.dart';
-import 'package:intl/intl.dart';
+
+import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
 import '../../data/respository/like_repository.dart';
@@ -27,6 +29,7 @@ class ViewPost extends StatefulWidget {
   final bool? isLike;
   final bool? tempIsLike;
   final List<String>? category;
+  final PostBloc postBloc;
 
   const ViewPost(
       {Key? key,
@@ -38,7 +41,8 @@ class ViewPost extends StatefulWidget {
       required this.countLike,
       required this.isLike,
       required this.category,
-      this.tempIsLike})
+      this.tempIsLike,
+      required this.postBloc})
       : super(key: key);
 
   @override
@@ -332,10 +336,11 @@ class ViewPostState extends State<ViewPost> {
                             ),
                             Row(
                               children: [
-                                Text("ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                                Text(
+                                  "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
                                   style: GoogleFonts.getFont("Bai Jamjuree",
-                                      color: textColor3, fontSize: 12),)
-
+                                      color: textColor3, fontSize: 12),
+                                )
                               ],
                             ),
                             SizedBox(
@@ -475,14 +480,17 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
+                  postBloc: widget.postBloc,
                 )
               ],
             ),
             Row(
               children: [
-                Text("ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                Text(
+                  "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
                   style: GoogleFonts.getFont("Bai Jamjuree",
-                      color: textColor3, fontSize: 12),)
+                      color: textColor3, fontSize: 12),
+                )
               ],
             ),
             SizedBox(
@@ -570,12 +578,10 @@ class ViewPostState extends State<ViewPost> {
                     );
                   },
                   onTap: (unLike) async {
-
                     if (unLike == true) {
                       // print(tempIsLike);
                       likeRepository.unlikePost(postId: widget.postId);
-                    }
-                    else {
+                    } else {
                       // print(tempIsLike);
                       likeRepository.likePost(postId: widget.postId);
                     }

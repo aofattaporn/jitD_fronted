@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jitd_client/src/data/models/user_model.dart';
 
 @immutable
-abstract class AuthenticationState {}
+abstract class AuthenticationState {
+  late final UserModel user = UserModel();
+}
 
 /// initial state
 class InitialState extends AuthenticationState {
@@ -65,38 +68,46 @@ class TesterErrorState extends AuthenticationState {
 
 // --------------- user_state ---------------------
 
-class GettingUser extends AuthenCheckingState {
+class GettingUser2 extends AuthenCheckingState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
-class GettedUser extends AuthenCheckingState {
-  final int _countPosts;
-  final int _countLikes;
-  final int _countComments;
-  final String _userId;
-  final int _point;
-  final String _petName;
-
-  int? get countPosts => _countPosts;
-
-  GettedUser(this._countPosts, this._countLikes, this._countComments,
-      this._userId, this._point, this._petName);
+class GetUserSuccess2 extends AuthenticationState {
+  GetUserSuccess2(String userId, int point, String petName, int petHP) {
+    super.user.userID = userId;
+    super.user.point = point;
+    super.user.petName = petName;
+    super.user.petHP = petHP;
+  }
 
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
+}
 
-  int? get countLikes => _countLikes;
+class SetPetNameSuccess extends AuthenticationState {
+  SetPetNameSuccess(String userId, int point, String petName, int petHP) {
+    super.user.userID = userId;
+    super.user.point = point;
+    super.user.petName = petName;
+    super.user.petHP = petHP;
+  }
 
-  int? get countComments => _countComments;
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}
 
-  String? get userId => _userId;
+class SettingNamePet extends AuthenticationState {
+  SettingNamePet(String userId, int point, String petName, int petHP) {
+    super.user.userID = userId;
+    super.user.point = point;
+    super.user.petName = petName;
+    super.user.petHP = petHP;
+  }
 
-  int? get point => _point;
-
-  String? get petName => _petName;
+  @override
+  List<Object?> get props => throw UnimplementedError();
 }
 
 class GetUserError extends AuthenCheckingState {

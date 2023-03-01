@@ -1,7 +1,9 @@
 part of 'petBloc.dart';
 
 @immutable
-abstract class petState extends Equatable {}
+abstract class petState extends Equatable {
+  late final String petName;
+}
 
 class InitialPetName extends petState {
   @override
@@ -13,13 +15,13 @@ class LoadingNamingPet extends petState {
   List<Object?> get props => [];
 }
 
-
 class LoadedNamingPet extends petState {
-
+  LoadedNamingPet(String petName) {
+    super.petName = petName;
+  }
   @override
   List<Object?> get props => [];
 }
-
 
 class ErrorNamingPet extends petState {
   final String error;

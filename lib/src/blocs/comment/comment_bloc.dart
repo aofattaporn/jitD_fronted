@@ -68,9 +68,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
             event._content, event._date, event._postID, event._commentId);
         final commentModel = commentModelFromJson(commentJSON);
         listCommentModel.updateComment(commentModel);
-        for (var element in listCommentModel.comments) {
-          print(element.content);
-        }
+
         emit(UpdatedComment(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");

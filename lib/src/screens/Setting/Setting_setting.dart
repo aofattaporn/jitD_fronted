@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_account.dart';
-import 'package:jitd_client/src/screens/ProfilePage.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/authentication/authen_bloc.dart';
 import '../../blocs/authentication/authen_event.dart';
@@ -48,8 +47,7 @@ class _Setting_settingState extends State<Setting_setting> {
         centerTitle: true,
         title: const Text(
           "การตั้งค่า",
-          style: TextStyle(
-              fontSize: 16, color: Colors.black),
+          style: TextStyle(fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {
@@ -83,9 +81,7 @@ class _Setting_settingState extends State<Setting_setting> {
                         color: Colors.black,
                       ),
                       SizedBox(width: 10),
-                      Text("การแจ้งเตือน",
-                          style: TextStyle(
-                              fontSize: 16)),
+                      Text("การแจ้งเตือน", style: TextStyle(fontSize: 16)),
                     ],
                   ),
                   Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -114,9 +110,7 @@ class _Setting_settingState extends State<Setting_setting> {
                           color: Colors.black,
                         ),
                         SizedBox(width: 10),
-                        Text("บัญชี",
-                            style: TextStyle(
-                                fontSize: 16)),
+                        Text("บัญชี", style: TextStyle(fontSize: 16)),
                       ],
                     ),
                     Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -133,9 +127,7 @@ class _Setting_settingState extends State<Setting_setting> {
                       color: Colors.black,
                     ),
                     SizedBox(width: 10),
-                    Text("ติดต่อแอดมิน",
-                        style: TextStyle(
-                            fontSize: 16)),
+                    Text("ติดต่อแอดมิน", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -152,9 +144,7 @@ class _Setting_settingState extends State<Setting_setting> {
                       color: Colors.black,
                     ),
                     SizedBox(width: 10),
-                    Text("เกี่ยวกับการตั้งค่า",
-                        style: TextStyle(
-                            fontSize: 16)),
+                    Text("เกี่ยวกับการตั้งค่า", style: TextStyle(fontSize: 16)),
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -210,21 +200,22 @@ class _Setting_settingState extends State<Setting_setting> {
                                   }
                                 },
                                 child: BlocBuilder<AuthenticationBloc,
-                                    AuthenticationState>(
-                                  builder: (context, state) {
-                                    return TextButton(
-                                      style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.deepOrangeAccent),
-                                      ),
-                                      onPressed: () {
-                                        context.read<AuthenticationBloc>().add(SignOut());
-                                      },
-                                      child: Text('ออกจากระบบ'),
-                                    );
-                                  }
-                                ),
+                                        AuthenticationState>(
+                                    builder: (context, state) {
+                                  return TextButton(
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.deepOrangeAccent),
+                                    ),
+                                    onPressed: () {
+                                      context
+                                          .read<AuthenticationBloc>()
+                                          .add(SignOut());
+                                    },
+                                    child: Text('ออกจากระบบ'),
+                                  );
+                                }),
                               ),
                             ),
                           ),

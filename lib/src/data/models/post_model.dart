@@ -1,31 +1,55 @@
 import 'dart:convert';
 
-//------------------------------------------------------------------
+ListPostModel listPostModelFromJson(String str) =>
+    ListPostModel.fromJson(json.decode(str));
+
+class ListPostModel {
+  List<PostModel> posts = [];
+
+  ListPostModel();
+
+  /// method convert map to json
+  ListPostModel.fromJson(List<dynamic> json) {
+    for (var element in json) {
+      posts.add(PostModel.fromJson(element));
+    }
+    posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
+  }
+
+  void setCategory(List<PostModel> list, List<String> category, String postID) {
+    for (var element in list) {
+      if (element.postId == postID) {
+        element.category = category.toList();
+        break;
+      }
+    }
+  }
+}
+
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
+
+PostModel postModelIDFromJson(String str) =>
+    PostModel.fromJsonID(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
 class PostModel {
-  //----- variable for getAllPost (เพราะมัน return มาเป็น list) ----
-  List<PostModel> posts = [];
-
-  //----- variable in Each PostModel----
   String? userId;
   String? postId;
   String? content;
   String? date;
   bool? isPublic;
   List<String>? category;
-
-  //----- data for get response ----
   int? countLike;
   int? countComment;
   int? countPost;
   bool? isLike;
   String? error;
 
+  PostModel();
+
   /// constructor method (Method ที่ยัด arg และจะสร้าง object เป็น type นั้น)
-  PostModel(this.content, this.date, this.isPublic, this.category);
+  PostModel.GetData(this.content, this.date, this.isPublic, this.category);
 
   PostModel.Response(this.content, this.date, this.isPublic, this.category,
       this.countPost, this.countComment);
@@ -36,20 +60,8 @@ class PostModel {
     error = errorMessage;
   }
 
-  /// method convert map to json
-  PostModel.fromJson(List<dynamic> json) {
-    if (json != null) {
-      json.forEach((element) {
-        // แตก json ที่เป็น list ออกเป็นก้อน object type PostModel
-        posts.add(PostModel.fromJsonResponse(element));
-      });
-      print(posts.length);
-      posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
-    }
-  }
-
-  /// function get post
-  PostModel.fromJsonResponse(Map<String, dynamic> json) {
+  // function get post
+  PostModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     postId = json['postId'];
     content = json['content'];
@@ -62,7 +74,10 @@ class PostModel {
     isLike = json['isLike'];
   }
 
-  get comments => null;
+  // function get post
+  PostModel.fromJsonID(Map<String, dynamic> json) {
+    postId = json['postId'];
+  }
 
   /// method convert json to map
   Map<String, dynamic> toJson() {

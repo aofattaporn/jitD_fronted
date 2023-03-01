@@ -1,46 +1,47 @@
 import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+UserModel petFromJson(String str) => UserModel.fromPetJson(json.decode(str));
+
+UserModel petNameFromJson(String str) =>
+    UserModel.fromJsonPet(json.decode(str));
 
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  int? countPosts;
-  int? countLikes;
-  int? countComments;
-  String? userId;
-  int? point;
+  String? userID;
   String? petName;
+  int? petHP;
+  int? point;
   String? error;
 
-  UserModel.response(this.countPosts,this.countLikes,this.countComments,this.userId,this.point,this.petName);
-  UserModel(this.point,this.petName);
-
+  UserModel();
 
   UserModel.withError(String errorMessage) {
     error = errorMessage;
   }
 
-  /// method convert map to json
+  // method convert map to json
   UserModel.fromJson(Map<String, dynamic> json) {
-    countPosts = json['countPosts'];
-    countLikes = json['countLikes'];
-    countComments = json['countComments'];
-    userId = json['userId'];
+    userID = json['userID'];
     petName = json['petName'];
+    petHP = json['petHP'];
     point = json['point'];
   }
 
-  /// method convert json to map
+  UserModel.fromPetJson(Map<String, dynamic> json) {
+    petName = json['petName'];
+  }
+
+  // method convert map to json
+  UserModel.fromJsonPet(Map<String, dynamic> json) {
+    petName = json['petName'];
+  }
+
+  // method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    // data['countPosts'] = countPosts;
-    // data['countLikes'] = countLikes;
-    // data['countComments'] = countComments;
-    // data['userId'] = userId;
-    data['petName'] = petName;
-    data['point'] = point;
-
+    data['userId'] = userID;
     return data;
   }
 }
