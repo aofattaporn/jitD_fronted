@@ -237,43 +237,6 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   SortPostModal(postBloc: _postBloc!),
-                                  // Padding(
-                                  //   padding:
-                                  //       const EdgeInsetsDirectional.fromSTEB(
-                                  //           0, 20, 20, 0),
-                                  //   child: Container(
-                                  //       width:
-                                  //           MediaQuery.of(context).size.width *
-                                  //               0.4,
-                                  //       height:
-                                  //           MediaQuery.of(context).size.height *
-                                  //               0.04,
-                                  //       decoration: const BoxDecoration(
-                                  //           color: thirterydColor,
-                                  //           borderRadius: BorderRadius.all(
-                                  //               Radius.circular(20))),
-                                  //       child: Center(
-                                  //         child: RichText(
-                                  //           text: TextSpan(children: [
-                                  //             TextSpan(
-                                  //                 text: " เรียงตามความนิยม ",
-                                  //                 style: GoogleFonts.getFont(
-                                  //                     'Bai Jamjuree',
-                                  //                     color: Colors.white,
-                                  //                     fontSize: 14,
-                                  //                     fontWeight:
-                                  //                         FontWeight.bold)),
-                                  //             const WidgetSpan(
-                                  //               child: Icon(
-                                  //                 Icons.arrow_drop_down,
-                                  //                 size: 18,
-                                  //                 color: backgroundColor3,
-                                  //               ),
-                                  //             ),
-                                  //           ]),
-                                  //         ),
-                                  //       )),
-                                  // ),
                                 ],
                               ),
                               ListView.builder(
