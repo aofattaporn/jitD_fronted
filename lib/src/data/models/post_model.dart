@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+//------------------------------------------------------------------
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());

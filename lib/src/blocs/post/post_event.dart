@@ -55,5 +55,4 @@ class UpdatingMyPost extends PostEvent {
 class GetMyPost extends PostEvent {
   @override
   List<Object> get props => [];
-
 }

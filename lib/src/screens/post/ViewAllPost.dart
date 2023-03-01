@@ -232,15 +232,15 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 children: [
                                   Padding(
                                     padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            0, 20, 20, 0),
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 20, 20, 0),
                                     child: Container(
                                         width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
+                                        MediaQuery.of(context).size.width *
+                                            0.4,
                                         height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
+                                        MediaQuery.of(context).size.height *
+                                            0.04,
                                         decoration: const BoxDecoration(
                                             color: thirterydColor,
                                             borderRadius: BorderRadius.all(
@@ -255,7 +255,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                                       color: Colors.white,
                                                       fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.bold)),
+                                                      FontWeight.bold)),
                                               const WidgetSpan(
                                                 child: Icon(
                                                   Icons.arrow_drop_down,
@@ -302,30 +302,37 @@ class ViewAllPostState extends State<ViewAllPost> {
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                                 builder: (context) => ViewPost(
-                                                      userId: filteredList[index]
-                                                              .userId ??
-                                                          "",
-                                                      postId: filteredList[index]
-                                                              .postId ??
-                                                          "",
-                                                      content: filteredList[index]
-                                                              .content ??
-                                                          "No Data",
+                                                      userId:
+                                                          filteredList[index]
+                                                                  .userId ??
+                                                              "",
+                                                      postId:
+                                                          filteredList[index]
+                                                                  .postId ??
+                                                              "",
+                                                      content:
+                                                          filteredList[index]
+                                                                  .content ??
+                                                              "No Data",
                                                       date: filteredList[index]
                                                               .date ??
                                                           DateTime.now()
                                                               .toString(),
-                                                      category: filteredList[index]
-                                                              .category ??
-                                                          ["Tag1", "Tag2"],
-                                                      countComment: filteredList[index]
-                                                          .countComment
-                                                          .toString(),
-                                                      countLike: filteredList[index]
-                                                          .countLike
-                                                          .toString(),
-                                                      isLike: filteredList[index]
-                                                          .isLike,
+                                                      category:
+                                                          filteredList[index]
+                                                                  .category ??
+                                                              ["Tag1", "Tag2"],
+                                                      countComment:
+                                                          filteredList[index]
+                                                              .countComment
+                                                              .toString(),
+                                                      countLike:
+                                                          filteredList[index]
+                                                              .countLike
+                                                              .toString(),
+                                                      isLike:
+                                                          filteredList[index]
+                                                              .isLike,
                                                     )));
                                       },
                                     );

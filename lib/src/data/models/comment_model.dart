@@ -79,7 +79,7 @@ class CommentModel {
     content = json['content'];
     countLike = json['countLike'];
     postId = json['postId'];
-    Date = convertDate(json['date']);
+    Date = json['date'];
     commentId = json['commentId'];
     userId = json['userId'];
     isLike = json['isLike'];
