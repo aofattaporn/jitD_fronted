@@ -19,20 +19,7 @@ class ListPostModel {
   void setCategory(List<PostModel> list, List<String> category, String postID) {
     for (var element in list) {
       if (element.postId == postID) {
-        print("-----check1------------");
-        for (var element2 in element.category!) {
-          print(element2);
-        }
-        print("-----check1------------");
-        // element.category!.clear();
         element.category = category.toList();
-
-        print("-----check2------------");
-        for (var element2 in element.category!) {
-          print(element2);
-        }
-        print("-----check2------------");
-
         break;
       }
     }

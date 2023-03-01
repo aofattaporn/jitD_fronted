@@ -5,7 +5,8 @@ import '../../data/models/post_model.dart';
 
 @immutable
 abstract class PostState extends Equatable {
-  late final List<PostModel> listPostModel;
+  late List<PostModel> listPostModel = [];
+  late List<String> category = [];
 }
 
 /// state loading
@@ -68,6 +69,9 @@ class PostDeletedState extends PostState {
 }
 
 class UpdatingPost extends PostState {
+  UpdatingPost(List<PostModel> list) {
+    super.listPostModel = list;
+  }
   @override
   List<Object?> get props => [];
 }
@@ -84,6 +88,25 @@ class UpdatedPost extends PostState {
 class EditCategorySuccess extends PostState {
   EditCategorySuccess(List<PostModel> list) {
     super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class EditingCategorySuccess extends PostState {
+  EditingCategorySuccess(List<String> category, List<PostModel> list) {
+    super.category = category.toList();
+    super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class WillEditCategory extends PostState {
+  WillEditCategory(List<String> category) {
+    super.category = category.toList();
   }
 
   @override

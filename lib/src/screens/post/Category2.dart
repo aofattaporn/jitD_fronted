@@ -33,6 +33,7 @@ class Category2 extends StatefulWidget {
 class Category2State extends State<Category2> {
   TextEditingController? textController;
   final panelController = PanelController();
+  final PostBloc postBloc2 = PostBloc();
   List<String> category = [
     "การเรียน",
     "การงาน",
@@ -42,9 +43,13 @@ class Category2State extends State<Category2> {
     "ครอบครัว",
     "สุขภาพร่างกาย"
   ];
+  late List<String> myList = [];
 
   @override
   void initState() {
+    // initial category og post
+    postBloc2.add(InitialSelectCat(widget.category!));
+
     super.initState();
     textController = TextEditingController(text: widget.content);
   }
@@ -74,14 +79,34 @@ class Category2State extends State<Category2> {
           child: Padding(
             padding: EdgeInsets.symmetric(
                 vertical: height * 0.025, horizontal: width * 0.07),
-            child: BlocProvider.value(
-              value: widget.postBloc,
-              child: BlocListener<PostBloc, PostState>(
-                listener: (context, state) {
-                  if (state is EditCategorySuccess) {
-                    Navigator.of(context).pop();
-                  }
-                },
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider<PostBloc>(
+                  create: (context) => postBloc2,
+                ),
+                BlocProvider.value(
+                  value: widget.postBloc,
+                )
+              ],
+              child: MultiBlocListener(
+                listeners: [
+                  BlocListener<PostBloc, PostState>(
+                    bloc: widget.postBloc,
+                    listener: (context, state) {
+                      if (state is EditCategorySuccess) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                  BlocListener<PostBloc, PostState>(
+                    bloc: postBloc2,
+                    listener: (context, state) {
+                      if (state is EditingCategorySuccess) {
+                        myList = state.category.toList();
+                      }
+                    },
+                  ),
+                ],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -89,94 +114,10 @@ class Category2State extends State<Category2> {
                     header(),
 
                     // show category
-                    Container(
-                      width: width,
-                      margin: EdgeInsets.symmetric(vertical: height * 0.03),
-                      height: height * 0.08,
-                      padding: EdgeInsets.symmetric(
-                          vertical: height * 0.02, horizontal: width * 0.05),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: backgroundColor3,
-                      ),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: widget.category?.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: thirterydColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20)),
-                              onPressed: () {
-                                // remove category
-                                setState(() {
-                                  widget.category?.remove(category[index]);
-                                });
-                                ;
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(widget.postBloc.listPostModel.posts[i]
-                                      .category![index]),
-                                  const Icon(Icons.close)
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    showCategory(width, height, i),
 
                     // select category
-                    SizedBox(
-                      height: height * 0.5,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: category.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final post = widget.postBloc.listPostModel.posts[i];
-                          return BlocBuilder<PostBloc, PostState>(
-                              builder: (context, state) {
-                            // check if click
-                            if (checkClick(post, category[index])) {
-                              return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: Card(
-                                      color: primaryColor,
-                                      elevation: 0,
-                                      // shadowColor: Colors.blue,
-                                      child: ListTile(
-                                          title: Text(category[index]),
-                                          textColor: secondaryColor,
-                                          trailing: const Icon(
-                                            Icons.add_circle_rounded,
-                                            color: secondaryColor,
-                                          ))));
-                            } else {
-                              return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: Card(
-                                      color: Colors.white,
-                                      elevation: 5,
-                                      // shadowColor: Colors.blue,
-                                      child: ListTile(
-                                          title: Text(category[index]),
-                                          trailing: const Icon(
-                                              Icons.add_circle_rounded))));
-                            }
-                          });
-                        },
-                      ),
-                    )
+                    selectCategory(height, i)
                   ],
                 ),
               ),
@@ -185,6 +126,96 @@ class Category2State extends State<Category2> {
         ),
       ),
     );
+  }
+
+  SizedBox selectCategory(double height, int i) {
+    return SizedBox(
+      height: height * 0.5,
+      child: BlocProvider<PostBloc>(
+        create: (context) => postBloc2,
+        child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: category.length,
+            itemBuilder: (BuildContext context, int index) {
+              // final post = widget.postBloc.listPostModel.posts[i];
+              return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  child: Card(
+                      color: checkColor(category[index]),
+                      elevation: 0,
+                      child: ListTile(
+                          title: Text(category[index]),
+                          // check funtion to ckick and add
+                          onTap: () {
+                            checkClickToAddCat(category[index], state, index);
+                          },
+                          textColor: secondaryColor,
+                          trailing: const Icon(
+                            Icons.add_circle_rounded,
+                            color: secondaryColor,
+                          ))));
+            },
+          );
+        }),
+      ),
+    );
+  }
+
+  Container showCategory(double width, double height, int i) {
+    return Container(
+      width: width,
+      margin: EdgeInsets.symmetric(vertical: height * 0.03),
+      height: height * 0.08,
+      padding: EdgeInsets.symmetric(
+          vertical: height * 0.02, horizontal: width * 0.05),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: backgroundColor3,
+      ),
+      child: BlocProvider<PostBloc>(
+        create: (context) => postBloc2,
+        child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: state.category.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: thirterydColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      padding: const EdgeInsets.symmetric(horizontal: 20)),
+                  onPressed: () {
+                    // remove category
+                    context
+                        .read<PostBloc>()
+                        .add(RemoveCategory(state.category[index], myList));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(state.category[index]),
+                      const Icon(Icons.close)
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }),
+      ),
+    );
+  }
+
+  Color checkColor(String category) {
+    if (checkClick(category) == true) {
+      return primaryColor;
+    } else {
+      return Colors.white;
+    }
   }
 
   int getIndex(List<PostModel> listPost, String postID) {
@@ -196,13 +227,40 @@ class Category2State extends State<Category2> {
     return 0;
   }
 
-  bool checkClick(PostModel list, String category) {
-    for (var element in list.category!) {
+  bool checkClick(String category) {
+    int countFound = 0;
+    bool found = false;
+
+    for (var element in myList) {
       if (element == category) {
+        countFound++;
         return true;
       }
     }
     return false;
+  }
+
+  Function? checkClickToAddCat(String newcat, PostState state, int index) {
+    bool found = false;
+    int countFound = 0;
+
+    for (var element in myList) {
+      if (element == newcat) {
+        found = true;
+      }
+    }
+
+    if (myList.length == 3) {
+      return () {};
+    } else {
+      if (found) {
+        return () {};
+      } else {
+        postBloc2.add(AddCategory(newcat, myList));
+      }
+    }
+
+    return null;
   }
 
   Row header() {
@@ -216,8 +274,8 @@ class Category2State extends State<Category2> {
             icon: const Icon(Icons.close)),
         ElevatedButton(
             onPressed: () {
-              widget.postBloc
-                  .add(UpdateCategory(widget.postID, widget.category!));
+              print("click!!!!");
+              widget.postBloc.add(UpdateCategory(widget.postID, myList));
             },
             style: ElevatedButton.styleFrom(
                 primary: thirterydColor,
@@ -231,22 +289,21 @@ class Category2State extends State<Category2> {
     );
   }
 
-  Route _createRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+  void removeCatSelected(String category) {
+    for (var element in myList) {
+      if (element == category) {
+        myList.remove(element);
+        break;
+      }
+    }
+  }
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
+  void addCatSelected(String category) {
+    for (var element in widget.category!) {
+      if (element == category) {
+        widget.category!.remove(element);
+        break;
+      }
+    }
   }
 }

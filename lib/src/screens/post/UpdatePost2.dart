@@ -37,10 +37,12 @@ class UpdatePost2 extends StatefulWidget {
 class UpdatePost2State extends State<UpdatePost2> {
   TextEditingController? textController;
   final panelController = PanelController();
+  late List<String> myList;
 
   @override
   void initState() {
     super.initState();
+    myList = widget.category!.toList();
     textController = TextEditingController(text: widget.content);
   }
 
@@ -74,22 +76,35 @@ class UpdatePost2State extends State<UpdatePost2> {
             // onTap: panelController.open,
             child: BlocProvider.value(
               value: widget.postBloc,
-              child: Container(
-                color: backgroundColor2,
-                child: Center(
-                  child: RichText(
-                    text: TextSpan(children: [
-                      const WidgetSpan(
-                          child: Icon(
-                        Icons.settings,
-                        size: 20,
-                        color: textColor3,
-                      )),
-                      TextSpan(
-                          text: "ตั้งค่าโพสเพิ่มเติม",
-                          style: GoogleFonts.getFont("Bai Jamjuree",
-                              fontSize: 18, color: textColor3))
-                    ]),
+              child: BlocListener<PostBloc, PostState>(
+                listener: (context, state) {
+                  if (state is EditCategorySuccess) {
+                    List<PostModel> listPost =
+                        widget.postBloc.listPostModel.posts;
+                    int postIndex = getIndex(listPost, widget.postID);
+                    setState(() {
+                      myList =
+                          state.listPostModel[postIndex].category!.toList();
+                    });
+                  }
+                },
+                child: Container(
+                  color: backgroundColor2,
+                  child: Center(
+                    child: RichText(
+                      text: TextSpan(children: [
+                        const WidgetSpan(
+                            child: Icon(
+                          Icons.settings,
+                          size: 20,
+                          color: textColor3,
+                        )),
+                        TextSpan(
+                            text: "ตั้งค่าโพสเพิ่มเติม",
+                            style: GoogleFonts.getFont("Bai Jamjuree",
+                                fontSize: 18, color: textColor3))
+                      ]),
+                    ),
                   ),
                 ),
               ),
@@ -127,101 +142,38 @@ class UpdatePost2State extends State<UpdatePost2> {
         ));
   }
 
-  Column selectCategory(double width, double height) {
-    List<PostModel> listPost = widget.postBloc.listPostModel.posts;
-    int i = getIndex(listPost, widget.postID);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  // -------------- header ---------------
+  Row header() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.close)),
         ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                CupertinoPageRoute(
-                    builder: (context) => Category2(
-                          postBloc: widget.postBloc,
-                          postID: widget.postID,
-                          category: widget.category,
-                        )));
-          },
-          style: ElevatedButton.styleFrom(primary: secondaryColor),
-          child: const Text("เลือกประเภทโพสที่เกี่ยวข้อง"),
-        ),
-        Container(
-          width: width,
-          height: height * 0.08,
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.02, horizontal: width * 0.05),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: backgroundColor3,
-          ),
-          child: BlocProvider.value(
-            value: widget.postBloc,
-            child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.category?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: thirterydColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          padding: const EdgeInsets.symmetric(horizontal: 20)),
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.postBloc.listPostModel.posts[i]
-                              .category![index]),
-                          const Icon(Icons.close)
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }),
-          ),
-        )
+            onPressed: () {
+              widget.postBloc.add(UpdatingMyPost(
+                  textController!.text,
+                  DateTime.now().toUtc().toString(),
+                  true,
+                  widget.postID,
+                  myList));
+            },
+            style: ElevatedButton.styleFrom(
+                primary: thirterydColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30))),
+            child: Text(
+              "แก้ไขโพส",
+              style: fontsTH16White,
+            ))
       ],
     );
   }
 
-  int getIndex(List<PostModel> listPost, String postID) {
-    for (int i = 0; i < listPost.length; i++) {
-      if (listPost[i].postId == postID) {
-        return i;
-      }
-    }
-    return 0;
-  }
-
-  Container formCreatePost() {
-    return Container(
-      // color: Colors.orangeAccent,
-      height: MediaQuery.of(context).size.height * 0.4,
-      padding: EdgeInsets.all(20),
-      child: Column(
-        children: [
-          TextFormField(
-              autofocus: true,
-              obscureText: false,
-              controller: textController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: "อยากบอกอะไร",
-              )),
-        ],
-      ),
-    );
-  }
-
+  // ----------------- show-id ---------------------
   Row showID_setting(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,36 +205,126 @@ class UpdatePost2State extends State<UpdatePost2> {
     );
   }
 
-  Row header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  // ------------------ content post ------------------
+
+  Container formCreatePost() {
+    return Container(
+      // color: Colors.orangeAccent,
+      height: MediaQuery.of(context).size.height * 0.4,
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          TextFormField(
+              autofocus: true,
+              obscureText: false,
+              controller: textController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: "อยากบอกอะไร",
+              )),
+        ],
+      ),
+    );
+  }
+
+  // -------------- category ---------------
+  BlocProvider<PostBloc> selectCategory(double width, double height) {
+    List<PostModel> listPost = widget.postBloc.listPostModel.posts;
+    int postIndex = getIndex(listPost, widget.postID);
+    return BlocProvider.value(
+      value: widget.postBloc,
+      child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+        if (state is EditCategorySuccess ||
+            state is EditingCategorySuccess ||
+            state is UpdatingMyPost ||
+            state is UpdatedPost) {
+          print("+++++++");
+
+          print(state);
+          List<PostModel> listPost = widget.postBloc.listPostModel.posts;
+          int postIndex = getIndex(listPost, widget.postID);
+
+          for (var element in state.listPostModel[postIndex].category!) {
+            print(element);
+          }
+          print("+++++++");
+          return categorElem(context, state, postIndex, width, height);
+        }
+        return categorElem(context, state, postIndex, width, height);
+      }),
+    );
+  }
+
+  // -------------- category element ---------------
+  Column categorElem(BuildContext context, PostState state, int postIndex,
+      double width, double height) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(Icons.close)),
         ElevatedButton(
-            onPressed: () {
-              widget.postBloc.add(UpdatingMyPost(
-                  textController!.text,
-                  DateTime.now().toUtc().toString(),
-                  true,
-                  widget.postID,
-                  widget.category!));
-            },
-            style: ElevatedButton.styleFrom(
-                primary: thirterydColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30))),
-            child: Text(
-              "แก้ไขโพส",
-              style: fontsTH16White,
+          onPressed: () {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => Category2(
+                          postBloc: widget.postBloc,
+                          postID: widget.postID,
+                          category: state.listPostModel[postIndex].category,
+                        )));
+          },
+          style: ElevatedButton.styleFrom(primary: secondaryColor),
+          child: const Text("เลือกประเภทโพสที่เกี่ยวข้อง"),
+        ),
+        Container(
+            width: width,
+            height: height * 0.08,
+            padding: EdgeInsets.symmetric(
+                vertical: height * 0.02, horizontal: width * 0.05),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: backgroundColor3,
+            ),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.listPostModel[postIndex].category!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: thirterydColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        padding: const EdgeInsets.symmetric(horizontal: 20)),
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(state.listPostModel[postIndex].category![index]),
+                        const Icon(Icons.close)
+                      ],
+                    ),
+                  ),
+                );
+              },
             ))
       ],
     );
   }
 
+  // ------------------ function ------------------
+  int getIndex(List<PostModel> listPost, String postID) {
+    for (int i = 0; i < listPost.length; i++) {
+      if (listPost[i].postId == postID) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  //---------- option panel ----------------
   Container buildOpenPanel(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(

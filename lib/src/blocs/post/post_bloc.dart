@@ -23,7 +23,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getAllPost();
         final listPostData = listPostModelFromJson(listPostJSON);
-        print("ss");
 
         listPostModel.posts = listPostData.posts;
 
@@ -51,7 +50,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     // event updating post
     on<UpdatingMyPost>((event, emit) async {
-      emit(PostLoadingState());
+      emit(UpdatingPost(listPostModel.posts));
 
       String content = event._content;
       List<String> category = event.category;
@@ -122,6 +121,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     on<GetPostBySearch>((event, emit) async {
+      print('click');
       emit(PostLoadingState());
       try {
         final listPostJSON =
@@ -137,25 +137,37 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
-    // remove category
-    on<RemoveCategory>((event, emit) {
-      for (var element in listPostModel.posts) {
-        if (element.postId == element.postId) {
-          element.category
-              ?.removeWhere((element2) => element2 == event.category);
-        }
-      }
-
-      // emit remove success
-      emit(EditCategorySuccess(listPostModel.posts));
-    });
-
     on<UpdateCategory>((event, emit) {
+      List<String> temp = event.category.toList();
+      emit(WillEditCategory(temp));
       listPostModel.setCategory(
           listPostModel.posts, event.category, event.postID);
 
       // emit remove success
       emit(EditCategorySuccess(listPostModel.posts));
+    });
+
+    on<InitialSelectCat>((event, emit) {
+      emit(EditingCategorySuccess(event.category, listPostModel.posts));
+    });
+
+    on<RemoveCategory>((event, emit) {
+      List<String> temp = event.category.toList();
+      emit(WillEditCategory(temp));
+      for (var element in event.category) {
+        if (element == event.newCategory) {
+          event.category.remove(element);
+          break;
+        }
+      }
+      emit(EditingCategorySuccess(event.category, listPostModel.posts));
+    });
+
+    on<AddCategory>((event, emit) {
+      List<String> temp = event.category.toList();
+      emit(WillEditCategory(temp));
+      event.category.add(event.newCategory);
+      emit(EditingCategorySuccess(event.category, listPostModel.posts));
     });
   }
 }

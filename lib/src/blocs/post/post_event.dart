@@ -9,11 +9,13 @@ abstract class PostEvent extends Equatable {
 // สร้าง abstract บอกว่าเป็น class แม่
 class CreatingPost extends PostEvent {
   String? _content;
+
   // DateTime? _Date;
   bool? _IsPublic;
   List<String> _category;
 
   CreatingPost(this._content, this._IsPublic, this._category);
+
   @override
   List<Object> get props => [];
 }
@@ -27,13 +29,16 @@ class GetPostBySearch extends PostEvent {
   String content;
 
   GetPostBySearch(this.content);
+
   @override
   List<Object> get props => [];
 }
 
 class DeleteMyPost extends PostEvent {
   String? _id;
+
   DeleteMyPost(this._id);
+
   String? get id => _id;
 
   @override
@@ -59,19 +64,44 @@ class GetMyPost extends PostEvent {
   List<Object> get props => [];
 }
 
-class RemoveCategory extends PostEvent {
+class UpdateCategory extends PostEvent {
   String postID;
-  String category;
+  List<String> category;
 
-  RemoveCategory(this.category, this.postID);
+  UpdateCategory(this.postID, this.category);
+
   @override
   List<Object> get props => [];
 }
 
-class UpdateCategory extends PostEvent {
-  String postID;
+// -- about category -----
+
+class RemoveCategory extends PostEvent {
+  String newCategory;
   List<String> category;
-  UpdateCategory(this.postID, this.category);
+
+  RemoveCategory(this.newCategory, this.category);
+
   @override
-  List<Object> get props => [];
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class AddCategory extends PostEvent {
+  String newCategory;
+  List<String> category;
+
+  AddCategory(this.newCategory, this.category);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class InitialSelectCat extends PostEvent {
+  List<String> category;
+  InitialSelectCat(this.category);
+
+  @override
+  List<Object?> get props => [];
 }
