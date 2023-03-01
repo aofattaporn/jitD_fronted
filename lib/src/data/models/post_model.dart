@@ -1,22 +1,5 @@
 import 'dart:convert';
 
-ListPostModel listPostModelfromJson(String str) =>
-    ListPostModel.fromJson(json.decode(str));
-
-class ListPostModel {
-  List<PostModel> posts = [];
-
-  ListPostModel();
-
-  ///method convert map to Json
-  ListPostModel.fromJson(List<dynamic>json){
-    json.forEach((element) {
-      posts.add(PostModel.fromJsonResponse(element));
-    });
-  }
-}
-
-
 //------------------------------------------------------------------
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 

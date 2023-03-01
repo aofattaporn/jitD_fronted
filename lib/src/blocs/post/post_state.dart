@@ -3,9 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../data/models/post_model.dart';
 
 @immutable
-abstract class PostState extends Equatable {
-  late final List<PostModel> posts;
-}
+abstract class PostState extends Equatable {}
 
 /// state loading
 class InitialPost extends PostState {

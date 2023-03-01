@@ -14,7 +14,6 @@ part 'post_event.dart';
 class PostBloc extends Bloc<PostEvent, PostState> {
   // creating object repository
   PostRepository postRepository = PostRepository();
-  ListPostModel listPostModel = ListPostModel();
 
   PostBloc() : super(InitialPost()) {
     /// event create post
@@ -126,9 +125,4 @@ Future<void> myPost(emit, postRepository) async {
     print("Exxception occured: $e stackTrace: $stacktrace");
     emit(PostError(e.toString()));
   }
-}
-
-DateTime convertDate(String? date) {
-  DateTime dt = DateTime.parse(date!);
-  return dt;
 }
