@@ -10,10 +10,9 @@ import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
 
 class SortModal extends StatefulWidget {
-  final String? userId;
   final CommentBloc commentBloc;
 
-  const SortModal({Key? key, required this.userId, required this.commentBloc})
+  const SortModal({Key? key, required this.commentBloc})
       : super(key: key);
 
   @override
@@ -115,12 +114,12 @@ class _SortModalState extends State<SortModal> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   GestureDetector(
-                    child: Text("เรียงตามความคิดเห็นล่าสุด",
+                    child: Text("เรียงตามใหม่ล่าสุด",
                         style:
                         GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.commentBloc.add(SortCommentByDate("เรียงตามความคิดเห็นล่าสุด"));
+                      widget.commentBloc.add(SortCommentByDate("เรียงตามใหม่ล่าสุด"));
                     },
                   ),
                   Divider(height: 20, thickness: 1),

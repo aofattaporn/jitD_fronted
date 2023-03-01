@@ -7,7 +7,7 @@ import '../../data/models/comment_model.dart';
 @immutable
 abstract class CommentState extends Equatable {
   late final List<CommentModel> comment;
-  late String sortby = "เรียงตามความคิดเห็นล่าสุด";
+  late String sortby = "เรียงตามใหม่ล่าสุด";
 }
 
 /// state loading
