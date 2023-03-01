@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 
 import '../../data/models/comment_model.dart';
 
 @immutable
 abstract class CommentState extends Equatable {
   late final List<CommentModel> comment;
+  late String sortby = "เรียงตามโพสล่าสุด";
 }
 
 /// state loading
@@ -121,6 +123,33 @@ class CommentError extends CommentState {
 
   CommentError(this.error);
 
+  @override
+  List<Object?> get props => [];
+}
+
+///----------Sort By Date--------------
+class SortedCommentByDate extends CommentState{
+  SortedCommentByDate(List<CommentModel> _comment, String _sortby) {
+    super.comment = _comment;
+    super.sortby = _sortby;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
+  @override
+  List<Object?> get props => [];
+}
+
+class SortedCommentByLike extends CommentState{
+  SortedCommentByLike(List<CommentModel> _comment, String _sortby) {
+    super.comment = _comment;
+    super.sortby = _sortby;
+  }
+
+  @override
+  // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];
 }
