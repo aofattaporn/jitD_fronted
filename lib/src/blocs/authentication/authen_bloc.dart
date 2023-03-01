@@ -10,7 +10,8 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(InitialState()) {
     /// inject Repository
-    AuthRepository authRepository = new AuthRepository();
+    AuthRepository authRepository = AuthRepository();
+    UserModel userModel = UserModel();
 
     /// SignUP event
     on<SignUpEvent>((event, emit) async {
@@ -104,27 +105,6 @@ class AuthenticationBloc
       String result = await authRepository.checkCredentail();
       emit(CheckStatusAuthrn(result));
       emit(SignOutSuccess());
-    });
-
-    /// UserID
-    on<getUserID>((event, emit) async {
-      await authRepository.GetMyUser();
-      emit(GettingUser());
-      try {
-        final userData = await authRepository.GetMyUser();
-        final userModel = await userModelFromJson(userData);
-        // int? post = userModel.countPosts;
-        emit(GettedUser(
-            userModel.countPosts!,
-            userModel.countLikes!,
-            userModel.countComments!,
-            userModel.userId!,
-            userModel.point!,
-            userModel.petName!));
-      } catch (e, stacktrace) {
-        print("Exxception occured: $e stackTrace: $stacktrace");
-        emit(GetUserError());
-      }
     });
   }
 }

@@ -1,40 +1,107 @@
 import 'dart:convert';
 
-CommentModel commentModelFromJson(String str) => CommentModel.fromJson(json.decode(str));
+ListCommentModel listCommentModelFromJson(String str) =>
+    ListCommentModel.fromJson(json.decode(str));
+
+class ListCommentModel {
+  List<CommentModel> comments = [];
+
+  ListCommentModel();
+
+  /// method convert map to json
+  ListCommentModel.fromJson(List<dynamic> json) {
+    json.forEach((element) {
+      comments.add(CommentModel.fromJsonResponse(element));
+    });
+    comments.sort((a, b) => (b.Date ?? "").compareTo(a.Date ?? ""));
+  }
+
+  // set list comment
+  void setComments(List<CommentModel> list) {
+    comments = list;
+  }
+
+  // add comment to list
+  void addNewComment(CommentModel newComment) {
+    comments.add(newComment);
+  }
+
+  // update comment to list
+  void updateComment(CommentModel newComment) {
+    for (var i = 0; i < comments.length; i++) {
+      if (comments[i].commentId! == newComment.commentId!) {
+        comments[i] = newComment;
+        break;
+      }
+    }
+  }
+
+  // delete comment to list
+  void deleteComment(CommentModel deleteComment) {
+    for (int i = 0; i < comments.length; i++) {
+      if (comments[i].commentId! == deleteComment.commentId!) {
+        comments.removeAt(i);
+        break; // stop the loop after removing the comment
+      }
+    }
+  }
+}
+
+//----------------------------------------------------------------
 
 String commentModelToJson(CommentModel data) => json.encode(data.toJson());
 
+CommentModel commentModelFromJson(String str) =>
+    CommentModel.fromJsonResponse(json.decode(str));
+
 class CommentModel {
+  String? userId;
+  String? commentId;
   String? content;
-  String? like;
+  int? countLike;
   String? postId;
   String? Date;
+  bool? isLike;
   String? error;
 
+  CommentModel();
 
-  CommentModel(this.content, this.like, this.postId, this.Date);
+  CommentModel.PostContent(this.content);
+
+  CommentModel.Resquest(this.content, this.Date, this.postId, this.commentId);
 
   CommentModel.withError(String errorMessage) {
     error = errorMessage;
   }
 
-  /// method convert map to json
-  CommentModel.fromJson(Map<String, dynamic> json) {
+  /// function get comment
+  CommentModel.fromJsonResponse(Map<String, dynamic> json) {
     content = json['content'];
-    like = json['like'];
+    countLike = json['countLike'];
     postId = json['postId'];
-    Date = json['Date'];
+    Date = json['date'];
+    commentId = json['commentId'];
+    userId = json['userId'];
+    isLike = json['isLike'];
   }
-
 
   /// method convert json to map
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['content'] = content;
-    data['like'] = like;
+    data['countLike'] = countLike;
     data['postId'] = postId;
     data['Date'] = Date;
+    data['commentId'] = commentId;
+    data['userId'] = userId;
 
     return data;
+  }
+
+  String convertDate(String? date) {
+    DateTime dt = DateTime.parse(date!);
+    String datFormat =
+        '${dt.day.toString()}-${dt.month.toString()}-${dt.year.toString()}';
+    return datFormat;
   }
 }

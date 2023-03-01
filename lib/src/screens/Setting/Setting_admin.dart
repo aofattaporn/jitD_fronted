@@ -17,7 +17,7 @@ class _Setting_adminState extends State<Setting_admin> {
         title: const Text(
           "ติดต่อแอดมิน",
           style: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 16, color: Colors.black),
         ),
         leading: IconButton(
           onPressed: () {},

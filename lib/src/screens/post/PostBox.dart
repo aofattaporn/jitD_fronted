@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:like_button/like_button.dart';
 
 import '../../constant.dart';
+import '../../data/respository/like_repository.dart';
 import '../Utilities/PostModal.dart';
 
 class PostBox extends StatelessWidget {
@@ -9,19 +13,30 @@ class PostBox extends StatelessWidget {
   final String? postId;
   final String? content;
   final String? date;
+  final String? countComment;
+  final String? countLike;
+  final bool? isLike;
   final List<String>? category;
+  final PostBloc postBloc;
 
   const PostBox(
       {Key? key,
-        required this.userId,
-        required this.postId,
-        required this.content,
-        required this.date,
-        required this.category})
+      required this.userId,
+      required this.postId,
+      required this.content,
+      required this.date,
+      required this.countComment,
+      required this.countLike,
+      required this.isLike,
+      required this.category,
+      required this.postBloc})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    LikeRepository likeRepository = LikeRepository();
+    bool tempIsLike = isLike!;
+
     return Padding(
       padding: EdgeInsetsDirectional.only(
           bottom: MediaQuery.of(context).size.height * 0.03),
@@ -46,23 +61,27 @@ class PostBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    date?? DateTime.now().toString(),
+                    DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                        DateTime.parse(date!)
+                            .toUtc()
+                            .add(const Duration(hours: 7))),
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
-                   PostModal(
-                     userId: userId ?? "",
-                     postId: postId ?? "",
-                     content: content ?? "No Data",
-                     date: date ?? DateTime.now().toString(),
-                     category: category ?? ["Tag1", "Tag2"],
-                   )
+                  PostModal(
+                    userId: userId ?? "",
+                    postId: postId ?? "",
+                    content: content ?? "No Data",
+                    date: date ?? DateTime.now().toString(),
+                    category: category ?? ["Tag1", "Tag2"],
+                    postBloc: postBloc,
+                  )
                 ],
               ),
               Row(
                 children: [
                   Text(
-                    "ผู้ใช้ STOXX",
+                    "ชื่อผู้ใช้ ${"${userId!.substring(0, 5)}xxx"}",
                     style: GoogleFonts.getFont("Bai Jamjuree",
                         color: textColor3, fontSize: 12),
                   )
@@ -137,7 +156,7 @@ class PostBox extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: '0',
+                              text: countComment,
                               style: GoogleFonts.getFont('Lato',
                                   fontSize: 16, color: Colors.white)),
                           const TextSpan(text: '  '),
@@ -154,25 +173,27 @@ class PostBox extends StatelessWidget {
 
                   // Section-Like
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.175,
-                    child: Center(
-                      child: RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: '0',
-                              style: GoogleFonts.getFont('Lato',
-                                  fontSize: 18, color: textColor2)),
-                          const TextSpan(text: ' '),
-                          const WidgetSpan(
-                              child: Icon(
-                            Icons.favorite,
-                            color: Colors.black12,
-                            size: 22,
-                          ))
-                        ]),
-                      ),
-                    ),
+                  LikeButton(
+                    isLiked: isLike,
+                    likeCount: int.parse(countLike!),
+                    likeBuilder: (bool isLiked) {
+                      return Icon(
+                        Icons.favorite,
+                        color: isLiked ? heartColor : Colors.black12,
+                        size: 30.0,
+                      );
+                    },
+                    onTap: (unLike) async {
+                      tempIsLike = !tempIsLike;
+                      if (unLike == true) {
+                        print(tempIsLike);
+                        likeRepository.unlikePost(postId: postId);
+                      } else {
+                        print(tempIsLike);
+                        likeRepository.likePost(postId: postId);
+                      }
+                      return !unLike;
+                    },
                   )
                 ],
               )

@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constant/constant_url.dart';
 import '../models/post_model.dart';
 
 class PostRepository {
-  final String localUrl = "http://localhost:3000/";
-  final String globalUrl = "https://jitd-backend.onrender.com/";
-
   Future<String> creatingPost(
       String? content, bool? isPublic, List<String> category) async {
     String date = DateTime.now().toUtc().toString();
@@ -39,31 +37,29 @@ class PostRepository {
           'Authorization': 'Bearer $token',
         });
     if (response.statusCode == 200) {
-      return "updating data success";
+      return response.body;
     } else {
       print(response.statusCode);
       return "something fail.";
     }
   }
 
-  Future<Object> getAllPost() async {
+  Future<String> getAllPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    print('${token}');
     final response =
         await http.get(Uri.parse("${globalUrl}v1/posts/"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      return PostModel.withError("Data not found");
+      return "something fail.";
     }
   }
 
-  Future<Object> getMyPost() async {
+  Future<String> getMyPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
         await http.get(Uri.parse("${globalUrl}v1/posts/id"), headers: {
@@ -71,15 +67,34 @@ class PostRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    print(response.body);
+
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      return PostModel.withError("Data not found");
+      return "something fail.";
     }
   }
 
-  Future<Object> deletePost(String id) async {
+  Future<String> getPostBySearch(String content) async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    String query = content.trim();
+
+    final response = await http
+        .get(Uri.parse("${globalUrl}v1/posts/keyword/$query"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return "Data not found";
+    }
+  }
+
+  Future<String> deletePost(String id) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
         await http.delete(Uri.parse("${globalUrl}v1/posts/$id"), headers: {
@@ -88,11 +103,13 @@ class PostRepository {
       'Authorization': 'Bearer $token',
     });
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      return "delete post success";
+      return response.body;
     } else {
-      return PostModel.withError("Data not found");
+      int status = response.statusCode;
+      String msg = response.body;
+
+      return "something fail status $status msg :$msg";
     }
   }
 }

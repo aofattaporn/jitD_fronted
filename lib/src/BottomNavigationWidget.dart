@@ -6,16 +6,14 @@ import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/HomePage.dart';
 import 'package:jitd_client/src/screens/NotificationPage.dart';
-import 'package:jitd_client/src/screens/ProfilePage.dart';
 import 'package:jitd_client/src/screens/Search/Search.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
-import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
 import 'package:jitd_client/src/screens/post/CreatePost.dart';
+import 'package:jitd_client/src/screens/profile/ProfilePage.dart';
 import 'package:jitd_client/src/ui/DialogMessage.dart';
 
 import 'blocs/authentication/authen_state.dart';
-import 'blocs/counter/counter_event.dart';
 import 'blocs/post/post_bloc.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
@@ -29,7 +27,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   // late final TestRepository _testerRepository;
   final PostBloc postBloc = PostBloc();
   int currentTab = 0;
-  final List<Widget> screens =  [
+  final List<Widget> screens = [
     HomePage(),
     Search(),
     NotificationPage(),
@@ -49,7 +47,6 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       body: Center(
           child: MultiBlocProvider(
         providers: [
-          BlocProvider<CounterBloc2>(create: (_) => CounterBloc2()),
           BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
           BlocProvider<PostBloc>(create: (_) => PostBloc())
         ],
@@ -58,10 +55,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               BlocListener<AuthenticationBloc, AuthenticationState>(
                   listener: (BuildContext context, state) {
                 if (state is SignOutSuccess) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignIn()),
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) => const SignIn()),
                       (r) {
                     return false;
                   });
@@ -138,8 +133,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-           BlocProvider<PostBloc>(create: (BuildContext context) => PostBloc(),
-           child: const CreatePost()),
+          BlocProvider<PostBloc>(
+              create: (BuildContext context) => PostBloc(),
+              child: const CreatePost()),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
