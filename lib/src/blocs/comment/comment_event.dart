@@ -52,11 +52,19 @@ class DeleteMyComment extends CommentEvent {
 }
 
 class SortCommentByDate extends CommentEvent{
+  final String sortdate;
+
+  SortCommentByDate(this.sortdate);
+
   @override
   List<Object> get props => [];
 }
 
 class SortCommentByLike extends CommentEvent{
+  final String sortlike;
+
+  SortCommentByLike(this.sortlike);
+
   @override
   List<Object> get props => [];
 }

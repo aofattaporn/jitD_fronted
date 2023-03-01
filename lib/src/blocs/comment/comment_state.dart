@@ -7,6 +7,7 @@ import '../../data/models/comment_model.dart';
 @immutable
 abstract class CommentState extends Equatable {
   late final List<CommentModel> comment;
+  late String sortby = "เรียงตามความใหม่";
 }
 
 /// state loading
@@ -128,8 +129,9 @@ class CommentError extends CommentState {
 
 ///----------Sort By Date--------------
 class SortedCommentByDate extends CommentState{
-  SortedCommentByDate(List<CommentModel> _comment) {
+  SortedCommentByDate(List<CommentModel> _comment, String _sortby) {
     super.comment = _comment;
+    super.sortby = _sortby;
   }
 
   @override
@@ -140,8 +142,9 @@ class SortedCommentByDate extends CommentState{
 }
 
 class SortedCommentByLike extends CommentState{
-  SortedCommentByLike(List<CommentModel> _comment) {
+  SortedCommentByLike(List<CommentModel> _comment, String _sortby) {
     super.comment = _comment;
+    super.sortby = _sortby;
   }
 
   @override

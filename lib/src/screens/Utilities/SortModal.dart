@@ -40,17 +40,24 @@ class _SortModalState extends State<SortModal> {
               color: thirterydColor,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Center(
-            child: RichText(
-              text: TextSpan(children: [
-                TextSpan(text: " เรียงตามความใหม่ ", style: fontsTH14White),
-                const WidgetSpan(
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    size: 18,
-                    color: backgroundColor3,
-                  ),
-                ),
-              ]),
+            child: BlocProvider.value(
+              value: widget.commentBloc,
+              child: BlocBuilder<CommentBloc, CommentState>(
+                builder: (context, state) {
+                  return RichText(
+                    text: TextSpan(children: [
+                      TextSpan(text: state.sortby, style: fontsTH14White),
+                      const WidgetSpan(
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          size: 18,
+                          color: backgroundColor3,
+                        ),
+                      ),
+                    ]),
+                  );
+                }
+              ),
             ),
           )),
       onPressed: () {
@@ -100,7 +107,7 @@ class _SortModalState extends State<SortModal> {
                             GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.commentBloc.add(SortCommentByLike());
+                      widget.commentBloc.add(SortCommentByLike("เรียงตามความนิยม"));
                     },
                   ),
                   Divider(height: 20, thickness: 1),
@@ -113,7 +120,7 @@ class _SortModalState extends State<SortModal> {
                         GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.commentBloc.add(SortCommentByDate());
+                      widget.commentBloc.add(SortCommentByDate("เรียงตามความใหม่"));
                     },
                   ),
                   Divider(height: 20, thickness: 1),

@@ -11,6 +11,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   // creating object repository
   CommentRepository commentRepository = CommentRepository();
   ListCommentModel listCommentModel = ListCommentModel();
+  String sortby = "SortDate";
 
   CommentBloc() : super(InitialComment()) {
     // get comment
@@ -82,7 +83,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       listCommentModel.comments.sort((comment1, comment2) =>
           convertDate(comment1.Date).compareTo(convertDate(comment2.Date)));
       listCommentModel.comments = listCommentModel.comments.reversed.toList();
-      emit(SortedCommentByDate(listCommentModel.comments));
+      sortby = event.sortdate;
+      emit(SortedCommentByDate(listCommentModel.comments, sortby));
     });
 
     // Sort comment by Like
@@ -91,7 +93,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
           (comment1.countLike.toString())
               .compareTo(comment2.countLike.toString()));
       listCommentModel.comments = listCommentModel.comments.reversed.toList();
-      emit(SortedCommentByLike(listCommentModel.comments));
+      sortby = event.sortlike;
+      emit(SortedCommentByLike(listCommentModel.comments, sortby));
     });
   }
   DateTime convertDate(String? date) {
