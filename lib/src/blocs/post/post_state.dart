@@ -67,25 +67,3 @@ class UpdatedPost extends PostState {
   @override
   List<Object?> get props => [];
 }
-
-class SortedPostByDate extends PostState{
-  SortedPostByDate(List<PostModel>_posts){
-    super.posts = _posts;
-  }
-  @override
-  // TODO: implement comment
-  List<PostModel> get posts => super.posts;
-  @override
-  List<Object?> get props => [];
-}
-
-class SortedPostByLike extends PostState{
-  SortedPostByLike(List<PostModel>_posts){
-    super.posts = _posts;
-  }
-  @override
-  // TODO: implement comment
-  List<PostModel> get posts => super.posts;
-  @override
-  List<Object?> get props => [];
-}

@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jitd_client/src/screens/Utilities/SortPostModal.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../blocs/post/post_bloc.dart';
 import '../../blocs/post/post_state.dart';
-import '../Utilities/SortPostModal.dart';
 import '../../constant.dart';
 import 'PostBox.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -236,7 +234,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  SortPostModal(postBloc: _postBloc!),
+                                  SizedBox(),
                                 ],
                               ),
                               ListView.builder(
