@@ -10,7 +10,7 @@ import facebook_auth_desktop
 import firebase_auth
 import firebase_core
 import flutter_secure_storage_macos
-import path_provider_foundation
+import path_provider_macos
 import photo_manager
 import share_plus_macos
 import sqflite

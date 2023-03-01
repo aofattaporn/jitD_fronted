@@ -1,20 +1,5 @@
-//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../constant.dart';
-
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
-// import 'package:jitd_client/src/blocs/authentication/authen_event.dart';
-// import 'package:jitd_client/src/blocs/authentication/authen_state.dart';
-// import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
-// import 'package:shimmer/shimmer.dart';
-//
-// import '../blocs/post/post_bloc.dart';
-// import '../blocs/post/post_state.dart';
-// void main() {
-//   runApp( NotificationPage());
-// }
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -29,8 +14,7 @@ class NotificationPageState extends State<NotificationPage> {
   List<String> _values = ['แจ้งเตือน', 'ผู้ใช้งาน1234xx',
     'ผู้ใช้งาน1234xx', 'ผู้ใช้งาน1234xx', 'ผู้ใช้งาน1234xx'];
 
-// class NotificationPage extends StatelessWidget {
-//   const NotificationPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     //const title = 'Dismissing Items';
@@ -68,7 +52,7 @@ class NotificationPageState extends State<NotificationPage> {
                         width: MediaQuery.of(context).size.width * 0.7,
                         child: Container(
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).devicePixelRatio * 4,
+                              top: MediaQuery.of(context).devicePixelRatio * 8,
                               left:
                               MediaQuery.of(context).devicePixelRatio * 10),
                           child: const Text(
