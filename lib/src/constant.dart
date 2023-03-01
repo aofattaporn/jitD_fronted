@@ -33,6 +33,8 @@ const Color statusColorWarning = Color.fromARGB(255, 255, 180, 77);
 const Color skeletonColor = Color.fromRGBO(222, 227, 227, 0.75);
 const Color skeletonHighlightColor = Color.fromRGBO(245, 247, 247, 1);
 
+const Color heartColor = Color.fromRGBO(255, 64, 129, 1);
+
 const double kPadding = 20.0;
 
 final TextStyle fontsTH10_Black = GoogleFonts.getFont(
@@ -41,12 +43,18 @@ final TextStyle fontsTH14_white = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 14, color: Colors.white);
 final TextStyle fontsTH14_thirteryd = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 14, color: thirterydColor);
+final TextStyle fontsTH14_black_bold = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 14, color: textColor1, fontWeight: FontWeight.bold);
+final TextStyle fontsTH16_black_bold = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 16, color: textColor1, fontWeight: FontWeight.bold);
 final TextStyle fontsTH16_Red = GoogleFonts.getFont(
     "Lato", fontSize: 16, color: statusColorError);
 final TextStyle fontsTH16_Black = GoogleFonts.getFont(
     "Lato", fontSize: 16, color: textColor1);
 final TextStyle fontsTH16_Grey = GoogleFonts.getFont(
     "Lato", fontSize: 16, color: textColor3);
+final TextStyle fontsTH18_Black = GoogleFonts.getFont(
+    "Lato", fontSize: 18, color: textColor3);
 final TextStyle fontsTH20_Black = GoogleFonts.getFont(
     "Lato", fontSize: 20, color: textColor3);
 

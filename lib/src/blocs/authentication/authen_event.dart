@@ -17,7 +17,7 @@ class SignUpEvent extends AuthenticationEvent {
 }
 
 /// SignIn
-class SignInEvent extends AuthenticationEvent{
+class SignInEvent extends AuthenticationEvent {
   Map<String, dynamic> _dataSignUp;
   SignInEvent(this._dataSignUp);
   Map<String, dynamic> get dataSignUp => _dataSignUp;
@@ -25,6 +25,7 @@ class SignInEvent extends AuthenticationEvent{
   @override
   List<Object> get props => [];
 }
+
 /// SignIn Google
 class SignIngoogle extends AuthenticationEvent {
   SignIngoogle();
@@ -49,8 +50,21 @@ class SignOut extends AuthenticationEvent {
   List<Object> get props => [];
 }
 
-class getUserID extends AuthenticationEvent{
-  getUserID();
+class GetUserID extends AuthenticationEvent {
+  GetUserID();
+
+  @override
+  List<Object> get props => [];
+}
+
+class WaitingSet extends AuthenticationEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class SetPetName extends AuthenticationEvent {
+  final String petName;
+  const SetPetName(this.petName);
 
   @override
   List<Object> get props => [];

@@ -4,14 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
+import 'package:like_button/like_button.dart';
 
+import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
+import '../../data/respository/like_repository.dart';
 import '../Utilities/AllSkeleton.dart';
 import '../Utilities/AllToast.dart';
 import '../Utilities/PostModal.dart';
+import '../Utilities/SortModal.dart';
 import '../Utilities/buildComment.dart';
 
 class ViewPost extends StatefulWidget {
@@ -19,7 +24,12 @@ class ViewPost extends StatefulWidget {
   final String? postId;
   final String? content;
   final String? date;
+  final String? countComment;
+  final String? countLike;
+  final bool? isLike;
+  final bool? tempIsLike;
   final List<String>? category;
+  final PostBloc postBloc;
 
   const ViewPost(
       {Key? key,
@@ -27,7 +37,12 @@ class ViewPost extends StatefulWidget {
       required this.postId,
       required this.content,
       required this.date,
-      required this.category})
+      required this.countComment,
+      required this.countLike,
+      required this.isLike,
+      required this.category,
+      this.tempIsLike,
+      required this.postBloc})
       : super(key: key);
 
   @override
@@ -40,6 +55,7 @@ class ViewPostState extends State<ViewPost> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final CommentBloc _commentBloc = CommentBloc();
   TextEditingController? commentController;
+  LikeRepository likeRepository = LikeRepository();
 
   @override
   void initState() {
@@ -149,11 +165,12 @@ class ViewPostState extends State<ViewPost> {
                   border: InputBorder.none,
                   hintText: "เขียนความคิดเห็น",
                   hintStyle:
-                      GoogleFonts.getFont("Bai Jamjuree", color: Colors.white),
+                      GoogleFonts.getFont("Bai Jamjuree", color: textColor3),
                   suffixIcon: MediaQuery.of(context).viewInsets.bottom != 0 ||
                           commentController!.text.isNotEmpty
                       ? IconButton(
                           onPressed: () {
+                            FocusScope.of(context).requestFocus(_unFocusNode);
                             _commentBloc.add(CreateComment(
                                 commentController?.text, widget.postId));
                             commentController!.clear();
@@ -239,7 +256,7 @@ class ViewPostState extends State<ViewPost> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
                   /// Section-PostDetail
-                  PostDetail(context),
+                  postDetail(context),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
@@ -262,27 +279,9 @@ class ViewPostState extends State<ViewPost> {
         // Sorter
         Row(
           children: [
-            Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.height * 0.04,
-                decoration: const BoxDecoration(
-                    color: thirterydColor,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Center(
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: " เรียงตามความใหม่ ", style: fontsTH12White),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          size: 18,
-                          color: backgroundColor3,
-                        ),
-                      ),
-                    ]),
-                  ),
-                )),
+            SortModal(
+                userId: widget.userId,
+                commentBloc: _commentBloc!),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -337,7 +336,11 @@ class ViewPostState extends State<ViewPost> {
                             ),
                             Row(
                               children: [
-                                Text("ผู้ใช้ STOXX", style: fontsTH10White)
+                                Text(
+                                  "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                                  style: GoogleFonts.getFont("Bai Jamjuree",
+                                      color: textColor3, fontSize: 12),
+                                )
                               ],
                             ),
                             SizedBox(
@@ -420,6 +423,8 @@ class ViewPostState extends State<ViewPost> {
                   state is UpdatedComment ||
                   state is DeletingComment ||
                   state is DeletedComment ||
+                  state is SortedCommentByDate ||
+                  state is SortedCommentByLike ||
                   state is LoadedComment ||
                   state is CommentSuccess ||
                   state is LoadedComment) {
@@ -442,7 +447,7 @@ class ViewPostState extends State<ViewPost> {
     );
   }
 
-  Container PostDetail(BuildContext context) {
+  Container postDetail(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -462,7 +467,10 @@ class ViewPostState extends State<ViewPost> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.date ?? DateTime.now().toString(),
+                  DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                      DateTime.parse(widget.date!)
+                          .toUtc()
+                          .add(const Duration(hours: 7))),
                   style: GoogleFonts.getFont("Lato",
                       fontSize: 16, color: textColor3),
                 ),
@@ -472,14 +480,16 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
+                  postBloc: widget.postBloc,
                 )
               ],
             ),
             Row(
               children: [
                 Text(
-                  "ผู้ใช้ STOXX",
-                  style: fontsTH12TextColor2,
+                  "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                  style: GoogleFonts.getFont("Bai Jamjuree",
+                      color: textColor3, fontSize: 12),
                 )
               ],
             ),
@@ -557,22 +567,26 @@ class ViewPostState extends State<ViewPost> {
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.175,
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(children: [
-                        TextSpan(text: "0", style: fontsEN12TextColor2),
-                        const TextSpan(text: ' '),
-                        const WidgetSpan(
-                            child: Icon(
-                          Icons.favorite,
-                          color: Colors.black12,
-                          size: 22,
-                        ))
-                      ]),
-                    ),
-                  ),
+                LikeButton(
+                  isLiked: widget.isLike,
+                  likeCount: int.parse(widget.countLike!),
+                  likeBuilder: (bool isLiked) {
+                    return Icon(
+                      Icons.favorite,
+                      color: isLiked ? heartColor : Colors.black12,
+                      size: 30.0,
+                    );
+                  },
+                  onTap: (unLike) async {
+                    if (unLike == true) {
+                      // print(tempIsLike);
+                      likeRepository.unlikePost(postId: widget.postId);
+                    } else {
+                      // print(tempIsLike);
+                      likeRepository.likePost(postId: widget.postId);
+                    }
+                    return !unLike;
+                  },
                 )
               ],
             )

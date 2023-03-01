@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/screens/Utilities/CommentModal.dart';
+import 'package:like_button/like_button.dart';
+import 'package:intl/intl.dart';
+
 
 import '../../constant.dart';
+import '../../data/respository/like_repository.dart';
 
 class CommentBox extends StatefulWidget {
   final String? userId;
   final String? commentId;
   final String? content;
-  final int? like;
+  final int? countLike;
   final String? postId;
   final String? Date;
+  final bool? isLike;
   final CommentBloc? commentBloc;
 
   const CommentBox({
@@ -19,9 +24,10 @@ class CommentBox extends StatefulWidget {
     required this.userId,
     required this.commentId,
     required this.content,
-    required this.like,
+    required this.countLike,
     required this.postId,
     required this.Date,
+    required this.isLike,
     this.commentBloc,
   }) : super(key: key);
 
@@ -30,6 +36,8 @@ class CommentBox extends StatefulWidget {
 }
 
 class _CommentBoxState extends State<CommentBox> {
+  LikeRepository likeRepository = LikeRepository();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -59,7 +67,10 @@ class _CommentBoxState extends State<CommentBox> {
                       top: MediaQuery.of(context).devicePixelRatio * 5,
                     ),
                     child: Text(
-                      widget.Date ?? DateTime.now().toString(),
+                      DateFormat('dd MMM yyyy   HH:mm:ss').format(
+                          DateTime.parse(widget.Date!)
+                              .toUtc()
+                              .add(const Duration(hours: 7))),
                       style: GoogleFonts.getFont("Lato",
                           fontSize: 16, color: textColor3),
                     ),
@@ -81,7 +92,7 @@ class _CommentBoxState extends State<CommentBox> {
                       bottom: MediaQuery.of(context).devicePixelRatio * 3,
                     ),
                     child: Text(
-                      widget.userId ?? "",
+                      "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
                       style: GoogleFonts.getFont("Bai Jamjuree",
                           color: textColor3, fontSize: 12),
                     ),
@@ -118,25 +129,26 @@ class _CommentBoxState extends State<CommentBox> {
                 children: [
                   // Section-Like
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.175,
-                    child: Center(
-                      child: RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: '0',
-                              style: GoogleFonts.getFont('Lato',
-                                  fontSize: 18, color: textColor2)),
-                          const TextSpan(text: ' '),
-                          const WidgetSpan(
-                              child: Icon(
-                            Icons.favorite,
-                            color: Colors.black12,
-                            size: 22,
-                          ))
-                        ]),
-                      ),
-                    ),
+                  LikeButton(
+                    isLiked: widget.isLike,
+                    likeCount: widget.countLike,
+                    likeBuilder: (bool isLiked) {
+                      return Icon(
+                        Icons.favorite,
+                        color: isLiked ? heartColor : Colors.black12,
+                        size: 30.0,
+                      );
+                    },
+                    onTap: (unLike) async {
+                      if (unLike == true) {
+                        likeRepository.unlikeComment(
+                            commentId: widget.commentId, postId: widget.postId);
+                      } else {
+                        likeRepository.likeComment(
+                            commentId: widget.commentId, postId: widget.postId);
+                      }
+                      return !unLike;
+                    },
                   )
                 ],
               )
@@ -145,5 +157,11 @@ class _CommentBoxState extends State<CommentBox> {
         ),
       ),
     );
+  }
+  String convertDate(String? date) {
+    DateTime dt = DateTime.parse(date!);
+    String datFormat =
+        '${dt.day.toString()}-${dt.month.toString()}-${dt.year.toString()}';
+    return datFormat;
   }
 }

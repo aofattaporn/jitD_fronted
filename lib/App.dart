@@ -1,22 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:jitd_client/src/BottomNavigationWidget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jitd_client/src/screens/BookMark.dart';
-import 'package:jitd_client/src/screens/HomePage.dart';
-import 'package:jitd_client/src/screens/ProfilePage.dart';
-import 'package:jitd_client/src/screens/Search/Search.dart';
-import 'package:jitd_client/src/screens/SearchPage.dart';
-import 'package:jitd_client/src/screens/TestStressSucc.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
-
-import 'package:jitd_client/src/screens/autheentication/SignUp.dart';
-import 'package:jitd_client/src/screens/post/BlockWords.dart';
-import 'package:jitd_client/src/screens/post/ConsultantLevel.dart';
-import 'package:jitd_client/src/screens/post/ViewAllPost.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage1.dart';
-import 'package:jitd_client/src/screens/tutorials/TutorialPage2.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -36,8 +22,8 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: checkCurentUser(),
       routes: {
-        "/": (context) => const HomePage(),
-        "/home": (context) => const BottomNavigationWidget()
+        "/": (context) => const SignIn(),
+        "/home": (context) => const BottomNavigationWidget(),
       }, // home:
     );
   }
