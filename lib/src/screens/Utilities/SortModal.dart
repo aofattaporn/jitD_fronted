@@ -115,12 +115,12 @@ class _SortModalState extends State<SortModal> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   GestureDetector(
-                    child: Text("เรียงตามโพสล่าสุด",
+                    child: Text("เรียงตามความคิดเห็นล่าสุด",
                         style:
                         GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.commentBloc.add(SortCommentByDate("เรียงตามโพสล่าสุด"));
+                      widget.commentBloc.add(SortCommentByDate("เรียงตามความคิดเห็นล่าสุด"));
                     },
                   ),
                   Divider(height: 20, thickness: 1),
