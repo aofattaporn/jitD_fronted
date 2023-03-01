@@ -120,7 +120,7 @@ class _SortModalState extends State<SortModal> {
                         GoogleFonts.getFont("Bai Jamjuree", fontSize: 16)),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.commentBloc.add(SortCommentByDate("เรียงตามความใหม่"));
+                      widget.commentBloc.add(SortCommentByDate("เรียงตามโพสล่าสุด"));
                     },
                   ),
                   Divider(height: 20, thickness: 1),
