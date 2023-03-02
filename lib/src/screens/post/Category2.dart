@@ -11,16 +11,12 @@ import '../../constant/constant_fonts.dart';
 import '../../data/models/post_model.dart';
 
 class Category2 extends StatefulWidget {
-  final String? content;
-  final String? date;
   final List<String>? category;
   final PostBloc postBloc;
   final String postID;
 
   const Category2(
       {Key? key,
-      this.content,
-      this.date,
       required this.category,
       required this.postBloc,
       required this.postID})
@@ -51,12 +47,12 @@ class Category2State extends State<Category2> {
     postBloc2.add(InitialSelectCat(widget.category!));
 
     super.initState();
-    textController = TextEditingController(text: widget.content);
+    // textController = TextEditingController(text: widget.content);
   }
 
   @override
   void dispose() {
-    textController?.dispose();
+    // textController?.dispose();
     super.dispose();
   }
 
@@ -101,7 +97,7 @@ class Category2State extends State<Category2> {
                   BlocListener<PostBloc, PostState>(
                     bloc: postBloc2,
                     listener: (context, state) {
-                      if (state is EditingCategorySuccess) {
+                      if (state is SelectedCatSuccess) {
                         myList = state.category.toList();
                       }
                     },
@@ -113,7 +109,6 @@ class Category2State extends State<Category2> {
                     // header
                     header(),
 
-                    // show category
                     showCategory(width, height, i),
 
                     // select category
@@ -134,32 +129,80 @@ class Category2State extends State<Category2> {
       child: BlocProvider<PostBloc>(
         create: (context) => postBloc2,
         child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: category.length,
-            itemBuilder: (BuildContext context, int index) {
-              // final post = widget.postBloc.listPostModel.posts[i];
-              return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  child: Card(
-                      color: checkColor(category[index]),
-                      elevation: 0,
-                      child: ListTile(
-                          title: Text(category[index]),
-                          // check funtion to ckick and add
-                          onTap: () {
-                            checkClickToAddCat(category[index], state, index);
-                          },
-                          textColor: secondaryColor,
-                          trailing: const Icon(
-                            Icons.add_circle_rounded,
-                            color: secondaryColor,
-                          ))));
-            },
+          if (state is SelectCatMaxCategory) {
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "*คุณสามารเลือกประเภทโพสได้มากสุด 3 ประเภท",
+                      style: fontsTH14_thirteryd,
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: category.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _category(index, state, true, category[index]);
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(""),
+                ],
+              ),
+              Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: category.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    bool slected = checkClick(category[index]);
+                    return _category(index, state, slected, category[index]);
+                  },
+                ),
+              ),
+            ],
           );
         }),
       ),
     );
+  }
+
+  Container _category(
+      int index, PostState state, bool selected, String newcat) {
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        child: Card(
+            color: (selected) ? primaryColorSubtle : Colors.white,
+            shadowColor: (selected) ? primaryColorSubtle : backgroundColor2,
+            elevation: (selected) ? 0 : 2,
+            child: ListTile(
+                title: Text(category[index]),
+                // check funtion to ckick and add
+                onTap: () {
+                  if (selected) {
+                    postBloc2.add(RemoveCategory(newcat, myList));
+                  } else {
+                    postBloc2.add(AddCategory(newcat, myList));
+                  }
+                },
+                textColor: secondaryColor,
+                trailing: (!selected)
+                    ? Icon(
+                        Icons.add_circle_rounded,
+                        color: (selected) ? primaryColor : secondaryColor,
+                      )
+                    : null)));
   }
 
   Container showCategory(double width, double height, int i) {
@@ -210,14 +253,6 @@ class Category2State extends State<Category2> {
     );
   }
 
-  Color checkColor(String category) {
-    if (checkClick(category) == true) {
-      return primaryColor;
-    } else {
-      return Colors.white;
-    }
-  }
-
   int getIndex(List<PostModel> listPost, String postID) {
     for (int i = 0; i < listPost.length; i++) {
       if (listPost[i].postId == postID) {
@@ -228,39 +263,12 @@ class Category2State extends State<Category2> {
   }
 
   bool checkClick(String category) {
-    int countFound = 0;
-    bool found = false;
-
     for (var element in myList) {
       if (element == category) {
-        countFound++;
         return true;
       }
     }
     return false;
-  }
-
-  Function? checkClickToAddCat(String newcat, PostState state, int index) {
-    bool found = false;
-    int countFound = 0;
-
-    for (var element in myList) {
-      if (element == newcat) {
-        found = true;
-      }
-    }
-
-    if (myList.length == 3) {
-      return () {};
-    } else {
-      if (found) {
-        return () {};
-      } else {
-        postBloc2.add(AddCategory(newcat, myList));
-      }
-    }
-
-    return null;
   }
 
   Row header() {
@@ -274,36 +282,25 @@ class Category2State extends State<Category2> {
             icon: const Icon(Icons.close)),
         ElevatedButton(
             onPressed: () {
-              print("click!!!!");
               widget.postBloc.add(UpdateCategory(widget.postID, myList));
             },
             style: ElevatedButton.styleFrom(
                 primary: thirterydColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
-            child: Text(
-              "แก้ไขโพส",
-              style: fontsTH16White,
-            ))
+            child: BlocBuilder<PostBloc, PostState>(
+                bloc: widget.postBloc,
+                builder: (context, state) {
+                  if (state is WillEditCategory) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return Text(
+                      "แก้ไขประเภทของโพส",
+                      style: fontsTH16White,
+                    );
+                  }
+                }))
       ],
     );
-  }
-
-  void removeCatSelected(String category) {
-    for (var element in myList) {
-      if (element == category) {
-        myList.remove(element);
-        break;
-      }
-    }
-  }
-
-  void addCatSelected(String category) {
-    for (var element in widget.category!) {
-      if (element == category) {
-        widget.category!.remove(element);
-        break;
-      }
-    }
   }
 }

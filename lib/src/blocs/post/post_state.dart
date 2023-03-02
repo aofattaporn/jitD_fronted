@@ -86,6 +86,8 @@ class UpdatedPost extends PostState {
   List<Object?> get props => [];
 }
 
+// ------ state of edit category -------
+
 class EditCategorySuccess extends PostState {
   EditCategorySuccess(List<PostModel> list) {
     super.listPostModel = list;
@@ -95,8 +97,8 @@ class EditCategorySuccess extends PostState {
   List<Object?> get props => [];
 }
 
-class EditingCategorySuccess extends PostState {
-  EditingCategorySuccess(List<String> category, List<PostModel> list) {
+class SelectedCatSuccess extends PostState {
+  SelectedCatSuccess(List<String> category, List<PostModel> list) {
     super.category = category.toList();
     super.listPostModel = list;
   }
@@ -114,8 +116,18 @@ class WillEditCategory extends PostState {
   List<Object?> get props => [];
 }
 
-class SortedPostByDate extends PostState{
-  SortedPostByDate(List<PostModel>_listpost, String _sortby){
+class SelectCatMaxCategory extends PostState {
+  SelectCatMaxCategory(List<String> category, List<PostModel> list) {
+    super.category = category.toList();
+    super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SortedPostByDate extends PostState {
+  SortedPostByDate(List<PostModel> _listpost, String _sortby) {
     super.listPostModel = _listpost;
     super.sortby = _sortby;
   }
@@ -127,8 +139,8 @@ class SortedPostByDate extends PostState{
   List<Object?> get props => [];
 }
 
-class SortedPostByLike extends PostState{
-  SortedPostByLike(List<PostModel>_listpost, String _sortby){
+class SortedPostByLike extends PostState {
+  SortedPostByLike(List<PostModel> _listpost, String _sortby) {
     super.listPostModel = _listpost;
     super.sortby = _sortby;
   }
