@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
 import 'package:like_button/like_button.dart';
-import 'package:intl/intl.dart';
+
+import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
 import '../../data/respository/like_repository.dart';
 import '../Utilities/AllSkeleton.dart';
 import '../Utilities/AllToast.dart';
 import '../Utilities/PostModal.dart';
+import '../Utilities/SortModal.dart';
 import '../Utilities/buildComment.dart';
 
 class ViewPost extends StatefulWidget {
@@ -26,6 +29,7 @@ class ViewPost extends StatefulWidget {
   final bool? isLike;
   final bool? tempIsLike;
   final List<String>? category;
+  final PostBloc postBloc;
 
   const ViewPost(
       {Key? key,
@@ -37,7 +41,8 @@ class ViewPost extends StatefulWidget {
       required this.countLike,
       required this.isLike,
       required this.category,
-      this.tempIsLike})
+      this.tempIsLike,
+      required this.postBloc})
       : super(key: key);
 
   @override
@@ -274,27 +279,9 @@ class ViewPostState extends State<ViewPost> {
         // Sorter
         Row(
           children: [
-            Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.height * 0.04,
-                decoration: const BoxDecoration(
-                    color: thirterydColor,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Center(
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: " เรียงตามความใหม่ ", style: fontsTH12White),
-                      const WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          size: 18,
-                          color: backgroundColor3,
-                        ),
-                      ),
-                    ]),
-                  ),
-                )),
+            SortModal(
+                userId: widget.userId,
+                commentBloc: _commentBloc!),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -349,10 +336,11 @@ class ViewPostState extends State<ViewPost> {
                             ),
                             Row(
                               children: [
-                                Text("ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                                Text(
+                                  "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
                                   style: GoogleFonts.getFont("Bai Jamjuree",
-                                      color: textColor3, fontSize: 12),)
-
+                                      color: textColor3, fontSize: 12),
+                                )
                               ],
                             ),
                             SizedBox(
@@ -435,6 +423,8 @@ class ViewPostState extends State<ViewPost> {
                   state is UpdatedComment ||
                   state is DeletingComment ||
                   state is DeletedComment ||
+                  state is SortedCommentByDate ||
+                  state is SortedCommentByLike ||
                   state is LoadedComment ||
                   state is CommentSuccess ||
                   state is LoadedComment) {
@@ -490,14 +480,17 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
+                  postBloc: widget.postBloc,
                 )
               ],
             ),
             Row(
               children: [
-                Text("ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
+                Text(
+                  "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
                   style: GoogleFonts.getFont("Bai Jamjuree",
-                      color: textColor3, fontSize: 12),)
+                      color: textColor3, fontSize: 12),
+                )
               ],
             ),
             SizedBox(
@@ -585,12 +578,10 @@ class ViewPostState extends State<ViewPost> {
                     );
                   },
                   onTap: (unLike) async {
-
                     if (unLike == true) {
                       // print(tempIsLike);
                       likeRepository.unlikePost(postId: widget.postId);
-                    }
-                    else {
+                    } else {
                       // print(tempIsLike);
                       likeRepository.likePost(postId: widget.postId);
                     }

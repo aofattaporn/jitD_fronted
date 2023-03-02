@@ -28,7 +28,6 @@ class PostRepository {
   Future<String> updatingPost(String content, String date, bool isPublic,
       List<String> category, String postID) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
-    print(token);
     final response = await http.put(Uri.parse("${globalUrl}v1/posts/$postID"),
         body:
             postModelToJson(PostModel.Resquest(content, date, true, category)),
@@ -38,14 +37,14 @@ class PostRepository {
           'Authorization': 'Bearer $token',
         });
     if (response.statusCode == 200) {
-      return "updating data success";
+      return response.body;
     } else {
       print(response.statusCode);
       return "something fail.";
     }
   }
 
-  Future<Object> getAllPost() async {
+  Future<String> getAllPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
         await http.get(Uri.parse("${globalUrl}v1/posts/"), headers: {
@@ -53,15 +52,14 @@ class PostRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    print(token);
     if (response.statusCode == 200) {
-      return response.body.toString();
+      return response.body;
     } else {
-      return PostModel.withError("Data not found");
+      return "something fail.";
     }
   }
 
-  Future<Object> getMyPost() async {
+  Future<String> getMyPost() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
         await http.get(Uri.parse("${globalUrl}v1/posts/id"), headers: {
@@ -73,7 +71,7 @@ class PostRepository {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      return PostModel.withError("Data not found");
+      return "something fail.";
     }
   }
 
@@ -96,7 +94,7 @@ class PostRepository {
     }
   }
 
-  Future<Object> deletePost(String id) async {
+  Future<String> deletePost(String id) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
         await http.delete(Uri.parse("${globalUrl}v1/posts/$id"), headers: {
@@ -105,11 +103,13 @@ class PostRepository {
       'Authorization': 'Bearer $token',
     });
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      return "delete post success";
+      return response.body;
     } else {
-      return PostModel.withError("Data not found");
+      int status = response.statusCode;
+      String msg = response.body;
+
+      return "something fail status $status msg :$msg";
     }
   }
 }

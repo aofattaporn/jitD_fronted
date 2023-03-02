@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 
 import '../../data/models/post_model.dart';
 import '../post/PostBox.dart';
 import '../post/ViewPost.dart';
 
-Widget BuildMyPost(BuildContext context, List<PostModel> model) {
+Widget BuildMyPost(
+    BuildContext context, List<PostModel> model, PostBloc postBloc) {
   return Column(
     children: [
       ListView.builder(
@@ -26,7 +28,8 @@ Widget BuildMyPost(BuildContext context, List<PostModel> model) {
                   category: model[index].category ?? ["Tag1", "Tag2"],
                   countComment: model[index].countComment.toString(),
                   countLike: model[index].countLike.toString(),
-                  isLike: model[index].isLike),
+                  isLike: model[index].isLike,
+                  postBloc: postBloc),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ViewPost(
@@ -37,7 +40,8 @@ Widget BuildMyPost(BuildContext context, List<PostModel> model) {
                         category: model[index].category ?? ["Tag1", "Tag2"],
                         countComment: model[index].countComment.toString(),
                         countLike: model[index].countLike.toString(),
-                        isLike: model[index].isLike)));
+                        isLike: model[index].isLike,
+                        postBloc: postBloc)));
               },
             ),
           );

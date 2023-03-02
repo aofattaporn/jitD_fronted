@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:like_button/like_button.dart';
 import 'package:intl/intl.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:like_button/like_button.dart';
+
 import '../../constant.dart';
 import '../../data/respository/like_repository.dart';
 import '../Utilities/PostModal.dart';
@@ -15,6 +17,8 @@ class PostBox extends StatelessWidget {
   final String? countLike;
   final bool? isLike;
   final List<String>? category;
+  final PostBloc postBloc;
+
   const PostBox(
       {Key? key,
       required this.userId,
@@ -24,7 +28,8 @@ class PostBox extends StatelessWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
-      required this.category})
+      required this.category,
+      required this.postBloc})
       : super(key: key);
 
   @override
@@ -69,6 +74,7 @@ class PostBox extends StatelessWidget {
                     content: content ?? "No Data",
                     date: date ?? DateTime.now().toString(),
                     category: category ?? ["Tag1", "Tag2"],
+                    postBloc: postBloc,
                   )
                 ],
               ),
