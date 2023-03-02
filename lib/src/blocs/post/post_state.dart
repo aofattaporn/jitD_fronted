@@ -126,8 +126,8 @@ class SelectCatMaxCategory extends PostState {
   List<Object?> get props => [];
 }
 
-class SortedPostByDate extends PostState{
-  SortedPostByDate(List<PostModel>_listpost, String _sortby){
+class SortedPostByDate extends PostState {
+  SortedPostByDate(List<PostModel> _listpost, String _sortby) {
     super.listPostModel = _listpost;
     super.sortby = _sortby;
   }
@@ -139,8 +139,8 @@ class SortedPostByDate extends PostState{
   List<Object?> get props => [];
 }
 
-class SortedPostByLike extends PostState{
-  SortedPostByLike(List<PostModel>_listpost, String _sortby){
+class SortedPostByLike extends PostState {
+  SortedPostByLike(List<PostModel> _listpost, String _sortby) {
     super.listPostModel = _listpost;
     super.sortby = _sortby;
   }
