@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/screens/post/PostBox.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:shimmer/shimmer.dart';
@@ -18,6 +19,7 @@ class BookMark extends StatefulWidget {
 class BookMarkState extends State<BookMark> {
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  PostBloc postBloc = PostBloc();
 
   @override
   void dispose() {
@@ -131,7 +133,11 @@ class BookMarkState extends State<BookMark> {
                                 content:
                                 "ที่ทำงานปัจจุบันให้เงินเดือน 17000 แต่ผมต้องใช้เวลาเดินทางไปทำงาน 1 ชั่วโมงเทียบอีกที่ให้เงินเดือน 15000 แต่อยู่ใกล้บ้าน ทุกคนคิดว่าผมควรย้ายไหมครับ",
                                 date: "23 Nov 2022",
+                                countComment: "3",
+                                countLike: "2",
+                                isLike: true,
                                 category: ["การงาน"],
+                                postBloc: postBloc,
                               ),
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -144,8 +150,12 @@ class BookMarkState extends State<BookMark> {
                                           content:
                                           "ที่ทำงานปัจจุบันให้เงินเดือน 17000 แต่ผมต้องใช้เวลาเดินทางไปทำงาน 1 ชั่วโมงเทียบอีกที่ให้เงินเดือน 15000 แต่อยู่ใกล้บ้าน ทุกคนคิดว่าผมควรย้ายไหมครับ",
                                           date: "23 Nov 2022",
+                                          countComment: "3",
+                                          countLike: "2",
+                                          isLike: true,
                                           category:
                                           ["การงาน"],
+                                          postBloc: postBloc,
                                         )));
                               },
                             );
