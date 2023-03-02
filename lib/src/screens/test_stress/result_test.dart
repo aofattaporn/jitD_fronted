@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../constant.dart';
-import '../tutorials/TutorialPage2.dart';
+import 'exanmination.dart';
 
 class Resulttest extends StatefulWidget {
   const Resulttest({Key? key}) : super(key: key);
@@ -24,8 +24,7 @@ class _ResulttestState extends State<Resulttest> {
               fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-          children: [
+      body: Column(children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +78,7 @@ class _ResulttestState extends State<Resulttest> {
                           Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => TutorialPage2()),
+                                builder: (context) => Examination()),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -90,14 +89,13 @@ class _ResulttestState extends State<Resulttest> {
                             fixedSize: const Size.fromHeight(30)),
                         child: const Text("เริ่มต้นทดสอบ",
                             style: TextStyle(
-                              fontSize: 16,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white))),
                   ),
                 ),
                 const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 60),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 60),
                     child: Text(
                       "ทดสอบระดับความเครียด",
                       style: TextStyle(
@@ -106,8 +104,7 @@ class _ResulttestState extends State<Resulttest> {
                           fontWeight: FontWeight.bold),
                     )),
                 const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 90),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 90),
                     child: Text(
                       "วัดระดับความเครียดของ\n"
                       "คุณภายใน 15 นาที",
@@ -119,42 +116,57 @@ class _ResulttestState extends State<Resulttest> {
         ),
         Column(
           children: [
-            Stack(
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Container(
+            Stack(children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      color: backgroundColor2,
-                      border: Border.all(color: const Color.fromRGBO(207, 229, 225, 1), width: 5)
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                        color: backgroundColor2,
+                        border: Border.all(
+                            color: const Color.fromRGBO(207, 229, 225, 1),
+                            width: 5)),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.015,
+                        ),
+                        Icon(
+                          Icons.mood,
+                          size: 80,
+                          color: secondaryColorLight,
+                        ),
+                        Text(
+                          "ทดสอบเมื่อ 24/11/2565",
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Text("ท่านไม่มีอาการของโรคซึมเศร้า"),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text("หรือมีอาการของโรคซึมเศร้า"),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text("ระดับน้อยมาก"),
+                      ],
                     ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
-                          Icon(Icons.mood, size: 80, color: secondaryColorLight,),
-                          Text("ทดสอบเมื่อ 24/11/2565",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                          Text("ท่านไม่มีอาการของโรคซึมเศร้า"),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                          Text("หรือมีอาการของโรคซึมเศร้า"),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                          Text("ระดับน้อยมาก"),
-                        ],
-                      ),
-              ),
                   ),
                 ),
-                Center(
-                  child: Container(
+              ),
+              Center(
+                child: Container(
                     color: Colors.white,
-                      child: Text("ผลการทดสอบล่าสุดของคุณ", style: fontsTH18_Black)),
-                ),
-              ]
-            ),
+                    child:
+                        Text("ผลการทดสอบล่าสุดของคุณ", style: fontsTH18_Black)),
+              ),
+            ]),
           ],
         ),
       ]),

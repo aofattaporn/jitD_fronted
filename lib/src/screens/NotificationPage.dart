@@ -60,7 +60,7 @@ class NotificationPageState extends State<NotificationPage> {
                             child: Container(
                               margin: EdgeInsets.only(
                                   top: MediaQuery.of(context).devicePixelRatio *
-                                      8,
+                                      5,
                                   left:
                                       MediaQuery.of(context).devicePixelRatio *
                                           10),
