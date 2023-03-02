@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:jitd_client/src/screens/Search/SearchQuery.dart';
 
 class Search extends StatefulWidget {
@@ -139,7 +140,7 @@ class SearchState extends State<Search> {
                 child: Row(
                   children: [
                     Text(
-                      "ยอดนิยม",
+                      "มีโอกาสพบได้บ่อย",
                       style: GoogleFonts.getFont("Bai Jamjuree",
                           fontSize: 22, fontWeight: FontWeight.w500),
                     ),
@@ -148,49 +149,69 @@ class SearchState extends State<Search> {
               ),
               // Recommend
 
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: recommendTag.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.065,
-                          height: MediaQuery.of(context).size.height * 0.035,
-                          decoration: const BoxDecoration(
-                            color: thirterydColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(2.5)),
-                          ),
-                          child: Center(
-                              child: Text(
-                            (index + 1).toString(),
-                            style: GoogleFonts.getFont("Bai Jamjuree",
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.03,
-                        ),
-                        Text(recommendTag[index],
-                            style: GoogleFonts.getFont("Bai Jamjuree",
-                                fontSize: 16)),
-                        const Spacer(),
-                        const Icon(
-                          Icons.more_horiz,
-                          color: textColor3,
-                        )
-                      ],
-                    ),
-                  );
-                },
+              // ListView.builder(
+              //   scrollDirection: Axis.vertical,
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemCount: recommendTag.length,
+              //   itemBuilder: (context, index) {
+              //     return Padding(
+              //       padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+              //       child: Row(
+              //         children: [
+              //           Container(
+              //             width: MediaQuery.of(context).size.width * 0.065,
+              //             height: MediaQuery.of(context).size.height * 0.035,
+              //             decoration: const BoxDecoration(
+              //               color: thirterydColor,
+              //               borderRadius:
+              //                   BorderRadius.all(Radius.circular(2.5)),
+              //             ),
+              //             child: Center(
+              //                 child: Text(
+              //               (index + 1).toString(),
+              //               style: GoogleFonts.getFont("Bai Jamjuree",
+              //                   color: Colors.white,
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 18),
+              //             )),
+              //           ),
+              //           SizedBox(
+              //             width: MediaQuery.of(context).size.width * 0.03,
+              //           ),
+              //           Text(recommendTag[index],
+              //               style: GoogleFonts.getFont("Bai Jamjuree",
+              //                   fontSize: 16)),
+              //           const Spacer(),
+              //           const Icon(
+              //             Icons.more_horiz,
+              //             color: textColor3,
+              //           )
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // ),
+
+              Container(
+                // color: backgroundColor2,
+                height: MediaQuery.of(context).size.height * 0.25,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/icon_notfound2.png"),
+                      const SizedBox(height: 20),
+                      Text(
+                        "ยังไม่พบข้อมูลในตอนนี้",
+                        style: fontsTH20TextColor3,
+                      )
+                    ],
+                  ),
+                ),
               ),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
                 child: Row(
@@ -223,44 +244,46 @@ class SearchState extends State<Search> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
                 child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width,
-                      minHeight: MediaQuery.of(context).size.height * 0.05,
-                    ),
-                    decoration: const BoxDecoration(
-                        color: backgroundColor2,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          spacing: 5,
-                          runSpacing: 10,
-                          children:
-                              List.generate(searchHistory.length, (index) {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                  color: thirterydColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  searchHistory[index],
-                                  style: GoogleFonts.getFont("Bai Jamjuree",
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            );
-                          }),
-                        ))),
+                  constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width,
+                    minHeight: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  decoration: const BoxDecoration(
+                      color: backgroundColor2,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  // child: serachGenerate()
+                ),
               ),
             ],
           ),
         ),
       )),
     );
+  }
+
+  Padding serachGenerate() {
+    return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Wrap(
+          direction: Axis.horizontal,
+          spacing: 5,
+          runSpacing: 10,
+          children: List.generate(searchHistory.length, (index) {
+            return Container(
+              decoration: const BoxDecoration(
+                  color: thirterydColor,
+                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  searchHistory[index],
+                  style: GoogleFonts.getFont("Bai Jamjuree",
+                      color: Colors.white, fontWeight: FontWeight.w500),
+                ),
+              ),
+            );
+          }),
+        ));
   }
 
   Route _createRoute(Widget page) {
