@@ -8,3 +8,10 @@ abstract class QuestEvent {
 class GetMyQuest extends QuestEvent {
   const GetMyQuest();
 }
+
+class UpdateQuestEvent extends QuestEvent {
+  String? questName;
+  String? currentPoint;
+
+  UpdateQuestEvent(this.questName, this.currentPoint);
+}

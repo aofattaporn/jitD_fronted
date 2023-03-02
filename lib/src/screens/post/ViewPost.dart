@@ -89,7 +89,7 @@ class ViewPostState extends State<ViewPost> {
                     );
                   });
             } else if (state is DeletedComment) {
-              showToast("delete comment success");
+              showToast("delete success");
               Navigator.of(context).pop();
               Navigator.of(context).pop();
               Navigator.of(context).pop();
@@ -105,7 +105,7 @@ class ViewPostState extends State<ViewPost> {
                     );
                   });
             } else if (state is UpdatedComment) {
-              showToast("update comment success");
+              showToast("update success");
               Navigator.of(context).pop();
             }
           },
@@ -281,7 +281,7 @@ class ViewPostState extends State<ViewPost> {
           children: [
             SortModal(
                 userId: widget.userId,
-                commentBloc: _commentBloc!),
+                commentBloc: _commentBloc),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),

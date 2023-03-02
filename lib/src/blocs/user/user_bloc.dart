@@ -51,5 +51,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(GetUserError(e.toString()));
       }
     });
+
+    on<PointAdd>((event, emit) {
+      int tempPoint = userModel.point! + 5;
+      userModel.point = tempPoint;
+      emit(UpdatePetNameSuccess(userModel.userID!, userModel.point!,
+          userModel.petName!, userModel.petHP!));
+      emit(GetUserSuccess(userModel.userID!, userModel.point!,
+          userModel.petName!, userModel.petHP!));
+    });
   }
 }

@@ -8,7 +8,7 @@ import '../../data/respository/quest_repository.dart';
 class QuestBloc extends Bloc<QuestEvent, QuestState> {
   // creating object repository
   DailyQuestModel dailyQuestModel = DailyQuestModel();
-  DiryQuestRepository dailyQuestRepository = DiryQuestRepository();
+  DailyQuestRepository dailyQuestRepository = DailyQuestRepository();
 
   QuestBloc() : super(InitialQuest()) {
     emit(GettingMyQuest());
@@ -24,6 +24,24 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
         // return global state
         emit(GetMyQuestSuccess(
             dailyQuestModel.questDate!, dailyQuestModel.quests!));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(GetMyQuestError(e.toString()));
+      }
+    });
+
+    on<UpdateQuestEvent>((event, emit) async {
+      try {
+        final questJSON = await dailyQuestRepository.updatingQuest(
+            event.questName, event.currentPoint);
+        print(questJSON);
+        final questData = DailyQuestModelFromJson(questJSON);
+
+        dailyQuestModel.setMyQuest(questData.questDate!, questData.quests!);
+
+        emit(GetMyQuestSuccess(
+            dailyQuestModel.questDate!, dailyQuestModel.quests!));
+
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(GetMyQuestError(e.toString()));

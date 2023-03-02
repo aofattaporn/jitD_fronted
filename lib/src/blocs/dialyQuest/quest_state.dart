@@ -3,7 +3,7 @@ import 'package:jitd_client/src/data/models/dialyQuest_model.dart';
 
 @immutable
 abstract class QuestState {
-  final DailyQuestModel dialyquestModel = DailyQuestModel();
+  final DailyQuestModel dailyQuestModel = DailyQuestModel();
 
   QuestState();
 }
@@ -23,8 +23,8 @@ class GettingMyQuest extends QuestState {
 
 class GetMyQuestSuccess extends QuestState {
   GetMyQuestSuccess(String questDate, List<Quest> quests) {
-    super.dialyquestModel.questDate = questDate;
-    super.dialyquestModel.quests = quests;
+    super.dailyQuestModel.questDate = questDate;
+    super.dailyQuestModel.quests = quests;
   }
 
   @override
@@ -38,4 +38,8 @@ class GetMyQuestError extends QuestState {
   final String error;
 
   GetMyQuestError(this.error);
+}
+
+class UpdatingQuest extends QuestState {
+
 }

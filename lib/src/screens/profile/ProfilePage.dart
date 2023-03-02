@@ -200,9 +200,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: BlocBuilder<QuestBloc, QuestState>(
                       builder: (context, state) {
                         if (state is GetMyQuestSuccess) {
-                          return iconQuest(context);
-                        } else
-                          return Container();
+                          return iconQuest(context, true);
+                        } else {
+                          return iconQuest(context, false);
+                        }
                       },
                     ),
                   ),
@@ -290,7 +291,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Padding iconQuest(BuildContext context) {
+  Padding iconQuest(BuildContext context, bool loaded) {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: Row(
@@ -298,7 +299,11 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           GestureDetector(
             onTap: () {
-              showDialog(context: context, builder: (context) => DialogQuest());
+              if (loaded) {
+                showDialog(context: context, builder: (context) => DialogQuest(
+                questBloc: _questBloc, userBloc: _userBloc,
+              ));
+              }
             },
             child: Container(
                 decoration: BoxDecoration(
