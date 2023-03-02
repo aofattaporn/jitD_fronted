@@ -280,7 +280,6 @@ class ViewPostState extends State<ViewPost> {
         Row(
           children: [
             SortModal(
-                userId: widget.userId,
                 commentBloc: _commentBloc!),
           ],
         ),

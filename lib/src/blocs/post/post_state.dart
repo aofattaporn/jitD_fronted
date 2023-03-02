@@ -7,6 +7,7 @@ import '../../data/models/post_model.dart';
 abstract class PostState extends Equatable {
   late List<PostModel> listPostModel = [];
   late List<String> category = [];
+  late String sortby = "เรียงตามโพสล่าสุด";
 }
 
 /// state loading
@@ -121,6 +122,32 @@ class SelectCatMaxCategory extends PostState {
     super.listPostModel = list;
   }
 
+  @override
+  List<Object?> get props => [];
+}
+
+class SortedPostByDate extends PostState{
+  SortedPostByDate(List<PostModel>_listpost, String _sortby){
+    super.listPostModel = _listpost;
+    super.sortby = _sortby;
+  }
+
+  @override
+  // TODO: implement comment
+  List<PostModel> get listPostModel => super.listPostModel;
+  @override
+  List<Object?> get props => [];
+}
+
+class SortedPostByLike extends PostState{
+  SortedPostByLike(List<PostModel>_listpost, String _sortby){
+    super.listPostModel = _listpost;
+    super.sortby = _sortby;
+  }
+
+  @override
+  // TODO: implement comment
+  List<PostModel> get listPostModel => super.listPostModel;
   @override
   List<Object?> get props => [];
 }

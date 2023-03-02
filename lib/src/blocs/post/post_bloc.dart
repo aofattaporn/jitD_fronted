@@ -15,6 +15,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostRepository postRepository = PostRepository();
   ListPostModel listPostModel = ListPostModel();
   PostModel postModel = PostModel();
+  String sortby = "";
 
   PostBloc() : super(InitialPost()) {
     // event get all post
@@ -173,5 +174,30 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         emit(SelectCatMaxCategory(event.category, listPostModel.posts));
       }
     });
+
+    on<SortPostByDate>((event, emit){
+      listPostModel.posts.sort((post1, post2) =>
+      convertDate(post1.date).compareTo(convertDate(post2.date)));
+      listPostModel.posts = listPostModel.posts.reversed.toList();
+      sortby = event.sortdate;
+      emit(SortedPostByDate(listPostModel.posts, sortby));
+    });
+
+    on<SortPostByLike>((event, emit){
+      listPostModel.posts.sort((post1, post2) =>
+      (post1.countLike.toString())
+      .compareTo(post2.countLike.toString()));
+      listPostModel.posts = listPostModel.posts.reversed.toList();
+      sortby = event.sortlike;
+      emit(SortedPostByLike(listPostModel.posts, sortby));
+    });
+
+  }
+
+
+  DateTime convertDate(String? date) {
+    DateTime dt = DateTime.parse(date!);
+    return dt;
   }
 }
+

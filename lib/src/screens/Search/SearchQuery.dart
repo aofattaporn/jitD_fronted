@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../blocs/post/post_bloc.dart';
@@ -293,9 +294,10 @@ class _SearchQueryState extends State<SearchQuery> {
                               );
                             } else if (state is PostLoadedState) {
                               if (state.listPostModel.isEmpty) {
-                                return const Padding(
+                                return Padding(
                                   padding: EdgeInsets.all(50),
-                                  child: Text("ไม่มีข้อมูลที่เกี่ยวข้อง"),
+                                  child: Text("ไม่มีข้อมูลที่เกี่ยวข้อง",
+                                      style: fontsTH14TextColor3),
                                 );
                               } else {
                                 return Column(
@@ -443,7 +445,8 @@ class _SearchQueryState extends State<SearchQuery> {
                                 );
                               }
                             } else {
-                              return Text(state.props.toString());
+                              return Text("ไม่มีข้อมูลเกี่ยวข้อง",
+                                  style: fontsTH14TextColor3);
                             }
                           },
                         )

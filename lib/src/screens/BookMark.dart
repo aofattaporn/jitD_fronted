@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/screens/post/PostBox.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 
-import '../blocs/post/post_bloc.dart';
 import '../constant.dart';
 
 class BookMark extends StatefulWidget {
@@ -133,8 +133,8 @@ class BookMarkState extends State<BookMark> {
                                     "ที่ทำงานปัจจุบันให้เงินเดือน 17000 แต่ผมต้องใช้เวลาเดินทางไปทำงาน 1 ชั่วโมงเทียบอีกที่ให้เงินเดือน 15000 แต่อยู่ใกล้บ้าน ทุกคนคิดว่าผมควรย้ายไหมครับ",
                                 date: "23 Nov 2022",
                                 category: ["การงาน"],
-                                countComment: '',
-                                countLike: '',
+                                countComment: '0',
+                                countLike: '0',
                                 isLike: false,
                                 postBloc: PostBloc(),
                               ),
@@ -148,7 +148,7 @@ class BookMarkState extends State<BookMark> {
                                           date: "23 Nov 2022",
                                           category: ["การงาน"],
                                           countComment: '0',
-                                          countLike: '0',
+                                          countLike: '',
                                           isLike: false,
                                           postBloc: PostBloc(),
                                         )));

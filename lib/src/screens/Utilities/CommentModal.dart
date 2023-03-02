@@ -84,7 +84,15 @@ class _CommentModalState extends State<CommentModal> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text("Edit comment"),
+                              title: Center(
+                                  child: Text(
+                                      "แก้ไขความคิดเห็น",
+                                    style: GoogleFonts.getFont(
+                                        "Bai Jamjuree",
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor2),
+                                  )),
                               content: TextFormField(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -96,23 +104,45 @@ class _CommentModalState extends State<CommentModal> {
                                 autofocus: true,
                                 obscureText: false,
                                 decoration: const InputDecoration(
-                                  hintText: 'คอมเมนต์ให้พลังงานบวกกัน',
+                                  label: Icon(
+                                      Icons.edit,
+                                      size: 18,
+                                  ),
+                                  hintText: 'ให้พลังงานบวกกัน',
                                   hintStyle: TextStyle(
                                     color: textColor3,
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
+                                    borderSide: BorderSide(color: primaryColor),
                                   ),
                                 ),
                                 minLines: 1,
                                 maxLines: 5,
                               ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                side: BorderSide(color: Colors.transparent,
+                                    width: 2),
+                              ),
                               actions: [
                                 TextButton(
-                                  child: Text("Cancel"),
+                                  child: Container(
+                                    child: Text(
+                                        "Cancel",
+                                      style: GoogleFonts.getFont("Bai Jamjuree",
+                                          fontSize: 14),
+                                    ),
+                                  ),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
                                 ),
                                 TextButton(
-                                  child: Text("Save"),
+                                  child: Text("Save",
+                                    style: GoogleFonts.getFont("Bai Jamjuree",
+                                      fontSize: 14),),
                                   onPressed: () {
                                     widget.commentBloc.add(UpdatingMyComment(
                                         commentController!.text,
@@ -255,4 +285,6 @@ class _CommentModalState extends State<CommentModal> {
       ),
     );
   }
+
+
 }
