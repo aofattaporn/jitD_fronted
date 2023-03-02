@@ -139,7 +139,7 @@ class SearchState extends State<Search> {
                 child: Row(
                   children: [
                     Text(
-                      "ยอดนิยม",
+                      "ปัญหาที่พบบ่อย",
                       style: GoogleFonts.getFont("Bai Jamjuree",
                           fontSize: 22, fontWeight: FontWeight.w500),
                     ),

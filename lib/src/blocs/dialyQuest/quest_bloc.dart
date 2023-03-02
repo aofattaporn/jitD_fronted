@@ -34,7 +34,6 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
       try {
         final questJSON = await dailyQuestRepository.updatingQuest(
             event.questName, event.currentPoint);
-        print(questJSON);
         final questData = DailyQuestModelFromJson(questJSON);
 
         dailyQuestModel.setMyQuest(questData.questDate!, questData.quests!);

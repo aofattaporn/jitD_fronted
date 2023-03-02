@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jitd_client/src/blocs/dialyQuest/quest_bloc.dart';
 import 'package:jitd_client/src/blocs/dialyQuest/quest_event.dart';
 import 'package:intl/intl.dart';
+import 'package:jitd_client/src/blocs/user/user_event.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../blocs/dialyQuest/quest_state.dart';
@@ -32,24 +33,24 @@ class _QuestBoxState extends State<QuestBox> {
   @override
   Widget build(BuildContext context) {
     String questDate = DateFormat('dd/MM/yy').format(DateTime.parse(
-            widget.state.dailyQuestModel.questDate ?? DateTime.now().toString())
+            widget.questBloc.dailyQuestModel.questDate ?? DateTime.now().toString())
         .toUtc()
         .add(const Duration(hours: 7)));
 
     String progress =
-        widget.state.dailyQuestModel.quests![widget.index].progress.toString();
+        widget.questBloc.dailyQuestModel.quests![widget.index].progress.toString();
     String maxProgress = widget
         .state.dailyQuestModel.quests![widget.index].maxProgress
         .toString();
 
     String name =
-        widget.state.dailyQuestModel.quests![widget.index].questName.toString();
+        widget.questBloc.dailyQuestModel.quests![widget.index].questName.toString();
     int nameIndex = name.lastIndexOf("Quest");
     String questName = name.substring(0, nameIndex);
 
     bool checkReward =
-        widget.state.dailyQuestModel.quests![widget.index].countGet !=
-            widget.state.dailyQuestModel.quests![widget.index].progress;
+        widget.questBloc.dailyQuestModel.quests![widget.index].countGet !=
+            widget.questBloc.dailyQuestModel.quests![widget.index].progress;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.085,
@@ -68,6 +69,7 @@ class _QuestBoxState extends State<QuestBox> {
                       widget.questBloc.dailyQuestModel.quests![widget.index]
                           .questName,
                       widget.userBloc.userModel.point.toString()));
+                  widget.userBloc.add(PointAdd());
                 }
               },
               child: Container(

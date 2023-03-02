@@ -16,6 +16,8 @@ class CommentRepository {
             },
             body: commentModelToJson(CommentModel.PostContent(content)));
     if (response.statusCode == 200) {
+      print(response.statusCode);
+      print(response.body);
       return response.body;
     } else if (response.statusCode == 502) {
       return response.body;

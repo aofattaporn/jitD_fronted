@@ -60,7 +60,16 @@ class DialogQuest extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.015),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (context, state) {
-                        return Text(state.user.point.toString());
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/Point.png',
+                              height: 20,
+                            ),
+                            Text(state.user.point.toString()),
+                          ],
+                        );
                       },
                     ),
                     Text(

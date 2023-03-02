@@ -10,6 +10,7 @@ import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/blocs/user/user_state.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:jitd_client/src/screens/BookMark.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
 import 'package:jitd_client/src/screens/profile/DialogQuest.dart';
 import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
@@ -21,6 +22,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../blocs/user/user_bloc.dart';
 import '../../blocs/user/user_event.dart';
 import '../../constant/constant_fonts.dart';
+import '../test_stress/exanmination.dart';
 import 'DialogPetName.dart';
 import 'buildMyPost.dart';
 
@@ -491,7 +493,12 @@ class _ProfilePageState extends State<ProfilePage> {
       icon: const Icon(Icons.flash_on_rounded),
       color: Colors.white,
       iconSize: MediaQuery.of(context).size.height * 0.05,
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Examination()));
+      },
     );
   }
 
@@ -510,7 +517,12 @@ class _ProfilePageState extends State<ProfilePage> {
       icon: const Icon(Icons.bookmark),
       color: Colors.white,
       iconSize: MediaQuery.of(context!).size.height * 0.04,
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BookMark()));
+      },
     );
   }
 
