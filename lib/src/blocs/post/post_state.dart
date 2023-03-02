@@ -85,6 +85,8 @@ class UpdatedPost extends PostState {
   List<Object?> get props => [];
 }
 
+// ------ state of edit category -------
+
 class EditCategorySuccess extends PostState {
   EditCategorySuccess(List<PostModel> list) {
     super.listPostModel = list;
@@ -94,8 +96,8 @@ class EditCategorySuccess extends PostState {
   List<Object?> get props => [];
 }
 
-class EditingCategorySuccess extends PostState {
-  EditingCategorySuccess(List<String> category, List<PostModel> list) {
+class SelectedCatSuccess extends PostState {
+  SelectedCatSuccess(List<String> category, List<PostModel> list) {
     super.category = category.toList();
     super.listPostModel = list;
   }
@@ -107,6 +109,16 @@ class EditingCategorySuccess extends PostState {
 class WillEditCategory extends PostState {
   WillEditCategory(List<String> category) {
     super.category = category.toList();
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SelectCatMaxCategory extends PostState {
+  SelectCatMaxCategory(List<String> category, List<PostModel> list) {
+    super.category = category.toList();
+    super.listPostModel = list;
   }
 
   @override

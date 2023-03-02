@@ -84,3 +84,5 @@ final TextStyle fontsEN24TextColor3 =
 /// other
 final TextStyle fontsEN20ThirteryBold = GoogleFonts.getFont("Lato",
     fontSize: 20, color: secondaryColorSubtle, fontWeight: FontWeight.bold);
+final TextStyle fontsTH16_thirteryd = GoogleFonts.getFont("Bai Jamjuree",
+    fontSize: 16, color: thirterydColor, fontWeight: FontWeight.bold);

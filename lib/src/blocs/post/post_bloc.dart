@@ -148,7 +148,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     on<InitialSelectCat>((event, emit) {
-      emit(EditingCategorySuccess(event.category, listPostModel.posts));
+      emit(SelectedCatSuccess(event.category, listPostModel.posts));
     });
 
     on<RemoveCategory>((event, emit) {
@@ -160,14 +160,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           break;
         }
       }
-      emit(EditingCategorySuccess(event.category, listPostModel.posts));
+      emit(SelectedCatSuccess(event.category, listPostModel.posts));
     });
 
     on<AddCategory>((event, emit) {
       List<String> temp = event.category.toList();
       emit(WillEditCategory(temp));
       event.category.add(event.newCategory);
-      emit(EditingCategorySuccess(event.category, listPostModel.posts));
+      if (event.category.length < 3) {
+        emit(SelectedCatSuccess(event.category, listPostModel.posts));
+      } else {
+        emit(SelectCatMaxCategory(event.category, listPostModel.posts));
+      }
     });
   }
 }

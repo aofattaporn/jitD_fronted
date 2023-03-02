@@ -89,6 +89,7 @@ class _PostModalState extends State<PostModal> {
                             category: widget.category ?? ["Tag1", "Tag2"],
                             postBloc: widget.postBloc,
                             postID: widget.postId ?? "",
+                            userID: widget.userId?? "",
                           )));
                         },
                         child: Row(
