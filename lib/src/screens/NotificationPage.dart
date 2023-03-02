@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/constant/constant_fonts.dart';
+
 import '../constant.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -11,9 +13,13 @@ class NotificationPage extends StatefulWidget {
 class NotificationPageState extends State<NotificationPage> {
   final items = List<String>.generate(10, (i) => 'Item ${i + 1}');
 
-  List<String> _values = ['แจ้งเตือน', 'ผู้ใช้งาน1234xx',
-    'ผู้ใช้งาน1234xx', 'ผู้ใช้งาน1234xx', 'ผู้ใช้งาน1234xx'];
-
+  List<String> _values = [
+    'แจ้งเตือน',
+    'ผู้ใช้งาน1234xx',
+    'ผู้ใช้งาน1234xx',
+    'ผู้ใช้งาน1234xx',
+    'ผู้ใช้งาน1234xx'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -37,49 +43,59 @@ class NotificationPageState extends State<NotificationPage> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                     children: [
                       //Widget Box and Text
-                      Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                      Stack(
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                              color: primaryColor,
+                            ),
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: MediaQuery.of(context).devicePixelRatio *
+                                      8,
+                                  left:
+                                      MediaQuery.of(context).devicePixelRatio *
+                                          10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "การแจ้งเตือน",
+                                    style: fontsTH32TextColor,
+                                  ),
+                                  Text(
+                                    "การแจ้งเตือนในช่วงนี้",
+                                    style: fontsTH16White,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          color: primaryColor,
-                        ),
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).devicePixelRatio * 8,
-                              left:
-                              MediaQuery.of(context).devicePixelRatio * 10),
-                          child: const Text(
-                            "การแจ้งเตือน",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        ],
                       ),
                     ],
                   ), //Category btn
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(25.0),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "วันนี้",
-                      style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: fontsTH20TextColor2Bold,
                     ),
-                    Text(
+                    const Text(
                       "ล้างค่า",
                       style: TextStyle(
                         color: Colors.grey,
@@ -89,33 +105,30 @@ class NotificationPageState extends State<NotificationPage> {
                   ],
                 ),
               ),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _values.length,
-                    padding: const EdgeInsets.all(8),
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: 15,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Dismissible(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _values.length,
+                  padding: const EdgeInsets.all(8),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 15,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Dismissible(
                         key: Key('item ${_values[index]}'),
                         background: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10)
-                                )
-                            ),
+                          decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10))),
                           child: Padding(
                             padding: const EdgeInsets.all(20),
                             child: Row(
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Icon(Icons.favorite, color: Colors.white),
                               ],
                             ),
@@ -123,17 +136,15 @@ class NotificationPageState extends State<NotificationPage> {
                         ),
                         secondaryBackground: Container(
                           decoration: const BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10)
-                            )
-                          ),
+                              color: Colors.red,
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10))),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Icon(Icons.delete, color: Colors.white),
                               ],
                             ),
@@ -178,29 +189,39 @@ class NotificationPageState extends State<NotificationPage> {
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: const BoxDecoration(
                               color: backgroundColor2,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               boxShadow: [
                                 BoxShadow(
                                   blurRadius: 10,
                                   color: Color.fromRGBO(0, 0, 0, 0.1),
                                   offset: Offset(0, 4),
                                 )
-                              ]
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                Text(
+                                  _values[index],
+                                  style: fontsEN16SecondaryColor,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                const Text(
+                                    "ผมคิดว่าทำแบบนั้นดีแล้วครับ สุดยอดมากเลยครับ")
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            children: [
-                              //SizedBox(width: MediaQuery.of(context).size.width * 10,),
-                              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                              Text(_values[index]),
-                              SizedBox(height: 5,),
-                              Text("ผมคิดว่าทำแบบนั้นดีแล้วครับ สุดยอดมากเลยครับ")
-                            ],
-                          ),
-                        )
-
-                      );
-                    },
-                  ),
+                        ));
+                  },
                 ),
               ),
               Padding(
@@ -212,7 +233,7 @@ class NotificationPageState extends State<NotificationPage> {
                     Text(
                       "สัปดาห์ที่แล้ว",
                       style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

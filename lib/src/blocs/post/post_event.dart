@@ -105,3 +105,21 @@ class InitialSelectCat extends PostEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SortPostByDate extends PostEvent{
+  final String sortdate;
+
+  SortPostByDate(this.sortdate);
+
+  @override
+  List<Object> get props => [];
+}
+
+class SortPostByLike extends PostEvent{
+  final String sortlike;
+
+  SortPostByLike(this.sortlike);
+
+  @override
+  List<Object> get props => [];
+}

@@ -18,6 +18,7 @@ class UpdatePost2 extends StatefulWidget {
   final String? content;
   final String? date;
   final List<String>? category;
+  final String userID;
   final PostBloc postBloc;
   final String postID;
 
@@ -27,7 +28,8 @@ class UpdatePost2 extends StatefulWidget {
       this.date,
       this.category,
       required this.postBloc,
-      required this.postID})
+      required this.postID,
+      required this.userID})
       : super(key: key);
 
   @override
@@ -37,6 +39,7 @@ class UpdatePost2 extends StatefulWidget {
 class UpdatePost2State extends State<UpdatePost2> {
   TextEditingController? textController;
   final panelController = PanelController();
+  final _formKey = GlobalKey<FormState>();
   late List<String> myList;
 
   @override
@@ -127,7 +130,7 @@ class UpdatePost2State extends State<UpdatePost2> {
                     header(),
 
                     // show id and setting
-                    showID_setting(context),
+                    showID_setting(context, widget.userID),
 
                     // form create
                     formCreatePost(),
@@ -154,27 +157,39 @@ class UpdatePost2State extends State<UpdatePost2> {
             icon: const Icon(Icons.close)),
         ElevatedButton(
             onPressed: () {
-              widget.postBloc.add(UpdatingMyPost(
-                  textController!.text,
-                  DateTime.now().toUtc().toString(),
-                  true,
-                  widget.postID,
-                  myList));
+              if (_formKey.currentState!.validate()) {
+                widget.postBloc.add(UpdatingMyPost(
+                    textController!.text,
+                    DateTime.now().toUtc().toString(),
+                    true,
+                    widget.postID,
+                    myList));
+              }
             },
             style: ElevatedButton.styleFrom(
+                fixedSize: Size.fromWidth(110),
                 primary: thirterydColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
-            child: Text(
-              "แก้ไขโพส",
-              style: fontsTH16White,
-            ))
+            child: BlocBuilder<PostBloc, PostState>(
+                bloc: widget.postBloc,
+                builder: (context, state) {
+                  if (state is UpdatingPost) {
+                    return const CircularProgressIndicator(
+                      color: Colors.white,
+                    );
+                  }
+                  return Text(
+                    "แก้ไขโพส",
+                    style: fontsTH16White,
+                  );
+                }))
       ],
     );
   }
 
   // ----------------- show-id ---------------------
-  Row showID_setting(BuildContext context) {
+  Row showID_setting(BuildContext context, String userID) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -185,7 +200,8 @@ class UpdatePost2State extends State<UpdatePost2> {
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
               vertical: 3),
-          child: Text("ID : xxxxxx", style: fontsTH16_Black),
+          child: Text("ชื่อผู้ใช้ ${"${userID.substring(0, 5)}xxx"}",
+              style: fontsTH16_Black),
         ),
 
         // check public
@@ -214,16 +230,24 @@ class UpdatePost2State extends State<UpdatePost2> {
       padding: EdgeInsets.all(20),
       child: Column(
         children: [
-          TextFormField(
-              autofocus: true,
-              obscureText: false,
-              controller: textController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: "อยากบอกอะไร",
-              )),
+          Form(
+            key: _formKey,
+            child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'คุณยังไม่มีข้อความก';
+                  }
+                },
+                autofocus: true,
+                obscureText: false,
+                controller: textController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "อยากบอกอะไร",
+                )),
+          ),
         ],
       ),
     );
@@ -237,19 +261,12 @@ class UpdatePost2State extends State<UpdatePost2> {
       value: widget.postBloc,
       child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
         if (state is EditCategorySuccess ||
-            state is EditingCategorySuccess ||
+            state is SelectedCatSuccess ||
             state is UpdatingMyPost ||
             state is UpdatedPost) {
-          print("+++++++");
-
-          print(state);
           List<PostModel> listPost = widget.postBloc.listPostModel.posts;
           int postIndex = getIndex(listPost, widget.postID);
 
-          for (var element in state.listPostModel[postIndex].category!) {
-            print(element);
-          }
-          print("+++++++");
           return categorElem(context, state, postIndex, width, height);
         }
         return categorElem(context, state, postIndex, width, height);
@@ -299,13 +316,8 @@ class UpdatePost2State extends State<UpdatePost2> {
                             borderRadius: BorderRadius.circular(20)),
                         padding: const EdgeInsets.symmetric(horizontal: 20)),
                     onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                    child:
                         Text(state.listPostModel[postIndex].category![index]),
-                        const Icon(Icons.close)
-                      ],
-                    ),
                   ),
                 );
               },

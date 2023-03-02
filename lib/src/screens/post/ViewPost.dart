@@ -280,8 +280,7 @@ class ViewPostState extends State<ViewPost> {
         Row(
           children: [
             SortModal(
-                userId: widget.userId,
-                commentBloc: _commentBloc),
+                commentBloc: _commentBloc!),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
