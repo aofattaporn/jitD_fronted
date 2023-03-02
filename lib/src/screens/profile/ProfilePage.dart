@@ -22,7 +22,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../blocs/user/user_bloc.dart';
 import '../../blocs/user/user_event.dart';
 import '../../constant/constant_fonts.dart';
-import '../test_stress/exanmination.dart';
+import '../test_stress/result_counsellor.dart';
+import '../test_stress/result_test.dart';
 import 'DialogPetName.dart';
 import 'buildMyPost.dart';
 
@@ -302,9 +303,12 @@ class _ProfilePageState extends State<ProfilePage> {
           GestureDetector(
             onTap: () {
               if (loaded) {
-                showDialog(context: context, builder: (context) => DialogQuest(
-                questBloc: _questBloc, userBloc: _userBloc,
-              ));
+                showDialog(
+                    context: context,
+                    builder: (context) => DialogQuest(
+                          questBloc: _questBloc,
+                          userBloc: _userBloc,
+                        ));
               }
             },
             child: Container(
@@ -494,10 +498,8 @@ class _ProfilePageState extends State<ProfilePage> {
       color: Colors.white,
       iconSize: MediaQuery.of(context).size.height * 0.05,
       onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Examination()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ResultCounsellor()));
       },
     );
   }
@@ -508,7 +510,10 @@ class _ProfilePageState extends State<ProfilePage> {
         'assets/images/handshake.png',
         color: Colors.white,
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Resulttest()));
+      },
     );
   }
 
@@ -519,9 +524,7 @@ class _ProfilePageState extends State<ProfilePage> {
       iconSize: MediaQuery.of(context!).size.height * 0.04,
       onPressed: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => BookMark()));
+            context, MaterialPageRoute(builder: (context) => BookMark()));
       },
     );
   }

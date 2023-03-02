@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constant.dart';
-import '../../constant.dart';
+
 import '../../constant.dart';
 
 // Map<int, bool> buttons = {
@@ -133,6 +132,7 @@ class _ExaminationState extends State<Examination> {
                         height: 20,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Column(
                             children: [
@@ -235,6 +235,7 @@ class _ExaminationState extends State<Examination> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
