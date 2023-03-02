@@ -23,3 +23,9 @@ class UpdatePetName extends UserEvent {
   @override
   List<Object> get props => [];
 }
+
+class PointAdd extends UserEvent {
+
+  @override
+  List<Object> get props => [];
+}

@@ -41,6 +41,8 @@ final TextStyle fontsTH10_Black = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 10, color: textColor1);
 final TextStyle fontsTH14_white = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 14, color: Colors.white);
+final TextStyle fontsTH14_white_bold = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold);
 final TextStyle fontsTH14_thirteryd = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 14, color: thirterydColor);
 final TextStyle fontsTH14_black_bold = GoogleFonts.getFont(
@@ -55,8 +57,14 @@ final TextStyle fontsTH16_Grey = GoogleFonts.getFont(
     "Lato", fontSize: 16, color: textColor3);
 final TextStyle fontsTH18_Black = GoogleFonts.getFont(
     "Lato", fontSize: 18, color: textColor3);
+final TextStyle fontsENG18_White = GoogleFonts.getFont(
+    "Lato", fontSize: 18, color: Colors.white);
+final TextStyle fontsENG18_White_Bold = GoogleFonts.getFont(
+    "Lato", fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
 final TextStyle fontsTH20_Black = GoogleFonts.getFont(
     "Lato", fontSize: 20, color: textColor3);
+final TextStyle fontsENG20_White_Bold = GoogleFonts.getFont(
+    "Lato", fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
 
 
 

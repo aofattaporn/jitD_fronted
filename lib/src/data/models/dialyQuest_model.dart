@@ -1,33 +1,33 @@
 import 'dart:convert';
 import 'dart:core';
 
-DialyQuestModel DialyQuestModelFromJson(String str) =>
-    DialyQuestModel.fromJson(json.decode(str));
+DailyQuestModel DailyQuestModelFromJson(String str) =>
+    DailyQuestModel.fromJson(json.decode(str));
 
 // String testModelToJson(AuthModel data) => json.encode(data.toJson());
 
-class DialyQuestModel {
+class DailyQuestModel {
   String? questDate;
   List<Quest>? quests;
   String? error;
 
-  DialyQuestModel();
+  DailyQuestModel();
 
-  DialyQuestModel.withError(String errorMessage) {
+  DailyQuestModel.withError(String errorMessage) {
     error = errorMessage;
   }
 
-  DialyQuestModel.fromJson(Map<String, dynamic> jsons) {
-    questDate = jsons['questDate'];
-    quests = getEachQuest(jsons['quests']);
+  DailyQuestModel.fromJson(Map<String, dynamic> json) {
+    questDate = json['questDate'];
+    quests = getEachQuest(json['quest']);
   }
 
   List<Quest>? getEachQuest(List<dynamic> json) {
-    List<Quest>? temp;
+    List<Quest>? temp = [];
     for (var element in json) {
-      temp?.add(Quest.fromJson(element));
+      temp.add(Quest.fromJson(element));
     }
-    return quests;
+    return temp;
   }
 
   void setMyQuest(String? questDate, List<Quest>? quests) {
@@ -38,9 +38,10 @@ class DialyQuestModel {
 
 class Quest {
   String? questName;
-  String? progress;
-  String? maxProgress;
-  String? reward;
+  int? progress;
+  int? countGet;
+  int? maxProgress;
+  int? reward;
   bool? isGetPoint;
   bool? completed;
   String? lastCompletion;
@@ -50,6 +51,7 @@ class Quest {
   Quest.fromJson(Map<String, dynamic> json) {
     questName = json['questName'];
     progress = json['progress'];
+    countGet = json['countGet'];
     maxProgress = json['maxProgress'];
     reward = json['reward'];
     isGetPoint = json['isGetPoint'];

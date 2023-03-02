@@ -3,11 +3,16 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/blocs/dialyQuest/quest_bloc.dart';
+import 'package:jitd_client/src/blocs/dialyQuest/quest_event.dart';
+import 'package:jitd_client/src/blocs/dialyQuest/quest_state.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/blocs/user/user_state.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:jitd_client/src/screens/BookMark.dart';
 import 'package:jitd_client/src/screens/Setting/Setting_setting.dart';
+import 'package:jitd_client/src/screens/profile/DialogQuest.dart';
 import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
 import 'package:jitd_client/src/screens/profile/shimmerPetName.dart';
 import 'package:jitd_client/src/screens/profile/shimmerUserID.dart';
@@ -17,6 +22,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../blocs/user/user_bloc.dart';
 import '../../blocs/user/user_event.dart';
 import '../../constant/constant_fonts.dart';
+import '../test_stress/exanmination.dart';
 import 'DialogPetName.dart';
 import 'buildMyPost.dart';
 
@@ -41,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // declare bloc instance variable
   final UserBloc _userBloc = UserBloc();
+  final QuestBloc _questBloc = QuestBloc();
 
   // final petBlocProvider = BlocProvider<petBloc>(create: (context) => petBloc());
   final PostBloc _postBloc = PostBloc();
@@ -55,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _userBloc.add(const GetUserByID());
     _postBloc.add(GetMyPost());
+    _questBloc.add(const GetMyQuest());
     super.initState();
     textController = TextEditingController()
       ..addListener(() {
@@ -164,8 +172,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        //id user
-                        showUserID(context),
+                        //id user + point
+                        Row(
+                          children: [
+                            showUserID(context),
+                            showPoints(context),
+                          ],
+                        ),
 
                         //burger bar
                         IconButton(
@@ -184,24 +197,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: primaryColor),
-                            child: const Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Icon(
-                                Icons.book,
-                                color: Colors.white,
-                                size: 26,
-                              ),
-                            ))
-                      ],
+                  BlocProvider(
+                    create: (context) => _questBloc,
+                    child: BlocBuilder<QuestBloc, QuestState>(
+                      builder: (context, state) {
+                        if (state is GetMyQuestSuccess) {
+                          return iconQuest(context, true);
+                        } else {
+                          return iconQuest(context, false);
+                        }
+                      },
                     ),
                   ),
 
@@ -288,6 +293,64 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Padding iconQuest(BuildContext context, bool loaded) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (loaded) {
+                showDialog(context: context, builder: (context) => DialogQuest(
+                questBloc: _questBloc, userBloc: _userBloc,
+              ));
+              }
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: primaryColor),
+                child: const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Icon(
+                    Icons.book,
+                    color: Colors.white,
+                    size: 26,
+                  ),
+                )),
+          )
+        ],
+      ),
+    );
+  }
+
+  Row showPoints(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 10, right: 4),
+          child: Image.asset(
+            'assets/images/Point.png',
+            height: 20,
+          ),
+        ),
+        BlocProvider(
+          create: (_) => _userBloc,
+          child: BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is! GettingUser) {
+                return Text(state.user.point.toString());
+              } else {
+                return const Text("Loading");
+              }
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Center showUserID(BuildContext context) {
     return Center(
       child: Container(
@@ -298,30 +361,30 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.white),
         height: MediaQuery.of(context).size.height * 0.04,
         width: MediaQuery.of(context).size.width * 0.4,
-        child: Container(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).devicePixelRatio * 6,
-            top: MediaQuery.of(context).devicePixelRatio * 4,
-          ),
-          child: BlocProvider(
-            create: (_) => _userBloc,
-            child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-              if (state is GettingUser) {
-                return const ShmmimerUserID();
-              } else if (state is GetUserSuccess ||
-                  state is UpdatingPetName ||
-                  state is UpdatePetNameSuccess) {
-                String identifyuser = state.user.userID.toString();
-                int maxLength = 10;
-                String conciseUser = (identifyuser.length > maxLength)
-                    ? "${identifyuser.substring(0, maxLength)}..."
-                    : identifyuser;
-                return Text("ID : $conciseUser");
-              } else {
-                return const ShmmimerUserID();
-              }
-            }),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocProvider(
+              create: (_) => _userBloc,
+              child:
+                  BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+                if (state is GettingUser) {
+                  return const ShmmimerUserID();
+                } else if (state is GetUserSuccess ||
+                    state is UpdatingPetName ||
+                    state is UpdatePetNameSuccess) {
+                  String identifyuser = state.user.userID.toString();
+                  int maxLength = 10;
+                  String conciseUser = (identifyuser.length > maxLength)
+                      ? "${identifyuser.substring(0, maxLength)}..."
+                      : identifyuser;
+                  return Text("ID : $conciseUser");
+                } else {
+                  return const ShmmimerUserID();
+                }
+              }),
+            ),
+          ],
         ),
       ),
     );
@@ -430,7 +493,12 @@ class _ProfilePageState extends State<ProfilePage> {
       icon: const Icon(Icons.flash_on_rounded),
       color: Colors.white,
       iconSize: MediaQuery.of(context).size.height * 0.05,
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Examination()));
+      },
     );
   }
 
@@ -449,7 +517,12 @@ class _ProfilePageState extends State<ProfilePage> {
       icon: const Icon(Icons.bookmark),
       color: Colors.white,
       iconSize: MediaQuery.of(context!).size.height * 0.04,
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BookMark()));
+      },
     );
   }
 

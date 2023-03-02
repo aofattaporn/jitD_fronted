@@ -159,9 +159,10 @@ class CreatePostState extends State<CreatePost> {
                                               } else {
                                                 return ElevatedButton(
                                                   onPressed: () {
-                                                    FocusScope.of(context).requestFocus(_unFocusNode);
                                                     if (keyForm.currentState!
-                                                        .validate() && states.countSelectedCategory != 0) {
+                                                            .validate() &&
+                                                        states.countSelectedCategory !=
+                                                            0) {
                                                       keyForm.currentState!
                                                           .save();
                                                       context
@@ -170,7 +171,8 @@ class CreatePostState extends State<CreatePost> {
                                                               textController
                                                                   ?.text,
                                                               true,
-                                                              states.selectedCategoryMap));
+                                                              states
+                                                                  .selectedCategoryMap));
                                                     }
                                                   },
                                                   style:
@@ -297,8 +299,8 @@ class CreatePostState extends State<CreatePost> {
                                         child: Form(
                                           key: keyForm,
                                           child: TextFormField(
-                                            autofocus: true,
-                                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
                                             validator: (value) {
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -330,12 +332,19 @@ class CreatePostState extends State<CreatePost> {
                                       ),
                                     ),
                                     if (state.countSelectedCategory == 0)
-                                    Row(
-                                      children: [
-                                        Text("กรุณาเลือกประเภทของโพส*", style: fontsTH14_thirteryd,)
-                                      ],
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "กรุณาเลือกประเภทของโพส*",
+                                            style: fontsTH14_thirteryd,
+                                          )
+                                        ],
+                                      ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.01,
                                     ),
-                                    SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [

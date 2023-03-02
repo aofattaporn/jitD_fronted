@@ -36,4 +36,22 @@ class UserRepository {
       return "Failed to name your pet";
     }
   }
+
+  // Future<String> namingPet(String? petName) async {
+  //   String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+  //   print(token);
+  //   final response = await http.put(Uri.parse("${globalUrl}v1/users/pet/id"),
+  //       body: petModelToJson(PetModel(petName)),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       });
+  //   if (response.statusCode == 200) {
+  //     return response.body;
+  //   } else {
+  //     return "Failed to name your pet";
+  //   }
+  // }
+
 }

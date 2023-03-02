@@ -123,20 +123,29 @@ class PostBox extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.02);
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: secondaryColor),
-                      child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              10, 5, 10, 5),
-                          child: Text(
-                            category![index],
-                            style: GoogleFonts.getFont("Bai Jamjuree",
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )),
+                    return GestureDetector(
+                      onTap: () {
+                        // For click in category on postbox that will redirect to allPostByCategory
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => ViewAllPost(
+                        //       categorySelected: category![index],
+                        //     )));
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: secondaryColor),
+                        child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                10, 5, 10, 5),
+                            child: Text(
+                              category![index],
+                              style: GoogleFonts.getFont("Bai Jamjuree",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )),
+                      ),
                     );
                   },
                 ),
