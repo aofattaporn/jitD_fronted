@@ -68,3 +68,23 @@ class SortCommentByLike extends CommentEvent{
   @override
   List<Object> get props => [];
 }
+
+class PinComment extends CommentEvent {
+  final String? _commentId;
+  final String? _postId;
+
+  const PinComment(this._commentId, this._postId);
+
+  @override
+  List<Object> get props => [];
+}
+
+class UnPinComment extends CommentEvent {
+  final String? _commentId;
+  final String? _postId;
+
+  const UnPinComment(this._commentId, this._postId);
+
+  @override
+  List<Object> get props => [];
+}

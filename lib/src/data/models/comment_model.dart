@@ -62,6 +62,7 @@ class CommentModel {
   String? postId;
   String? Date;
   bool? isLike;
+  bool? isPin;
   String? error;
 
   CommentModel();
@@ -83,6 +84,7 @@ class CommentModel {
     commentId = json['commentId'];
     userId = json['userId'];
     isLike = json['isLike'];
+    isPin = json['isPin'];
   }
 
   /// method convert json to map
@@ -94,6 +96,8 @@ class CommentModel {
     data['Date'] = Date;
     data['commentId'] = commentId;
     data['userId'] = userId;
+    data['isLike'] = isLike;
+    data['isPin'] = isPin;
 
     return data;
   }

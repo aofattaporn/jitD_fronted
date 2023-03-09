@@ -94,6 +94,28 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       sortby = event.sortlike;
       emit(SortedCommentByLike(listCommentModel.comments, sortby));
     });
+
+    on<PinComment>((event, emit) async {
+      // emit(LoadingComment());
+      try {
+        await commentRepository.pinComment(event._postId, event._commentId);
+        emit(UpdatedComment(listCommentModel.comments));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(CommentError(e.toString()));
+      }
+    });
+
+    on<UnPinComment>((event, emit) async {
+      // emit(LoadingComment());
+      try {
+        await commentRepository.unpinComment(event._postId, event._commentId);
+        emit(UpdatedComment(listCommentModel.comments));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(CommentError(e.toString()));
+      }
+    });
   }
   DateTime convertDate(String? date) {
     DateTime dt = DateTime.parse(date!);

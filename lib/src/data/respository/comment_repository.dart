@@ -16,14 +16,11 @@ class CommentRepository {
             },
             body: commentModelToJson(CommentModel.PostContent(content)));
     if (response.statusCode == 200) {
-      print(response.statusCode);
-      print(response.body);
       return response.body;
     } else if (response.statusCode == 502) {
       return response.body;
     } else {
-      print(response.statusCode);
-      return "somthing fail.";
+      return "something fail.";
     }
   }
 
@@ -39,8 +36,7 @@ class CommentRepository {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print(response.statusCode);
-      return "somthing fail.";
+      return "something fail.";
     }
   }
 
@@ -81,4 +77,37 @@ class CommentRepository {
       return "some thing wrong : ${response.body}";
     }
   }
+
+  Future<String> pinComment(String? postId, String? commentId) async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response = await http.put(
+        Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId/pin"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return "something fail.";
+    }
+  }
+
+  Future<String> unpinComment(String? postId, String? commentId) async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response = await http.put(
+        Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId/unpin"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return "something fail.";
+    }
+  }
+
 }
