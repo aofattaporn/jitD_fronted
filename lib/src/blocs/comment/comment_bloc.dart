@@ -108,10 +108,10 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     });
 
     on<PinComment>((event, emit) async {
-      // emit(LoadingComment());
+      listCommentModel.comments[int.parse(event._index!)].isPin = true;
       try {
-        await commentRepository.pinComment(event._postId, event._commentId);
-        emit(UpdatedComment(listCommentModel.comments));
+        await commentRepository.pinComment(event._postId, event._commentId, event._index);
+        emit(PinCommentState(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(CommentError(e.toString()));
@@ -119,10 +119,10 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     });
 
     on<UnPinComment>((event, emit) async {
-      // emit(LoadingComment());
+      listCommentModel.comments[int.parse(event._index!)].isPin = false;
       try {
-        await commentRepository.unpinComment(event._postId, event._commentId);
-        emit(UpdatedComment(listCommentModel.comments));
+        await commentRepository.unpinComment(event._postId, event._commentId, event._index);
+        emit(PinCommentState(listCommentModel.comments));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(CommentError(e.toString()));

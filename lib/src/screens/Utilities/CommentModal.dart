@@ -17,6 +17,7 @@ class CommentModal extends StatefulWidget {
   final String? date;
   final String? postUserId;
   final bool? isPin;
+  final String? commentIndex;
   final CommentBloc commentBloc;
 
   const CommentModal(
@@ -28,6 +29,7 @@ class CommentModal extends StatefulWidget {
       required this.date,
       required this.postUserId,
       required this.isPin,
+      required this.commentIndex,
       required this.commentBloc})
       : super(key: key);
 
@@ -69,6 +71,7 @@ class _CommentModalState extends State<CommentModal> {
                   if (currentID == widget.postUserId) pinningComment(),
                   if (currentID == widget.userId) editingComment(context),
                   if (currentID == widget.userId) deletingComment(context),
+                  reportingComment()
                 ],
               );
             },
@@ -81,17 +84,58 @@ class _CommentModalState extends State<CommentModal> {
         ));
   }
 
+  Padding reportingComment() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 20),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10,
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      offset: Offset(0, 4),
+                    )
+                  ],
+                  borderRadius:
+                      BorderRadiusDirectional.all(Radius.circular(10))),
+              child: const Padding(
+                  padding: EdgeInsetsDirectional.all(8),
+                  child: Icon(
+                    Icons.report,
+                    size: 28,
+                    color: textColor2,
+                  )),
+            ),
+          ),
+          Text(
+            "รายงานคอมเมนต์",
+            style: GoogleFonts.getFont("Bai Jamjuree",
+                fontSize: 18, color: textColor2),
+          ),
+        ],
+      ),
+    );
+  }
+
   Padding pinningComment() {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
           if (widget.isPin == false || widget.isPin == null) {
-            widget.commentBloc.add(PinComment(widget.commentId, widget.postId));
-          } else {
-            widget.commentBloc
-                .add(UnPinComment(widget.commentId, widget.postId));
+            widget.commentBloc.add(PinComment(
+                widget.commentId, widget.postId, widget.commentIndex));
+          } else if (widget.isPin == true) {
+            widget.commentBloc.add(UnPinComment(
+                widget.commentId, widget.postId, widget.commentIndex));
           }
+          widget.commentBloc.add(SortCommentByDate("เรียงตามใหม่ล่าสุด"));
+          Navigator.pop(context);
         },
         child: Row(
           children: [
@@ -138,7 +182,7 @@ class _CommentModalState extends State<CommentModal> {
 
   Padding deletingComment(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
           onTap: () {},
           child: Row(

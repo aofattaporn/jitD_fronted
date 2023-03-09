@@ -426,7 +426,8 @@ class ViewPostState extends State<ViewPost> {
                   state is SortedCommentByLike ||
                   state is LoadedComment ||
                   state is CommentSuccess ||
-                  state is LoadedComment) {
+                  state is LoadedComment ||
+                  state is PinCommentState) {
                 return Column(
                   children: [
                     buildComment(context, state.comment, _commentBloc, widget.userId!),

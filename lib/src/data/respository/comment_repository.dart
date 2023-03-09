@@ -78,7 +78,7 @@ class CommentRepository {
     }
   }
 
-  Future<String> pinComment(String? postId, String? commentId) async {
+  Future<String> pinComment(String? postId, String? commentId, String? index) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.put(
         Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId/pin"),
@@ -94,7 +94,7 @@ class CommentRepository {
     }
   }
 
-  Future<String> unpinComment(String? postId, String? commentId) async {
+  Future<String> unpinComment(String? postId, String? commentId, String? index) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response = await http.put(
         Uri.parse("${globalUrl}v1/comments/$commentId/post/$postId/unpin"),

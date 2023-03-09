@@ -19,6 +19,7 @@ class CommentBox extends StatefulWidget {
   final bool? isLike;
   final bool? isPin;
   final String? postUserId;
+  final String? commentIndex;
   final CommentBloc? commentBloc;
 
   const CommentBox({
@@ -31,6 +32,7 @@ class CommentBox extends StatefulWidget {
     required this.date,
     required this.isLike,
     required this.isPin,
+    required this.commentIndex,
     required this.postUserId,
     this.commentBloc,
   }) : super(key: key);
@@ -70,6 +72,18 @@ class _CommentBoxState extends State<CommentBox> {
                           fontSize: 16, color: textColor3),
                     ),
                   ),
+                  if (widget.isPin == true)
+                    ShaderMask(
+                      blendMode: BlendMode.srcATop,
+                      shaderCallback: (bounds) => const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Color(0xFF538AAD), Color(0xFFAAD4CC)])
+                          .createShader(bounds),
+                      child: const Icon(
+                        Icons.push_pin,
+                      ),
+                    ),
                   CommentModal(
                       userId: widget.userId,
                       postId: widget.postId,
@@ -78,6 +92,7 @@ class _CommentBoxState extends State<CommentBox> {
                       date: widget.date ?? DateTime.now().toString(),
                       postUserId: widget.postUserId,
                       isPin: widget.isPin,
+                      commentIndex: widget.commentIndex,
                       commentBloc: widget.commentBloc!)
                 ],
               ),
@@ -158,29 +173,29 @@ class _CommentBoxState extends State<CommentBox> {
 
   BoxDecoration borderColors() {
     return BoxDecoration(
-          border: widget.isPin == true
-              ? const GradientBoxBorder(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xFF538AAD), Color(0xFFAAD4CC)]),
-                  width: 3)
-              : null,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          color: Colors.white,
-          boxShadow: [
-            widget.isPin == true
-                ? const BoxShadow(
-                    blurRadius: 15,
-                    color: primaryColor,
-                    offset: Offset(0, 4),
-                  )
-                : const BoxShadow(
-                    blurRadius: 10,
-                    color: Color.fromRGBO(0, 0, 0, 0.1),
-                    offset: Offset(0, 4),
-                  )
-          ]);
+        border: widget.isPin == true
+            ? const GradientBoxBorder(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xFF538AAD), Color(0xFFAAD4CC)]),
+                width: 3)
+            : null,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+        boxShadow: [
+          widget.isPin == true
+              ? const BoxShadow(
+                  blurRadius: 15,
+                  color: primaryColor,
+                  offset: Offset(0, 4),
+                )
+              : const BoxShadow(
+                  blurRadius: 10,
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  offset: Offset(0, 4),
+                )
+        ]);
   }
 
   String convertDate(String? date) {

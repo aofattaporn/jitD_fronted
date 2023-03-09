@@ -50,6 +50,7 @@ Widget buildComment(
                   date: model[index].Date ?? DateTime.now().toString(),
                   isLike: model[index].isLike,
                   isPin: model[index].isPin,
+                  commentIndex: index.toString(),
                   postUserId: postUserId,
                   commentBloc: commentBloc,
                 ),
