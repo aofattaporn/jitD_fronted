@@ -13,7 +13,13 @@ class ListCommentModel {
     json.forEach((element) {
       comments.add(CommentModel.fromJsonResponse(element));
     });
-    comments.sort((a, b) => (b.Date ?? "").compareTo(a.Date ?? ""));
+    comments.sort((a, b) {
+      if (a.isPin == b.isPin) {
+        return (b.Date ?? '').compareTo(a.Date ?? '');
+      } else {
+        return a.isPin! ? -1 : 1;
+      }
+    });
   }
 
   // set list comment

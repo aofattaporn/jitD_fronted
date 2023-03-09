@@ -78,19 +78,31 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
 
     // Sort comment by date
     on<SortCommentByDate>((event, emit) {
-      listCommentModel.comments.sort((comment1, comment2) =>
-          convertDate(comment1.Date).compareTo(convertDate(comment2.Date)));
-      listCommentModel.comments = listCommentModel.comments.reversed.toList();
+      listCommentModel.comments.sort((comment1, comment2) {
+        if (comment2.isPin == comment1.isPin) {
+          return convertDate(comment1.Date)
+              .compareTo(convertDate(comment2.Date));
+        } else {
+          return comment2.isPin! ? 1 : -1; // true values come first
+        }
+      });
+
       sortby = event.sortdate;
       emit(SortedCommentByDate(listCommentModel.comments, sortby));
     });
 
     // Sort comment by Like
     on<SortCommentByLike>((event, emit) {
-      listCommentModel.comments.sort((comment1, comment2) =>
-          (comment1.countLike.toString())
-              .compareTo(comment2.countLike.toString()));
-      listCommentModel.comments = listCommentModel.comments.reversed.toList();
+      listCommentModel.comments.sort((comment1, comment2) {
+        if (comment2.isPin == comment1.isPin) {
+          return comment2.countLike
+              .toString()
+              .compareTo(comment1.countLike.toString());
+        } else {
+          return comment2.isPin! ? 1 : -1; // true values come first
+        }
+      });
+
       sortby = event.sortlike;
       emit(SortedCommentByLike(listCommentModel.comments, sortby));
     });
