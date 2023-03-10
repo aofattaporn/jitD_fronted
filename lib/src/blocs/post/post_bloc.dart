@@ -174,6 +174,40 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         emit(SelectCatMaxCategory(event.category, listPostModel.posts));
       }
     });
+    
+    on<DeleteBookMark>((event, emit) async{
+      try{
+        await postRepository.RemoveBookMark(event.postId);
+      }catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<AddBookMark>((event, emit) async{
+      try{
+        await postRepository.AddBookMark(event.postId);
+        print("Added leaw");
+      }catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<GetMyBookMark>((event, emit) async {
+      emit(BookMarkLoadingState());
+      try {
+        final listPostJSON = await postRepository.getMyBookMark();
+        final listPostData = listPostModelFromData(listPostJSON);
+
+        listPostModel.posts = listPostData.posts;
+
+        emit(BookMarkLoadedState(listPostModel.posts));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
 
     on<SortPostByDate>((event, emit) {
       listPostModel.posts.sort((post1, post2) =>

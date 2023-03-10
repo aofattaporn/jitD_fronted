@@ -129,7 +129,9 @@ class _PostModalState extends State<PostModal> {
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      widget.postBloc.add(AddBookMark(widget.postId??""));
+                    },
                     child: Row(
                       children: [
                         Padding(

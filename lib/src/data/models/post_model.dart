@@ -3,10 +3,18 @@ import 'dart:convert';
 ListPostModel listPostModelFromJson(String str) =>
     ListPostModel.fromJson(json.decode(str));
 
+ListPostModel listPostModelFromData(String str) =>
+    ListPostModel.fromData(json.decode(str));
+
 class ListPostModel {
   List<PostModel> posts = [];
 
   ListPostModel();
+
+  ListPostModel.fromData(Map<String, dynamic> json) {
+    List<dynamic> data = json["data"];
+    ListPostModel.fromJson(data);
+  }
 
   /// method convert map to json
   ListPostModel.fromJson(List<dynamic> json) {
