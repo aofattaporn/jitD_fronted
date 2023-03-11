@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
+import 'package:jitd_client/src/screens/test_stress/stressQuiz.dart';
 
 import '../../constant.dart';
 
@@ -152,7 +153,12 @@ class ResultTestState extends State<ResultTest> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StressQuiz()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.height * 0.075,
