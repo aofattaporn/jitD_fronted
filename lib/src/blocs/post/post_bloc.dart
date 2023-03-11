@@ -174,21 +174,21 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         emit(SelectCatMaxCategory(event.category, listPostModel.posts));
       }
     });
-    
-    on<DeleteBookMark>((event, emit) async{
-      try{
+
+    on<DeleteBookMark>((event, emit) async {
+      try {
         await postRepository.RemoveBookMark(event.postId);
-      }catch (e, stacktrace) {
+      } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
       }
     });
 
-    on<AddBookMark>((event, emit) async{
-      try{
+    on<AddBookMark>((event, emit) async {
+      try {
         await postRepository.AddBookMark(event.postId);
         print("Added leaw");
-      }catch (e, stacktrace) {
+      } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
       }
@@ -200,9 +200,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final listPostJSON = await postRepository.getMyBookMark();
         final listPostData = listPostModelFromData(listPostJSON);
 
-        listPostModel.posts = listPostData.posts;
+        // print for check each post
+        print("------ in Bloc-------------");
+        listPostData.posts.forEach((element) {
+          print(element.postId);
+        });
 
-        emit(BookMarkLoadedState(listPostModel.posts));
+        // listPostModel.posts = listPostData.posts;
+
+        emit(BookMarkLoadedState(listPostData.posts));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));

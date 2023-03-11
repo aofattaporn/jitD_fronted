@@ -12,8 +12,10 @@ class ListPostModel {
   ListPostModel();
 
   ListPostModel.fromData(Map<String, dynamic> json) {
-    List<dynamic> data = json["data"];
-    ListPostModel.fromJson(data);
+    for (var element in json["data"]) {
+      posts.add(PostModel.fromJson(element));
+    }
+    posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
   }
 
   /// method convert map to json
