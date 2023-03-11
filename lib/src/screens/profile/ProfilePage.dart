@@ -22,8 +22,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../blocs/user/user_bloc.dart';
 import '../../blocs/user/user_event.dart';
 import '../../constant/constant_fonts.dart';
-import '../test_stress/result_counsellor.dart';
-import '../test_stress/result_test.dart';
+import '../test_stress/consultTest.dart';
+import '../test_stress/stressTest.dart';
 import 'DialogPetName.dart';
 import 'buildMyPost.dart';
 
