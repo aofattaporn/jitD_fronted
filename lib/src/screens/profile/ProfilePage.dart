@@ -499,7 +499,7 @@ class _ProfilePageState extends State<ProfilePage> {
       iconSize: MediaQuery.of(context).size.height * 0.05,
       onPressed: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ResultCounsellor()));
+            MaterialPageRoute(builder: (context) => ResultTest()));
       },
     );
   }
@@ -512,7 +512,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Resulttest()));
+            context, MaterialPageRoute(builder: (context) => ResultCounsellor()));
       },
     );
   }

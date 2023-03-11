@@ -1,175 +1,175 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/constant/constant_fonts.dart';
 
 import '../../constant.dart';
-import 'exanmination.dart';
 
-class Resulttest extends StatefulWidget {
-  const Resulttest({Key? key}) : super(key: key);
+class ResultTest extends StatefulWidget {
+  const ResultTest({Key? key}) : super(key: key);
 
   @override
-  State<Resulttest> createState() => _ResulttestState();
+  State<ResultTest> createState() => ResultTestState();
 }
 
-class _ResulttestState extends State<Resulttest> {
+class ResultTestState extends State<ResultTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: secondaryColorDark,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "หน้าหลักการทดสอบ",
-          style: TextStyle(
-              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+          style: fontsTH20_black_bold,
         ),
       ),
-      body: Column(children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/stress_wallpaper.png"),
+                fit: BoxFit.cover)),
+        child: Column(
           children: [
-            /// Text 1
-            const Center(
-              // color: Colors.lightBlue,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 40),
-                child: Text("ทดสอบฟรี",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1)),
-              ),
-            ),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(0),
-                child: Center(
-                  child: Text("เริ่มต้นทดสอบวัดระดับความเครียดของคุณได้แล้ว\n",
-                      style: TextStyle(color: Colors.black, fontSize: 16)),
-                ),
-              ),
-            ),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(0.1),
-                child: Center(
-                  child: Text("ตอนนี้",
-                      style: TextStyle(color: Colors.black, fontSize: 16)),
-                ),
-              ),
-            ),
-
-            /// background image
-            Stack(
-              children: [
-                Image.asset(
-                  'assets/images/test_stress3-depositphotos.png',
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  fit: BoxFit.cover,
-                ),
-                Align(
-                  alignment: const AlignmentDirectional(-0.55, -1),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 150),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => Examination()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: thirterydColor,
-                            minimumSize: const Size(140, 60),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            fixedSize: const Size.fromHeight(30)),
-                        child: const Text("เริ่มต้นทดสอบ",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white))),
-                  ),
-                ),
-                const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 60),
-                    child: Text(
-                      "ทดสอบระดับความเครียด",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
-                    )),
-                const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 90),
-                    child: Text(
-                      "วัดระดับความเครียดของ\n"
-                      "คุณภายใน 15 นาที",
-                      style: TextStyle(color: Colors.black, fontSize: 14),
-                    )),
-              ],
-            ),
+            sectionHeader(context),
+            sectionButton(context),
+            sectionResult(context),
           ],
         ),
-        Column(
-          children: [
-            Stack(children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                        color: backgroundColor2,
-                        border: Border.all(
-                            color: const Color.fromRGBO(207, 229, 225, 1),
-                            width: 5)),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.015,
-                        ),
-                        Icon(
-                          Icons.mood,
-                          size: 80,
-                          color: secondaryColorLight,
-                        ),
-                        Text(
-                          "ทดสอบเมื่อ 24/11/2565",
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Text("ท่านไม่มีอาการของโรคซึมเศร้า"),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text("หรือมีอาการของโรคซึมเศร้า"),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text("ระดับน้อยมาก"),
-                      ],
-                    ),
+      ),
+    );
+  }
+
+  Column sectionHeader(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).devicePixelRatio * 15,
+              bottom: MediaQuery.of(context).devicePixelRatio * 3),
+          child: Text("ทดสอบฟรี", style: fontsTH20_black_bold),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).devicePixelRatio * 15),
+          child: Text(
+            "เริ่มต้นทดสอบวัดระดับความเครียดของคุณได้แล้วตอนนี้",
+            style: fontsTH16_Black,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Padding sectionResult(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 25),
+      child: Stack(children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  color: backgroundColor2,
+                  border: Border.all(
+                      color: const Color.fromRGBO(207, 229, 225, 1), width: 5)),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.015,
                   ),
-                ),
+                  const Icon(
+                    Icons.mood,
+                    size: 80,
+                    color: secondaryColorLight,
+                  ),
+                  Text(
+                    "ทดสอบเมื่อ 24/11/2565",
+                    style: fontsTH14TextColor3,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Text(
+                        "ท่านไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าระดับน้อยมาก",
+                        style: fontsTH16_Black,
+                        textAlign: TextAlign.center,
+                      ))
+                ],
               ),
-              Center(
-                child: Container(
-                    color: Colors.white,
-                    child:
-                        Text("ผลการทดสอบล่าสุดของคุณ", style: fontsTH18_Black)),
-              ),
-            ]),
-          ],
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+              color: Colors.white,
+              child: Text("ผลการทดสอบล่าสุดของคุณ", style: fontsTH18_Black)),
         ),
       ]),
+    );
+  }
+
+  Padding sectionButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).devicePixelRatio * 30,
+          left: MediaQuery.of(context).devicePixelRatio * 5),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: Column(
+            children: [
+              Text(
+                "ทดสอบระดับความเครียด",
+                style: fontsTH18_black_bold,
+                textAlign: TextAlign.center,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).devicePixelRatio * 4),
+                child: Text(
+                  "วัดระดับความเครียดของคุณภายใน 15 นาที",
+                  style: fontsTH14TextColor2,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  decoration: BoxDecoration(
+                      color: thirterydColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                      child: Text(
+                    "เริ่มต้นทดสอบ",
+                    style: fontsTH16White,
+                  )),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
