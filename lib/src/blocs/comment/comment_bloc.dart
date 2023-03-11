@@ -80,8 +80,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<SortCommentByDate>((event, emit) {
       listCommentModel.comments.sort((comment1, comment2) {
         if (comment2.isPin == comment1.isPin) {
-          return convertDate(comment1.Date)
-              .compareTo(convertDate(comment2.Date));
+          return convertDate(comment2.Date)
+              .compareTo(convertDate(comment1.Date));
         } else {
           return comment2.isPin! ? 1 : -1; // true values come first
         }
