@@ -58,6 +58,10 @@ final TextStyle fontsTH16_Black = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 16, color: textColor1);
 final TextStyle fontsTH16_Grey = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 16, color: textColor3);
+final TextStyle fontsTH16_white = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 16, color: Colors.white);
+final TextStyle fontsTH16_white_w500 = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500);
 final TextStyle fontsTH16_white_bold = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold);
 final TextStyle fontsTH18_black_bold = GoogleFonts.getFont(

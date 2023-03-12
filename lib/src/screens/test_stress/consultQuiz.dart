@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jitd_client/src/screens/test_stress/stressData.dart';
-import '../../blocs/stress/stress_bloc.dart';
+import 'package:jitd_client/src/screens/test_stress/consultData.dart';
+import '../../blocs/consult/consult_bloc.dart';
 import '../../constant.dart';
 import '../Utilities/AllToast.dart';
 import 'stressTestResult.dart';
 
-class StressQuiz extends StatefulWidget {
-  const StressQuiz({Key? key}) : super(key: key);
+class ConsultQuiz extends StatefulWidget {
+  const ConsultQuiz({Key? key}) : super(key: key);
 
   @override
-  State<StressQuiz> createState() => StressQuizState();
+  State<ConsultQuiz> createState() => ConsultQuizState();
 }
 
-class StressQuizState extends State<StressQuiz> {
+class ConsultQuizState extends State<ConsultQuiz> {
   final toast = FToast();
-  List quiz = stressQuizData;
+  List quiz = consultQuizData;
   late int score;
   late String result;
   late String advice;
@@ -44,7 +44,7 @@ class StressQuizState extends State<StressQuiz> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          "แบบทดสอบความเครียด",
+          "แบบทดสอบผู้ให้คำปรึกษา",
           style: fontsTH20_black_bold,
         ),
       ),
@@ -58,18 +58,11 @@ class StressQuizState extends State<StressQuiz> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: BlocProvider(
-            create: (_) => StressBloc(),
-            child: BlocBuilder<StressBloc, StressState>(
+            create: (context) => ConsultBloc(),
+            child: BlocBuilder<ConsultBloc, ConsultState>(
               builder: (context, state) {
                 return Column(
                   children: [
-                    /// Header Section ------------------------
-                    header(context),
-                    const Divider(
-                      thickness: 1.5,
-                      color: primaryColorDark,
-                    ),
-
                     /// Question Section ------------------------
                     questionText(context, state),
                     questionNavigate(context, state),
@@ -87,28 +80,13 @@ class StressQuizState extends State<StressQuiz> {
     );
   }
 
-  Padding header(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).devicePixelRatio * 8),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.6,
-        child: Text(
-          "ในช่วง 2 สัปดาห์ที่ผ่านมารวมทั้งวันนี้ ท่านมีอาการเหล่านี้บ่อยแค่ไหน",
-          style: fontsTH14_black,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
-  Padding submitButton(StressState state, BuildContext context) {
+  Padding submitButton(ConsultState state, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: GestureDetector(
         onTap: () {
           if (state.countQuestion < quiz.length - 1) {
-            context.read<StressBloc>().add(QuestionNext());
+            context.read<ConsultBloc>().add(QuestionNext());
           } else {
             if (state.selectedAnswer.contains(-1)) {
               showToast("กรุณาตอบทุกคำถาม");
@@ -129,7 +107,7 @@ class StressQuizState extends State<StressQuiz> {
           width: MediaQuery.of(context).size.width * 0.25,
           height: MediaQuery.of(context).size.height * 0.055,
           decoration: BoxDecoration(
-              color: primaryColor, borderRadius: BorderRadius.circular(10)),
+              color: secondaryColor, borderRadius: BorderRadius.circular(10)),
           child: Center(
               child: Text(
             state.countQuestion != quiz.length - 1 ? "ต่อไป" : "ส่งคำตอบ",
@@ -140,13 +118,12 @@ class StressQuizState extends State<StressQuiz> {
     );
   }
 
-  GridView answerBox(StressState state, BuildContext context) {
+  GridView answerBox(ConsultState state, BuildContext context) {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 20,
-      childAspectRatio: 2.5,
-      crossAxisCount: 2,
+      childAspectRatio: 5,
+      crossAxisCount: 1,
       children: List.generate(
           4,
           (index) => ListView.builder(
@@ -162,7 +139,7 @@ class StressQuizState extends State<StressQuiz> {
                     });
                   },
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.065,
+                    height: MediaQuery.of(context).size.height * 0.075,
                     decoration: BoxDecoration(
                       color: state.selectedAnswer[state.countQuestion] == index
                           ? primaryColor
@@ -171,12 +148,16 @@ class StressQuizState extends State<StressQuiz> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Center(
-                      child: Text(
-                        quiz[state.countQuestion]['answer'][index]['text'],
-                        style:
-                        state.selectedAnswer[state.countQuestion] == index
-                            ? fontsTH16_white_w500
-                            : fontsTH16_black_w500,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          quiz[state.countQuestion]['answer'][index]['text'],
+                          style:
+                          state.selectedAnswer[state.countQuestion] == index
+                          ? fontsTH16_white_w500
+                          : fontsTH16_black_w500,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
@@ -185,7 +166,7 @@ class StressQuizState extends State<StressQuiz> {
     );
   }
 
-  Padding questionText(BuildContext context, StressState state) {
+  Padding questionText(BuildContext context, ConsultState state) {
     return Padding(
       padding:
           EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 8),
@@ -208,7 +189,7 @@ class StressQuizState extends State<StressQuiz> {
     );
   }
 
-  Row questionNavigate(BuildContext context, StressState state) {
+  Row questionNavigate(BuildContext context, ConsultState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -220,7 +201,7 @@ class StressQuizState extends State<StressQuiz> {
           ),
           onPressed: () {
             if (state.countQuestion > 0) {
-              context.read<StressBloc>().add(QuestionBack());
+              context.read<ConsultBloc>().add(QuestionBack());
             }
           },
         ),
@@ -233,7 +214,7 @@ class StressQuizState extends State<StressQuiz> {
           ),
           onPressed: () {
             if (state.countQuestion < quiz.length - 1) {
-              context.read<StressBloc>().add(QuestionNext());
+              context.read<ConsultBloc>().add(QuestionNext());
             }
           },
         )
@@ -244,7 +225,7 @@ class StressQuizState extends State<StressQuiz> {
   void showToast(String msg) => toast.showToast(
       child: warningToast(msg, context), gravity: ToastGravity.TOP);
 
-  void scoreCalculator(StressState state) {
+  void scoreCalculator(ConsultState state) {
     score = state.selectedScore.reduce((value, current) => value + current);
     if (score >= 0 && score <= 4) {
       result = 'ท่านไม่มีอาการเครียดหรือมีอาการในระดับน้อยมาก';
