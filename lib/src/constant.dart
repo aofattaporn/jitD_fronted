@@ -70,6 +70,10 @@ final TextStyle fontsTH20_Black = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 20, color: textColor3);
 final TextStyle fontsTH20_black_bold = GoogleFonts.getFont(
     "Bai Jamjuree", fontSize: 20, color: textColor1, fontWeight: FontWeight.bold);
+final TextStyle fontsTH20_secondaryDark_bold = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 20, color: secondaryColorDark, fontWeight: FontWeight.bold);
+final TextStyle fontsTH30_black_bold = GoogleFonts.getFont(
+    "Bai Jamjuree", fontSize: 30, color: textColor1, fontWeight: FontWeight.bold);
 
 /// -------------------------------- Eng --------------------------------
 final TextStyle fontsENG18_White = GoogleFonts.getFont(

@@ -1,38 +1,84 @@
-List quizData = [
+List stressQuizData = [
   {
-    'questionText': '1. Hello World',
+    'questionText': '1. เบื่อ ทำอะไรๆก็ไม่เพลิดเพลิน',
     'answer': [
-      {'text': 'option01', 'score': 0},
-      {'text': '5555', 'score': 1},
-      {'text': 'NoobShit', 'score': 0},
-      {'text': 'Fucker', 'score': 0},
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
     ]
   },
   {
-    'questionText': '2. World Hello',
+    'questionText': '2. ไม่สบายใจ ซึมเศร้า หรือท้อแท้',
     'answer': [
-      {'text': 'monkey', 'score': 0},
-      {'text': 'Wow', 'score': 0},
-      {'text': 'Zoo', 'score': 1},
-      {'text': 'Kangaroo', 'score': 0},
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
     ]
   },
   {
-    'questionText': '3. World Hello',
+    'questionText': '3. หลับยาก หรือหลับๆ ตื่นๆ หรือหลับมากไป',
     'answer': [
-      {'text': 'monkey', 'score': 0},
-      {'text': 'Wow', 'score': 0},
-      {'text': 'Zoo', 'score': 1},
-      {'text': 'Kangaroo', 'score': 0},
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
     ]
   },
   {
-    'questionText': '4. World Hello',
+    'questionText': '4. เหนื่อยง่าย หรือไม่ค่อยมีแรง',
     'answer': [
-      {'text': 'monkey', 'score': 0},
-      {'text': 'Wow', 'score': 0},
-      {'text': 'Zoo', 'score': 1},
-      {'text': 'Kangaroo', 'score': 0},
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
+    ]
+  },
+  {
+    'questionText': '5. เบื่ออาหาร หรือกินมากเกินไป',
+    'answer': [
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
+    ]
+  },
+  {
+    'questionText':
+        '6. รู้สึกไม่ดีกับตัวเอง คิดว่าตัวเองล้มเหลว หรือเป็นคนทำให้ตัวเอง หรือครอบครัวผิดหวัง',
+    'answer': [
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
+    ]
+  },
+  {
+    'questionText': '7. สมาธิไม่ดีเวลาทำอะไร เช่น ดูโทรทัศน์ ฟังวิทยุ หรือทำงานที่ต้องใช้ความตั้งใจ',
+    'answer': [
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
+    ]
+  },
+  {
+    'questionText': '8. พูดหรือทำอะไรช้าจนคนอื่นมองเห็น หรือกระสับกระส่ายจนท่านอยู่ไม่นิ่งเหมือนเคย',
+    'answer': [
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
+    ]
+  },
+  {
+    'questionText': '9. คิดทำร้ายตนเอง หรือคิดว่าถ้าตายๆ ไปเสียคงจะดี',
+    'answer': [
+      {'text': 'ไม่เลย', 'score': 0},
+      {'text': 'มีบางวันหรือไม่บ่อย', 'score': 1},
+      {'text': 'มีค่อนข้างบ่อย', 'score': 2},
+      {'text': 'มีเกือบทุกวัน', 'score': 3},
     ]
   },
 ];

@@ -5,14 +5,14 @@ import 'package:jitd_client/src/screens/test_stress/stressQuiz.dart';
 
 import '../../constant.dart';
 
-class ResultTest extends StatefulWidget {
-  const ResultTest({Key? key}) : super(key: key);
+class StressTest extends StatefulWidget {
+  const StressTest({Key? key}) : super(key: key);
 
   @override
-  State<ResultTest> createState() => ResultTestState();
+  State<StressTest> createState() => StressTestState();
 }
 
-class ResultTestState extends State<ResultTest> {
+class StressTestState extends State<StressTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
