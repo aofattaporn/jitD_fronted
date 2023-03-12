@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/screens/test_stress/stressData.dart';
 import '../../blocs/stress/stress_bloc.dart';
 import '../../constant.dart';
+import '../Utilities/AllToast.dart';
+import 'stressTestResult.dart';
 
 class StressQuiz extends StatefulWidget {
   const StressQuiz({Key? key}) : super(key: key);
@@ -13,7 +16,17 @@ class StressQuiz extends StatefulWidget {
 }
 
 class StressQuizState extends State<StressQuiz> {
-  List quiz = quizData;
+  final toast = FToast();
+  List quiz = stressQuizData;
+  late int score;
+  late String result;
+  late String advice;
+
+  @override
+  void initState() {
+    toast.init(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +63,19 @@ class StressQuizState extends State<StressQuiz> {
               builder: (context, state) {
                 return Column(
                   children: [
+                    /// Header Section ------------------------
                     header(context),
                     const Divider(
                       thickness: 1.5,
                       color: primaryColorDark,
                     ),
+
+                    /// Question Section ------------------------
                     questionText(context, state),
                     questionNavigate(context, state),
-                    answerBox(state),
+
+                    /// Answer Section ------------------------
+                    answerBox(state, context),
                     submitButton(state, context)
                   ],
                 );
@@ -91,6 +109,20 @@ class StressQuizState extends State<StressQuiz> {
         onTap: () {
           if (state.countQuestion < quiz.length - 1) {
             context.read<StressBloc>().add(QuestionNext());
+          } else {
+            if (state.selectedAnswer.contains(-1)) {
+              showToast("กรุณาตอบทุกคำถาม");
+            } else {
+              scoreCalculator(state);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StressTestResult(
+                            score: score,
+                            result: result,
+                            advice: advice,
+                          )));
+            }
           }
         },
         child: Container(
@@ -108,31 +140,39 @@ class StressQuizState extends State<StressQuiz> {
     );
   }
 
-  GridView answerBox(StressState state) {
+  GridView answerBox(StressState state, BuildContext context) {
     return GridView.count(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 20,
       childAspectRatio: 2.5,
       crossAxisCount: 2,
       children: List.generate(
           4,
-          (listIndex) => ListView.builder(
+          (index) => ListView.builder(
               itemCount: 1,
-              itemBuilder: (context, index) {
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, listIndex) {
                 return GestureDetector(
                   onTap: () {
-
+                    setState(() {
+                      state.selectedAnswer[state.countQuestion] = index;
+                      state.selectedScore[state.countQuestion] =
+                          quiz[state.countQuestion]['answer'][index]['score'];
+                    });
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.065,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: state.selectedAnswer[state.countQuestion] == index
+                          ? primaryColor
+                          : Colors.white,
                       border: Border.all(color: primaryColor, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Center(
                       child: Text(
-                        quiz[state.countQuestion]['answer'][listIndex]['text'],
+                        quiz[state.countQuestion]['answer'][index]['text'],
                         style: fontsTH16_black_w500,
                       ),
                     ),
@@ -196,5 +236,38 @@ class StressQuizState extends State<StressQuiz> {
         )
       ],
     );
+  }
+
+  void showToast(String msg) => toast.showToast(
+      child: warningToast(msg, context), gravity: ToastGravity.TOP);
+
+  void scoreCalculator(StressState state) {
+    score = state.selectedScore.reduce((value, current) => value + current);
+    if (score >= 0 && score <= 4) {
+      result = 'ท่านไม่มีอาการเครียดหรือมีอาการในระดับน้อยมาก';
+      advice = '';
+    } else if (score >= 5 && score <= 8) {
+      result = 'ท่านมีอาการเครียดระดับเล็กน้อย';
+      advice =
+          'ควรพักผ่อนให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง ออกกำลังกายสม่ำเสมอ ทํากิจกรรมที่ทําให้ผ่อนคลาย'
+          ' พบปะเพื่อนฝูง ควรทำแบบประเมินอีกครั้ง ใน 1 สัปดาห์';
+    } else if (score >= 9 && score <= 14) {
+      result = 'ท่านมีอาการเครียดระดับปานกลาง';
+      advice =
+          'ควรพักผ่อนให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง ออกกําลังกายสม่ำเสมอ ทํากิจกรรมที่ทําให้ผ่อนคลาย'
+          ' พบปะเพื่อนฝูง ควรขอค่าปรีกษาช่วยเหลือ จากผู้ที่ไว้วางใจ ไม่จมอยู่กับปัญหา มองหาหนทางคลี่คลาย '
+          'หากอาการ ที่ท่านเป็นมีผลกระทบต่อการทํางานหรือการเข้าสังคม '
+          '(อาการชิมเศร้า ทําให้ท่านมีปัญหาในการทํางาน การดูแลสิ่งต่าง ๆ ในบ้าน หรือการเข้ากับ ผู้คน ในระดับมากถึงมากที่สุด)'
+          ' หรือหากท่านมีอาการระดับนี้มานาน 1-2 สัปดาห์แล้วยังไม่ดีขึ้น ควรพบแพทย์เพื่อรับการช่วยเหลือรักษา';
+    } else if (score >= 15 && score <= 19) {
+      result = 'ท่านมีอาการเครียดระดับรุนแรงค่อนข้างมาก';
+      advice =
+          'ควรพบแพทย์เพื่อประเมินอาการและให้การรักษา ระหว่างนี้ควรพักผ่อน ให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง'
+          ' ออกกำลังกายเบาๆ ทำกิจกรรม ที่ทำให้ผ่อนคลาย ไม่เก็บตัว และควรขอคำปรึกษาช่วยเหลือจากผู้ใกล้ชิด';
+    } else if (score >= 20) {
+      result = 'ท่านมีอาการเครียดระดับรุนแรงมาก';
+      advice =
+          'ต้องพบแพทย์เพื่อประเมินอาการและให้การรักษาโดยเร็ว ไม่ควรปล่อยทิ้งไว้';
+    }
   }
 }
