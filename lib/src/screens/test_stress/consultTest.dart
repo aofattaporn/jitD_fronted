@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jitd_client/src/screens/test_stress/consultQuiz.dart';
 
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
@@ -154,7 +155,12 @@ class _ResultCounsellorState extends State<ResultCounsellor> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ConsultQuiz()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.height * 0.075,
