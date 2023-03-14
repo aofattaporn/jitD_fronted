@@ -6,7 +6,7 @@ import 'package:jitd_client/src/screens/test_stress/consultData.dart';
 import '../../blocs/consult/consult_bloc.dart';
 import '../../constant.dart';
 import '../Utilities/AllToast.dart';
-import 'stressTestResult.dart';
+import 'consultTestResult.dart';
 
 class ConsultQuiz extends StatefulWidget {
   const ConsultQuiz({Key? key}) : super(key: key);
@@ -18,9 +18,8 @@ class ConsultQuiz extends StatefulWidget {
 class ConsultQuizState extends State<ConsultQuiz> {
   final toast = FToast();
   List quiz = consultQuizData;
-  late int score;
-  late String result;
-  late String advice;
+  int score = 0;
+  int consultLevel = 0;
 
   @override
   void initState() {
@@ -95,10 +94,8 @@ class ConsultQuizState extends State<ConsultQuiz> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => StressTestResult(
-                            score: score,
-                            result: result,
-                            advice: advice,
+                      builder: (context) => ConsultTestResult(
+                            consultLevel: consultLevel,
                           )));
             }
           }
@@ -227,31 +224,13 @@ class ConsultQuizState extends State<ConsultQuiz> {
 
   void scoreCalculator(ConsultState state) {
     score = state.selectedScore.reduce((value, current) => value + current);
-    if (score >= 0 && score <= 4) {
-      result = 'ท่านไม่มีอาการเครียดหรือมีอาการในระดับน้อยมาก';
-      advice = '';
-    } else if (score >= 5 && score <= 8) {
-      result = 'ท่านมีอาการเครียดระดับเล็กน้อย';
-      advice =
-          'ควรพักผ่อนให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง ออกกำลังกายสม่ำเสมอ ทํากิจกรรมที่ทําให้ผ่อนคลาย'
-          ' พบปะเพื่อนฝูง ควรทำแบบประเมินอีกครั้ง ใน 1 สัปดาห์';
+    if (score >= 0 && score <= 10) {
+    } else if (score >= 11 && score <= 14) {
+      consultLevel = 1;
     } else if (score >= 9 && score <= 14) {
-      result = 'ท่านมีอาการเครียดระดับปานกลาง';
-      advice =
-          'ควรพักผ่อนให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง ออกกําลังกายสม่ำเสมอ ทํากิจกรรมที่ทําให้ผ่อนคลาย'
-          ' พบปะเพื่อนฝูง ควรขอค่าปรีกษาช่วยเหลือ จากผู้ที่ไว้วางใจ ไม่จมอยู่กับปัญหา มองหาหนทางคลี่คลาย '
-          'หากอาการ ที่ท่านเป็นมีผลกระทบต่อการทํางานหรือการเข้าสังคม '
-          '(อาการชิมเศร้า ทําให้ท่านมีปัญหาในการทํางาน การดูแลสิ่งต่าง ๆ ในบ้าน หรือการเข้ากับ ผู้คน ในระดับมากถึงมากที่สุด)'
-          ' หรือหากท่านมีอาการระดับนี้มานาน 1-2 สัปดาห์แล้วยังไม่ดีขึ้น ควรพบแพทย์เพื่อรับการช่วยเหลือรักษา';
+      consultLevel = 2;
     } else if (score >= 15 && score <= 19) {
-      result = 'ท่านมีอาการเครียดระดับรุนแรงค่อนข้างมาก';
-      advice =
-          'ควรพบแพทย์เพื่อประเมินอาการและให้การรักษา ระหว่างนี้ควรพักผ่อน ให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง'
-          ' ออกกำลังกายเบาๆ ทำกิจกรรม ที่ทำให้ผ่อนคลาย ไม่เก็บตัว และควรขอคำปรึกษาช่วยเหลือจากผู้ใกล้ชิด';
-    } else if (score >= 20) {
-      result = 'ท่านมีอาการเครียดระดับรุนแรงมาก';
-      advice =
-          'ต้องพบแพทย์เพื่อประเมินอาการและให้การรักษาโดยเร็ว ไม่ควรปล่อยทิ้งไว้';
+      consultLevel = 3;
     }
   }
 }
