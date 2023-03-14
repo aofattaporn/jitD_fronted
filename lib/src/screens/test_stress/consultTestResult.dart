@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
-import 'package:jitd_client/src/screens/profile/ProfilePage.dart';
 import 'package:intl/intl.dart';
 
 class ConsultTestResult extends StatefulWidget {
@@ -103,10 +102,13 @@ class ConsultTestResultState extends State<ConsultTestResult> {
   GestureDetector submitButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const ProfilePage()));
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => const BottomNavigationWidget()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,
