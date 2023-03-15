@@ -273,7 +273,7 @@ Widget _buildPostBox(
             countComment: model[index].countComment.toString(),
             countLike: model[index].countLike.toString(),
             isLike: model[index].isLike,
-            postBloc: postBloc,
+            postBloc: postBloc, postIndex: index,
           ))),
           child: Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),

@@ -4,11 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:like_button/like_button.dart';
 
+import '../../blocs/Like/like_bloc.dart';
 import '../../constant.dart';
-import '../../data/respository/like_repository.dart';
 import '../Utilities/PostModal.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PostBox extends StatelessWidget {
+class PostBox extends StatefulWidget {
   final String? userId;
   final String? postId;
   final String? content;
@@ -16,6 +17,7 @@ class PostBox extends StatelessWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
+  final int? postIndex;
   final List<String>? category;
   final PostBloc postBloc;
 
@@ -28,14 +30,20 @@ class PostBox extends StatelessWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
+      required this.postIndex,
       required this.category,
       required this.postBloc})
       : super(key: key);
 
   @override
+  PostBoxState createState() => PostBoxState();
+}
+
+class PostBoxState extends State<PostBox> {
+  @override
   Widget build(BuildContext context) {
-    LikeRepository likeRepository = LikeRepository();
-    bool tempIsLike = isLike!;
+    final LikeBloc _likeBloc = LikeBloc();
+    bool tempIsLike = widget.isLike!;
 
     return Padding(
       padding: EdgeInsetsDirectional.only(
@@ -62,26 +70,26 @@ class PostBox extends StatelessWidget {
                 children: [
                   Text(
                     DateFormat('dd MMM yyyy   HH:mm:ss').format(
-                        DateTime.parse(date!)
+                        DateTime.parse(widget.date!)
                             .toUtc()
                             .add(const Duration(hours: 7))),
                     style: GoogleFonts.getFont("Lato",
                         fontSize: 16, color: textColor3),
                   ),
                   PostModal(
-                    userId: userId ?? "",
-                    postId: postId ?? "",
-                    content: content ?? "No Data",
-                    date: date ?? DateTime.now().toString(),
-                    category: category ?? ["Tag1", "Tag2"],
-                    postBloc: postBloc,
+                    userId: widget.userId ?? "",
+                    postId: widget.postId ?? "",
+                    content: widget.content ?? "No Data",
+                    date: widget.date ?? DateTime.now().toString(),
+                    category: widget.category ?? ["Tag1", "Tag2"],
+                    postBloc: widget.postBloc,
                   )
                 ],
               ),
               Row(
                 children: [
                   Text(
-                    "ชื่อผู้ใช้ ${"${userId!.substring(0, 5)}xxx"}",
+                    "ชื่อผู้ใช้ ${"${widget.userId!.substring(0, 5)}xxx"}",
                     style: GoogleFonts.getFont("Bai Jamjuree",
                         color: textColor3, fontSize: 12),
                   )
@@ -99,7 +107,7 @@ class PostBox extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        content ?? "No Data",
+                        widget.content ?? "No Data",
                         style: GoogleFonts.getFont("Bai Jamjuree",
                             fontSize: 16, color: textColor2),
                         overflow: TextOverflow.ellipsis,
@@ -117,7 +125,7 @@ class PostBox extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.035,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: category!.length,
+                  itemCount: widget.category!.length,
                   separatorBuilder: (context, index) {
                     return SizedBox(
                         width: MediaQuery.of(context).size.width * 0.02);
@@ -139,7 +147,7 @@ class PostBox extends StatelessWidget {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 10, 5, 10, 5),
                             child: Text(
-                              category![index],
+                              widget.category![index],
                               style: GoogleFonts.getFont("Bai Jamjuree",
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -165,7 +173,7 @@ class PostBox extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: countComment,
+                              text: widget.countComment,
                               style: GoogleFonts.getFont('Lato',
                                   fontSize: 16, color: Colors.white)),
                           const TextSpan(text: '  '),
@@ -182,27 +190,60 @@ class PostBox extends StatelessWidget {
 
                   // Section-Like
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  LikeButton(
-                    isLiked: isLike,
-                    likeCount: int.parse(countLike!),
-                    likeBuilder: (bool isLiked) {
-                      return Icon(
-                        Icons.favorite,
-                        color: isLiked ? heartColor : Colors.black12,
-                        size: 30.0,
-                      );
-                    },
-                    onTap: (unLike) async {
-                      tempIsLike = !tempIsLike;
-                      if (unLike == true) {
-                        print(tempIsLike);
-                        likeRepository.unlikePost(postId: postId);
-                      } else {
-                        print(tempIsLike);
-                        likeRepository.likePost(postId: postId);
-                      }
-                      return !unLike;
-                    },
+                  BlocProvider(
+                    create: (_) => _likeBloc,
+                    child: BlocBuilder<LikeBloc, LikeState>(
+                      builder: (context, state) {
+                        return LikeButton(
+                          isLiked: widget.postBloc.listPostModel
+                              .posts[widget.postIndex!].isLike,
+                          likeCount: widget.postBloc.listPostModel
+                              .posts[widget.postIndex!].countLike,
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.favorite,
+                              color: isLiked ? heartColor : Colors.black12,
+                              size: 30.0,
+                            );
+                          },
+                          onTap: (unLike) async {
+                            tempIsLike = !tempIsLike;
+                            if (unLike == true) {
+                              context.read<LikeBloc>().add(UnlikePost(
+                                    postId: widget.postId,
+                                  ));
+                              setState(() {
+                                widget.postBloc.listPostModel
+                                    .posts[widget.postIndex!].isLike = false;
+                                widget.postBloc.listPostModel
+                                    .posts[widget.postIndex!].countLike = widget
+                                    .postBloc
+                                    .listPostModel
+                                    .posts[widget.postIndex!]
+                                    .countLike! -
+                                    1;
+                              });
+                            } else {
+                              context.read<LikeBloc>().add(LikePost(
+                                    postId: widget.postId,
+                                  ));
+                              setState(() {
+                                widget.postBloc.listPostModel
+                                    .posts[widget.postIndex!].isLike = true;
+                                widget.postBloc.listPostModel
+                                    .posts[widget.postIndex!].countLike = widget
+                                    .postBloc
+                                    .listPostModel
+                                    .posts[widget.postIndex!]
+                                    .countLike! +
+                                    1;
+                              });
+                            }
+                            return !unLike;
+                          },
+                        );
+                      },
+                    ),
                   )
                 ],
               )

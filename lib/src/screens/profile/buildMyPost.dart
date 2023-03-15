@@ -29,7 +29,7 @@ Widget BuildMyPost(
                   countComment: model[index].countComment.toString(),
                   countLike: model[index].countLike.toString(),
                   isLike: model[index].isLike,
-                  postBloc: postBloc),
+                  postBloc: postBloc, postIndex: index,),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ViewPost(
@@ -41,7 +41,7 @@ Widget BuildMyPost(
                         countComment: model[index].countComment.toString(),
                         countLike: model[index].countLike.toString(),
                         isLike: model[index].isLike,
-                        postBloc: postBloc)));
+                        postBloc: postBloc, postIndex: index,)));
               },
             ),
           );

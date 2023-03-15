@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:jitd_client/src/blocs/Like/like_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/screens/Utilities/CommentModal.dart';
 import 'package:like_button/like_button.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constant.dart';
-import '../../data/respository/like_repository.dart';
 
 class CommentBox extends StatefulWidget {
   final String? userId;
@@ -42,7 +43,7 @@ class CommentBox extends StatefulWidget {
 }
 
 class _CommentBoxState extends State<CommentBox> {
-  LikeRepository likeRepository = LikeRepository();
+  final LikeBloc _likeBloc = LikeBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -141,26 +142,45 @@ class _CommentBoxState extends State<CommentBox> {
                 children: [
                   // Section-Like
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  LikeButton(
-                    isLiked: widget.isLike,
-                    likeCount: widget.countLike,
-                    likeBuilder: (bool isLiked) {
-                      return Icon(
-                        Icons.favorite,
-                        color: isLiked ? heartColor : Colors.black12,
-                        size: 30.0,
-                      );
-                    },
-                    onTap: (unLike) async {
-                      if (unLike == true) {
-                        likeRepository.unlikeComment(
-                            commentId: widget.commentId, postId: widget.postId);
-                      } else {
-                        likeRepository.likeComment(
-                            commentId: widget.commentId, postId: widget.postId);
-                      }
-                      return !unLike;
-                    },
+                  BlocProvider(
+                    create: (_) => _likeBloc,
+                    child: BlocBuilder<LikeBloc, LikeState>(
+                      builder: (context, state) {
+                        var currentComment = widget
+                            .commentBloc!
+                            .listCommentModel
+                            .comments[int.parse(widget.commentIndex!)];
+                        return LikeButton(
+                          isLiked: currentComment.isLike,
+                          likeCount: currentComment.countLike,
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.favorite,
+                              color: isLiked ? heartColor : Colors.black12,
+                              size: 30.0,
+                            );
+                          },
+                          onTap: (unLike) async {
+                            if (unLike == true) {
+                              context.read<LikeBloc>().add(UnlikeComment(
+                                  postId: widget.postId,
+                                  commentId: widget.commentId));
+                              currentComment.isLike = false;
+                              currentComment.countLike =
+                                  (currentComment.countLike! - 1);
+                            } else {
+                              context.read<LikeBloc>().add(LikeComment(
+                                  postId: widget.postId,
+                                  commentId: widget.commentId));
+                              currentComment.isLike = true;
+                              currentComment.countLike =
+                                  currentComment.countLike! + 1;
+                            }
+                            return !unLike;
+                          },
+                        );
+                      },
+                    ),
                   )
                 ],
               )

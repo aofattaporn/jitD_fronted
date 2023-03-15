@@ -219,7 +219,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 filteredList[index].countComment.toString(),
                             countLike: filteredList[index].countLike.toString(),
                             isLike: filteredList[index].isLike,
-                            postBloc: _postBloc,
+                            postBloc: _postBloc, postIndex: index,
                           ),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -239,7 +239,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                           .countLike
                                           .toString(),
                                       isLike: filteredList[index].isLike,
-                                      postBloc: _postBloc,
+                                      postBloc: _postBloc, postIndex: index,
                                     )));
                           },
                         );
