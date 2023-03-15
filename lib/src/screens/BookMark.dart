@@ -136,7 +136,7 @@ class BookMarkState extends State<BookMark> {
                                 countComment: '0',
                                 countLike: '0',
                                 isLike: false,
-                                postBloc: PostBloc(),
+                                postBloc: PostBloc(), postIndex: 0,
                               ),
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -150,7 +150,7 @@ class BookMarkState extends State<BookMark> {
                                           countComment: '0',
                                           countLike: '',
                                           isLike: false,
-                                          postBloc: PostBloc(),
+                                          postBloc: PostBloc(), postIndex: 0,
                                         )));
                               },
                             );

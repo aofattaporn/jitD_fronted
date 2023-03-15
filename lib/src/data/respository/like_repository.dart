@@ -40,6 +40,7 @@ class LikeRepository {
           'Authorization': 'Bearer $token',
         });
     print(response.body);
+    print(response.statusCode);
   }
 
   Future<void> unlikeComment({required String? commentId, required String? postId}) async {
@@ -54,5 +55,6 @@ class LikeRepository {
           'Authorization': 'Bearer $token',
         });
     print(response.body);
+    print(response.statusCode);
   }
 }
