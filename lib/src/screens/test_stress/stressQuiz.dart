@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jitd_client/src/screens/test_stress/stressData.dart';
+import 'package:jitd_client/src/data/models/stress_model.dart';
 import '../../blocs/stress/stress_bloc.dart';
 import '../../constant.dart';
 import '../Utilities/AllToast.dart';
 import 'stressTestResult.dart';
 
 class StressQuiz extends StatefulWidget {
-  const StressQuiz({Key? key}) : super(key: key);
+  final List<StressModel> quiz;
+  const StressQuiz({Key? key, required this.quiz}) : super(key: key);
 
   @override
   State<StressQuiz> createState() => StressQuizState();
@@ -17,7 +18,6 @@ class StressQuiz extends StatefulWidget {
 
 class StressQuizState extends State<StressQuiz> {
   final toast = FToast();
-  List quiz = stressQuizData;
   late int score;
   late String result;
   late String advice;
@@ -107,7 +107,7 @@ class StressQuizState extends State<StressQuiz> {
       padding: const EdgeInsets.only(top: 10),
       child: GestureDetector(
         onTap: () {
-          if (state.countQuestion < quiz.length - 1) {
+          if (state.countQuestion < widget.quiz.length - 1) {
             context.read<StressBloc>().add(QuestionNext());
           } else {
             if (state.selectedAnswer.contains(-1)) {
@@ -132,7 +132,7 @@ class StressQuizState extends State<StressQuiz> {
               color: primaryColor, borderRadius: BorderRadius.circular(10)),
           child: Center(
               child: Text(
-            state.countQuestion != quiz.length - 1 ? "ต่อไป" : "ส่งคำตอบ",
+            state.countQuestion != widget.quiz.length - 1 ? "ต่อไป" : "ส่งคำตอบ",
             style: fontsTH16White,
           )),
         ),
@@ -158,7 +158,7 @@ class StressQuizState extends State<StressQuiz> {
                     setState(() {
                       state.selectedAnswer[state.countQuestion] = index;
                       state.selectedScore[state.countQuestion] =
-                          quiz[state.countQuestion]['answer'][index]['score'];
+                      widget.quiz[state.countQuestion].answer![index].value;
                     });
                   },
                   child: Container(
@@ -172,7 +172,7 @@ class StressQuizState extends State<StressQuiz> {
                     ),
                     child: Center(
                       child: Text(
-                        quiz[state.countQuestion]['answer'][index]['text'],
+                        widget.quiz[state.countQuestion].answer![index].text!,
                         style:
                         state.selectedAnswer[state.countQuestion] == index
                             ? fontsTH16_white_w500
@@ -199,7 +199,7 @@ class StressQuizState extends State<StressQuiz> {
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
           child: Center(
               child: Text(
-            quiz[state.countQuestion]['questionText'],
+                widget.quiz[state.countQuestion].questionText!,
             style: fontsTH16_black_w500,
             textAlign: TextAlign.center,
           )),
@@ -224,7 +224,7 @@ class StressQuizState extends State<StressQuiz> {
             }
           },
         ),
-        Text('${(state.countQuestion + 1).toString()}/${quiz.length}'),
+        Text('${(state.countQuestion + 1).toString()}/${widget.quiz.length}'),
         IconButton(
           icon: const Icon(
             Icons.navigate_next,
@@ -232,7 +232,7 @@ class StressQuizState extends State<StressQuiz> {
             color: textColor1,
           ),
           onPressed: () {
-            if (state.countQuestion < quiz.length - 1) {
+            if (state.countQuestion < widget.quiz.length - 1) {
               context.read<StressBloc>().add(QuestionNext());
             }
           },

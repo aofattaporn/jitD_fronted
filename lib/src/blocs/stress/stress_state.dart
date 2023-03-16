@@ -19,9 +19,16 @@ class StressState extends Equatable {
   List<Object> get props => [countQuestion, selectedAnswer, selectedScore];
 }
 
-class LoadingStressQuiz {}
+class LoadingStressQuiz extends StressState {
+  LoadingStressQuiz(
+      super.countQuestion, super.selectedAnswer, super.selectedScore);
+}
 
-class LoadedStressQuiz {}
+class LoadedStressQuiz extends StressState {
+  List<StressModel> quizData;
+  LoadedStressQuiz(super.countQuestion, super.selectedAnswer,
+      super.selectedScore, this.quizData);
+}
 
 class StressQuizError extends StressState {
   String error;
