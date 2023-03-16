@@ -156,28 +156,37 @@ class StressTestState extends State<StressTest> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              BlocBuilder<StressBloc, StressState>(
+              BlocConsumer<StressBloc, StressState>(
+                listener: (contexts, state) {
+                  if (state is LoadedStressQuiz) {
+                    Navigator.push(
+                        contexts,
+                        MaterialPageRoute(
+                            builder: (context) => StressQuiz(
+                                  quiz: state.quizData,
+                                )));
+                  }
+                },
                 builder: (context, state) {
-                  context.read<StressBloc>().add(GetQuestion());
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const StressQuiz()));
+                      context.read<StressBloc>().add(GetQuestion());
                     },
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.height * 0.075,
-                      decoration: BoxDecoration(
-                          color: thirterydColor,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                          child: Text(
-                        "เริ่มต้นทดสอบ",
-                        style: fontsTH16White,
-                      )),
-                    ),
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.075,
+                        decoration: BoxDecoration(
+                            color: thirterydColor,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Center(
+                            child: state is LoadingStressQuiz
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Text(
+                                    "เริ่มต้นทดสอบ",
+                                    style: fontsTH16White,
+                                  ))),
                   );
                 },
               )

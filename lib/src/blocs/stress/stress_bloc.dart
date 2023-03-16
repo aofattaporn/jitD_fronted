@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jitd_client/src/screens/test_stress/stressData.dart';
 import '../../data/models/stress_model.dart';
 import '../../data/respository/quiz_repository.dart';
 part 'stress_event.dart';
@@ -13,15 +12,18 @@ class StressBloc extends Bloc<StressEvent, StressState> {
   StressBloc()
       : super(StressState(
           0,
-          List.generate(stressQuizData.length, (i) => -1),
-          List.generate(stressQuizData.length, (i) => -1),
+          List.generate(20, (i) => -1),
+          List.generate(20, (i) => -1),
         )) {
 
     on<GetQuestion>((event, emit) async {
+      emit(LoadingStressQuiz(state.countQuestion, state.selectedAnswer,
+          state.selectedScore));
       try {
         final stressQuizJSON = await quizRepository.getStressQuiz();
         final stressModel = listStressModelFromJson(stressQuizJSON);
-
+        emit(LoadedStressQuiz(state.countQuestion, state.selectedAnswer,
+          state.selectedScore, stressModel.quiz));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(StressQuizError(state.countQuestion, state.selectedAnswer,
