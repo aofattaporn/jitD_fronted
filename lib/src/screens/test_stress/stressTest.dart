@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:jitd_client/src/screens/test_stress/stressQuiz.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/stress/stress_bloc.dart';
 import '../../constant.dart';
 
 class StressTest extends StatefulWidget {
@@ -40,12 +41,15 @@ class StressTestState extends State<StressTest> {
             image: DecorationImage(
                 image: AssetImage("assets/images/stress_wallpaper.png"),
                 fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            sectionHeader(context),
-            sectionButton(context),
-            sectionResult(context),
-          ],
+        child: BlocProvider(
+          create: (context) => StressBloc(),
+          child: Column(
+            children: [
+              sectionHeader(context),
+              sectionButton(context),
+              sectionResult(context),
+            ],
+          ),
         ),
       ),
     );
@@ -152,25 +156,30 @@ class StressTestState extends State<StressTest> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StressQuiz()));
+              BlocBuilder<StressBloc, StressState>(
+                builder: (context, state) {
+                  context.read<StressBloc>().add(GetQuestion());
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const StressQuiz()));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.075,
+                      decoration: BoxDecoration(
+                          color: thirterydColor,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
+                          child: Text(
+                        "เริ่มต้นทดสอบ",
+                        style: fontsTH16White,
+                      )),
+                    ),
+                  );
                 },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.height * 0.075,
-                  decoration: BoxDecoration(
-                      color: thirterydColor,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                      child: Text(
-                    "เริ่มต้นทดสอบ",
-                    style: fontsTH16White,
-                  )),
-                ),
               )
             ],
           ),
