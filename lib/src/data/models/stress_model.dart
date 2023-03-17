@@ -19,9 +19,13 @@ class ListStressModel {
   }
 }
 
+List<StressResultModel> quizResult = [];
 
 StressModel stressModelFromJson(String str) =>
     StressModel.fromJson(json.decode(str));
+
+StressResultModel stressResultModelFromJson(String str) =>
+    StressResultModel.fromJson(json.decode(str));
 
 class StressModel {
   int? number;
@@ -61,5 +65,28 @@ class Answer {
     number = json['number'];
     text = json['text'];
     value = json['value'];
+  }
+}
+
+class StressResultModel {
+  String? testDate;
+  String? testName;
+  int? point;
+  String? result;
+  String? desc;
+  String? error;
+
+  StressResultModel();
+
+  StressResultModel.withError(String errorMessage) {
+    error = errorMessage;
+  }
+
+  StressResultModel.fromJson(Map<String, dynamic> json) {
+    testDate = json['testDate'];
+    testName = json['testName'];
+    point = json['point'];
+    result = json['result'];
+    desc = json['desc'];
   }
 }

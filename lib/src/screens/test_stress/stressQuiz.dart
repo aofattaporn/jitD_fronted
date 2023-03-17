@@ -105,37 +105,55 @@ class StressQuizState extends State<StressQuiz> {
   Padding submitButton(StressState state, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: GestureDetector(
-        onTap: () {
-          if (state.countQuestion < widget.quiz.length - 1) {
-            context.read<StressBloc>().add(QuestionNext());
-          } else {
-            if (state.selectedAnswer.contains(-1)) {
-              showToast("กรุณาตอบทุกคำถาม");
-            } else {
-              scoreCalculator(state);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => StressTestResult(
-                            score: score,
-                            result: result,
-                            advice: advice,
-                          )));
-            }
+      child: BlocConsumer<StressBloc, StressState>(
+        listener: (contexts, state) {
+          if (state is LoadedStressResult) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => StressTestResult(
+                          score: state.quizResult.point!,
+                          result: state.quizResult.result!,
+                          advice: state.quizResult.desc!,
+                        )));
           }
         },
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.25,
-          height: MediaQuery.of(context).size.height * 0.055,
-          decoration: BoxDecoration(
-              color: primaryColor, borderRadius: BorderRadius.circular(10)),
-          child: Center(
-              child: Text(
-            state.countQuestion != widget.quiz.length - 1 ? "ต่อไป" : "ส่งคำตอบ",
-            style: fontsTH16White,
-          )),
-        ),
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              if (state.countQuestion < widget.quiz.length - 1) {
+                context.read<StressBloc>().add(QuestionNext());
+              } else {
+                if (state.selectedAnswer.contains(-1)) {
+                  showToast("กรุณาตอบทุกคำถาม");
+                } else {
+                  score = state.selectedScore
+                      .reduce((value, current) => value + current);
+                  context
+                      .read<StressBloc>()
+                      .add(CalResultStress(score.toString()));
+                }
+              }
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.25,
+              height: MediaQuery.of(context).size.height * 0.055,
+              decoration: BoxDecoration(
+                  color: primaryColor, borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                  child: state is LoadingStressResult
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          state.countQuestion != widget.quiz.length - 1
+                              ? "ต่อไป"
+                              : "ส่งคำตอบ",
+                          style: fontsTH16White,
+                        )),
+            ),
+          );
+        },
       ),
     );
   }
@@ -158,7 +176,7 @@ class StressQuizState extends State<StressQuiz> {
                     setState(() {
                       state.selectedAnswer[state.countQuestion] = index;
                       state.selectedScore[state.countQuestion] =
-                      widget.quiz[state.countQuestion].answer![index].value;
+                          widget.quiz[state.countQuestion].answer![index].value;
                     });
                   },
                   child: Container(
@@ -174,9 +192,9 @@ class StressQuizState extends State<StressQuiz> {
                       child: Text(
                         widget.quiz[state.countQuestion].answer![index].text!,
                         style:
-                        state.selectedAnswer[state.countQuestion] == index
-                            ? fontsTH16_white_w500
-                            : fontsTH16_black_w500,
+                            state.selectedAnswer[state.countQuestion] == index
+                                ? fontsTH16_white_w500
+                                : fontsTH16_black_w500,
                       ),
                     ),
                   ),
@@ -199,7 +217,7 @@ class StressQuizState extends State<StressQuiz> {
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
           child: Center(
               child: Text(
-                widget.quiz[state.countQuestion].questionText!,
+            widget.quiz[state.countQuestion].questionText!,
             style: fontsTH16_black_w500,
             textAlign: TextAlign.center,
           )),
@@ -243,34 +261,4 @@ class StressQuizState extends State<StressQuiz> {
 
   void showToast(String msg) => toast.showToast(
       child: warningToast(msg, context), gravity: ToastGravity.TOP);
-
-  void scoreCalculator(StressState state) {
-    score = state.selectedScore.reduce((value, current) => value + current);
-    if (score >= 0 && score <= 4) {
-      result = 'ท่านไม่มีอาการเครียดหรือมีอาการในระดับน้อยมาก';
-      advice = '';
-    } else if (score >= 5 && score <= 8) {
-      result = 'ท่านมีอาการเครียดระดับเล็กน้อย';
-      advice =
-          'ควรพักผ่อนให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง ออกกำลังกายสม่ำเสมอ ทํากิจกรรมที่ทําให้ผ่อนคลาย'
-          ' พบปะเพื่อนฝูง ควรทำแบบประเมินอีกครั้ง ใน 1 สัปดาห์';
-    } else if (score >= 9 && score <= 14) {
-      result = 'ท่านมีอาการเครียดระดับปานกลาง';
-      advice =
-          'ควรพักผ่อนให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง ออกกําลังกายสม่ำเสมอ ทํากิจกรรมที่ทําให้ผ่อนคลาย'
-          ' พบปะเพื่อนฝูง ควรขอค่าปรีกษาช่วยเหลือ จากผู้ที่ไว้วางใจ ไม่จมอยู่กับปัญหา มองหาหนทางคลี่คลาย '
-          'หากอาการ ที่ท่านเป็นมีผลกระทบต่อการทํางานหรือการเข้าสังคม '
-          '(อาการชิมเศร้า ทําให้ท่านมีปัญหาในการทํางาน การดูแลสิ่งต่าง ๆ ในบ้าน หรือการเข้ากับ ผู้คน ในระดับมากถึงมากที่สุด)'
-          ' หรือหากท่านมีอาการระดับนี้มานาน 1-2 สัปดาห์แล้วยังไม่ดีขึ้น ควรพบแพทย์เพื่อรับการช่วยเหลือรักษา';
-    } else if (score >= 15 && score <= 19) {
-      result = 'ท่านมีอาการเครียดระดับรุนแรงค่อนข้างมาก';
-      advice =
-          'ควรพบแพทย์เพื่อประเมินอาการและให้การรักษา ระหว่างนี้ควรพักผ่อน ให้เพียงพอ นอนหลับให้ได้ 6-8 ชั่วโมง'
-          ' ออกกำลังกายเบาๆ ทำกิจกรรม ที่ทำให้ผ่อนคลาย ไม่เก็บตัว และควรขอคำปรึกษาช่วยเหลือจากผู้ใกล้ชิด';
-    } else if (score >= 20) {
-      result = 'ท่านมีอาการเครียดระดับรุนแรงมาก';
-      advice =
-          'ต้องพบแพทย์เพื่อประเมินอาการและให้การรักษาโดยเร็ว ไม่ควรปล่อยทิ้งไว้';
-    }
-  }
 }

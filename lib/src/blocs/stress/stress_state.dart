@@ -30,6 +30,17 @@ class LoadedStressQuiz extends StressState {
       super.selectedScore, this.quizData);
 }
 
+class LoadingStressResult extends StressState {
+  LoadingStressResult(
+      super.countQuestion, super.selectedAnswer, super.selectedScore);
+}
+
+class LoadedStressResult extends StressState {
+  StressResultModel quizResult;
+  LoadedStressResult(super.countQuestion, super.selectedAnswer,
+      super.selectedScore, this.quizResult);
+}
+
 class StressQuizError extends StressState {
   String error;
   StressQuizError(super.countQuestion, super.selectedAnswer,
