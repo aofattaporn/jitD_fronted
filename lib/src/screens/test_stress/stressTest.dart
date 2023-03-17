@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:jitd_client/src/screens/test_stress/stressQuiz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jitd_client/src/screens/test_stress/stressTestResult.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../blocs/stress/stress_bloc.dart';
 import '../../constant.dart';
 
@@ -14,6 +16,13 @@ class StressTest extends StatefulWidget {
 }
 
 class StressTestState extends State<StressTest> {
+  final StressBloc _stressBloc = StressBloc();
+  @override
+  void initState() {
+    _stressBloc.add(GetResultStress());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +56,21 @@ class StressTestState extends State<StressTest> {
             children: [
               sectionHeader(context),
               sectionButton(context),
-              sectionResult(context),
+              BlocProvider(
+                create: (_) => _stressBloc,
+                child: BlocBuilder<StressBloc, StressState>(
+                  builder: (context, state) {
+                    if (state is LoadingStressResult) {
+                      return sectionResultShimmer(context);
+                    } else if (state is LoadedStressResult) {
+                      return sectionResult(context, state.quizResult.result,
+                          state.quizResult.desc, state.quizResult.point);
+                    } else {
+                      return const Text("ERROR");
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -77,7 +100,7 @@ class StressTestState extends State<StressTest> {
     );
   }
 
-  Padding sectionResult(BuildContext context) {
+  Padding sectionResult(BuildContext context, result, desc, score) {
     return Padding(
       padding:
           EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 25),
@@ -113,10 +136,31 @@ class StressTestState extends State<StressTest> {
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.55,
                       child: Text(
-                        "ท่านไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าระดับน้อยมาก",
-                        style: fontsTH16_Black,
+                        result,
+                        style: fontsTH18_Black,
                         textAlign: TextAlign.center,
-                      ))
+                      )),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) {
+                          return StressTestResult(
+                            score: score,
+                            result: result,
+                            advice: desc,
+                          );
+                        },
+                      ));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).devicePixelRatio * 7),
+                      child: Text(
+                        "ดูเพิ่มเติม",
+                        style: fontsTH16_thirteryd_bold,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -128,6 +172,29 @@ class StressTestState extends State<StressTest> {
               child: Text("ผลการทดสอบล่าสุดของคุณ", style: fontsTH18_Black)),
         ),
       ]),
+    );
+  }
+
+  Padding sectionResultShimmer(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 25),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: Shimmer.fromColors(
+          baseColor: skeletonColor,
+          highlightColor: skeletonHighlightColor,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: MediaQuery.of(context).size.height * 0.3,
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                color: backgroundColor2,
+                border: Border.all(
+                    color: const Color.fromRGBO(207, 229, 225, 1), width: 5)),
+          ),
+        ),
+      ),
     );
   }
 
