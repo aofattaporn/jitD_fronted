@@ -32,25 +32,27 @@ class LikeRepository {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     String commentIdCheck = commentId!;
     String postIdCheck = postId!;
-    await http.put(
+    final response = await http.put(
         Uri.parse("${globalUrl}v1/like/comment/$commentIdCheck/post/$postIdCheck"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         });
+    print(response.body);
   }
 
   Future<void> unlikeComment({required String? commentId, required String? postId}) async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     String commentIdCheck = commentId!;
     String postIdCheck = postId!;
-    await http.put(
+    final response = await http.put(
         Uri.parse("${globalUrl}v1/unlike/comment/$commentIdCheck/post/$postIdCheck"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         });
+    print(response.body);
   }
 }

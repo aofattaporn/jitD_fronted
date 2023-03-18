@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 
 import '../../data/models/comment_model.dart';
 
@@ -149,6 +148,17 @@ class SortedCommentByLike extends CommentState{
 
   @override
   // TODO: implement comment
+  List<CommentModel> get comment => super.comment;
+  @override
+  List<Object?> get props => [];
+}
+
+class PinCommentState extends CommentState {
+  PinCommentState(List<CommentModel> _comment) {
+    super.comment = _comment;
+  }
+
+  @override
   List<CommentModel> get comment => super.comment;
   @override
   List<Object?> get props => [];

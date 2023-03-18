@@ -280,7 +280,7 @@ class ViewPostState extends State<ViewPost> {
         Row(
           children: [
             SortModal(
-                commentBloc: _commentBloc!),
+                commentBloc: _commentBloc),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -412,7 +412,7 @@ class ViewPostState extends State<ViewPost> {
                   return const SkeletonComment();
                 }
                 return Column(children: [
-                  buildComment(context, state.comment, _commentBloc),
+                  buildComment(context, state.comment, _commentBloc, widget.userId!),
                   const SkeletonComment()
                 ]);
               }
@@ -426,10 +426,11 @@ class ViewPostState extends State<ViewPost> {
                   state is SortedCommentByLike ||
                   state is LoadedComment ||
                   state is CommentSuccess ||
-                  state is LoadedComment) {
+                  state is LoadedComment ||
+                  state is PinCommentState) {
                 return Column(
                   children: [
-                    buildComment(context, state.comment, _commentBloc),
+                    buildComment(context, state.comment, _commentBloc, widget.userId!),
                     const SizedBox(height: 30),
                   ],
                 );
