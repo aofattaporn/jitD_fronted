@@ -198,15 +198,30 @@ class SearchState extends State<Search> {
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset("assets/images/icon_notfound2.png"),
-                      const SizedBox(height: 20),
-                      Text(
-                        "ยังไม่พบข้อมูลในตอนนี้",
-                        style: fontsTH20TextColor3,
-                      )
+                      buildCategory(context, '1','ปัญหาครอบครัว'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      buildCategory(context, '2','สุขภาพร่างกาย'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      buildCategory(context, '3','ปัญหาชีวิต'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      buildCategory(context, '4','มหาวิทยาลัย'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      buildCategory(context, '5','สุขภาพจิต'),
+                      // Image.asset("assets/images/icon_notfound2.png"),
+                      // const SizedBox(height: 20),
+                      // Text(
+                      //   "ยังไม่พบข้อมูลในตอนนี้",
+                      //   style: fontsTH20TextColor3,
+                      // )
                     ],
                   ),
                 ),
@@ -259,6 +274,53 @@ class SearchState extends State<Search> {
         ),
       )),
     );
+  }
+
+  GestureDetector buildCategory(BuildContext context , String number, String cate) {
+    return GestureDetector(
+                      onTap: (){},
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                30, 0, 20, 0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width*0.08,
+                              height: MediaQuery.of(context).size.height*0.04,
+                              decoration: const BoxDecoration(
+                                color: thirterydColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 10,
+                                    color: Color.fromRGBO(0, 0, 0, 0.1),
+                                    offset: Offset(0, 4),
+                                  )
+                                ],
+                                borderRadius: BorderRadiusDirectional.all(
+                                 Radius.circular(10)
+                                )
+                              ),
+                              child: Padding(
+                                  padding: EdgeInsetsDirectional.all(5),
+                                  child: Center(
+                                    child: Text(
+                                      number,
+                                      style: GoogleFonts.getFont("Bai Jamjuree",
+                                          fontSize: 18, color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                    ),
+                                  )),
+                            ),
+                          ),
+                          Text(
+                            cate,
+                            style: GoogleFonts.getFont("Bai Jamjuree",
+                                fontSize: 18, color: textColor2, fontWeight:
+                            FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    );
   }
 
   Padding serachGenerate() {
