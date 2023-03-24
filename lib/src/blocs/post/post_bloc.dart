@@ -206,7 +206,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           print(element.postId);
         });
 
-        // listPostModel.posts = listPostData.posts;
+        listPostModel.posts = listPostData.posts;
 
         emit(BookMarkLoadedState(listPostData.posts));
       } catch (e, stacktrace) {
