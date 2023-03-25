@@ -121,6 +121,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
+    on<GetPostByCate>((event, emit) async{
+
+    });
+
     on<GetPostBySearch>((event, emit) async {
       print('click');
       emit(PostLoadingState());
