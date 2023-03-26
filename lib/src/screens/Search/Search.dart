@@ -4,6 +4,8 @@ import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:jitd_client/src/screens/Search/SearchQuery.dart';
 
+import '../post/ViewAllPost.dart';
+
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
@@ -195,25 +197,25 @@ class SearchState extends State<Search> {
 
               Container(
                 // color: backgroundColor2,
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.3,
                 child: Center(
                   child: Column(
                     children: [
                       buildCategory(context, '1','ปัญหาครอบครัว'),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
+                        height: MediaQuery.of(context).size.height * 0.001,
                       ),
                       buildCategory(context, '2','สุขภาพร่างกาย'),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
+                        height: MediaQuery.of(context).size.height * 0.001,
                       ),
                       buildCategory(context, '3','ปัญหาชีวิต'),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
+                        height: MediaQuery.of(context).size.height * 0.001,
                       ),
                       buildCategory(context, '4','มหาวิทยาลัย'),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
+                        height: MediaQuery.of(context).size.height * 0.001,
                       ),
                       buildCategory(context, '5','สุขภาพจิต'),
                       // Image.asset("assets/images/icon_notfound2.png"),
@@ -227,48 +229,48 @@ class SearchState extends State<Search> {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                child: Row(
-                  children: [
-                    Text(
-                      "แสดงเพิ่มเติม",
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          color: textColor3),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "รายการค้นหาล่าสุด",
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                    Text("ล้างค่า",
-                        style: GoogleFonts.getFont("Bai Jamjuree",
-                            color: textColor3))
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "แสดงเพิ่มเติม",
+              //         style: GoogleFonts.getFont("Bai Jamjuree",
+              //             color: textColor3),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "รายการค้นหาล่าสุด",
+              //         style: GoogleFonts.getFont("Bai Jamjuree",
+              //             fontSize: 20, fontWeight: FontWeight.w500),
+              //       ),
+              //       Text("ล้างค่า",
+              //           style: GoogleFonts.getFont("Bai Jamjuree",
+              //               color: textColor3))
+              //     ],
+              //   ),
+              // ),
 
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                child: Container(
-                  constraints: BoxConstraints(
-                    minWidth: MediaQuery.of(context).size.width,
-                    minHeight: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  decoration: const BoxDecoration(
-                      color: backgroundColor2,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  // child: serachGenerate()
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+              //   child: Container(
+              //     constraints: BoxConstraints(
+              //       minWidth: MediaQuery.of(context).size.width,
+              //       minHeight: MediaQuery.of(context).size.height * 0.05,
+              //     ),
+              //     decoration: const BoxDecoration(
+              //         color: backgroundColor2,
+              //         borderRadius: BorderRadius.all(Radius.circular(10))),
+              //     // child: serachGenerate()
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -276,49 +278,66 @@ class SearchState extends State<Search> {
     );
   }
 
-  GestureDetector buildCategory(BuildContext context , String number, String cate) {
-    return GestureDetector(
-                      onTap: (){},
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                30, 0, 20, 0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width*0.08,
-                              height: MediaQuery.of(context).size.height*0.04,
-                              decoration: const BoxDecoration(
-                                color: thirterydColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 10,
-                                    color: Color.fromRGBO(0, 0, 0, 0.1),
-                                    offset: Offset(0, 4),
+  Widget buildCategory(BuildContext context , String number, String cate) {
+    return SizedBox(
+                      width: MediaQuery.of(context).size.width*1,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: backgroundColor3,
+                          elevation: 0,
+                        ),
+                        onPressed: (){
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ViewAllPost(
+                                categorySelected: cate,
+                              )));
+                        },
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 20, 0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width*0.08,
+                                height: MediaQuery.of(context).size.height*0.04,
+                                decoration: const BoxDecoration(
+                                  color: thirterydColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 10,
+                                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                                      offset: Offset(0, 4),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadiusDirectional.all(
+                                   Radius.circular(10)
                                   )
-                                ],
-                                borderRadius: BorderRadiusDirectional.all(
-                                 Radius.circular(10)
-                                )
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsetsDirectional.all(5),
+                                    child: Center(
+                                      child: Text(
+                                        number,
+                                        style: GoogleFonts.getFont("Bai Jamjuree",
+                                            fontSize: 18, color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                      ),
+                                    )),
                               ),
-                              child: Padding(
-                                  padding: EdgeInsetsDirectional.all(5),
-                                  child: Center(
-                                    child: Text(
-                                      number,
-                                      style: GoogleFonts.getFont("Bai Jamjuree",
-                                          fontSize: 18, color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                    ),
-                                  )),
                             ),
-                          ),
-                          Text(
-                            cate,
-                            style: GoogleFonts.getFont("Bai Jamjuree",
-                                fontSize: 18, color: textColor2, fontWeight:
-                            FontWeight.bold),
-                          ),
-                        ],
+                            Text(
+                              cate,
+                              style: GoogleFonts.getFont("Bai Jamjuree",
+                                  fontSize: 18, color: textColor2, fontWeight:
+                              FontWeight.bold),
+                            ),
+                            // const Icon(
+                            //   Icons.more_horiz,
+                            //   color: primaryColorSubtle,
+                            //   size: 30,
+                            // ),
+                          ],
+                        ),
                       ),
                     );
   }
