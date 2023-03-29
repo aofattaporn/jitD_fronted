@@ -258,11 +258,6 @@ class SearchState extends State<Search> {
                                   fontSize: 18, color: textColor2, fontWeight:
                               FontWeight.bold),
                             ),
-                            // const Icon(
-                            //   Icons.more_horiz,
-                            //   color: primaryColorSubtle,
-                            //   size: 30,
-                            // ),
                           ],
                         ),
                       ),
