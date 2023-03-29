@@ -121,11 +121,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
-    on<GetPostByCate>((event, emit) async{
+    on<GetSearchByCate>((event, emit) async{
       emit(PostLoadingState());
       try {
-        final listPostJSON = await postRepository.getPostByCate();
+        final listPostJSON = await postRepository.getSearchByCate();
         final listPostData = listPostModelFromJson(listPostJSON);
+
+        print(listPostJSON);
 
         listPostModel.posts = listPostData.posts;
 

@@ -151,3 +151,9 @@ class SortedPostByLike extends PostState {
   @override
   List<Object?> get props => [];
 }
+
+class RecommendCateSearch extends PostState{
+  @override
+  List<Object?> get props => [];
+
+}

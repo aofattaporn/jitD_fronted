@@ -75,7 +75,7 @@ class PostRepository {
     }
   }
 
-  Future<String> getPostByCate() async {
+  Future<String> getSearchByCate() async {
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
     await http.get(Uri.parse("${globalUrl}v1/like/post/catrogory"), headers: {

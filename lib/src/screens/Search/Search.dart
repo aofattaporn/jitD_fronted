@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:jitd_client/src/screens/Search/SearchQuery.dart';
@@ -14,6 +15,7 @@ class Search extends StatefulWidget {
 }
 
 class SearchState extends State<Search> {
+  final PostBloc postBloc = PostBloc();
   final List<String> recommendTag = [
     'ปัญหาครอบครัว',
     'สุขภาพร่างกาย',
