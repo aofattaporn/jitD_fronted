@@ -7,7 +7,7 @@ import '../../data/models/comment_model.dart';
 import '../comment/CommentBox.dart';
 
 Widget buildComment(
-    BuildContext context, List<CommentModel> model, CommentBloc commentBloc) {
+    BuildContext context, List<CommentModel> model, CommentBloc commentBloc, String postUserId) {
   if (model.isEmpty) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -47,8 +47,11 @@ Widget buildComment(
                   content: model[index].content ?? "No Data",
                   countLike: model[index].countLike,
                   postId: model[index].postId ?? "",
-                  Date: model[index].Date ?? DateTime.now().toString(),
+                  date: model[index].Date ?? DateTime.now().toString(),
                   isLike: model[index].isLike,
+                  isPin: model[index].isPin,
+                  commentIndex: index.toString(),
+                  postUserId: postUserId,
                   commentBloc: commentBloc,
                 ),
               ),
