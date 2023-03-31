@@ -16,6 +16,7 @@ class PostBox extends StatelessWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
+  final bool? isBookMark;
   final List<String>? category;
   final PostBloc postBloc;
 
@@ -28,6 +29,7 @@ class PostBox extends StatelessWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
+      required this.isBookMark,
       required this.category,
       required this.postBloc})
       : super(key: key);
@@ -74,6 +76,7 @@ class PostBox extends StatelessWidget {
                     content: content ?? "No Data",
                     date: date ?? DateTime.now().toString(),
                     category: category ?? ["Tag1", "Tag2"],
+                    isBookMark: isBookMark ?? false,
                     postBloc: postBloc,
                   )
                 ],

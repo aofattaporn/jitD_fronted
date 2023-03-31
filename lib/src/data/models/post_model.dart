@@ -66,7 +66,7 @@ class PostModel {
   PostModel.Response(this.content, this.date, this.isPublic, this.category,
       this.isBookMark,this.countPost, this.countComment);
 
-  PostModel.Resquest(this.content, this.date, this.isPublic, this.category);
+  PostModel.Resquest(this.content, this.date, this.isPublic, this.category,);
 
   PostModel.withError(String errorMessage) {
     error = errorMessage;
@@ -98,6 +98,7 @@ class PostModel {
     data['content'] = content;
     data['date'] = date;
     data['isPublic'] = isPublic;
+    data['isBookMark'] = isBookMark;
     data['category'] = category;
     return data;
   }

@@ -386,6 +386,7 @@ class _SearchQueryState extends State<SearchQuery> {
                                                     .countLike
                                                     .toString(),
                                                 isLike: state.listPostModel[index].isLike,
+                                                isBookMark: state.listPostModel[index].isBookMark,
                                                 postBloc: PostBloc()),
                                             onTap: () {
                                               Navigator.of(context).push(
@@ -435,6 +436,10 @@ class _SearchQueryState extends State<SearchQuery> {
                                                                 .listPostModel[
                                                                     index]
                                                                 .isLike,
+                                                            isBookMark: state
+                                                                .listPostModel[
+                                                                  index]
+                                                                .isBookMark,
                                                             postBloc:
                                                                 PostBloc(),
                                                           )));
