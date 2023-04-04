@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 
@@ -92,8 +91,8 @@ class StressTestResultState extends State<StressTestResult> {
   GestureDetector submitButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const BottomNavigationWidget()));
+        Navigator.popUntil(
+            context, ModalRoute.withName('/home'));
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,

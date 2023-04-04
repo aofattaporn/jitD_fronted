@@ -171,7 +171,7 @@ class ViewAllPostState extends State<ViewAllPost> {
         },
         child: BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
-            if (state is PostLoadingState) {
+            if (state is PostLoadingState || state is PostDeletingState) {
               return const shrimmerAllPost();
             } else if (state is PostLoadedState ||
                 state is PostDeletedState ||

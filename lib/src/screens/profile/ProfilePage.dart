@@ -16,6 +16,7 @@ import 'package:jitd_client/src/screens/profile/DialogQuest.dart';
 import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
 import 'package:jitd_client/src/screens/profile/shimmerPetName.dart';
 import 'package:jitd_client/src/screens/profile/shimmerUserID.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rive/rive.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -234,17 +235,16 @@ class _ProfilePageState extends State<ProfilePage> {
                             Image.asset(
                               'assets/images/smile.png',
                             ),
-                            Shimmer.fromColors(
-                              baseColor: primaryColor,
-                              highlightColor:
-                                  showingMsg ? secondaryColor : primaryColor,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.55,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.0125,
-                                decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(10)),
+                            BlocProvider(
+                              create: (context) => _userBloc,
+                              child: BlocBuilder<UserBloc, UserState>(
+                                builder: (context, state) {
+                                  if (state is GetUserSuccess) {
+                                    return petHPLoaded(context, state);
+                                  } else {
+                                    return petHPLoading(context);
+                                  }
+                                },
                               ),
                             ),
                             Image.asset(
@@ -291,6 +291,39 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ],
+    );
+  }
+
+  Shimmer petHPLoading(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: skeletonColor,
+      highlightColor: skeletonHighlightColor,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.55,
+        height: MediaQuery.of(context).size.height * 0.0125,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8), color: Colors.black),
+      ),
+    );
+  }
+
+  SizedBox petHPLoaded(BuildContext context, GetUserSuccess state) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.55,
+      height: MediaQuery.of(context).size.height * 0.0125,
+      child: Shimmer.fromColors(
+        baseColor: primaryColor,
+        highlightColor: showingMsg ? secondaryColor : primaryColor,
+        child: LinearPercentIndicator(
+          backgroundColor: Colors.black12,
+          progressColor: primaryColor,
+          lineHeight: MediaQuery.of(context).size.height * 0.025,
+          barRadius: const Radius.circular(8),
+          percent: state.user.petHP! * 0.01,
+          animation: true,
+          animationDuration: 200,
+        ),
+      ),
     );
   }
 
@@ -343,7 +376,7 @@ class _ProfilePageState extends State<ProfilePage> {
           create: (_) => _userBloc,
           child: BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              if (state is! GettingUser) {
+              if (state is GetUserSuccess) {
                 return Text(state.user.point.toString());
               } else {
                 return const Text("Loading");
@@ -498,8 +531,8 @@ class _ProfilePageState extends State<ProfilePage> {
       color: Colors.white,
       iconSize: MediaQuery.of(context).size.height * 0.05,
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => StressTest()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const StressTest()));
       },
     );
   }
@@ -511,8 +544,8 @@ class _ProfilePageState extends State<ProfilePage> {
         color: Colors.white,
       ),
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResultCounsellor()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ResultCounsellor()));
       },
     );
   }
@@ -524,7 +557,7 @@ class _ProfilePageState extends State<ProfilePage> {
       iconSize: MediaQuery.of(context!).size.height * 0.04,
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BookMark()));
+            context, MaterialPageRoute(builder: (context) => const BookMark()));
       },
     );
   }

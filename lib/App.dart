@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/BottomNavigationWidget.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';
+import 'package:jitd_client/src/screens/profile/ProfilePage.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
       routes: {
         "/": (context) => const SignIn(),
         "/home": (context) => const BottomNavigationWidget(),
+        "/profile": (context) => const ProfilePage(),
       }, // home:
     );
   }

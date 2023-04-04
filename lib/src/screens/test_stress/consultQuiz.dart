@@ -224,12 +224,13 @@ class ConsultQuizState extends State<ConsultQuiz> {
 
   void scoreCalculator(ConsultState state) {
     score = state.selectedScore.reduce((value, current) => value + current);
-    if (score >= 0 && score <= 10) {
-    } else if (score >= 11 && score <= 14) {
+    if (score >= 0 && score <= 9) {
+      consultLevel = 0;
+    } else if (score >= 10 && score <= 14) {
       consultLevel = 1;
-    } else if (score >= 9 && score <= 14) {
+    } else if (score >= 14 && score <= 17) {
       consultLevel = 2;
-    } else if (score >= 15 && score <= 19) {
+    } else if (score >= 17) {
       consultLevel = 3;
     }
   }

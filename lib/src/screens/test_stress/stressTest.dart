@@ -63,8 +63,12 @@ class StressTestState extends State<StressTest> {
                     if (state is LoadingStressResult) {
                       return sectionResultShimmer(context);
                     } else if (state is LoadedStressResult) {
-                      return sectionResult(context, state.quizResult.result,
+                      if (state.quizResult.result == 'No data') {
+                        return sectionResultNoData();
+                      } else {
+                        return sectionResult(context, state.quizResult.result,
                           state.quizResult.desc, state.quizResult.point);
+                      }
                     } else {
                       return const Text("ERROR");
                     }
@@ -174,6 +178,43 @@ class StressTestState extends State<StressTest> {
       ]),
     );
   }
+
+  Padding sectionResultNoData() {
+    return Padding(
+      padding:
+      EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 25),
+      child: Stack(children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  color: backgroundColor2,
+                  border: Border.all(
+                      color: const Color.fromRGBO(207, 229, 225, 1), width: 5)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.not_interested, color: textColor3, size: 80,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                  Text("กรุณาทำบทสอบก่อน", style: fontsTH16TextColor3,)
+                ],
+              ),
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+              color: Colors.white,
+              child: Text("ผลการทดสอบล่าสุดของคุณ", style: fontsTH18_Black)),
+        ),
+      ]),
+    );
+  }
+
 
   Padding sectionResultShimmer(BuildContext context) {
     return Padding(
