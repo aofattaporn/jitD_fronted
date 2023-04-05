@@ -47,6 +47,7 @@ class PostModel {
   int? countPost;
   bool? isLike;
   String? error;
+  bool? isBookmark;
 
   PostModel();
 
@@ -74,6 +75,7 @@ class PostModel {
     countLike = json['countLike'];
     countComment = json['countComment'];
     isLike = json['isLike'];
+    isBookmark = json['isBookMark'];
   }
 
   // function get post
@@ -151,6 +153,7 @@ class PostDate {
   int? countPost;
   bool? isLike;
   String? error;
+  bool? isBookmark;
 
   PostDate();
 
@@ -165,6 +168,7 @@ class PostDate {
     countLike = json['countLike'];
     countComment = json['countComment'];
     isLike = json['isLike'];
+    isBookmark = json['isBookmark'];
   }
 
   PostDate.fromJsonID(Map<String, dynamic> json) {
@@ -194,6 +198,7 @@ class PostLike {
   int? countPost;
   bool? isLike;
   String? error;
+  bool? isBookmark;
 
   PostLike();
 
@@ -208,6 +213,7 @@ class PostLike {
     countLike = json['countLike'];
     countComment = json['countComment'];
     isLike = json['isLike'];
+    isBookmark = json['isBookmark'];
   }
 
   PostLike.fromJsonID(Map<String, dynamic> json) {
@@ -237,6 +243,7 @@ class PostRecommend {
   int? countPost;
   bool? isLike;
   String? error;
+  bool? isBookmark;
 
   PostRecommend();
 
@@ -251,6 +258,7 @@ class PostRecommend {
     countLike = json['countLike'];
     countComment = json['countComment'];
     isLike = json['isLike'];
+    isBookmark = json['isBookmark'];
   }
 
   PostRecommend.fromJsonID(Map<String, dynamic> json) {
