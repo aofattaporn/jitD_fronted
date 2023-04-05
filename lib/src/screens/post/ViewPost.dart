@@ -27,7 +27,7 @@ class ViewPost extends StatefulWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
-  final bool? isBookMark;
+  final bool? isBookmark;
   final bool? tempIsLike;
   final List<String>? category;
   final PostBloc postBloc;
@@ -41,7 +41,7 @@ class ViewPost extends StatefulWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
-      required this.isBookMark,
+      required this.isBookmark,
       required this.category,
       this.tempIsLike,
       required this.postBloc,})
@@ -482,7 +482,7 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
-                  isBookMark: widget.isBookMark,
+                  isBookmark: widget.isBookmark,
                   postBloc: widget.postBloc,
                 )
               ],

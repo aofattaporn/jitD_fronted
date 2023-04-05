@@ -94,12 +94,13 @@ class PostRepository {
   Future<String>RemoveBookMark(String postId) async{
     String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
     final response =
-    await http.delete(Uri.parse("${globalUrl}v1/posts/bookmark/remove/$postId"), headers: {
+    await http.put(Uri.parse("${globalUrl}v1/posts/bookmark/remove/$postId"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return "Remove Successfully";
     } else {
@@ -118,7 +119,6 @@ class PostRepository {
       'Authorization': 'Bearer $token',
     });
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return "Add Successfully";
     } else {

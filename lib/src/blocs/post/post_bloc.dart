@@ -24,7 +24,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getAllPost();
         final listPostData = listPostModelFromJson(listPostJSON);
-        print(listPostJSON);
 
         listPostModel.posts = listPostData.posts;
 
@@ -202,8 +201,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             break;
           }
         }
-        listPostModel.posts[index].isBookMark = false;
+        listPostModel.posts[index].isBookmark = false;
         await postRepository.RemoveBookMark(event.postId);
+        print("lop leaw");
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -219,9 +219,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             break;
           }
         }
-        print(listPostModel.posts[index].isBookMark);
-        listPostModel.posts[index].isBookMark = true;
-        print(listPostModel.posts[index].isBookMark);
+        listPostModel.posts[index].isBookmark = true;
         await postRepository.AddBookMark(event.postId);
         print("Added leaw");
       } catch (e, stacktrace) {
@@ -237,10 +235,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final listPostData = listPostModelFromData(listPostJSON);
         print(listPostJSON);
 
+
         // print for check each post
         print("------ in Bloc-------------");
         listPostData.posts.forEach((element) {
-          print(element.isBookMark);
+          print(element.isBookmark);
         });
 
         listPostModel.posts = listPostData.posts;

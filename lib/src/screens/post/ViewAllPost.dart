@@ -219,7 +219,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 filteredList[index].countComment.toString(),
                             countLike: filteredList[index].countLike.toString(),
                             isLike: filteredList[index].isLike,
-                            isBookMark: filteredList[index].isBookMark,
+                            isBookmark: filteredList[index].isBookmark,
                             postBloc: _postBloc,
                           ),
                           onTap: () {
@@ -240,7 +240,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                           .countLike
                                           .toString(),
                                       isLike: filteredList[index].isLike,
-                                      isBookMark: filteredList[index].isBookMark,
+                                      isBookmark: filteredList[index].isBookmark,
                                       postBloc: _postBloc,
                                     )));
                           },

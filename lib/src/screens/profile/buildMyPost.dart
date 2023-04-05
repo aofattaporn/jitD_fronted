@@ -29,7 +29,7 @@ Widget BuildMyPost(
                   countComment: model[index].countComment.toString(),
                   countLike: model[index].countLike.toString(),
                   isLike: model[index].isLike,
-                  isBookMark: model[index].isBookMark,
+                  isBookmark: model[index].isBookmark,
                   postBloc: postBloc),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -42,7 +42,7 @@ Widget BuildMyPost(
                         countComment: model[index].countComment.toString(),
                         countLike: model[index].countLike.toString(),
                         isLike: model[index].isLike,
-                        isBookMark: model[index].isBookMark,
+                        isBookmark: model[index].isBookmark,
                         postBloc: postBloc)));
               },
             ),
