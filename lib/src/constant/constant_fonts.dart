@@ -22,6 +22,8 @@ final TextStyle fontsTH12TextColor2 =
     GoogleFonts.getFont("Bai Jamjuree", fontSize: 12, color: textColor2);
 final TextStyle fontsTH14TextColor2 =
     GoogleFonts.getFont("Bai Jamjuree", fontSize: 14, color: textColor2);
+final TextStyle fontsTH14_black =
+GoogleFonts.getFont("Bai Jamjuree", fontSize: 14, color: textColor1);
 final TextStyle fontsTH16TextColor2 =
     GoogleFonts.getFont("Bai Jamjuree", fontSize: 16, color: textColor2);
 final TextStyle fontsTH20TextColor2Bold = GoogleFonts.getFont("Bai Jamjuree",
