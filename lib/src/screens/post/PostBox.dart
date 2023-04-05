@@ -195,10 +195,10 @@ class PostBoxState extends State<PostBox> {
                     child: BlocBuilder<LikeBloc, LikeState>(
                       builder: (context, state) {
                         return LikeButton(
-                          isLiked: widget.postBloc.listPostModel
-                              .posts[widget.postIndex!].isLike,
-                          likeCount: widget.postBloc.listPostModel
-                              .posts[widget.postIndex!].countLike,
+                          isLiked: widget.postBloc.listHomePageModel
+                              .postDate![widget.postIndex!].isLike,
+                          likeCount: widget.postBloc.listHomePageModel
+                              .postDate![widget.postIndex!].countLike,
                           likeBuilder: (bool isLiked) {
                             return Icon(
                               Icons.favorite,
@@ -213,13 +213,13 @@ class PostBoxState extends State<PostBox> {
                                     postId: widget.postId,
                                   ));
                               setState(() {
-                                widget.postBloc.listPostModel
-                                    .posts[widget.postIndex!].isLike = false;
-                                widget.postBloc.listPostModel
-                                    .posts[widget.postIndex!].countLike = widget
+                                widget.postBloc.listHomePageModel
+                                    .postDate![widget.postIndex!].isLike = false;
+                                widget.postBloc.listHomePageModel
+                                    .postDate![widget.postIndex!].countLike = widget
                                     .postBloc
-                                    .listPostModel
-                                    .posts[widget.postIndex!]
+                                    .listHomePageModel
+                                    .postDate![widget.postIndex!]
                                     .countLike! -
                                     1;
                               });
@@ -228,13 +228,13 @@ class PostBoxState extends State<PostBox> {
                                     postId: widget.postId,
                                   ));
                               setState(() {
-                                widget.postBloc.listPostModel
-                                    .posts[widget.postIndex!].isLike = true;
-                                widget.postBloc.listPostModel
-                                    .posts[widget.postIndex!].countLike = widget
+                                widget.postBloc.listHomePageModel
+                                    .postDate![widget.postIndex!].isLike = true;
+                                widget.postBloc.listHomePageModel
+                                    .postDate![widget.postIndex!].countLike = widget
                                     .postBloc
-                                    .listPostModel
-                                    .posts[widget.postIndex!]
+                                    .listHomePageModel
+                                    .postDate![widget.postIndex!]
                                     .countLike! +
                                     1;
                               });

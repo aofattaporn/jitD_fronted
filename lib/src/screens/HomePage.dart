@@ -175,6 +175,7 @@ class _HomePageState extends State<HomePage> {
                     child: BlocBuilder<PostBloc, PostState>(
                         builder: (context, state) {
                       if (state is PostLoadingState ||
+                          state is HomePagePostLoadingState ||
                           state is PostDeletingState) {
                         return const shirmmerPostHome();
                       } else if (state is HomePagePostLoadedState ||

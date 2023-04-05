@@ -36,7 +36,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     on<GetHomePagePost>((event, emit) async {
-      emit(PostLoadingState());
+      emit(HomePagePostLoadingState());
       try {
         final listHomePagePostJSON = await postRepository.getHomePagePost();
         final listHomePagePostData = listHomePagePostModelFromJson(listHomePagePostJSON);

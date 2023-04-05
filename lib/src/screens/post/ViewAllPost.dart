@@ -8,6 +8,7 @@ import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import '../../blocs/post/post_bloc.dart';
 import '../../blocs/post/post_state.dart';
 import '../../constant.dart';
+import '../../data/models/post_model.dart';
 import '../home/shrimmerAllPost.dart';
 import 'PostBox.dart';
 
@@ -21,14 +22,14 @@ class ViewAllPost extends StatefulWidget {
 }
 
 class ViewAllPostState extends State<ViewAllPost> {
-  late List filteredList;
+  late List<PostDate> filteredList;
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final PostBloc _postBloc = PostBloc();
 
   @override
   void initState() {
-    _postBloc.add(GetAllPost());
+    _postBloc.add(GetHomePagePost());
 
     super.initState();
   }
@@ -171,17 +172,18 @@ class ViewAllPostState extends State<ViewAllPost> {
         },
         child: BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
-            if (state is PostLoadingState || state is PostDeletingState) {
+            if (state is PostLoadingState || state is PostDeletingState || state is HomePagePostLoadingState) {
               return const shrimmerAllPost();
             } else if (state is PostLoadedState ||
+                state is HomePagePostLoadedState ||
                 state is PostDeletedState ||
                 state is SortedPostByLike ||
                 state is SortedPostByDate ||
                 state is UpdatedPost) {
               if (widget.categorySelected == null) {
-                filteredList = state.listPostModel;
+                filteredList = state.listHomePageModel.postDate!;
               } else {
-                filteredList = state.listPostModel
+                filteredList = state.listHomePageModel.postDate!
                     .where((element) =>
                         element.category!.contains(widget.categorySelected))
                     .toList();
