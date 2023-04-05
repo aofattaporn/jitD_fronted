@@ -132,7 +132,7 @@ class PostRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return "Add Successfully";
     } else {

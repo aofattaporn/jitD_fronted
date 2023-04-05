@@ -50,7 +50,7 @@ class ViewAllPostState extends State<ViewAllPost> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unFocusNode),
           child: RefreshIndicator(
-            onRefresh: () async => _postBloc.add(GetAllPost()),
+            onRefresh: () async => _postBloc.add(GetHomePagePost()),
             child: SingleChildScrollView(
               child: Column(
                 children: [

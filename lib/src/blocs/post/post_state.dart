@@ -182,8 +182,8 @@ class BookMarkLoadingState extends PostState{
 }
 
 class BookMarkLoadedState extends PostState{
-  BookMarkLoadedState(List<PostModel> list) {
-    super.listPostModel = list;
+  BookMarkLoadedState(ListHomePageModel list) {
+    super.listHomePageModel = list;
   }
   @override
   List<Object?> get props => [];

@@ -14,9 +14,9 @@ class ListPostModel {
 
   ListPostModel.fromData(Map<String, dynamic> json) {
     for (var element in json["data"]) {
-      posts.add(PostModel.fromJson(element));
+      postDate.add(PostDate.fromJson(element));
     }
-    posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
+    postDate.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
   }
 
   /// method convert map to json
@@ -58,7 +58,6 @@ class PostModel {
   int? countPost;
   bool? isLike;
   String? error;
-  bool? isBookmark;
 
   PostModel();
 

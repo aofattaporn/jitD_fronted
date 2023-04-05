@@ -196,7 +196,14 @@ class _PostModalState extends State<PostModal> {
 
   GestureDetector bookMark() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if(widget.isBookmark == false || widget.isBookmark == null){
+          widget.postBloc.add(AddBookMark(widget.postId!));
+        }else if (widget.isBookmark == true){
+          widget.postBloc.add(DeleteBookMark(widget.postId!));
+        }
+        Navigator.pop(context);
+      },
       child: Row(
         children: [
           Padding(
@@ -222,11 +229,18 @@ class _PostModalState extends State<PostModal> {
                   )),
             ),
           ),
-          Text(
-            "บันทึกโพสต์",
-            style: GoogleFonts.getFont("Bai Jamjuree",
-                fontSize: 18, color: textColor2),
-          ),
+          if(widget.isBookmark == false || widget.isBookmark == null)
+            Text(
+              "บันทึกโพสต์",
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  fontSize: 18, color: textColor2),
+            ),
+          if(widget.isBookmark == true)
+            Text(
+              "ลบออกจากบันทึกโพสต์",
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  fontSize: 18, color: textColor2),
+            ),
         ],
       ),
     );

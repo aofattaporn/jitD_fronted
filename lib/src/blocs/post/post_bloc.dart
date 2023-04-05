@@ -205,13 +205,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<DeleteBookMark>((event, emit) async {
       try {
         int index = 0;
-        for(int i =0; i < listPostModel.posts.length ; i++){
-          if(listPostModel.posts[i].postId == event.postId){
+        for(int i =0; i < listHomePageModel.postDate!.length ; i++){
+          if(listHomePageModel.postDate![i].postId == event.postId){
             index = i;
             break;
           }
         }
-        listPostModel.posts[index].isBookmark = false;
+        listHomePageModel.postDate![index].isBookmark = false;
         await postRepository.RemoveBookMark(event.postId);
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
@@ -222,13 +222,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<AddBookMark>((event, emit) async {
       try {
         int index = 0;
-        for(int i =0; i < listPostModel.posts.length; i++){
-          if(listPostModel.posts[i].postId == event.postId){
+        for(int i =0; i < listHomePageModel.postDate!.length; i++){
+          if(listHomePageModel.postDate![i].postId == event.postId){
             index = i;
             break;
           }
         }
-        listPostModel.posts[index].isBookmark = true;
+        listHomePageModel.postDate![index].isBookmark = true;
         await postRepository.AddBookMark(event.postId);
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
@@ -241,9 +241,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getMyBookMark();
         final listPostData = listPostModelFromData(listPostJSON);
-        listPostModel.posts = listPostData.posts;
+        listHomePageModel.postDate = listPostData.postDate;
 
-        emit(BookMarkLoadedState(listPostData.posts));
+        emit(BookMarkLoadedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
