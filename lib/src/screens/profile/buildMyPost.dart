@@ -29,6 +29,7 @@ Widget BuildMyPost(
                   countComment: model.postDate![index].countComment.toString(),
                   countLike: model.postDate![index].countLike.toString(),
                   isLike: model.postDate![index].isLike,
+                  isBookmark: model.postDate![index].isBookmark,
                   postBloc: postBloc, postIndex: index,),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -41,7 +42,8 @@ Widget BuildMyPost(
                         countComment: model.postDate![index].countComment.toString(),
                         countLike: model.postDate![index].countLike.toString(),
                         isLike: model.postDate![index].isLike,
-                        postBloc: postBloc, postIndex: index,)));
+                      isBookmark: model.postDate![index].isBookmark,
+                      postBloc: postBloc, postIndex: index,)));
               },
             ),
           );

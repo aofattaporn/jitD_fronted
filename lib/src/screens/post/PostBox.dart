@@ -6,6 +6,7 @@ import 'package:like_button/like_button.dart';
 
 import '../../blocs/Like/like_bloc.dart';
 import '../../constant.dart';
+import '../../data/respository/like_repository.dart';
 import '../Utilities/PostModal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +18,7 @@ class PostBox extends StatefulWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
+  final bool? isBookmark;
   final int? postIndex;
   final List<String>? category;
   final PostBloc postBloc;
@@ -31,6 +33,7 @@ class PostBox extends StatefulWidget {
       required this.countLike,
       required this.isLike,
       required this.postIndex,
+      required this.isBookmark,
       required this.category,
       required this.postBloc})
       : super(key: key);
@@ -82,6 +85,7 @@ class PostBoxState extends State<PostBox> {
                     content: widget.content ?? "No Data",
                     date: widget.date ?? DateTime.now().toString(),
                     category: widget.category ?? ["Tag1", "Tag2"],
+                    isBookmark: widget.isBookmark ?? false,
                     postBloc: widget.postBloc,
                   )
                 ],

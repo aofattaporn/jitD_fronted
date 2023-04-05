@@ -17,6 +17,7 @@ class PostModal extends StatefulWidget {
   final String? postId;
   final String? content;
   final String? date;
+  final bool? isBookmark;
   final List<String>? category;
   final PostBloc postBloc;
 
@@ -26,6 +27,7 @@ class PostModal extends StatefulWidget {
       required this.postId,
       required this.content,
       required this.date,
+      required this.isBookmark,
       required this.category,
       required this.postBloc})
       : super(key: key);

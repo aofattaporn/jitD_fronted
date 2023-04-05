@@ -28,6 +28,7 @@ class ViewPost extends StatefulWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
+  final bool? isBookmark;
   final bool? tempIsLike;
   final int? postIndex;
   final List<String>? category;
@@ -42,10 +43,11 @@ class ViewPost extends StatefulWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
+      required this.isBookmark,
       required this.category,
       required this.postIndex,
       this.tempIsLike,
-      required this.postBloc})
+      required this.postBloc,})
       : super(key: key);
 
   @override
@@ -484,6 +486,7 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
+                  isBookmark: widget.isBookmark,
                   postBloc: widget.postBloc,
                 )
               ],

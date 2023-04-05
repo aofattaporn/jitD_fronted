@@ -230,6 +230,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 filteredList[index].countComment.toString(),
                             countLike: filteredList[index].countLike.toString(),
                             isLike: filteredList[index].isLike,
+                            isBookmark: filteredList[index].isBookmark,
                             postBloc: _postBloc,
                             postIndex: index,
                           ),
@@ -251,6 +252,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                                           .countLike
                                           .toString(),
                                       isLike: filteredList[index].isLike,
+                                      isBookmark: filteredList[index].isBookmark,
                                       postBloc: _postBloc,
                                       postIndex: index,
                                     )));
