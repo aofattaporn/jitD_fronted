@@ -83,7 +83,6 @@ class PostRepository {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         });
-
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -100,7 +99,6 @@ class PostRepository {
       'Authorization': 'Bearer $token',
     });
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return "Remove Successfully";
     } else {

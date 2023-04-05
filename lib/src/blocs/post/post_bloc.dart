@@ -137,7 +137,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     on<GetPostBySearch>((event, emit) async {
-      print('click');
       emit(PostLoadingState());
       try {
         final listPostJSON =
