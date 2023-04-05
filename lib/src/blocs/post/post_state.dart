@@ -152,6 +152,38 @@ class SortedPostByLike extends PostState {
   List<Object?> get props => [];
 }
 
+class BookMarkLoadingState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
+
+class BookMarkLoadedState extends PostState{
+  BookMarkLoadedState(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletingBookMarkState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletedBookMarkState extends PostState{
+  DeletedBookMarkState(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+  @override
+  List<Object?> get props => [];
+}
+
+
+/// this state for show dialog that Added bookmark
+class AddedBookMarkState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
 class RecommendCateSearch extends PostState{
   @override
   List<Object?> get props => [];

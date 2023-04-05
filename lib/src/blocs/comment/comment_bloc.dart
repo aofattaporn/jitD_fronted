@@ -108,6 +108,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     });
 
     on<PinComment>((event, emit) async {
+
       listCommentModel.comments[int.parse(event._index!)].isPin = true;
       try {
         await commentRepository.pinComment(event._postId, event._commentId, event._index);

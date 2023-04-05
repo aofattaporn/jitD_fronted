@@ -189,6 +189,54 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
+    on<DeleteBookMark>((event, emit) async {
+      try {
+        int index = 0;
+        for(int i =0; i < listPostModel.posts.length ; i++){
+          if(listPostModel.posts[i].postId == event.postId){
+            index = i;
+            break;
+          }
+        }
+        listPostModel.posts[index].isBookmark = false;
+        await postRepository.RemoveBookMark(event.postId);
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<AddBookMark>((event, emit) async {
+      try {
+        int index = 0;
+        for(int i =0; i < listPostModel.posts.length; i++){
+          if(listPostModel.posts[i].postId == event.postId){
+            index = i;
+            break;
+          }
+        }
+        listPostModel.posts[index].isBookmark = true;
+        await postRepository.AddBookMark(event.postId);
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<GetMyBookMark>((event, emit) async {
+      emit(BookMarkLoadingState());
+      try {
+        final listPostJSON = await postRepository.getMyBookMark();
+        final listPostData = listPostModelFromData(listPostJSON);
+        listPostModel.posts = listPostData.posts;
+
+        emit(BookMarkLoadedState(listPostData.posts));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
     on<SortPostByDate>((event, emit) {
       listPostModel.posts.sort((post1, post2) =>
           convertDate(post1.date).compareTo(convertDate(post2.date)));
