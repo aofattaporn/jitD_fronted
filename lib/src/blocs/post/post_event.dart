@@ -128,3 +128,26 @@ class SortPostByLike extends PostEvent{
   @override
   List<Object> get props => [];
 }
+
+class AddBookMark extends PostEvent{
+  late final String postId;
+
+  AddBookMark(this.postId);
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetMyBookMark extends PostEvent{
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteBookMark extends PostEvent{
+  late final String postId;
+
+  DeleteBookMark(this.postId);
+
+  @override
+  List<Object> get props => [];
+}

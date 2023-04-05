@@ -273,6 +273,7 @@ Widget _buildPostBox(
             countComment: model[index].countComment.toString(),
             countLike: model[index].countLike.toString(),
             isLike: model[index].isLike,
+            isBookmark: model[index].isBookmark,
             postBloc: postBloc,
           ))),
           child: Padding(
@@ -309,6 +310,7 @@ Widget _buildPostBox(
                           postId: model[index].postId ?? "",
                           content: model[index].content ?? "No Data",
                           date: model[index].date ?? DateTime.now().toString(),
+                          isBookmark : model[index].isBookmark,
                           category: model[index].category ?? ["Tag1", "Tag2"],
                           postBloc: postBloc,
                         ),

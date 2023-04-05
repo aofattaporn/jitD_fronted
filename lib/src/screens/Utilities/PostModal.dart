@@ -17,6 +17,7 @@ class PostModal extends StatefulWidget {
   final String? postId;
   final String? content;
   final String? date;
+  final bool? isBookmark;
   final List<String>? category;
   final PostBloc postBloc;
 
@@ -26,6 +27,7 @@ class PostModal extends StatefulWidget {
       required this.postId,
       required this.content,
       required this.date,
+      required this.isBookmark,
       required this.category,
       required this.postBloc})
       : super(key: key);
@@ -129,7 +131,14 @@ class _PostModalState extends State<PostModal> {
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      if(widget.isBookmark == false || widget.isBookmark == null){
+                        widget.postBloc.add(AddBookMark(widget.postId!));
+                      }else if (widget.isBookmark == true){
+                        widget.postBloc.add(DeleteBookMark(widget.postId!));
+                      }
+                      Navigator.pop(context);
+                    },
                     child: Row(
                       children: [
                         Padding(
@@ -156,11 +165,18 @@ class _PostModalState extends State<PostModal> {
                                 )),
                           ),
                         ),
-                        Text(
-                          "บันทึกโพสต์",
-                          style: GoogleFonts.getFont("Bai Jamjuree",
-                              fontSize: 18, color: textColor2),
-                        ),
+                        if(widget.isBookmark == false || widget.isBookmark == null)
+                          Text(
+                            "บันทึกโพสต์",
+                            style: GoogleFonts.getFont("Bai Jamjuree",
+                                fontSize: 18, color: textColor2),
+                          ),
+                        if(widget.isBookmark == true)
+                          Text(
+                            "ลบออกจากบันทึกโพสต์",
+                            style: GoogleFonts.getFont("Bai Jamjuree",
+                                fontSize: 18, color: textColor2),
+                          ),
                       ],
                     ),
                   ),

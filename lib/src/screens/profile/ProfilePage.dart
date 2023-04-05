@@ -523,8 +523,8 @@ class _ProfilePageState extends State<ProfilePage> {
       color: Colors.white,
       iconSize: MediaQuery.of(context!).size.height * 0.04,
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BookMark()));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => BookMark()));
       },
     );
   }
