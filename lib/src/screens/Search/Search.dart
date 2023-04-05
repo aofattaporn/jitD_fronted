@@ -23,6 +23,7 @@ class SearchState extends State<Search> {
     'มหาวิทยาลัย',
     'สุขภาพจิตใจ'
   ];
+
   final List<String> searchHistory = [
     'ชีวิตการทำงาน',
     'ความรัก',
