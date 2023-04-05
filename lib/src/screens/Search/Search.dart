@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
+import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
+import 'package:jitd_client/src/data/models/cateSearch_model.dart';
 import 'package:jitd_client/src/screens/Search/SearchQuery.dart';
+import 'package:jitd_client/src/screens/Search/shimmerCateSearch.dart';
 
 import '../post/ViewAllPost.dart';
 
@@ -16,6 +21,7 @@ class Search extends StatefulWidget {
 
 class SearchState extends State<Search> {
   final PostBloc postBloc = PostBloc();
+  final ListCateSearch listCateSearch = ListCateSearch();
   final List<String> recommendTag = [
     'ปัญหาครอบครัว',
     'สุขภาพร่างกาย',
@@ -31,6 +37,11 @@ class SearchState extends State<Search> {
     'การเปลี่ยนแปลงของชีวิต',
     'สังคมการทำงาน',
   ];
+  @override
+  void initState() {
+    super.initState();
+    postBloc.add(CatSearch());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,31 +166,44 @@ class SearchState extends State<Search> {
 
 
               // Recommend
-              Container(
-                // color: backgroundColor2,
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: Center(
-                  child: Column(
-                    children: [
-                      buildCategory(context, '1','ปัญหาครอบครัว'),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.001,
-                      ),
-                      buildCategory(context, '2','สุขภาพร่างกาย'),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.001,
-                      ),
-                      buildCategory(context, '3','ปัญหาชีวิต'),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.001,
-                      ),
-                      buildCategory(context, '4','มหาวิทยาลัย'),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.001,
-                      ),
-                      buildCategory(context, '5','สุขภาพจิต'),
-                    ],
-                  ),
+              BlocProvider(
+                create: (_) => postBloc,
+                child: BlocBuilder<PostBloc, PostState>(
+                  builder: (context, state) {
+                    if(state is SearchLoadingState){
+                      return const ShimmerCateSearch();
+                    }else if(state is SearchLoadedState){
+                      return Container(
+                        // color: backgroundColor2,
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: Center(
+                          child: Column(
+                            children: [
+                              buildCategory(context, '1',state.catSearch[0]!.catName),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.001,
+                              ),
+                              buildCategory(context, '2',state.catSearch[1]!.catName),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.001,
+                              ),
+                              buildCategory(context, '3',state.catSearch[2]!.catName),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.001,
+                              ),
+                              buildCategory(context, '4',state.catSearch[3]!.catName),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.001,
+                              ),
+                              buildCategory(context, '5',state.catSearch[4]!.catName),
+                            ],
+                          ),
+                        ),
+                      );
+                    }else{
+                      return Text("fail");
+                    }
+                  }
                 ),
               ),
 
@@ -208,7 +232,7 @@ class SearchState extends State<Search> {
     );
   }
 
-  Widget buildCategory(BuildContext context , String number, String cate) {
+  Widget buildCategory(BuildContext context , String number, String? cate) {
     return SizedBox(
                       width: MediaQuery.of(context).size.width*1,
                       child: ElevatedButton(
@@ -256,7 +280,7 @@ class SearchState extends State<Search> {
                               ),
                             ),
                             Text(
-                              cate,
+                              cate ?? "",
                               style: GoogleFonts.getFont("Bai Jamjuree",
                                   fontSize: 18, color: textColor2, fontWeight:
                               FontWeight.bold),

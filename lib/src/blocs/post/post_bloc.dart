@@ -5,8 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 
+import '../../data/models/cateSearch_model.dart';
 import '../../data/models/post_model.dart';
 import '../../data/respository/post_repository.dart';
+import '../../screens/SearchPage.dart';
 
 part 'post_event.dart';
 
@@ -14,6 +16,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   // creating object repository
   PostRepository postRepository = PostRepository();
   ListPostModel listPostModel = ListPostModel();
+  ListCateSearch listCateSearch = ListCateSearch();
   PostModel postModel = PostModel();
   String sortby = "";
 
@@ -232,6 +235,20 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
         emit(BookMarkLoadedState(listPostData.posts));
       } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<CatSearch>((event, emit) async{
+      emit(SearchLoadingState());
+      try{
+        final listCatJSON = await postRepository.getSearchPage();
+        final listCatData = ListCateSearchFromJson(listCatJSON);
+         listCateSearch.cateSearch = listCatData.cateSearch;
+
+         emit(SearchLoadedState(listCateSearch.cateSearch));
+      }catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
       }

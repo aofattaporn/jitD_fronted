@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+ListCateSearch ListCateSearchFromJson(String str) =>
+    ListCateSearch.fromJson(json.decode(str));
+
 class ListCateSearch{
   List<CateSearchModel> cateSearch = [];
 
@@ -16,7 +19,7 @@ class ListCateSearch{
 CateSearchModel cateSearchModel(String str) => CateSearchModel.fromJson(json.decode(str));
 
 class CateSearchModel{
-  List<String>? catName;
+  String? catName;
   int? count;
 
   CateSearchModel.GetData(this.catName, this.count);
