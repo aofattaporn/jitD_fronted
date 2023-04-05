@@ -5,6 +5,7 @@ ListPostModel listPostModelFromJson(String str) =>
 
 class ListPostModel {
   List<PostModel> posts = [];
+  List<PostDate> postDate = [];
 
   ListPostModel();
 
@@ -12,6 +13,7 @@ class ListPostModel {
   ListPostModel.fromJson(List<dynamic> json) {
     for (var element in json) {
       posts.add(PostModel.fromJson(element));
+      postDate.add(PostDate.fromJson(element));
     }
     posts.sort((a, b) => (b.date ?? "").compareTo(a.date ?? ""));
   }
@@ -108,7 +110,6 @@ class ListHomePageModel {
     }
 
     ListHomePageModel.fromJson(Map<String, dynamic> json) {
-
       postDate = addDatePost(json['postDate']);
       postLike = addLikePost(json['postLike']);
       postRecommend = addRecommendPost(json['postReccommend']);

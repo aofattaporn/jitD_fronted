@@ -1,8 +1,9 @@
- import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/screens/Utilities/SortPostModal.dart';
+import 'package:jitd_client/src/screens/post/AllCategory.dart';
 import 'package:jitd_client/src/screens/post/ViewPost.dart';
 
 import '../../blocs/post/post_bloc.dart';
@@ -118,35 +119,42 @@ class ViewAllPostState extends State<ViewAllPost> {
           ),
           Align(
               alignment: const AlignmentDirectional(-0.75, 0.8),
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.055,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white),
-                  child: Center(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(widget.categorySelected ?? "ปัญหาที่เพิ่มมาใหม่",
-                            style: GoogleFonts.getFont('Bai Jamjuree',
-                                color: textColor2,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold)),
-                        const CircleAvatar(
-                          radius: 12,
-                          backgroundColor: secondaryColorSubtle,
-                          child: Icon(
-                            Icons.keyboard_arrow_up,
-                            size: 25,
-                            color: backgroundColor3,
-                          ),
-                        )
-                      ],
-                    ),
-                  )))),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AllCategory(
+                          categorySelected: widget.categorySelected)));
+                },
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.055,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.white),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(widget.categorySelected ?? "ปัญหาที่เพิ่มมาใหม่",
+                              style: GoogleFonts.getFont('Bai Jamjuree',
+                                  color: textColor2,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
+                          const CircleAvatar(
+                            radius: 12,
+                            backgroundColor: secondaryColorSubtle,
+                            child: Icon(
+                              Icons.keyboard_arrow_up,
+                              size: 25,
+                              color: backgroundColor3,
+                            ),
+                          )
+                        ],
+                      ),
+                    ))),
+              )),
         ],
       ),
     );
@@ -172,7 +180,9 @@ class ViewAllPostState extends State<ViewAllPost> {
         },
         child: BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
-            if (state is PostLoadingState || state is PostDeletingState || state is HomePagePostLoadingState) {
+            if (state is PostLoadingState ||
+                state is PostDeletingState ||
+                state is HomePagePostLoadingState) {
               return const shrimmerAllPost();
             } else if (state is PostLoadedState ||
                 state is HomePagePostLoadedState ||
@@ -197,8 +207,7 @@ class ViewAllPostState extends State<ViewAllPost> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SortPostModal(
-                          postBloc: _postBloc),
+                      SortPostModal(postBloc: _postBloc),
                     ],
                   ),
                   ListView.builder(
@@ -221,7 +230,8 @@ class ViewAllPostState extends State<ViewAllPost> {
                                 filteredList[index].countComment.toString(),
                             countLike: filteredList[index].countLike.toString(),
                             isLike: filteredList[index].isLike,
-                            postBloc: _postBloc, postIndex: index,
+                            postBloc: _postBloc,
+                            postIndex: index,
                           ),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -241,7 +251,8 @@ class ViewAllPostState extends State<ViewAllPost> {
                                           .countLike
                                           .toString(),
                                       isLike: filteredList[index].isLike,
-                                      postBloc: _postBloc, postIndex: index,
+                                      postBloc: _postBloc,
+                                      postIndex: index,
                                     )));
                           },
                         );

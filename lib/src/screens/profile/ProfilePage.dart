@@ -624,13 +624,13 @@ class _ProfilePageState extends State<ProfilePage> {
           child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
             if (state is PostLoadingState) {
               return const ShimmerMyPost();
-            } else if (state is PostLoadedState) {
-              if (state.listPostModel.isEmpty) {
+            } else if (state is HomePagePostLoadedState) {
+              if (state.listHomePageModel.postDate!.isEmpty) {
                 return const Text("ไม่มีโพส");
               } else {
                 return Column(
                   children: [
-                    BuildMyPost(context, state.listPostModel, _postBloc),
+                    BuildMyPost(context, state.listHomePageModel, _postBloc),
                   ],
                 );
               }

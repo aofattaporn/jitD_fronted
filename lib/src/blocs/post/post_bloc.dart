@@ -126,10 +126,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getMyPost();
         final listPostData = listPostModelFromJson(listPostJSON);
-
-        listPostModel.posts = listPostData.posts;
-
-        emit(PostLoadedState(listPostModel.posts));
+        listHomePageModel.postDate = listPostData.postDate;
+        emit(HomePagePostLoadedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));

@@ -69,6 +69,15 @@ class HomePagePostLoadedState extends PostState {
   List<Object?> get props => [];
 }
 
+class MyPostLoadedState extends PostState {
+  MyPostLoadedState(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
 /// state post loading
 class PostDeletingState extends PostState {
   @override
