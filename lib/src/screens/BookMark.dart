@@ -4,9 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
-import 'package:jitd_client/src/screens/home/shrimmerAllPost.dart';
-import 'package:jitd_client/src/screens/post/PostBox.dart';
-import 'package:jitd_client/src/screens/post/ViewPost.dart';
 import 'package:jitd_client/src/screens/profile/buildMyPost.dart';
 import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
 
@@ -68,7 +65,7 @@ class BookMarkState extends State<BookMark> {
                           ),
                         ),
                         Align(
-                          alignment: Alignment(1, -0.65),
+                          alignment: const Alignment(1, -0.65),
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.07,
                             height: MediaQuery.of(context).size.height * 0.15,
@@ -97,7 +94,7 @@ class BookMarkState extends State<BookMark> {
                               ),
                             )),
                         Align(
-                          alignment: Alignment(-1, 0.5),
+                          alignment: const Alignment(-1, 0.5),
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.7,
                             height: MediaQuery.of(context).size.height * 0.125,
@@ -107,7 +104,7 @@ class BookMarkState extends State<BookMark> {
                                     bottomRight: Radius.circular(10)),
                                 color: secondaryColor),
                             child: Align(
-                              alignment: Alignment(-0.6, 0.2),
+                              alignment: const Alignment(-0.6, 0.2),
                               child: Text(
                                 'โพสที่บันทึก',
                                 style: GoogleFonts.getFont(
@@ -121,7 +118,7 @@ class BookMarkState extends State<BookMark> {
                           ),
                         ),
                         Align(
-                          alignment: Alignment(0.25, 0.19),
+                          alignment: const Alignment(0.25, 0.19),
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.2,
                             height: MediaQuery.of(context).size.height * 0.08,
@@ -163,14 +160,14 @@ class BookMarkState extends State<BookMark> {
                           if(state is BookMarkLoadingState){
                             return const ShimmerMyPost();
                           }else if (state is BookMarkLoadedState){
-                            if(state.listPostModel.isEmpty){
+                            if(state.listHomePageModel.postDate!.isEmpty){
                               return const Text("No BookMark");
                             }else{
                               return Column(
                                 children: [
                                   /// build my bookmark
                                   BuildMyPost(
-                                      context, state.listPostModel, _postBloc),
+                                      context, state.listHomePageModel, _postBloc),
                                 ],
                               );
                             }
