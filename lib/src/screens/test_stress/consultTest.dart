@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/screens/test_stress/consultQuiz.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/consult/consult_bloc.dart';
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
 
-class ResultCounsellor extends StatefulWidget {
-  const ResultCounsellor({Key? key}) : super(key: key);
+class ConsultTest extends StatefulWidget {
+  const ConsultTest({Key? key}) : super(key: key);
 
   @override
-  State<ResultCounsellor> createState() => _ResultCounsellorState();
+  State<ConsultTest> createState() => _ConsultTestState();
 }
 
-class _ResultCounsellorState extends State<ResultCounsellor> {
+class _ConsultTestState extends State<ConsultTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,12 +41,15 @@ class _ResultCounsellorState extends State<ResultCounsellor> {
             image: DecorationImage(
                 image: AssetImage("assets/images/consult_wallpaper.png"),
                 fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            sectionHeader(context),
-            sectionButton(context),
-            sectionResult(context),
-          ],
+        child: BlocProvider(
+          create: (context) => ConsultBloc(),
+          child: Column(
+            children: [
+              sectionHeader(context),
+              sectionButton(context),
+              sectionResult(context),
+            ],
+          ),
         ),
       ),
     );
@@ -154,26 +158,40 @@ class _ResultCounsellorState extends State<ResultCounsellor> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ConsultQuiz()));
+              BlocConsumer<ConsultBloc, ConsultState>(
+                listener: (contexts, state) {
+                  if (state is LoadedConsultQuiz) {
+                    Navigator.push(
+                        contexts,
+                        MaterialPageRoute(
+                            builder: (context) => ConsultQuiz(
+                              quiz: state.quizData,
+                            )));
+                  }
                 },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.height * 0.075,
-                  decoration: BoxDecoration(
-                      color: thirterydColor,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                      child: Text(
-                    "เริ่มต้นทดสอบ",
-                    style: fontsTH16White,
-                  )),
-                ),
-              )
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () {
+                      context.read<ConsultBloc>().add(GetQuestion());
+                    },
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.075,
+                        decoration: BoxDecoration(
+                            color: thirterydColor,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Center(
+                            child: state is LoadingConsultQuiz
+                                ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                                : Text(
+                              "เริ่มต้นทดสอบ",
+                              style: fontsTH16White,
+                            ))),
+                  );
+                },
+              ),
             ],
           ),
         ),

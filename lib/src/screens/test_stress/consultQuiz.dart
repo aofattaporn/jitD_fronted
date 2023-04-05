@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jitd_client/src/screens/test_stress/consultData.dart';
 import '../../blocs/consult/consult_bloc.dart';
 import '../../constant.dart';
+import '../../data/models/consult_model.dart';
 import '../Utilities/AllToast.dart';
 import 'consultTestResult.dart';
 
 class ConsultQuiz extends StatefulWidget {
-  const ConsultQuiz({Key? key}) : super(key: key);
+  final List<ConsultModel> quiz;
+  const ConsultQuiz({Key? key, required this.quiz}) : super(key: key);
 
   @override
   State<ConsultQuiz> createState() => ConsultQuizState();
@@ -17,9 +18,8 @@ class ConsultQuiz extends StatefulWidget {
 
 class ConsultQuizState extends State<ConsultQuiz> {
   final toast = FToast();
-  List quiz = consultQuizData;
-  int score = 0;
-  int consultLevel = 0;
+  late int score;
+  late int consultLevel;
 
   @override
   void initState() {
@@ -82,35 +82,54 @@ class ConsultQuizState extends State<ConsultQuiz> {
   Padding submitButton(ConsultState state, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: GestureDetector(
-        onTap: () {
-          if (state.countQuestion < quiz.length - 1) {
-            context.read<ConsultBloc>().add(QuestionNext());
-          } else {
-            if (state.selectedAnswer.contains(-1)) {
-              showToast("กรุณาตอบทุกคำถาม");
-            } else {
-              scoreCalculator(state);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ConsultTestResult(
-                            consultLevel: consultLevel,
-                          )));
-            }
+      child: BlocConsumer<ConsultBloc, ConsultState>(
+        listener: (context, state) {
+          if (state is LoadedConsultResult) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ConsultTestResult(
+                      consultLevel: state.quizResult.point,
+                    )));
           }
+
         },
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.25,
-          height: MediaQuery.of(context).size.height * 0.055,
-          decoration: BoxDecoration(
-              color: secondaryColor, borderRadius: BorderRadius.circular(10)),
-          child: Center(
-              child: Text(
-            state.countQuestion != quiz.length - 1 ? "ต่อไป" : "ส่งคำตอบ",
-            style: fontsTH16White,
-          )),
-        ),
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              if (state.countQuestion < widget.quiz.length - 1) {
+                context.read<ConsultBloc>().add(QuestionNext());
+              } else {
+                if (state.selectedAnswer.contains(-1)) {
+                  showToast("กรุณาตอบทุกคำถาม");
+                } else {
+                  scoreCalculator(state);
+                  context
+                      .read<ConsultBloc>()
+                      .add(CalResultConsult(score.toString()));
+                }
+              }
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.25,
+              height: MediaQuery.of(context).size.height * 0.055,
+              decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                  child: state is LoadingConsultResult
+                  ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                  :Text(
+                state.countQuestion != widget.quiz.length - 1
+                    ? "ต่อไป"
+                    : "ส่งคำตอบ",
+                style: fontsTH16White,
+              )),
+            ),
+          );
+        },
       ),
     );
   }
@@ -132,7 +151,7 @@ class ConsultQuizState extends State<ConsultQuiz> {
                     setState(() {
                       state.selectedAnswer[state.countQuestion] = index;
                       state.selectedScore[state.countQuestion] =
-                          quiz[state.countQuestion]['answer'][index]['score'];
+                          widget.quiz[state.countQuestion].answer![index].value;
                     });
                   },
                   child: Container(
@@ -148,11 +167,11 @@ class ConsultQuizState extends State<ConsultQuiz> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          quiz[state.countQuestion]['answer'][index]['text'],
+                          widget.quiz[state.countQuestion].answer![index].text!,
                           style:
-                          state.selectedAnswer[state.countQuestion] == index
-                          ? fontsTH16_white_w500
-                          : fontsTH16_black_w500,
+                              state.selectedAnswer[state.countQuestion] == index
+                                  ? fontsTH16_white_w500
+                                  : fontsTH16_black_w500,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -177,7 +196,7 @@ class ConsultQuizState extends State<ConsultQuiz> {
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
           child: Center(
               child: Text(
-            quiz[state.countQuestion]['questionText'],
+            widget.quiz[state.countQuestion].questionText!,
             style: fontsTH16_black_w500,
             textAlign: TextAlign.center,
           )),
@@ -202,7 +221,7 @@ class ConsultQuizState extends State<ConsultQuiz> {
             }
           },
         ),
-        Text('${(state.countQuestion + 1).toString()}/${quiz.length}'),
+        Text('${(state.countQuestion + 1).toString()}/${widget.quiz.length}'),
         IconButton(
           icon: const Icon(
             Icons.navigate_next,
@@ -210,7 +229,7 @@ class ConsultQuizState extends State<ConsultQuiz> {
             color: textColor1,
           ),
           onPressed: () {
-            if (state.countQuestion < quiz.length - 1) {
+            if (state.countQuestion < widget.quiz.length - 1) {
               context.read<ConsultBloc>().add(QuestionNext());
             }
           },

@@ -52,8 +52,6 @@ class StressBloc extends Bloc<StressEvent, StressState> {
       try {
         final stressResultJSON =
             await quizRepository.getStressQuizResult();
-        print("object");
-        print(stressResultJSON);
         final stressResultModel = stressResultModelFromJson(stressResultJSON);
         emit(LoadedStressResult(state.countQuestion, state.selectedAnswer,
             state.selectedScore, stressResultModel));

@@ -545,7 +545,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       onPressed: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ResultCounsellor()));
+            MaterialPageRoute(builder: (context) => const ConsultTest()));
       },
     );
   }

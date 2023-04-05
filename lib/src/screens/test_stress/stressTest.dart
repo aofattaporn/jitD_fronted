@@ -67,7 +67,7 @@ class StressTestState extends State<StressTest> {
                         return sectionResultNoData();
                       } else {
                         return sectionResult(context, state.quizResult.result,
-                          state.quizResult.desc, state.quizResult.point);
+                            state.quizResult.desc, state.quizResult.point);
                       }
                     } else {
                       return const Text("ERROR");
@@ -182,7 +182,7 @@ class StressTestState extends State<StressTest> {
   Padding sectionResultNoData() {
     return Padding(
       padding:
-      EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 25),
+          EdgeInsets.only(top: MediaQuery.of(context).devicePixelRatio * 25),
       child: Stack(children: [
         Center(
           child: Padding(
@@ -198,9 +198,18 @@ class StressTestState extends State<StressTest> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.not_interested, color: textColor3, size: 80,),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                  Text("กรุณาทำบทสอบก่อน", style: fontsTH16TextColor3,)
+                  const Icon(
+                    Icons.not_interested,
+                    color: textColor3,
+                    size: 80,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Text(
+                    "กรุณาทำบทสอบก่อน",
+                    style: fontsTH16TextColor3,
+                  )
                 ],
               ),
             ),
@@ -214,7 +223,6 @@ class StressTestState extends State<StressTest> {
       ]),
     );
   }
-
 
   Padding sectionResultShimmer(BuildContext context) {
     return Padding(

@@ -14,6 +14,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   // creating object repository
   PostRepository postRepository = PostRepository();
   ListPostModel listPostModel = ListPostModel();
+  ListHomePageModel listHomePageModel = ListHomePageModel();
   PostModel postModel = PostModel();
   String sortby = "";
 
@@ -34,6 +35,20 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
+    on<GetHomePagePost>((event, emit) async {
+      emit(PostLoadingState());
+      try {
+        final listHomePagePostJSON = await postRepository.getHomePagePost();
+        final listHomePagePostData = listHomePagePostModelFromJson(listHomePagePostJSON);
+        listHomePageModel = listHomePagePostData;
+
+        emit(HomePagePostLoadedState(listHomePageModel));
+      } catch (e, stacktrace) {
+        print("Exception occurred: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+
+    });
     // event create post
     on<CreatingPost>((event, emit) async {
       emit(CheckingPost());

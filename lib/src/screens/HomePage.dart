@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     toast.init(context);
-    _postBloc.add(GetAllPost());
+    // _postBloc.add(GetAllPost());
+    _postBloc.add(GetHomePagePost());
     super.initState();
   }
 
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
         child: BlocProvider(
           create: (_) => _postBloc,
           child: RefreshIndicator(
-            onRefresh: () async => _postBloc.add(GetAllPost()),
+            onRefresh: () async => _postBloc.add(GetHomePagePost()),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               //Background on top
@@ -176,53 +177,26 @@ class _HomePageState extends State<HomePage> {
                       if (state is PostLoadingState ||
                           state is PostDeletingState) {
                         return const shirmmerPostHome();
-                      } else if (state is PostLoadedState ||
+                      } else if (state is HomePagePostLoadedState ||
                           state is PostDeletedState ||
                           state is UpdatedPost) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                  child: Text(
-                                    "ปัญหาที่เพิ่มมาใหม่",
-                                    style: GoogleFonts.getFont("Bai Jamjuree",
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            _buildPostBox(
-                                context, state.listPostModel, _postBloc),
-                            GestureDetector(
-                              onTap: () => Navigator.of(context)
-                                  .push(_createRoute(const ViewAllPost())),
-                              child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  alignment: AlignmentDirectional.centerEnd,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 20),
-                                    child: Text(
-                                      'เพิ่มเติม >>',
-                                      style: GoogleFonts.getFont("Bai Jamjuree",
-                                          color: textColor2,
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: thirterydColor,
-                                          decorationThickness: 4),
-                                    ),
-                                  )),
-                            ),
+                            postHeader("ปัญหาที่เพิ่มมาใหม่"),
+                            _buildPostBox(context, state.listHomePageModel,
+                                _postBloc, "Date"),
+                            seeMore(context),
+
+                            postHeader("ปัญหาที่กำลังเป็นที่สนใจ"),
+                            _buildPostBox(context, state.listHomePageModel,
+                                _postBloc, "Recommend"),
+                            seeMore(context),
+
+                            postHeader("ปัญหาที่เหมาะกับคุณ"),
+                            _buildPostBox(context, state.listHomePageModel,
+                                _postBloc, "Like"),
+                            seeMore(context),
                           ],
                         );
                       } else {
@@ -242,14 +216,63 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Padding postHeader(String text) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 30, 0, 10),
+      child: Container(
+        decoration: const BoxDecoration(
+            color: secondaryColor,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Text(
+            text,
+            style: GoogleFonts.getFont("Bai Jamjuree",
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
+  GestureDetector seeMore(BuildContext context) {
+    return GestureDetector(
+      onTap: () =>
+          Navigator.of(context).push(_createRoute(const ViewAllPost())),
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          alignment: AlignmentDirectional.centerEnd,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, bottom: 10),
+            child: Text(
+              'เพิ่มเติม >>',
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  color: textColor2,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: thirterydColor,
+                  decorationThickness: 4),
+            ),
+          )),
+    );
+  }
+
   /// manage showToast
   void showToast(String msg) => toast.showToast(
       child: successToast(msg, context), gravity: ToastGravity.TOP);
 }
 
-Widget _buildPostBox(
-    BuildContext context, List<PostModel> model, PostBloc postBloc) {
-  const itemCount = 5;
+Widget _buildPostBox(BuildContext context, ListHomePageModel temp,
+    PostBloc postBloc, String type) {
+  late List model;
+  if (type == 'Date') {
+    model = temp.postDate!;
+  } else if (type == 'Like') {
+    model = temp.postLike!;
+  } else if (type == 'Recommend') {
+    model = temp.postRecommend!;
+  }
+  const itemCount = 10;
   return SizedBox(
     height: MediaQuery.of(context).size.height * 0.235,
     child: ListView.separated(
@@ -273,7 +296,8 @@ Widget _buildPostBox(
             countComment: model[index].countComment.toString(),
             countLike: model[index].countLike.toString(),
             isLike: model[index].isLike,
-            postBloc: postBloc, postIndex: index,
+            postBloc: postBloc,
+            postIndex: index,
           ))),
           child: Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),

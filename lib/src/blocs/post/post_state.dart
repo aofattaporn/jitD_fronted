@@ -6,6 +6,7 @@ import '../../data/models/post_model.dart';
 @immutable
 abstract class PostState extends Equatable {
   late List<PostModel> listPostModel = [];
+  late ListHomePageModel listHomePageModel;
   late List<String> category = [];
   late String sortby = "เรียงตามโพสล่าสุด";
 }
@@ -48,6 +49,15 @@ class PostLoadingState extends PostState {
 class PostLoadedState extends PostState {
   PostLoadedState(List<PostModel> list) {
     super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class HomePagePostLoadedState extends PostState {
+  HomePagePostLoadedState(ListHomePageModel listHomePage) {
+    super.listHomePageModel = listHomePage;
   }
 
   @override
