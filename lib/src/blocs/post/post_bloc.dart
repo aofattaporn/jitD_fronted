@@ -228,7 +228,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getMyBookMark();
         final listPostData = listPostModelFromData(listPostJSON);
-        // listPostModel.posts = listPostData.posts;
+        listPostModel.posts = listPostData.posts;
 
         emit(BookMarkLoadedState(listPostData.posts));
       } catch (e, stacktrace) {
