@@ -52,6 +52,7 @@ class PostModel {
   List<String>? category;
   int? countLike;
   int? countComment;
+  bool? isBookMark;
   int? countPost;
   bool? isLike;
   String? error;
@@ -59,10 +60,11 @@ class PostModel {
   PostModel();
 
   /// constructor method (Method ที่ยัด arg และจะสร้าง object เป็น type นั้น)
-  PostModel.GetData(this.content, this.date, this.isPublic, this.category);
+  PostModel.GetData(this.content, this.date, this.isPublic, this.category,
+      this.isBookMark);
 
   PostModel.Response(this.content, this.date, this.isPublic, this.category,
-      this.countPost, this.countComment);
+      this.countPost, this.countComment, this.isBookMark);
 
   PostModel.Resquest(this.content, this.date, this.isPublic, this.category);
 
@@ -81,6 +83,7 @@ class PostModel {
         (json['category'] as List).map((item) => item as String).toList();
     countLike = json['countLike'];
     countComment = json['countComment'];
+    isBookMark = json['isBookMark'];
     isLike = json['isLike'];
   }
 
@@ -96,6 +99,7 @@ class PostModel {
     data['date'] = date;
     data['isPublic'] = isPublic;
     data['category'] = category;
+    data['isBookMark'] = isBookMark;
     return data;
   }
 }

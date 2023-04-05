@@ -13,30 +13,9 @@ import 'package:jitd_client/src/screens/profile/shimmerMyPost.dart';
 import '../constant.dart';
 
 class BookMark extends StatefulWidget {
-  // final String? userId;
-  // final String? postId;
-  // final String? content;
-  // final String? date;
-  // final String? countComment;
-  // final String? countLike;
-  // final bool? isLike;
-  // final bool? tempIsLike;
-  // final List<String>? category;
-  // final PostBloc postBloc;
 
   const BookMark(
-      {Key? key,
-      // required this.userId,
-      // required this.postId,
-      // required this.content,
-      // required this.date,
-      // required this.countComment,
-      // required this.countLike,
-      // required this.isLike,
-      // this.tempIsLike,
-      // required this.category,
-      // required this.postBloc
-      })
+      {Key? key,})
       : super(key: key);
 
   @override
