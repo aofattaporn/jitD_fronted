@@ -50,9 +50,9 @@ class PostModel {
   String? date;
   bool? isPublic;
   List<String>? category;
+  bool? isBookmark;
   int? countLike;
   int? countComment;
-  bool? isBookMark;
   int? countPost;
   bool? isLike;
   String? error;
@@ -61,12 +61,12 @@ class PostModel {
 
   /// constructor method (Method ที่ยัด arg และจะสร้าง object เป็น type นั้น)
   PostModel.GetData(this.content, this.date, this.isPublic, this.category,
-      this.isBookMark);
+      this.isBookmark);
 
   PostModel.Response(this.content, this.date, this.isPublic, this.category,
-      this.countPost, this.countComment, this.isBookMark);
+      this.isBookmark,this.countPost, this.countComment);
 
-  PostModel.Resquest(this.content, this.date, this.isPublic, this.category);
+  PostModel.Resquest(this.content, this.date, this.isPublic, this.category,);
 
   PostModel.withError(String errorMessage) {
     error = errorMessage;
@@ -81,15 +81,16 @@ class PostModel {
     isPublic = json['IsPublic'];
     category =
         (json['category'] as List).map((item) => item as String).toList();
+    isBookmark = json['isBookmark'];
     countLike = json['countLike'];
     countComment = json['countComment'];
-    isBookMark = json['isBookMark'];
     isLike = json['isLike'];
   }
 
   // function get post
   PostModel.fromJsonID(Map<String, dynamic> json) {
     postId = json['postId'];
+    isBookmark = json['isBookMark'];
   }
 
   /// method convert json to map
@@ -98,8 +99,8 @@ class PostModel {
     data['content'] = content;
     data['date'] = date;
     data['isPublic'] = isPublic;
+    data['isBookmark'] = isBookmark;
     data['category'] = category;
-    data['isBookMark'] = isBookMark;
     return data;
   }
 }

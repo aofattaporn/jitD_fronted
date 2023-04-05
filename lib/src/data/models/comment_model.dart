@@ -13,7 +13,13 @@ class ListCommentModel {
     json.forEach((element) {
       comments.add(CommentModel.fromJsonResponse(element));
     });
-    comments.sort((a, b) => (b.Date ?? "").compareTo(a.Date ?? ""));
+    comments.sort((a, b) {
+      if (a.isPin == b.isPin) {
+        return (b.Date ?? '').compareTo(a.Date ?? '');
+      } else {
+        return a.isPin! ? -1 : 1;
+      }
+    });
   }
 
   // set list comment
@@ -62,6 +68,7 @@ class CommentModel {
   String? postId;
   String? Date;
   bool? isLike;
+  bool? isPin;
   String? error;
 
   CommentModel();
@@ -83,6 +90,7 @@ class CommentModel {
     commentId = json['commentId'];
     userId = json['userId'];
     isLike = json['isLike'];
+    isPin = json['isPin'];
   }
 
   /// method convert json to map
@@ -94,6 +102,8 @@ class CommentModel {
     data['Date'] = Date;
     data['commentId'] = commentId;
     data['userId'] = userId;
+    data['isLike'] = isLike;
+    data['isPin'] = isPin;
 
     return data;
   }

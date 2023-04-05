@@ -121,6 +121,21 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
+    on<GetSearchByCate>((event, emit) async{
+      emit(PostLoadingState());
+      try {
+        final listPostJSON = await postRepository.getSearchByCate();
+        final listPostData = listPostModelFromJson(listPostJSON);
+
+        listPostModel.posts = listPostData.posts;
+
+        emit(PostLoadedState(listPostModel.posts));
+      } catch (e, stacktrace) {
+        print("Exception occurred: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
     on<GetPostBySearch>((event, emit) async {
       print('click');
       emit(PostLoadingState());
@@ -177,6 +192,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     on<DeleteBookMark>((event, emit) async {
       try {
+        int index = 0;
+        for(int i =0; i < listPostModel.posts.length ; i++){
+          if(listPostModel.posts[i].postId == event.postId){
+            index = i;
+            break;
+          }
+        }
+        listPostModel.posts[index].isBookmark = false;
         await postRepository.RemoveBookMark(event.postId);
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
@@ -186,6 +209,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     on<AddBookMark>((event, emit) async {
       try {
+        int index = 0;
+        for(int i =0; i < listPostModel.posts.length; i++){
+          if(listPostModel.posts[i].postId == event.postId){
+            index = i;
+            break;
+          }
+        }
+        listPostModel.posts[index].isBookmark = true;
         await postRepository.AddBookMark(event.postId);
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
@@ -198,6 +229,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getMyBookMark();
         final listPostData = listPostModelFromData(listPostJSON);
+        // listPostModel.posts = listPostData.posts;
 
         emit(BookMarkLoadedState(listPostData.posts));
       } catch (e, stacktrace) {

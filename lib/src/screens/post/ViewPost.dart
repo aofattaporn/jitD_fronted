@@ -27,6 +27,7 @@ class ViewPost extends StatefulWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
+  final bool? isBookmark;
   final bool? tempIsLike;
   final List<String>? category;
   final PostBloc postBloc;
@@ -40,9 +41,10 @@ class ViewPost extends StatefulWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
+      required this.isBookmark,
       required this.category,
       this.tempIsLike,
-      required this.postBloc})
+      required this.postBloc,})
       : super(key: key);
 
   @override
@@ -280,7 +282,7 @@ class ViewPostState extends State<ViewPost> {
         Row(
           children: [
             SortModal(
-                commentBloc: _commentBloc!),
+                commentBloc: _commentBloc),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -412,7 +414,7 @@ class ViewPostState extends State<ViewPost> {
                   return const SkeletonComment();
                 }
                 return Column(children: [
-                  buildComment(context, state.comment, _commentBloc),
+                  buildComment(context, state.comment, _commentBloc, widget.userId!),
                   const SkeletonComment()
                 ]);
               }
@@ -426,10 +428,11 @@ class ViewPostState extends State<ViewPost> {
                   state is SortedCommentByLike ||
                   state is LoadedComment ||
                   state is CommentSuccess ||
-                  state is LoadedComment) {
+                  state is LoadedComment ||
+                  state is PinCommentState) {
                 return Column(
                   children: [
-                    buildComment(context, state.comment, _commentBloc),
+                    buildComment(context, state.comment, _commentBloc, widget.userId!),
                     const SizedBox(height: 30),
                   ],
                 );
@@ -479,6 +482,7 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
+                  isBookmark: widget.isBookmark,
                   postBloc: widget.postBloc,
                 )
               ],

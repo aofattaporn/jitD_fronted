@@ -184,3 +184,8 @@ class AddedBookMarkState extends PostState{
   @override
   List<Object?> get props => [];
 }
+class RecommendCateSearch extends PostState{
+  @override
+  List<Object?> get props => [];
+
+}
