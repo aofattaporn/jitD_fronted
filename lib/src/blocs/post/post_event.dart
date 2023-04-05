@@ -25,6 +25,11 @@ class GetAllPost extends PostEvent {
   List<Object> get props => [];
 }
 
+class GetSearchByCate extends PostEvent{
+  @override
+  List<Object> get props => [];
+}
+
 class GetPostBySearch extends PostEvent {
   String content;
 

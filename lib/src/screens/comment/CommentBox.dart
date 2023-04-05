@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/screens/Utilities/CommentModal.dart';
 import 'package:like_button/like_button.dart';
 import 'package:intl/intl.dart';
-
 
 import '../../constant.dart';
 import '../../data/respository/like_repository.dart';
@@ -15,8 +15,11 @@ class CommentBox extends StatefulWidget {
   final String? content;
   final int? countLike;
   final String? postId;
-  final String? Date;
+  final String? date;
   final bool? isLike;
+  final bool? isPin;
+  final String? postUserId;
+  final String? commentIndex;
   final CommentBloc? commentBloc;
 
   const CommentBox({
@@ -26,8 +29,11 @@ class CommentBox extends StatefulWidget {
     required this.content,
     required this.countLike,
     required this.postId,
-    required this.Date,
+    required this.date,
     required this.isLike,
+    required this.isPin,
+    required this.commentIndex,
+    required this.postUserId,
     this.commentBloc,
   }) : super(key: key);
 
@@ -45,16 +51,7 @@ class _CommentBoxState extends State<CommentBox> {
           bottom: MediaQuery.of(context).size.height * 0.03),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                offset: Offset(0, 4),
-              )
-            ]),
+        decoration: borderColors(),
         child: Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(20, 5, 20, 10),
           child: Column(
@@ -68,19 +65,34 @@ class _CommentBoxState extends State<CommentBox> {
                     ),
                     child: Text(
                       DateFormat('dd MMM yyyy   HH:mm:ss').format(
-                          DateTime.parse(widget.Date!)
+                          DateTime.parse(widget.date!)
                               .toUtc()
                               .add(const Duration(hours: 7))),
                       style: GoogleFonts.getFont("Lato",
                           fontSize: 16, color: textColor3),
                     ),
                   ),
+                  if (widget.isPin == true)
+                    ShaderMask(
+                      blendMode: BlendMode.srcATop,
+                      shaderCallback: (bounds) => const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Color(0xFF538AAD), Color(0xFFAAD4CC)])
+                          .createShader(bounds),
+                      child: const Icon(
+                        Icons.push_pin,
+                      ),
+                    ),
                   CommentModal(
                       userId: widget.userId,
                       postId: widget.postId,
                       commentId: widget.commentId,
                       content: widget.content,
-                      date: widget.Date ?? DateTime.now().toString(),
+                      date: widget.date ?? DateTime.now().toString(),
+                      postUserId: widget.postUserId,
+                      isPin: widget.isPin,
+                      commentIndex: widget.commentIndex,
                       commentBloc: widget.commentBloc!)
                 ],
               ),
@@ -158,6 +170,34 @@ class _CommentBoxState extends State<CommentBox> {
       ),
     );
   }
+
+  BoxDecoration borderColors() {
+    return BoxDecoration(
+        border: widget.isPin == true
+            ? const GradientBoxBorder(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xFF538AAD), Color(0xFFAAD4CC)]),
+                width: 3)
+            : null,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+        boxShadow: [
+          widget.isPin == true
+              ? const BoxShadow(
+                  blurRadius: 15,
+                  color: primaryColor,
+                  offset: Offset(0, 4),
+                )
+              : const BoxShadow(
+                  blurRadius: 10,
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  offset: Offset(0, 4),
+                )
+        ]);
+  }
+
   String convertDate(String? date) {
     DateTime dt = DateTime.parse(date!);
     String datFormat =
