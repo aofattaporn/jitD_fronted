@@ -20,8 +20,6 @@ class CateSearchModel{
   int? count;
 
   CateSearchModel.GetData(this.catName, this.count);
-  CateSearchModel.Response(this.catName, this.count);
-  CateSearchModel.Resquest(this.catName, this.count);
 
   CateSearchModel.fromJson(Map<String, dynamic> json){
     catName = json['catName'];
