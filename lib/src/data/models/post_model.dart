@@ -222,7 +222,6 @@ class PostLike {
     content = json['content'];
     date = json['date'];
     isPublic = json['IsPublic'];
-    // category = ['Test'];
     category =
         (json['category'] as List).map((item) => item as String).toList();
     countLike = json['countLike'];
