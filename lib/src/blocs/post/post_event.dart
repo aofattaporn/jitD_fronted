@@ -25,6 +25,11 @@ class GetAllPost extends PostEvent {
   List<Object> get props => [];
 }
 
+class GetHomePagePost extends PostEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class GetSearchByCate extends PostEvent{
   @override
   List<Object> get props => [];
@@ -125,6 +130,34 @@ class SortPostByLike extends PostEvent{
 
   SortPostByLike(this.sortlike);
 
+  @override
+  List<Object> get props => [];
+}
+
+class AddBookMark extends PostEvent{
+  late final String postId;
+
+  AddBookMark(this.postId);
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetMyBookMark extends PostEvent{
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteBookMark extends PostEvent{
+  late final String postId;
+
+  DeleteBookMark(this.postId);
+
+  @override
+  List<Object> get props => [];
+}
+
+class CatSearch extends PostEvent {
   @override
   List<Object> get props => [];
 }

@@ -1,12 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jitd_client/src/data/models/cateSearch_model.dart';
 
 import '../../data/models/post_model.dart';
 
 @immutable
 abstract class PostState extends Equatable {
   late List<PostModel> listPostModel = [];
+  late ListHomePageModel listHomePageModel;
   late List<String> category = [];
+  late List<CateSearchModel> listCatModel = [];
   late String sortby = "เรียงตามโพสล่าสุด";
 }
 
@@ -44,9 +47,32 @@ class PostLoadingState extends PostState {
   List<Object?> get props => [];
 }
 
+class HomePagePostLoadingState extends PostState {
+  @override
+  List<Object?> get props => [];
+}
+
 /// state loaded
 class PostLoadedState extends PostState {
   PostLoadedState(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class HomePagePostLoadedState extends PostState {
+  HomePagePostLoadedState(ListHomePageModel listHomePage) {
+    super.listHomePageModel = listHomePage;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class MyPostLoadedState extends PostState {
+  MyPostLoadedState(List<PostModel> list) {
     super.listPostModel = list;
   }
 
@@ -152,6 +178,53 @@ class SortedPostByLike extends PostState {
   List<Object?> get props => [];
 }
 
+class BookMarkLoadingState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
+
+class BookMarkLoadedState extends PostState{
+  BookMarkLoadedState(ListHomePageModel list) {
+    super.listHomePageModel = list;
+  }
+  @override
+  List<Object?> get props => [];
+}
+
+class SearchLoadingState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
+
+class SearchLoadedState extends PostState{
+  late List<CateSearchModel> catSearch ;
+  SearchLoadedState(List<CateSearchModel> list) {
+    catSearch = list;
+  }
+
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletingBookMarkState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletedBookMarkState extends PostState{
+  DeletedBookMarkState(List<PostModel> list) {
+    super.listPostModel = list;
+  }
+  @override
+  List<Object?> get props => [];
+}
+
+
+/// this state for show dialog that Added bookmark
+class AddedBookMarkState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
 class RecommendCateSearch extends PostState{
   @override
   List<Object?> get props => [];

@@ -5,8 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 
+import '../../data/models/cateSearch_model.dart';
 import '../../data/models/post_model.dart';
 import '../../data/respository/post_repository.dart';
+import '../../screens/SearchPage.dart';
 
 part 'post_event.dart';
 
@@ -14,6 +16,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   // creating object repository
   PostRepository postRepository = PostRepository();
   ListPostModel listPostModel = ListPostModel();
+  ListCateSearch listCateSearch = ListCateSearch();
+  ListHomePageModel listHomePageModel = ListHomePageModel();
   PostModel postModel = PostModel();
   String sortby = "";
 
@@ -34,6 +38,20 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     });
 
+    on<GetHomePagePost>((event, emit) async {
+      emit(HomePagePostLoadingState());
+      try {
+        final listHomePagePostJSON = await postRepository.getHomePagePost();
+        final listHomePagePostData = listHomePagePostModelFromJson(listHomePagePostJSON);
+        listHomePageModel = listHomePagePostData;
+
+        emit(HomePagePostLoadedState(listHomePageModel));
+      } catch (e, stacktrace) {
+        print("Exception occurred: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+
+    });
     // event create post
     on<CreatingPost>((event, emit) async {
       emit(CheckingPost());
@@ -111,10 +129,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       try {
         final listPostJSON = await postRepository.getMyPost();
         final listPostData = listPostModelFromJson(listPostJSON);
-
-        listPostModel.posts = listPostData.posts;
-
-        emit(PostLoadedState(listPostModel.posts));
+        listHomePageModel.postDate = listPostData.postDate;
+        emit(HomePagePostLoadedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -186,6 +202,68 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         emit(SelectedCatSuccess(event.category, listPostModel.posts));
       } else {
         emit(SelectCatMaxCategory(event.category, listPostModel.posts));
+      }
+    });
+
+    on<DeleteBookMark>((event, emit) async {
+      try {
+        int index = 0;
+        for(int i =0; i < listHomePageModel.postDate!.length ; i++){
+          if(listHomePageModel.postDate![i].postId == event.postId){
+            index = i;
+            break;
+          }
+        }
+        listHomePageModel.postDate![index].isBookmark = false;
+        await postRepository.RemoveBookMark(event.postId);
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<AddBookMark>((event, emit) async {
+      try {
+        int index = 0;
+        for(int i =0; i < listHomePageModel.postDate!.length; i++){
+          if(listHomePageModel.postDate![i].postId == event.postId){
+            index = i;
+            break;
+          }
+        }
+        listHomePageModel.postDate![index].isBookmark = true;
+        await postRepository.AddBookMark(event.postId);
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<GetMyBookMark>((event, emit) async {
+      emit(BookMarkLoadingState());
+      try {
+        final listPostJSON = await postRepository.getMyBookMark();
+        final listPostData = listPostModelFromData(listPostJSON);
+        listHomePageModel.postDate = listPostData.postDate;
+
+        emit(BookMarkLoadedState(listHomePageModel));
+      } catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<CatSearch>((event, emit) async{
+      emit(SearchLoadingState());
+      try{
+        final listCatJSON = await postRepository.getSearchPage();
+        final listCatData = ListCateSearchFromJson(listCatJSON);
+         listCateSearch.cateSearch = listCatData.cateSearch;
+
+         emit(SearchLoadedState(listCateSearch.cateSearch));
+      }catch (e, stacktrace) {
+        print("Exxception occured: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
       }
     });
 

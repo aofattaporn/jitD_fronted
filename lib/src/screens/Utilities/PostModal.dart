@@ -17,6 +17,7 @@ class PostModal extends StatefulWidget {
   final String? postId;
   final String? content;
   final String? date;
+  final bool? isBookmark;
   final List<String>? category;
   final PostBloc postBloc;
 
@@ -26,6 +27,7 @@ class PostModal extends StatefulWidget {
       required this.postId,
       required this.content,
       required this.date,
+      required this.isBookmark,
       required this.category,
       required this.postBloc})
       : super(key: key);
@@ -64,190 +66,25 @@ class _PostModalState extends State<PostModal> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.height * 0.01,
-                        decoration: BoxDecoration(
-                            color: textColor3,
-                            borderRadius: BorderRadius.circular(15)),
-                      ),
-                    ],
-                  ),
+                  dragger(context),
                   if (currentID == widget.userId)
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                  if (currentID == widget.userId)
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(_createRoute(UpdatePost2(
-                            content: widget.content ?? "No Data",
-                            date: widget.date ?? DateTime.now().toString(),
-                            category: widget.category ?? ["Tag1", "Tag2"],
-                            postBloc: widget.postBloc,
-                            postID: widget.postId ?? "",
-                            userID: widget.userId?? "",
-                          )));
-                        },
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  30, 0, 20, 0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 10,
-                                        color: Color.fromRGBO(0, 0, 0, 0.1),
-                                        offset: Offset(0, 4),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadiusDirectional.all(
-                                        Radius.circular(10))),
-                                child: const Padding(
-                                    padding: EdgeInsetsDirectional.all(8),
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: 28,
-                                      color: textColor2,
-                                    )),
-                              ),
-                            ),
-                            Text(
-                              "แก้ไขโพสต์",
-                              style: GoogleFonts.getFont("Bai Jamjuree",
-                                  fontSize: 18, color: textColor2),
-                            ),
-                          ],
-                        )),
+                  if (currentID == widget.userId) editPost(context),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              30, 0, 20, 0),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 10,
-                                    color: Color.fromRGBO(0, 0, 0, 0.1),
-                                    offset: Offset(0, 4),
-                                  )
-                                ],
-                                borderRadius: BorderRadiusDirectional.all(
-                                    Radius.circular(10))),
-                            child: const Padding(
-                                padding: EdgeInsetsDirectional.all(8),
-                                child: Icon(
-                                  Icons.save_rounded,
-                                  size: 28,
-                                  color: textColor2,
-                                )),
-                          ),
-                        ),
-                        Text(
-                          "บันทึกโพสต์",
-                          style: GoogleFonts.getFont("Bai Jamjuree",
-                              fontSize: 18, color: textColor2),
-                        ),
-                      ],
-                    ),
-                  ),
+                  bookMark(),
                   if (currentID == widget.userId)
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.035,
                     ),
-                  if (currentID == widget.userId)
-                    GestureDetector(
-                        onTap: () {},
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  30, 0, 20, 0),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 10,
-                                        color: Color.fromRGBO(0, 0, 0, 0.1),
-                                        offset: Offset(0, 4),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadiusDirectional.all(
-                                        Radius.circular(10))),
-                                child: const Padding(
-                                    padding: EdgeInsetsDirectional.all(8),
-                                    child: Icon(
-                                      Icons.delete,
-                                      size: 28,
-                                      color: textColor2,
-                                    )),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                _showAlertDialog(context, widget.postBloc!);
-                              },
-                              child: Text(
-                                "ลบโพสต์",
-                                style: GoogleFonts.getFont("Bai Jamjuree",
-                                    fontSize: 18, color: textColor2),
-                              ),
-                            ),
-                          ],
-                        )),
+                  if (currentID == widget.userId) deletePost(context),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              30, 0, 20, 0),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 10,
-                                    color: Color.fromRGBO(0, 0, 0, 0.1),
-                                    offset: Offset(0, 4),
-                                  )
-                                ],
-                                borderRadius: BorderRadiusDirectional.all(
-                                    Radius.circular(10))),
-                            child: const Padding(
-                                padding: EdgeInsetsDirectional.all(8),
-                                child: Icon(
-                                  Icons.notifications_off,
-                                  size: 28,
-                                  color: textColor2,
-                                )),
-                          ),
-                        ),
-                        Text(
-                          "ปิดดการแจ้งเตือนสำหรับโพสต์นี้",
-                          style: GoogleFonts.getFont("Bai Jamjuree",
-                              fontSize: 18, color: textColor2),
-                        ),
-                      ],
-                    ),
-                  ),
+                  notificationPost(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.085),
                 ],
               );
@@ -261,6 +98,200 @@ class _PostModalState extends State<PostModal> {
         ));
   }
 
+  Row dragger(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.height * 0.01,
+          decoration: BoxDecoration(
+              color: textColor3, borderRadius: BorderRadius.circular(15)),
+        ),
+      ],
+    );
+  }
+
+  GestureDetector notificationPost() {
+    return GestureDetector(
+      onTap: () {},
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10,
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      offset: Offset(0, 4),
+                    )
+                  ],
+                  borderRadius:
+                      BorderRadiusDirectional.all(Radius.circular(10))),
+              child: const Padding(
+                  padding: EdgeInsetsDirectional.all(8),
+                  child: Icon(
+                    Icons.notifications_off,
+                    size: 28,
+                    color: textColor2,
+                  )),
+            ),
+          ),
+          Text(
+            "ปิดดการแจ้งเตือนสำหรับโพสต์นี้",
+            style: GoogleFonts.getFont("Bai Jamjuree",
+                fontSize: 18, color: textColor2),
+          ),
+        ],
+      ),
+    );
+  }
+
+  GestureDetector deletePost(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+        },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+              child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        offset: Offset(0, 4),
+                      )
+                    ],
+                    borderRadius:
+                        BorderRadiusDirectional.all(Radius.circular(10))),
+                child: const Padding(
+                    padding: EdgeInsetsDirectional.all(8),
+                    child: Icon(
+                      Icons.delete,
+                      size: 28,
+                      color: textColor2,
+                    )),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showAlertDialog(context, widget.postBloc);
+              },
+              child: Text(
+                "ลบโพสต์",
+                style: GoogleFonts.getFont("Bai Jamjuree",
+                    fontSize: 18, color: textColor2),
+              ),
+            ),
+          ],
+        ));
+  }
+
+  GestureDetector bookMark() {
+    return GestureDetector(
+      onTap: () {
+        if(widget.isBookmark == false || widget.isBookmark == null){
+          widget.postBloc.add(AddBookMark(widget.postId!));
+        }else if (widget.isBookmark == true){
+          widget.postBloc.add(DeleteBookMark(widget.postId!));
+        }
+        Navigator.pop(context);
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10,
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      offset: Offset(0, 4),
+                    )
+                  ],
+                  borderRadius:
+                      BorderRadiusDirectional.all(Radius.circular(10))),
+              child: const Padding(
+                  padding: EdgeInsetsDirectional.all(8),
+                  child: Icon(
+                    Icons.save_rounded,
+                    size: 28,
+                    color: textColor2,
+                  )),
+            ),
+          ),
+          if(widget.isBookmark == false || widget.isBookmark == null)
+            Text(
+              "บันทึกโพสต์",
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  fontSize: 18, color: textColor2),
+            ),
+          if(widget.isBookmark == true)
+            Text(
+              "ลบออกจากบันทึกโพสต์",
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  fontSize: 18, color: textColor2),
+            ),
+        ],
+      ),
+    );
+  }
+
+  GestureDetector editPost(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(_createRoute(UpdatePost2(
+            content: widget.content ?? "No Data",
+            date: widget.date ?? DateTime.now().toString(),
+            category: widget.category ?? ["Tag1", "Tag2"],
+            postBloc: widget.postBloc,
+            postID: widget.postId ?? "",
+            userID: widget.userId ?? "",
+          )));
+        },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+              child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        offset: Offset(0, 4),
+                      )
+                    ],
+                    borderRadius:
+                        BorderRadiusDirectional.all(Radius.circular(10))),
+                child: const Padding(
+                    padding: EdgeInsetsDirectional.all(8),
+                    child: Icon(
+                      Icons.edit,
+                      size: 28,
+                      color: textColor2,
+                    )),
+              ),
+            ),
+            Text(
+              "แก้ไขโพสต์",
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  fontSize: 18, color: textColor2),
+            ),
+          ],
+        ));
+  }
+
   // This shows a CupertinoModalPopup which hosts a CupertinoAlertDialog.
   void _showAlertDialog(BuildContext context, PostBloc postBloc) {
     showCupertinoModalPopup<void>(
@@ -269,7 +300,7 @@ class _PostModalState extends State<PostModal> {
         create: (_) => PostBloc(),
         child: BlocListener<PostBloc, PostState>(
           listener: (context, state) {
-            if (state is PostLoadingState) {
+            if (state is PostDeletingState) {
               showDialog(
                   context: context,
                   builder: (context) {
@@ -280,7 +311,6 @@ class _PostModalState extends State<PostModal> {
                   });
             } else if (state is PostDeletedState) {
               showToast("สถานะการลบสำเร็จ");
-              Navigator.of(context).pop();
             }
           },
           child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
@@ -302,6 +332,7 @@ class _PostModalState extends State<PostModal> {
                   isDestructiveAction: true,
                   onPressed: () {
                     postBloc.add(DeleteMyPost(widget.postId));
+                    Navigator.pop(context);
                   },
                   child: const Text('ยืนยัน'),
                 ),

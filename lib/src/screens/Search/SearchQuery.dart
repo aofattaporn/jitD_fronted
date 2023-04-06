@@ -386,7 +386,8 @@ class _SearchQueryState extends State<SearchQuery> {
                                                     .countLike
                                                     .toString(),
                                                 isLike: state.listPostModel[index].isLike,
-                                                postBloc: PostBloc()),
+                                                isBookmark: state.listPostModel[index].isBookmark,
+                                                postBloc: PostBloc(), postIndex: index,),
                                             onTap: () {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
@@ -435,8 +436,12 @@ class _SearchQueryState extends State<SearchQuery> {
                                                                 .listPostModel[
                                                                     index]
                                                                 .isLike,
+                                                            isBookmark: state
+                                                                .listPostModel[
+                                                                  index]
+                                                                .isBookmark,
                                                             postBloc:
-                                                                PostBloc(),
+                                                                PostBloc(), postIndex: index,
                                                           )));
                                             },
                                           );

@@ -9,6 +9,7 @@ import 'package:jitd_client/src/blocs/comment/comment_bloc.dart';
 import 'package:jitd_client/src/blocs/comment/comment_state.dart';
 import 'package:like_button/like_button.dart';
 
+import '../../blocs/Like/like_bloc.dart';
 import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
 import '../../constant/constant_fonts.dart';
@@ -27,7 +28,9 @@ class ViewPost extends StatefulWidget {
   final String? countComment;
   final String? countLike;
   final bool? isLike;
+  final bool? isBookmark;
   final bool? tempIsLike;
+  final int? postIndex;
   final List<String>? category;
   final PostBloc postBloc;
 
@@ -40,9 +43,11 @@ class ViewPost extends StatefulWidget {
       required this.countComment,
       required this.countLike,
       required this.isLike,
+      required this.isBookmark,
       required this.category,
+      required this.postIndex,
       this.tempIsLike,
-      required this.postBloc})
+      required this.postBloc,})
       : super(key: key);
 
   @override
@@ -149,13 +154,6 @@ class ViewPostState extends State<ViewPost> {
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            // boxShadow: [
-            //   BoxShadow(
-            //     blurRadius: 10,
-            //     color: Color.fromRGBO(170, 212, 204, 0.4),
-            //     offset: Offset(0, 4),
-            //   )
-            // ]
           ),
           child: Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -245,7 +243,7 @@ class ViewPostState extends State<ViewPost> {
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               10, 0, 10, 0),
                           child: Text(
-                            "โพสหมายเลข 124343232",
+                            "โพสหมายเลข : ${"${widget.postId!.substring(0, 5)}xxx"}",
                             style: GoogleFonts.getFont("Bai Jamjuree",
                                 fontSize: 12,
                                 color: Colors.white,
@@ -279,8 +277,7 @@ class ViewPostState extends State<ViewPost> {
         // Sorter
         Row(
           children: [
-            SortModal(
-                commentBloc: _commentBloc),
+            SortModal(commentBloc: _commentBloc),
           ],
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -412,7 +409,8 @@ class ViewPostState extends State<ViewPost> {
                   return const SkeletonComment();
                 }
                 return Column(children: [
-                  buildComment(context, state.comment, _commentBloc, widget.userId!),
+                  buildComment(
+                      context, state.comment, _commentBloc, widget.userId!),
                   const SkeletonComment()
                 ]);
               }
@@ -430,7 +428,8 @@ class ViewPostState extends State<ViewPost> {
                   state is PinCommentState) {
                 return Column(
                   children: [
-                    buildComment(context, state.comment, _commentBloc, widget.userId!),
+                    buildComment(
+                        context, state.comment, _commentBloc, widget.userId!),
                     const SizedBox(height: 30),
                   ],
                 );
@@ -480,6 +479,7 @@ class ViewPostState extends State<ViewPost> {
                   content: widget.content ?? "No Data",
                   date: widget.date ?? DateTime.now().toString(),
                   category: widget.category ?? ["Tag1", "Tag2"],
+                  isBookmark: widget.isBookmark,
                   postBloc: widget.postBloc,
                 )
               ],
@@ -567,26 +567,59 @@ class ViewPostState extends State<ViewPost> {
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                LikeButton(
-                  isLiked: widget.isLike,
-                  likeCount: int.parse(widget.countLike!),
-                  likeBuilder: (bool isLiked) {
-                    return Icon(
-                      Icons.favorite,
-                      color: isLiked ? heartColor : Colors.black12,
-                      size: 30.0,
-                    );
-                  },
-                  onTap: (unLike) async {
-                    if (unLike == true) {
-                      // print(tempIsLike);
-                      likeRepository.unlikePost(postId: widget.postId);
-                    } else {
-                      // print(tempIsLike);
-                      likeRepository.likePost(postId: widget.postId);
-                    }
-                    return !unLike;
-                  },
+                BlocProvider(
+                  create: (context) => LikeBloc(),
+                  child: BlocBuilder<LikeBloc, LikeState>(
+                    builder: (context, state) {
+                      return LikeButton(
+                        isLiked: widget.postBloc.listHomePageModel
+                            .postDate![widget.postIndex!].isLike,
+                        likeCount: widget.postBloc.listHomePageModel
+                            .postDate![widget.postIndex!].countLike,
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            Icons.favorite,
+                            color: isLiked ? heartColor : Colors.black12,
+                            size: 30.0,
+                          );
+                        },
+                        onTap: (unLike) async {
+                          if (unLike == true) {
+                            context.read<LikeBloc>().add(UnlikePost(
+                                  postId: widget.postId,
+                                ));
+                            setState(() {
+                              widget.postBloc.listHomePageModel
+                                  .postDate![widget.postIndex!].isLike = false;
+                              widget.postBloc.listHomePageModel
+                                  .postDate![widget.postIndex!].countLike = widget
+                                  .postBloc
+                                  .listHomePageModel
+                                  .postDate![widget.postIndex!]
+                                  .countLike! -
+                                  1;
+                            });
+                          } else {
+                            context.read<LikeBloc>().add(LikePost(
+                                  postId: widget.postId,
+                                ));
+                            setState(() {
+                              widget.postBloc.listHomePageModel
+                                  .postDate![widget.postIndex!].isLike = true;
+                              widget.postBloc.listHomePageModel
+                                  .postDate![widget.postIndex!].countLike = widget
+                                  .postBloc
+                                  .listHomePageModel
+                                  .postDate![widget.postIndex!]
+                                  .countLike! +
+                                  1;
+                            });
+                          }
+                          return !unLike;
+                        },
+                      );
+                    },
+                  ),
                 )
               ],
             )
