@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jitd_client/src/data/models/cateSearch_model.dart';
 
 import '../../data/models/post_model.dart';
 
@@ -8,6 +9,7 @@ abstract class PostState extends Equatable {
   late List<PostModel> listPostModel = [];
   late ListHomePageModel listHomePageModel;
   late List<String> category = [];
+  late List<CateSearchModel> listCatModel = [];
   late String sortby = "เรียงตามโพสล่าสุด";
 }
 
@@ -185,6 +187,21 @@ class BookMarkLoadedState extends PostState{
   BookMarkLoadedState(ListHomePageModel list) {
     super.listHomePageModel = list;
   }
+  @override
+  List<Object?> get props => [];
+}
+
+class SearchLoadingState extends PostState{
+  @override
+  List<Object?> get props => [];
+}
+
+class SearchLoadedState extends PostState{
+  late List<CateSearchModel> catSearch ;
+  SearchLoadedState(List<CateSearchModel> list) {
+    catSearch = list;
+  }
+
   @override
   List<Object?> get props => [];
 }

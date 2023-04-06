@@ -156,3 +156,8 @@ class DeleteBookMark extends PostEvent{
   @override
   List<Object> get props => [];
 }
+
+class CatSearch extends PostEvent {
+  @override
+  List<Object> get props => [];
+}

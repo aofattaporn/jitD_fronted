@@ -154,13 +154,6 @@ class ViewPostState extends State<ViewPost> {
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            // boxShadow: [
-            //   BoxShadow(
-            //     blurRadius: 10,
-            //     color: Color.fromRGBO(170, 212, 204, 0.4),
-            //     offset: Offset(0, 4),
-            //   )
-            // ]
           ),
           child: Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -250,7 +243,7 @@ class ViewPostState extends State<ViewPost> {
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               10, 0, 10, 0),
                           child: Text(
-                            "โพสหมายเลข 124343232",
+                            "โพสหมายเลข : ${"${widget.postId!.substring(0, 5)}xxx"}",
                             style: GoogleFonts.getFont("Bai Jamjuree",
                                 fontSize: 12,
                                 color: Colors.white,
