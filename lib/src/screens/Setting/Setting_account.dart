@@ -74,62 +74,6 @@ class _Setting_accountState extends State<Setting_account> {
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
-            // Divider(height: 20, thickness: 1),
-            // SizedBox(height: 10),
-            // buildAccountOption(context,"Change  Password"),
-            // buildAccountOption(context,"Content Settings"),
-            // buildAccountOption(context,"Social"),
-            SizedBox(height: 40),
-            Row(
-              children: [
-                Row(
-                  children: [
-
-                    SizedBox(width: 10),
-                    Text("บันทึกแล้ว", style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-                Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            SizedBox(height: 40),
-            Row(
-              children: [
-                Row(
-                  children: [
-
-                    SizedBox(width: 10),
-                    Text("สถานะบัญชี", style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-                Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            SizedBox(height: 40),
-            Row(
-              children: [
-                Row(
-                  children: [
-
-                    SizedBox(width: 10),
-                    Text("การตั้งค่า Link to Chat", style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-                Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
             SizedBox(height: 40),
             Row(
               children: [
