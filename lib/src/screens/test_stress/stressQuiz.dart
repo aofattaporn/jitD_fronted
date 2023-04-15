@@ -94,7 +94,7 @@ class StressQuizState extends State<StressQuiz> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.6,
         child: Text(
-          "ในช่วง 2 สัปดาห์ที่ผ่านมารวมทั้งวันนี้ ท่านมีอาการเหล่านี้บ่อยแค่ไหน",
+          "ในช่วง 2 สัปดาห์ที่ผ่านมารวมทั้งวันนี้ ท่านมีอาการเหล่านี้บ่อยแค่ไหน คำตอบเป็น วัน / สัปดาห์",
           style: fontsTH14_black,
           textAlign: TextAlign.center,
         ),
