@@ -79,41 +79,43 @@ class DialogQuest extends StatelessWidget {
                     ),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.015),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: primaryColorLight),
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                          child: BlocProvider(
-                            create: (context) => questBloc,
-                            child: BlocBuilder<QuestBloc, QuestState>(
-                              builder: (questContext, questState) {
-                                if (questState is GetMyQuestSuccess) {
-                                  return ListView.separated(
-                                    itemCount: questState
-                                        .dailyQuestModel.quests!.length,
-                                    shrinkWrap: true,
-                                    separatorBuilder: (context, index) {
-                                      return separatedBox(context);
-                                    },
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return QuestBox(
-                                          questBloc: questBloc,
-                                          userBloc: _userBloc,
-                                          context: context,
-                                          state: questState,
-                                          index: index);
-                                    },
-                                  );
-                                } else {
-                                  return const Text("ERROR");
-                                }
-                              },
-                            ),
-                          )),
+                    Expanded(
+                      child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: primaryColorLight),
+                        child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                            child: BlocProvider(
+                              create: (context) => questBloc,
+                              child: BlocBuilder<QuestBloc, QuestState>(
+                                builder: (questContext, questState) {
+                                  if (questState is GetMyQuestSuccess) {
+                                    return ListView.separated(
+                                      itemCount: questState
+                                          .dailyQuestModel.quests!.length,
+                                      shrinkWrap: true,
+                                      separatorBuilder: (context, index) {
+                                        return separatedBox(context);
+                                      },
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return QuestBox(
+                                            questBloc: questBloc,
+                                            userBloc: _userBloc,
+                                            context: context,
+                                            state: questState,
+                                            index: index);
+                                      },
+                                    );
+                                  } else {
+                                    return const Text("ERROR");
+                                  }
+                                },
+                              ),
+                            )),
+                      ),
                     )
                   ],
                 ),

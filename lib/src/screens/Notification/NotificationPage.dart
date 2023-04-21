@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 
-import '../constant.dart';
+import '../../constant.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -13,7 +13,7 @@ class NotificationPage extends StatefulWidget {
 class NotificationPageState extends State<NotificationPage> {
   final items = List<String>.generate(10, (i) => 'Item ${i + 1}');
 
-  List<String> _values = [
+   final List<String> _values = [
     'แจ้งเตือน',
     'ผู้ใช้งาน1234xx',
     'ผู้ใช้งาน1234xx',
@@ -28,63 +28,53 @@ class NotificationPageState extends State<NotificationPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+
           //Background on top
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.06,
-                width: MediaQuery.of(context).size.height,
-                color: Colors.white,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //Widget Box and Text
-                      Stack(
-                        children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ),
-                              color: primaryColor,
-                            ),
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).devicePixelRatio *
-                                      5,
-                                  left:
-                                      MediaQuery.of(context).devicePixelRatio *
-                                          10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "การแจ้งเตือน",
-                                    style: fontsTH32TextColor,
-                                  ),
-                                  Text(
-                                    "การแจ้งเตือนในช่วงนี้",
-                                    style: fontsTH16White,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+
+              Padding(
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        color: primaryColor,
                       ),
-                    ],
-                  ), //Category btn
-                ],
+                      // height: MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).devicePixelRatio *
+                                5,
+                            left:
+                                MediaQuery.of(context).devicePixelRatio *
+                                    10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "การแจ้งเตือน",
+                              style: fontsTH32TextColor,
+                            ),
+                            Text(
+                              "การแจ้งเตือนในช่วงนี้",
+                              style: fontsTH16White,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+
+              // notification content
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                 child: Row(

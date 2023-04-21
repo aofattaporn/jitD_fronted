@@ -5,7 +5,7 @@ import 'package:jitd_client/src/blocs/authentication/authen_bloc.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
 import 'package:jitd_client/src/constant.dart';
 import 'package:jitd_client/src/screens/HomePage.dart';
-import 'package:jitd_client/src/screens/NotificationPage.dart';
+import 'package:jitd_client/src/screens/Notification/NotificationPage.dart';
 import 'package:jitd_client/src/screens/Search/Search.dart';
 import 'package:jitd_client/src/screens/SearchPage.dart';
 import 'package:jitd_client/src/screens/autheentication/SignIn.dart';

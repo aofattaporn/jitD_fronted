@@ -53,7 +53,7 @@ class _QuestBoxState extends State<QuestBox> {
             widget.questBloc.dailyQuestModel.quests![widget.index].progress;
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.085,
+      // height: MediaQuery.of(context).size.height * 0.085,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: primaryColorSubtle),
       child: Padding(
@@ -74,7 +74,7 @@ class _QuestBoxState extends State<QuestBox> {
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.135,
-                height: MediaQuery.of(context).size.height * 0.25,
+                // height: MediaQuery.of(context).size.height * 0.25,
                 decoration: BoxDecoration(
                     color: checkReward ? thirterydColor : thirteryColorSubtle,
                     borderRadius: BorderRadius.circular(10)),
@@ -93,7 +93,7 @@ class _QuestBoxState extends State<QuestBox> {
                               " ${widget.state.dailyQuestModel.quests![widget.index].reward.toString()}")
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      // const SizedBox(height: 4),
                       Text("รับ", style: fontsTH14_white_bold)
                     ],
                   ),
