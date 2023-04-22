@@ -10,6 +10,7 @@ import 'package:jitd_client/src/constant/constant_fonts.dart';
 
 import '../../constant.dart';
 import '../post/UpdatePost2.dart';
+import 'DialogReport.dart';
 
 class PostModal extends StatefulWidget {
   // const PostModal({Key? key}) : super(key: key);
@@ -85,7 +86,10 @@ class _PostModalState extends State<PostModal> {
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
                   notificationPost(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.085),
+                  if (currentID == widget.userId)
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
+                  Report(),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                 ],
               );
             },
@@ -149,6 +153,50 @@ class _PostModalState extends State<PostModal> {
       ),
     );
   }
+
+  GestureDetector Report() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        showDialog(
+            context: context,
+            builder: (context) => DialogReport());
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10,
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      offset: Offset(0, 4),
+                    )
+                  ],
+                  borderRadius:
+                  BorderRadiusDirectional.all(Radius.circular(10))),
+              child: const Padding(
+                  padding: EdgeInsetsDirectional.all(8),
+                  child: Icon(
+                    Icons.report,
+                    size: 28,
+                    color: textColor2,
+                  )),
+            ),
+          ),
+          Text(
+            "รายงานโพส",
+            style: GoogleFonts.getFont("Bai Jamjuree",
+                fontSize: 18, color: textColor2),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   GestureDetector deletePost(BuildContext context) {
     return GestureDetector(
