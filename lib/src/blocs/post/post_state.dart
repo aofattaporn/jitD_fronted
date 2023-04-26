@@ -153,8 +153,8 @@ class SelectCatMaxCategory extends PostState {
 }
 
 class SortedPostByDate extends PostState {
-  SortedPostByDate(List<PostModel> _listpost, String _sortby) {
-    super.listPostModel = _listpost;
+  SortedPostByDate(List<PostDate> _listpost, String _sortby) {
+    super.listHomePageModel.postDate = _listpost;
     super.sortby = _sortby;
   }
 
@@ -166,8 +166,8 @@ class SortedPostByDate extends PostState {
 }
 
 class SortedPostByLike extends PostState {
-  SortedPostByLike(List<PostModel> _listpost, String _sortby) {
-    super.listPostModel = _listpost;
+  SortedPostByLike(List<PostDate> _listpost, String _sortby) {
+    super.listHomePageModel.postDate = _listpost;
     super.sortby = _sortby;
   }
 

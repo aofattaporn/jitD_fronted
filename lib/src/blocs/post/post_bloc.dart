@@ -8,7 +8,6 @@ import 'package:jitd_client/src/blocs/post/post_state.dart';
 import '../../data/models/cateSearch_model.dart';
 import '../../data/models/post_model.dart';
 import '../../data/respository/post_repository.dart';
-import '../../screens/SearchPage.dart';
 
 part 'post_event.dart';
 
@@ -268,19 +267,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     });
 
     on<SortPostByDate>((event, emit) {
-      listPostModel.posts.sort((post1, post2) =>
+      listHomePageModel.postDate!.sort((post2, post1) =>
           convertDate(post1.date).compareTo(convertDate(post2.date)));
-      listPostModel.posts = listPostModel.posts.reversed.toList();
       sortby = event.sortdate;
-      emit(SortedPostByDate(listPostModel.posts, sortby));
+      emit(SortedPostByDate(listHomePageModel.postDate!, sortby));
     });
 
     on<SortPostByLike>((event, emit) {
-      listPostModel.posts.sort((post1, post2) =>
+
+      listHomePageModel.postDate!.sort((post2, post1) =>
           (post1.countLike.toString()).compareTo(post2.countLike.toString()));
-      listPostModel.posts = listPostModel.posts.reversed.toList();
       sortby = event.sortlike;
-      emit(SortedPostByLike(listPostModel.posts, sortby));
+      emit(SortedPostByLike(listHomePageModel.postDate!, sortby));
     });
   }
 

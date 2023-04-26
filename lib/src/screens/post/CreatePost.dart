@@ -54,20 +54,7 @@ class CreatePostState extends State<CreatePost> {
       // resizeToAvoidBottomInset: false,
 
       // This is a Panel
-      body: SlidingUpPanel(
-        // defaultPanelState: PanelState.OPEN,
-        controller: panelController,
-        color: Colors.transparent,
-        maxHeight: MediaQuery.of(context).size.height * 0.325,
-        minHeight: MediaQuery.of(context).size.height * 0.1,
-
-        // For Open Panel
-        panel: buildOpenPanel(context),
-        // For collapsed panel
-        collapsed: buildCollapsedPanel(context),
-
-        // This is a Main App
-        body: MultiBlocProvider(
+      body: MultiBlocProvider(
           providers: [postBloc, categoryBloc],
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
@@ -502,7 +489,6 @@ class CreatePostState extends State<CreatePost> {
                 ),
               )),
         ),
-      ),
     );
   }
 
