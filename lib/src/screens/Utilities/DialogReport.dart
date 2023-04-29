@@ -67,6 +67,11 @@ class DialogReport extends StatelessWidget {
                     groupValue: 1,
                     onChanged: (val){}
                 ),
+
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.002,
+                ),
+
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);

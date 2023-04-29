@@ -86,8 +86,7 @@ class _PostModalState extends State<PostModal> {
                     height: MediaQuery.of(context).size.height * 0.035,
                   ),
                   notificationPost(),
-                  if (currentID == widget.userId)
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.035,),
                   Report(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                 ],
