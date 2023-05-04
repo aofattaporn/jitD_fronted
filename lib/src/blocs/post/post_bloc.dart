@@ -57,6 +57,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       Future<String> response = postRepository.creatingPost(
           event._content, event._IsPublic, event._category);
 
+      print("Response: $response");
       if (await response == "create data success") {
         // 200 -> return PostSuccess
         emit(PostSuccess());
@@ -107,16 +108,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(PostDeletingState());
       try {
         final postJSON = await postRepository.deletePost(event.id!);
+        print(postJSON);
         final postData = await postModelIDFromJson(postJSON);
 
-        for (int i = 0; i < listPostModel.posts.length; i++) {
-          if (listPostModel.posts[i].postId! == postData.postId!) {
-            listPostModel.posts.removeAt(i);
+        for (int i = 0; i < listHomePageModel.postDate!.length; i++) {
+          if (listHomePageModel.postDate![i].postId! == postData.postId!) {
+            listHomePageModel.postDate!.removeAt(i);
             break; // stop the loop after removing the comment
           }
         }
-
-        emit(PostDeletedState(listPostModel.posts));
+        emit(PostDeletedState(listHomePageModel.postDate!));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));

@@ -87,10 +87,9 @@ class PostDeletingState extends PostState {
 }
 
 class PostDeletedState extends PostState {
-  PostDeletedState(List<PostModel> list) {
-    super.listPostModel = list;
+  PostDeletedState(List<PostDate> list) {
+    super.listHomePageModel.postDate = list;
   }
-
   @override
   List<Object?> get props => [];
 }

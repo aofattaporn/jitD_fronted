@@ -40,8 +40,8 @@ class ListPostModel {
 
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
-PostModel postModelIDFromJson(String str) =>
-    PostModel.fromJsonID(json.decode(str));
+PostDate postModelIDFromJson(String str) =>
+    PostDate.fromJsonID(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
 
