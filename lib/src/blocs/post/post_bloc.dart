@@ -28,9 +28,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final listPostJSON = await postRepository.getAllPost();
         final listPostData = listPostModelFromJson(listPostJSON);
 
-        listPostModel.posts = listPostData.posts;
+        listHomePageModel.postDate = listPostData.postDate;
 
-        emit(PostLoadedState(listPostModel.posts));
+        emit(PostLoadedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exception occurred: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -69,7 +69,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     // event updating post
     on<UpdatingMyPost>((event, emit) async {
-      emit(UpdatingPost(listPostModel.posts));
+      emit(UpdatingPost(listHomePageModel));
 
       String content = event._content;
       List<String> category = event.category;
@@ -86,7 +86,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final userData = postModelFromJson(userJSON);
 
         // update for post id
-        for (var element in listPostModel.posts) {
+        for (var element in listHomePageModel.postDate!) {
           if (element.postId == userData.postId) {
             element.content = userData.content;
             element.category = userData.category;
@@ -94,7 +94,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           }
         }
 
-        emit(UpdatedPost(listPostModel.posts));
+        emit(UpdatedPost(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exception occurred: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -117,7 +117,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             break; // stop the loop after removing the comment
           }
         }
-        emit(PostDeletedState(listHomePageModel.postDate!));
+        emit(PostDeletedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -143,9 +143,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final listPostJSON = await postRepository.getSearchByCate();
         final listPostData = listPostModelFromJson(listPostJSON);
 
-        listPostModel.posts = listPostData.posts;
+        listHomePageModel.postDate = listPostData.postDate;
 
-        emit(PostLoadedState(listPostModel.posts));
+        emit(PostLoadedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exception occurred: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -158,10 +158,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final listPostJSON =
             await postRepository.getPostBySearch(event.content);
         final listPostData = listPostModelFromJson(listPostJSON);
+        listHomePageModel.postDate = listPostData.postDate;
 
-        listPostModel.posts = listPostData.posts;
-
-        emit(PostLoadedState(listPostModel.posts));
+        emit(PostLoadedState(listHomePageModel));
       } catch (e, stacktrace) {
         print("Exxception occured: $e stackTrace: $stacktrace");
         emit(PostError(e.toString()));
@@ -171,15 +170,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<UpdateCategory>((event, emit) {
       List<String> temp = event.category.toList();
       emit(WillEditCategory(temp));
-      listPostModel.setCategory(
-          listPostModel.posts, event.category, event.postID);
+      listHomePageModel.setCategory(
+          listHomePageModel.postDate!, event.category, event.postID);
 
       // emit remove success
-      emit(EditCategorySuccess(listPostModel.posts));
+      emit(EditCategorySuccess(listHomePageModel));
     });
 
     on<InitialSelectCat>((event, emit) {
-      emit(SelectedCatSuccess(event.category, listPostModel.posts));
+      emit(SelectedCatSuccess(event.category, listHomePageModel));
     });
 
     on<RemoveCategory>((event, emit) {
@@ -191,7 +190,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           break;
         }
       }
-      emit(SelectedCatSuccess(event.category, listPostModel.posts));
+      emit(SelectedCatSuccess(event.category, listHomePageModel));
     });
 
     on<AddCategory>((event, emit) {
@@ -199,9 +198,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(WillEditCategory(temp));
       event.category.add(event.newCategory);
       if (event.category.length < 3) {
-        emit(SelectedCatSuccess(event.category, listPostModel.posts));
+        emit(SelectedCatSuccess(event.category, listHomePageModel));
       } else {
-        emit(SelectCatMaxCategory(event.category, listPostModel.posts));
+        emit(SelectCatMaxCategory(event.category, listHomePageModel));
       }
     });
 

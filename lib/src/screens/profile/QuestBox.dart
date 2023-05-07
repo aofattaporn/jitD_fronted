@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:jitd_client/src/blocs/dialyQuest/quest_bloc.dart';
 import 'package:jitd_client/src/blocs/dialyQuest/quest_event.dart';
 import 'package:intl/intl.dart';
-import 'package:jitd_client/src/blocs/user/user_event.dart';
 import 'package:jitd_client/src/constant/constant_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../blocs/dialyQuest/quest_state.dart';
@@ -69,7 +68,7 @@ class _QuestBoxState extends State<QuestBox> {
                       widget.questBloc.dailyQuestModel.quests![widget.index]
                           .questName,
                       widget.userBloc.userModel.point.toString()));
-                  widget.userBloc.add(PointAdd());
+                  // widget.userBloc.add(PointAdd());
                 }
               },
               child: Container(
@@ -117,7 +116,7 @@ class _QuestBoxState extends State<QuestBox> {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                "$questNameเป็นครั้งที่ $progress/$maxProgress ของวันที่ $questDate",
+                "$questNameเป็นครั้งที่$progress/$maxProgressของวันที่ $questDate",
                 style: fontsTH12TextColor2,
               ),
             ),

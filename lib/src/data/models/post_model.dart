@@ -153,6 +153,16 @@ class ListHomePageModel {
       }
       return temp;
     }
+
+    void setCategory(List<PostDate> list, List<String> category, String postID) {
+      for (var element in list) {
+        if (element.postId == postID) {
+          element.category = category.toList();
+          break;
+        }
+      }
+    }
+
 }
 
 class PostDate {

@@ -43,3 +43,9 @@ class GetMyQuestError extends QuestState {
 class UpdatingQuest extends QuestState {
 
 }
+
+class CheckingQuest extends QuestState {
+  
+  @override
+  List<Object?> get props => [];
+}

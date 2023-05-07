@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitd_client/src/blocs/category/category_bloc.dart';
-import 'package:jitd_client/src/screens/post/CreatePost.dart';
-import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
 
 class CategorySelect extends StatefulWidget {
@@ -32,7 +29,7 @@ class CategorySelectState extends State<CategorySelect> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
 
       body: SafeArea(
         child: Stack(

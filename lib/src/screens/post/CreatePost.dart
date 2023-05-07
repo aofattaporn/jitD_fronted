@@ -47,7 +47,7 @@ class CreatePostState extends State<CreatePost> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: primaryColor,
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
 
       // This is a Panel
       body: MultiBlocProvider(
@@ -329,7 +329,9 @@ class CreatePostState extends State<CreatePost> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         GestureDetector(
-                                          onTap: () => Navigator.of(context)
+                                          onTap: () {
+                                            FocusScope.of(context).requestFocus(_unFocusNode);
+                                            Navigator.of(context)
                                               .push(MaterialPageRoute(
                                                   builder: (_) =>
                                                       BlocProvider.value(
@@ -338,7 +340,7 @@ class CreatePostState extends State<CreatePost> {
                                                             context),
                                                         child:
                                                             const CategorySelect(),
-                                                      ))),
+                                                      )));},
                                           child: Container(
                                             width: MediaQuery.of(context)
                                                     .size

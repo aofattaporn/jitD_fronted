@@ -62,59 +62,8 @@ class UpdatePost2State extends State<UpdatePost2> {
 
     return Scaffold(
         backgroundColor: primaryColor,
-        body: SlidingUpPanel(
-          controller: panelController,
-          color: Colors.transparent,
-          maxHeight: MediaQuery.of(context).size.height * 0.325,
-          minHeight: MediaQuery.of(context).size.height * 0.1,
-
-          // For Open Panel
-          panel: buildOpenPanel(context),
-          // For collapsed panel
-          collapsed: GestureDetector(
-            onTap: () {
-              // FocusScope.of(context).requestFocus(_unFocusNode);
-              panelController.open();
-            },
-            // onTap: panelController.open,
-            child: BlocProvider.value(
-              value: widget.postBloc,
-              child: BlocListener<PostBloc, PostState>(
-                listener: (context, state) {
-                  if (state is EditCategorySuccess) {
-                    List<PostModel> listPost =
-                        widget.postBloc.listPostModel.posts;
-                    int postIndex = getIndex(listPost, widget.postID);
-                    setState(() {
-                      myList =
-                          state.listPostModel[postIndex].category!.toList();
-                    });
-                  }
-                },
-                child: Container(
-                  color: backgroundColor2,
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(children: [
-                        const WidgetSpan(
-                            child: Icon(
-                          Icons.settings,
-                          size: 20,
-                          color: textColor3,
-                        )),
-                        TextSpan(
-                            text: "ตั้งค่าโพสเพิ่มเติม",
-                            style: GoogleFonts.getFont("Bai Jamjuree",
-                                fontSize: 18, color: textColor3))
-                      ]),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          body: SafeArea(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
             child: Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: width * 0.08),
@@ -142,7 +91,7 @@ class UpdatePost2State extends State<UpdatePost2> {
               ),
             ),
           ),
-        ));
+        );
   }
 
   // -------------- header ---------------
@@ -168,7 +117,7 @@ class UpdatePost2State extends State<UpdatePost2> {
             },
             style: ElevatedButton.styleFrom(
                 fixedSize: Size.fromWidth(110),
-                primary: thirterydColor,
+                backgroundColor: thirterydColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
             child: BlocBuilder<PostBloc, PostState>(
@@ -207,7 +156,7 @@ class UpdatePost2State extends State<UpdatePost2> {
         // check public
         ElevatedButton(
             onPressed: () {},
-            style: ElevatedButton.styleFrom(primary: secondaryColor),
+            style: ElevatedButton.styleFrom(backgroundColor: secondaryColor),
             child: Row(
               children: [
                 const Icon(Icons.privacy_tip, color: Colors.white),
@@ -255,7 +204,7 @@ class UpdatePost2State extends State<UpdatePost2> {
 
   // -------------- category ---------------
   BlocProvider<PostBloc> selectCategory(double width, double height) {
-    List<PostModel> listPost = widget.postBloc.listPostModel.posts;
+    List<PostDate> listPost = widget.postBloc.listHomePageModel.postDate!;
     int postIndex = getIndex(listPost, widget.postID);
     return BlocProvider.value(
       value: widget.postBloc,
@@ -264,7 +213,7 @@ class UpdatePost2State extends State<UpdatePost2> {
             state is SelectedCatSuccess ||
             state is UpdatingMyPost ||
             state is UpdatedPost) {
-          List<PostModel> listPost = widget.postBloc.listPostModel.posts;
+          List<PostDate> listPost = widget.postBloc.listHomePageModel.postDate!;
           int postIndex = getIndex(listPost, widget.postID);
 
           return categorElem(context, state, postIndex, width, height);
@@ -288,10 +237,10 @@ class UpdatePost2State extends State<UpdatePost2> {
                     builder: (context) => Category2(
                           postBloc: widget.postBloc,
                           postID: widget.postID,
-                          category: state.listPostModel[postIndex].category,
+                          category: state.listHomePageModel.postDate![postIndex].category,
                         )));
           },
-          style: ElevatedButton.styleFrom(primary: secondaryColor),
+          style: ElevatedButton.styleFrom(backgroundColor: secondaryColor),
           child: const Text("เลือกประเภทโพสที่เกี่ยวข้อง"),
         ),
         Container(
@@ -305,19 +254,19 @@ class UpdatePost2State extends State<UpdatePost2> {
             ),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: state.listPostModel[postIndex].category!.length,
+              itemCount: state.listHomePageModel.postDate![postIndex].category!.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: thirterydColor,
+                        backgroundColor: thirterydColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         padding: const EdgeInsets.symmetric(horizontal: 20)),
                     onPressed: () {},
                     child:
-                        Text(state.listPostModel[postIndex].category![index]),
+                        Text(state.listHomePageModel.postDate![postIndex].category![index]),
                   ),
                 );
               },
@@ -327,7 +276,7 @@ class UpdatePost2State extends State<UpdatePost2> {
   }
 
   // ------------------ function ------------------
-  int getIndex(List<PostModel> listPost, String postID) {
+  int getIndex(List<PostDate> listPost, String postID) {
     for (int i = 0; i < listPost.length; i++) {
       if (listPost[i].postId == postID) {
         return i;
