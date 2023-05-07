@@ -54,8 +54,8 @@ class HomePagePostLoadingState extends PostState {
 
 /// state loaded
 class PostLoadedState extends PostState {
-  PostLoadedState(List<PostModel> list) {
-    super.listPostModel = list;
+  PostLoadedState(ListHomePageModel list) {
+    super.listHomePageModel = list;
   }
 
   @override
@@ -87,25 +87,24 @@ class PostDeletingState extends PostState {
 }
 
 class PostDeletedState extends PostState {
-  PostDeletedState(List<PostModel> list) {
-    super.listPostModel = list;
+  PostDeletedState(ListHomePageModel list) {
+    super.listHomePageModel = list;
   }
-
   @override
   List<Object?> get props => [];
 }
 
 class UpdatingPost extends PostState {
-  UpdatingPost(List<PostModel> list) {
-    super.listPostModel = list;
+  UpdatingPost(ListHomePageModel list) {
+    super.listHomePageModel = list;
   }
   @override
   List<Object?> get props => [];
 }
 
 class UpdatedPost extends PostState {
-  UpdatedPost(List<PostModel> list) {
-    super.listPostModel = list;
+  UpdatedPost(ListHomePageModel list) {
+    super.listHomePageModel = list;
   }
 
   @override
@@ -115,8 +114,8 @@ class UpdatedPost extends PostState {
 // ------ state of edit category -------
 
 class EditCategorySuccess extends PostState {
-  EditCategorySuccess(List<PostModel> list) {
-    super.listPostModel = list;
+  EditCategorySuccess(ListHomePageModel list) {
+    super.listHomePageModel = list;
   }
 
   @override
@@ -124,9 +123,9 @@ class EditCategorySuccess extends PostState {
 }
 
 class SelectedCatSuccess extends PostState {
-  SelectedCatSuccess(List<String> category, List<PostModel> list) {
+  SelectedCatSuccess(List<String> category, ListHomePageModel list) {
     super.category = category.toList();
-    super.listPostModel = list;
+    super.listHomePageModel = list;
   }
 
   @override
@@ -143,9 +142,9 @@ class WillEditCategory extends PostState {
 }
 
 class SelectCatMaxCategory extends PostState {
-  SelectCatMaxCategory(List<String> category, List<PostModel> list) {
+  SelectCatMaxCategory(List<String> category, ListHomePageModel list) {
     super.category = category.toList();
-    super.listPostModel = list;
+    super.listHomePageModel = list;
   }
 
   @override
@@ -153,8 +152,8 @@ class SelectCatMaxCategory extends PostState {
 }
 
 class SortedPostByDate extends PostState {
-  SortedPostByDate(List<PostModel> _listpost, String _sortby) {
-    super.listPostModel = _listpost;
+  SortedPostByDate(List<PostDate> _listpost, String _sortby) {
+    super.listHomePageModel.postDate = _listpost;
     super.sortby = _sortby;
   }
 
@@ -166,8 +165,8 @@ class SortedPostByDate extends PostState {
 }
 
 class SortedPostByLike extends PostState {
-  SortedPostByLike(List<PostModel> _listpost, String _sortby) {
-    super.listPostModel = _listpost;
+  SortedPostByLike(List<PostDate> _listpost, String _sortby) {
+    super.listHomePageModel.postDate = _listpost;
     super.sortby = _sortby;
   }
 

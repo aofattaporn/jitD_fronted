@@ -7,7 +7,6 @@ import 'package:jitd_client/src/blocs/post/post_state.dart';
 
 import '../../blocs/post/post_bloc.dart';
 import '../../constant.dart';
-import '../../constant/constant_fonts.dart';
 
 class SortPostModal extends StatefulWidget{
   final PostBloc postBloc;
@@ -65,7 +64,7 @@ class _SortPostModalState extends State<SortPostModal>{
         ),
         onPressed: (){
           showModalBottomSheet(
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
               context: context,
               builder: (BuildContext context) {
@@ -126,7 +125,7 @@ class _SortPostModalState extends State<SortPostModal>{
                         widget.postBloc.add(SortPostByDate("เรียงตามโพสล่าสุด"));
                       },
                     ),
-                    Divider(height: 20, thickness: 1),
+                    const Divider(height: 20, thickness: 1),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),

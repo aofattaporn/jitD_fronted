@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jitd_client/src/blocs/post/post_state.dart';
-import 'package:jitd_client/src/screens/post/BlockWords.dart';
 import 'package:jitd_client/src/screens/post/Category.dart';
-import 'package:jitd_client/src/screens/post/ConsultantLevel.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/category/category_bloc.dart';
@@ -25,7 +22,6 @@ class CreatePostState extends State<CreatePost> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final _unFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final panelController = PanelController();
   final toast = FToast();
 
   @override
@@ -51,23 +47,10 @@ class CreatePostState extends State<CreatePost> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: primaryColor,
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
 
       // This is a Panel
-      body: SlidingUpPanel(
-        // defaultPanelState: PanelState.OPEN,
-        controller: panelController,
-        color: Colors.transparent,
-        maxHeight: MediaQuery.of(context).size.height * 0.325,
-        minHeight: MediaQuery.of(context).size.height * 0.1,
-
-        // For Open Panel
-        panel: buildOpenPanel(context),
-        // For collapsed panel
-        collapsed: buildCollapsedPanel(context),
-
-        // This is a Main App
-        body: MultiBlocProvider(
+      body: MultiBlocProvider(
           providers: [postBloc, categoryBloc],
           child: BlocListener<PostBloc, PostState>(
               listener: (BuildContext context, state) {
@@ -83,7 +66,6 @@ class CreatePostState extends State<CreatePost> {
                 child: GestureDetector(
                   onTap: () {
                     FocusScope.of(context).requestFocus(_unFocusNode);
-                    panelController.close();
                   },
                   child: BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, state) {
@@ -309,8 +291,6 @@ class CreatePostState extends State<CreatePost> {
                                                 return null;
                                               }
                                             },
-                                            onTap: () =>
-                                                panelController.close(),
                                             controller: textController,
                                             obscureText: false,
                                             decoration: InputDecoration(
@@ -349,7 +329,9 @@ class CreatePostState extends State<CreatePost> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         GestureDetector(
-                                          onTap: () => Navigator.of(context)
+                                          onTap: () {
+                                            FocusScope.of(context).requestFocus(_unFocusNode);
+                                            Navigator.of(context)
                                               .push(MaterialPageRoute(
                                                   builder: (_) =>
                                                       BlocProvider.value(
@@ -358,7 +340,7 @@ class CreatePostState extends State<CreatePost> {
                                                             context),
                                                         child:
                                                             const CategorySelect(),
-                                                      ))),
+                                                      )));},
                                           child: Container(
                                             width: MediaQuery.of(context)
                                                     .size
@@ -502,133 +484,7 @@ class CreatePostState extends State<CreatePost> {
                 ),
               )),
         ),
-      ),
     );
-  }
-
-  GestureDetector buildCollapsedPanel(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(_unFocusNode);
-        panelController.open();
-      },
-      // onTap: panelController.open,
-      child: Container(
-        color: backgroundColor2,
-        child: Center(
-          child: RichText(
-            text: TextSpan(children: [
-              const WidgetSpan(
-                  child: Icon(
-                Icons.settings,
-                size: 20,
-                color: textColor3,
-              )),
-              TextSpan(
-                  text: "ตั้งค่าโพสเพิ่มเติม",
-                  style: GoogleFonts.getFont("Bai Jamjuree",
-                      fontSize: 18, color: textColor3))
-            ]),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container buildOpenPanel(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
-            ),
-            buildDragHandle(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            color: Color.fromRGBO(0, 0, 0, 0.1),
-                            offset: Offset(0, 4),
-                          )
-                        ],
-                        borderRadius:
-                            BorderRadiusDirectional.all(Radius.circular(10))),
-                    child: const Padding(
-                        padding: EdgeInsetsDirectional.all(8),
-                        child: Icon(
-                          Icons.lock,
-                          size: 28,
-                          color: textColor2,
-                        )),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .push(_createRoute(const BlockWords())),
-                  child: Text(
-                    "แก้ไขคำที่ต้องการบล็อค",
-                    style: GoogleFonts.getFont("Bai Jamjuree",
-                        fontSize: 18, color: textColor2),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 20, 0),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            color: Color.fromRGBO(0, 0, 0, 0.1),
-                            offset: Offset(0, 4),
-                          )
-                        ],
-                        borderRadius:
-                            BorderRadiusDirectional.all(Radius.circular(10))),
-                    child: const Padding(
-                        padding: EdgeInsetsDirectional.all(8),
-                        child: Icon(
-                          Icons.person_add,
-                          size: 28,
-                          color: textColor2,
-                        )),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .push(_createRoute(const ConsultantLevel())),
-                  child: Text(
-                    "แก้ไขระดับผู้ให้คำปรึกษาที่เห็นโพส",
-                    style: GoogleFonts.getFont("Bai Jamjuree",
-                        fontSize: 18, color: textColor2),
-                  ),
-                )
-              ],
-            )
-          ],
-        ));
   }
 
   UnderlineInputBorder buildUnderlineInputBorder() {

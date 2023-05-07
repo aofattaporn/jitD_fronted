@@ -61,7 +61,7 @@ class Category2State extends State<Category2> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    List<PostModel> listPost = widget.postBloc.listPostModel.posts;
+    List<PostDate> listPost = widget.postBloc.listHomePageModel.postDate!;
     int i = getIndex(listPost, widget.postID);
 
     return Scaffold(
@@ -227,7 +227,7 @@ class Category2State extends State<Category2> {
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: thirterydColor,
+                      backgroundColor: thirterydColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       padding: const EdgeInsets.symmetric(horizontal: 20)),
@@ -253,7 +253,7 @@ class Category2State extends State<Category2> {
     );
   }
 
-  int getIndex(List<PostModel> listPost, String postID) {
+  int getIndex(List<PostDate> listPost, String postID) {
     for (int i = 0; i < listPost.length; i++) {
       if (listPost[i].postId == postID) {
         return i;
@@ -285,7 +285,7 @@ class Category2State extends State<Category2> {
               widget.postBloc.add(UpdateCategory(widget.postID, myList));
             },
             style: ElevatedButton.styleFrom(
-                primary: thirterydColor,
+                backgroundColor: thirterydColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
             child: BlocBuilder<PostBloc, PostState>(
