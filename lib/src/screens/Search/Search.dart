@@ -37,6 +37,7 @@ class SearchState extends State<Search> {
     'การเปลี่ยนแปลงของชีวิต',
     'สังคมการทำงาน',
   ];
+
   @override
   void initState() {
     super.initState();
@@ -49,246 +50,236 @@ class SearchState extends State<Search> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(15),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Header ----------------------------------------------------------
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.2,
-                child: Stack(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.175,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: primaryColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: AlignmentDirectional.topEnd,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 40),
-                              child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                  height: MediaQuery.of(context).size.height *
-                                      0.0375,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.vertical(
-                                        bottom: Radius.circular(20)),
-                                    color: secondaryColor,
-                                  )),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30),
-                                child: Text(
-                                  "ค้นหา",
-                                  style: GoogleFonts.getFont("Bai Jamjuree",
-                                      fontSize: 34,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30),
-                                child: Text(
-                                    "เริ่มค้นหาวิธีการแก้ปัญหาของคุณได้เลย !",
-                                    style: GoogleFonts.getFont("Bai Jamjuree",
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+        child: Column(
+          children: [
+            // Header ----------------------------------------------------------
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.175,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: primaryColor,
                     ),
-                    // SearchBar -------------------------------------------------
-                    Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  color: Color.fromRGBO(0, 0, 0, 0.25),
-                                  offset: Offset(0, 4),
-                                )
-                              ]),
-                          child: GestureDetector(
-                            onTap: () => Navigator.of(context)
-                                .push(_createRoute(SearchQuery(
-                              searchHistory: searchHistory,
-                            ))),
-                            child: TextField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  prefixIcon: const Icon(
-                                    Icons.search,
-                                    color: primaryColor,
-                                  ),
-                                  hintText: "ค้นหาอะไรบางอย่าง",
-                                  hintStyle: GoogleFonts.getFont("Bai Jamjuree",
-                                      color: textColor3)),
-                            ),
-                          )),
-                    )
-                  ],
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Text(
-                      "มีโอกาสพบได้บ่อย",
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          fontSize: 22, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-
-
-              // Recommend
-              BlocProvider(
-                create: (_) => postBloc,
-                child: BlocBuilder<PostBloc, PostState>(
-                  builder: (context, state) {
-                    if(state is SearchLoadingState){
-                      return const ShimmerCateSearch();
-                    }else if(state is SearchLoadedState){
-                      return Container(
-                        // color: backgroundColor2,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: Center(
-                          child: Column(
-                            children: [
-                              buildCategory(context, '1',state.catSearch[0]!.catName),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.001,
-                              ),
-                              buildCategory(context, '2',state.catSearch[1]!.catName),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.001,
-                              ),
-                              buildCategory(context, '3',state.catSearch[2]!.catName),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.001,
-                              ),
-                              buildCategory(context, '4',state.catSearch[3]!.catName),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.001,
-                              ),
-                              buildCategory(context, '5',state.catSearch[4]!.catName),
-                            ],
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional.topEnd,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 40),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.0375,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(20)),
+                                  color: secondaryColor,
+                                )),
                           ),
                         ),
-                      );
-                    }else{
-                      return Text("fail");
-                    }
-                  }
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                child: Row(
-                  children: [
-                    Text(
-                      "แสดงเพิ่มเติม",
-                      style: GoogleFonts.getFont("Bai Jamjuree",
-                          color: textColor3),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Text(
+                                "ค้นหา",
+                                style: GoogleFonts.getFont("Bai Jamjuree",
+                                    fontSize: 34, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Text(
+                                  "เริ่มค้นหาวิธีการแก้ปัญหาของคุณได้เลย !",
+                                  style: GoogleFonts.getFont("Bai Jamjuree",
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  // SearchBar -------------------------------------------------
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 4,
+                                color: Color.fromRGBO(0, 0, 0, 0.25),
+                                offset: Offset(0, 4),
+                              )
+                            ]),
+                        child: GestureDetector(
+                          onTap: () => Navigator.of(context)
+                              .push(_createRoute(SearchQuery(
+                            searchHistory: searchHistory,
+                          ))),
+                          child: TextField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: const Icon(
+                                  Icons.search,
+                                  color: primaryColor,
+                                ),
+                                hintText: "ค้นหาอะไรบางอย่าง",
+                                hintStyle: GoogleFonts.getFont("Bai Jamjuree",
+                                    color: textColor3)),
+                          ),
+                        )),
+                  )
+                ],
               ),
-              
-              Center(
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Text(
+                    "มีโอกาสพบได้บ่อย",
+                    style: GoogleFonts.getFont("Bai Jamjuree",
+                        fontSize: 22, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+
+            // Recommend
+            BlocProvider(
+              create: (_) => postBloc,
+              child:
+                  BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+                if (state is SearchLoadedState) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        buildCategory(context, '1', state.catSearch[0].catName),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.001,
+                        ),
+                        buildCategory(context, '2', state.catSearch[1].catName),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.001,
+                        ),
+                        buildCategory(context, '3', state.catSearch[2].catName),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.001,
+                        ),
+                        buildCategory(context, '4', state.catSearch[3].catName),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.001,
+                        ),
+                        buildCategory(
+                            context, '5', state.catSearch[4]!.catName),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const ShimmerCateSearch();
+                }
+              }),
+            ),
+
+            // show more
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+              child: Row(
+                children: [
+                  Text(
+                    "แสดงเพิ่มเติม",
+                    style:
+                        GoogleFonts.getFont("Bai Jamjuree", color: textColor3),
+                  ),
+                ],
+              ),
+            ),
+
+            // image background
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(10),
                 child: Image.asset(
-                    'assets/images/searchPage.png',
+                  'assets/images/searchPage.png',
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       )),
     );
   }
 
-  Widget buildCategory(BuildContext context , String number, String? cate) {
+  Widget buildCategory(BuildContext context, String number, String? cate) {
     return SizedBox(
-                      width: MediaQuery.of(context).size.width*1,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: backgroundColor3,
-                          elevation: 0,
-                        ),
-                        onPressed: (){
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ViewAllPost(
-                                categorySelected: cate,
-                              )));
-                        },
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 20, 0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width*0.08,
-                                height: MediaQuery.of(context).size.height*0.04,
-                                decoration: const BoxDecoration(
-                                  color: thirterydColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 10,
-                                      color: Color.fromRGBO(0, 0, 0, 0.1),
-                                      offset: Offset(0, 4),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadiusDirectional.all(
-                                   Radius.circular(10)
-                                  )
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsetsDirectional.all(5),
-                                    child: Center(
-                                      child: Text(
-                                        number,
-                                        style: GoogleFonts.getFont("Bai Jamjuree",
-                                            fontSize: 18, color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            Text(
-                              cate ?? "",
-                              style: GoogleFonts.getFont("Bai Jamjuree",
-                                  fontSize: 18, color: textColor2, fontWeight:
-                              FontWeight.bold),
-                            ),
-                          ],
-                        ),
+      width: MediaQuery.of(context).size.width * 1,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor3,
+          elevation: 0,
+        ),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ViewAllPost(
+                    categorySelected: cate,
+                  )));
+        },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.08,
+                height: MediaQuery.of(context).size.height * 0.04,
+                decoration: const BoxDecoration(
+                    color: thirterydColor,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        offset: Offset(0, 4),
+                      )
+                    ],
+                    borderRadius:
+                        BorderRadiusDirectional.all(Radius.circular(10))),
+                child: Padding(
+                    padding: EdgeInsetsDirectional.all(5),
+                    child: Center(
+                      child: Text(
+                        number,
+                        style: GoogleFonts.getFont("Bai Jamjuree",
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
-                    );
+                    )),
+              ),
+            ),
+            Text(
+              cate ?? "",
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  fontSize: 18, color: textColor2, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Padding serachGenerate() {
