@@ -25,6 +25,16 @@ class GetAllPost extends PostEvent {
   List<Object> get props => [];
 }
 
+class GetAllPostSortedByLike extends PostEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class GetAllRecommendPost extends PostEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class GetHomePagePost extends PostEvent {
   @override
   List<Object> get props => [];
