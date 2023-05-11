@@ -51,6 +51,35 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
 
     });
+
+    on<GetAllPostSortedByLike>((event, emit) async {
+      emit(PostLoadingState());
+      try {
+        final listPostJSON = await postRepository.getAllPostSortedByLike();
+        final listPostData = listPostModelFromJson(listPostJSON);
+        listHomePageModel.postDate = listPostData.postDate;
+
+        emit(PostLoadedState(listHomePageModel));
+      } catch (e, stacktrace) {
+        print("Exception occurred: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+    });
+
+    on<GetAllRecommendPost>((event, emit) async {
+      emit(PostLoadingState());
+      try {
+        final listPostJSON = await postRepository.getAllRecommendPost();
+        final listPostData = listPostModelFromJson(listPostJSON);
+        listHomePageModel.postDate = listPostData.postDate;
+
+        emit(PostLoadedState(listHomePageModel));
+      } catch (e, stacktrace) {
+        print("Exception occurred: $e stackTrace: $stacktrace");
+        emit(PostError(e.toString()));
+      }
+
+    });
     // event create post
     on<CreatingPost>((event, emit) async {
       emit(CheckingPost());

@@ -211,4 +211,36 @@ class PostRepository {
       return "something fail status $status msg :$msg";
     }
   }
+
+  Future<String> getAllPostSortedByLike() async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response =
+    await http.get(Uri.parse("${globalUrl}v1/posts/byLike"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return "something fail.";
+    }
+  }
+
+  Future<String> getAllRecommendPost() async {
+    String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final response =
+    await http.get(Uri.parse("${globalUrl}v1/posts/byReccommend"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return "something fail.";
+    }
+  }
 }

@@ -187,17 +187,17 @@ class _HomePageState extends State<HomePage> {
                             postHeader("ปัญหาที่เพิ่มมาใหม่"),
                             _buildPostBox(context, state.listHomePageModel,
                                 _postBloc, "Date"),
-                            seeMore(context),
+                            seeMoreDate(context),
 
                             postHeader("ปัญหาที่กำลังเป็นที่สนใจ"),
                             _buildPostBox(context, state.listHomePageModel,
                                 _postBloc, "Recommend"),
-                            seeMore(context),
+                            seeMoreRecommend(context),
 
                             postHeader("ปัญหาที่เหมาะกับคุณ"),
                             _buildPostBox(context, state.listHomePageModel,
                                 _postBloc, "Like"),
-                            seeMore(context),
+                            seeMoreLike(context),
                           ],
                         );
                       } else {
@@ -236,10 +236,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  GestureDetector seeMore(BuildContext context) {
+  GestureDetector seeMoreDate(BuildContext context) {
     return GestureDetector(
       onTap: () =>
-          Navigator.of(context).push(_createRoute(const ViewAllPost())),
+          Navigator.of(context).push(_createRoute(const ViewAllPost(postType: 'Date'))),
       child: Container(
           width: MediaQuery.of(context).size.width,
           alignment: AlignmentDirectional.centerEnd,
@@ -257,6 +257,51 @@ class _HomePageState extends State<HomePage> {
           )),
     );
   }
+
+  GestureDetector seeMoreLike(BuildContext context) {
+    return GestureDetector(
+      onTap: () =>
+          Navigator.of(context).push(_createRoute(const ViewAllPost(postType: 'Like'))),
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          alignment: AlignmentDirectional.centerEnd,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, bottom: 10),
+            child: Text(
+              'เพิ่มเติม >>',
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  color: textColor2,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: thirterydColor,
+                  decorationThickness: 4),
+            ),
+          )),
+    );
+  }
+
+  GestureDetector seeMoreRecommend(BuildContext context) {
+    return GestureDetector(
+      onTap: () =>
+          Navigator.of(context).push(_createRoute(const ViewAllPost(postType: 'Recommend'))),
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          alignment: AlignmentDirectional.centerEnd,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, bottom: 10),
+            child: Text(
+              'เพิ่มเติม >>',
+              style: GoogleFonts.getFont("Bai Jamjuree",
+                  color: textColor2,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: thirterydColor,
+                  decorationThickness: 4),
+            ),
+          )),
+    );
+  }
+
 
   /// manage showToast
   void showToast(String msg) => toast.showToast(

@@ -15,8 +15,8 @@ import 'PostBox.dart';
 
 class ViewAllPost extends StatefulWidget {
   final String? categorySelected;
-
-  const ViewAllPost({Key? key, this.categorySelected}) : super(key: key);
+  final String? postType;
+  const ViewAllPost({Key? key, this.categorySelected, this.postType}) : super(key: key);
 
   @override
   ViewAllPostState createState() => ViewAllPostState();
@@ -30,7 +30,13 @@ class ViewAllPostState extends State<ViewAllPost> {
 
   @override
   void initState() {
-    _postBloc.add(GetHomePagePost());
+    if (widget.postType == 'Date' || widget.postType == null) {
+      _postBloc.add(GetAllPost());
+    } else if (widget.postType == 'Like') {
+      _postBloc.add(GetAllPostSortedByLike());
+    } else if (widget.postType == 'Recommend'){
+      _postBloc.add(GetAllRecommendPost());
+    }
 
     super.initState();
   }
